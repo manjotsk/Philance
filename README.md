@@ -16,6 +16,7 @@ Here are the features that we think need to go into the initial version of the p
   * Ability to sign up on the platform as a volunteer or a freelancer and work on projects
   * Ability to sign onto the platform as a project sponsor and post projects
 * Search Tool to find projects of interest, find people, etc.
+* Resource Management Tool to help project sponsors screen/select ideal candidates for a project
 * Project management Suite
   * Collaboration tools to enable project members to communicate with one another (text messaging, email, A/V conferencing, file sharing)
   * Project planning and scheduling tools
@@ -23,7 +24,8 @@ Here are the features that we think need to go into the initial version of the p
   * Project budgeting tool to track project expenses
   * Reporting tool
 * Payment Processing Suite for handling payments to freelancers on a project
-* Analytics Suite to see KPIs on projects and other useful information about the resources and projects
+* Analytics Suite to see KPIs of projects, including measurable social impact KPIs.
+* Ratings and Review component to get feedback about projects, project sponsors, freelancers and volunteers
 
 ## Built With
 * Client mobile app: [Thunkable](https://thunkable.com/#/)
