@@ -32,6 +32,8 @@ Here are the features that we think need to go into the initial version of the p
 ## Contributing
 The PhiLance platform is open source and accepts contributions from the public.
 
+We are starting from scratch and are currently in the planning/design stage of the project, so we welcome your thoughts on tools/technologies/designs to build the platform.
+
 The company, Philance, Inc. is a Benefit Corporation incorporated in Massachusetts, USA. This is a for-profit social enterprise because we did not want to rely on donations to bring our vision to reality. Even though it is a for-profit enterprise, the software platform is open-source so anyone can contribute, modify, redistribute and use it. This is in line with the guiding principle of the company, which is to be of benefit to the public good.
 
 We look forward to working with you!
