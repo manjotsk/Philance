@@ -4,6 +4,7 @@ An open source platform for social impact projects
 PhiLance is a platform that individuals and organizations can use to:
 * Launch their own social impact project, no matter how big or small that project is (e.g. helping homeless people in your city or finding a wheelchair for a handicapped person in your neighborhood)
 * Recruit volunteers and/or freelancers to work on that project. Your project team could comprise of members who live across your street or across the world.
+* Raise funds for their project
 * Manage the project using project management tools provided in the PhiLance platform
 * Make payments to freelancers on the project, if any
 
@@ -17,6 +18,7 @@ Here are the features that we think need to go into the initial version of the p
   * Ability to sign onto the platform as a project sponsor and post projects
 * Search Tool to find projects of interest, find people, etc.
 * Resource Management Tool to help project sponsors screen/select ideal candidates for a project
+* Fund raising component for project sponsors to raise funds for their projects through crowdfunding and/or contributions from impact investors
 * Project management Suite
   * Collaboration tools to enable project members to communicate with one another (text messaging, email, A/V conferencing, file sharing)
   * Project planning and scheduling tools
