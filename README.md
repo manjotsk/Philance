@@ -16,6 +16,7 @@ Here are the features that we think need to go into the initial version of the p
 * User Management Suite
   * Ability to sign up on the platform as a volunteer or a freelancer and work on projects
   * Ability to sign onto the platform as a project sponsor and post projects
+  * Ability to sign onto the platform as an investor and fund projects of interest
 * Search Tool to find projects of interest, find people, etc.
 * Resource Management Tool to help project sponsors screen/select ideal candidates for a project
 * Fund raising component for project sponsors to raise funds for their projects through crowdfunding and/or contributions from impact investors
