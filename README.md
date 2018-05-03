@@ -10,7 +10,7 @@ PhiLance is a platform that individuals and organizations can use to:
 
 You can read more about the mission and vision of PhiLance on [philance.org](http://philance.org)
 
-For project documentation refer to the [PhiLance Wiki on GitHub] (https://github.com/Philance/Philance/wiki)
+For project documentation refer to the [PhiLance Wiki on GitHub](https://github.com/Philance/Philance/wiki)
 
 ## Features
 Here are the features that we think need to go into the initial version of the platform. If you have suggestions for other features, please contact the team.
