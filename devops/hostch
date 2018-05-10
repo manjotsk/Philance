@@ -1,0 +1,16 @@
+#!/bin/bash
+#
+#	AUTHOR - Raman Sailopal
+#
+#	Script to set openpaas.local at Windows hosts file level
+#
+grep -E '^127.0.0.1 openpaas.local davserver.openpaas.local james.openpaas.local$' /home/vagrant/hosts > /dev/null
+if [[ "$?" == "1" ]]
+then
+	echo "127.0.0.1 openpaas.local davserver.openpaas.local james.openpaas.local" >> /home/vagrant/hosts
+fi
+grep -E '^127.0.0.1 Philance.local$' /home/vagrant/hosts > /dev/null
+if [[ "$?" == "1" ]]
+then
+	echo "127.0.0.1 Philance.local" >> /home/vagrant/hosts
+fi
