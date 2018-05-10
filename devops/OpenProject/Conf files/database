@@ -1,0 +1,1 @@
+export DATABASE_URL="mysql2://openproject:mt2yk4B6XXqm4kvuyvKcS3lD84r9sXVU@127.0.0.1:3306/openproject"

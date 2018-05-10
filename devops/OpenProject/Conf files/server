@@ -1,0 +1,5 @@
+export SERVER_HOSTNAME="localhost"
+export SERVER_PROTOCOL="http"
+export SERVER_USER="apache"
+export SERVER_GROUP="apache"
+export SERVER_PATH_PREFIX="/"
