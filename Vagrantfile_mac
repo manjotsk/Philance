@@ -2,4 +2,4 @@
 # Keep all the changes to the Vagrantfile in the core repo. This file calls the repo controlled
 # file. It is static and saves the developers having to copy and paste.
 #
-load '/opt/Vagrant/Philance/Share/Philance/Vagrantfile_master_mac'
+load '/opt/vagrant/Philance/Share/Philance/Vagrantfile_master_mac'
