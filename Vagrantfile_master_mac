@@ -22,6 +22,8 @@ Vagrant.configure("2") do |config|
       /opt/openproject/public/Philance/hostch.sh
 	  /opt/openproject/public/Philance/mysql.sh
 	  /opt/openproject/public/Philance/devlibraries.sh
-	   cd /opt/openproject/public/philance-app;npm start &
+  SHELL
+  config.vm.provision "shell", run: "always", inline: <<-SHELL
+	  cd /opt/openproject/public/philance-app;sudo npm start &
   SHELL
 end
