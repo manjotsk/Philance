@@ -7,9 +7,8 @@ Vagrant.configure("2") do |config|
   config.vm.network "forwarded_port", guest: 3000, host: 3000, host_ip: "127.0.0.1"
   config.vm.synced_folder "C:\\Windows\\System32\\drivers\\etc", "/home/Philance"
   config.vm.synced_folder "C:\\HashiCorp\\Philance\\Share\\Philance", "/opt/openproject/public/Philance"
-  config.vm.synced_folder "C:\\HashiCorp\\Philance\\Share\\Philance\\my-app\\public", "/opt/openproject/public/philance-app/public"
-  config.vm.synced_folder "C:\\HashiCorp\\Philance\\Share\\Philance\\my-app\\src", "/opt/openproject/public/philance-app/src"
   config.vm.provider "virtualbox" do |vb|
+  
        vb.memory = "3072"
   end
   config.trigger.before :destroy do |trigger|
@@ -22,8 +21,12 @@ Vagrant.configure("2") do |config|
 	  /opt/openproject/public/Philance/hostch.sh
 	  /opt/openproject/public/Philance/mysql.sh
 	  /opt/openproject/public/Philance/devlibraries.sh
+	  sudo mount --bind /opt/openproject/public/Philance/my-app/src /opt/openproject/public/philance-app/src
+      sudo mount --bind /opt/openproject/public/Philance/my-app/public /opt/openproject/public/philance-app/public
   SHELL
   config.vm.provision "shell", run: "always", inline: <<-SHELL
+      sudo mount --bind /opt/openproject/public/Philance/my-app/src /opt/openproject/public/philance-app/src
+      sudo mount --bind /opt/openproject/public/Philance/my-app/public /opt/openproject/public/philance-app/public
 	  cd /opt/openproject/public/philance-app;sudo npm start &
   SHELL
 end
