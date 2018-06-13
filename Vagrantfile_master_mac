@@ -12,7 +12,7 @@ Vagrant.configure("2") do |config|
   end
   config.trigger.before :destroy do |trigger|
       trigger.warn = "Dumping database to mysql.sql"
-      trigger.run_remote = {inline: "/opt/openproject/public/Philance/mysqldump.sh"}
+      trigger.run_remote = {inline: "sudo chmod +x /opt/openproject/public/Philance/mysqldump.sh;/opt/openproject/public/Philance/mysqldump.sh"}
   end
   config.vm.provision "shell", inline: <<-SHELL
       sudo chmod +x /opt/openproject/public/Philance/*.sh
