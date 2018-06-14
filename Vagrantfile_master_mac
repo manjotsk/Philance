@@ -1,6 +1,6 @@
 Vagrant.configure("2") do |config|
   config.vm.box = "Philance/Centos7"
-  config.vm.network "forwarded_port", guest: 80, host: 80, host_ip: "127.0.0.1"
+  config.vm.network "forwarded_port", guest: 80, host: 1234, host_ip: "127.0.0.1"
   config.vm.network "forwarded_port", guest: 8080, host: 8080, host_ip: "127.0.0.1"
   config.vm.network "forwarded_port", guest: 81, host: 81, host_ip: "127.0.0.1"
   config.vm.network "forwarded_port", guest: 3306, host: 3306, host_ip: "127.0.0.1"
@@ -20,12 +20,10 @@ Vagrant.configure("2") do |config|
       /opt/openproject/public/Philance/hostch.sh
 	  /opt/openproject/public/Philance/mysql.sh
 	  /opt/openproject/public/Philance/devlibraries.sh
-	  sudo mount --bind /opt/openproject/public/Philance/my-app/src /opt/openproject/public/philance-app/src
-      sudo mount --bind /opt/openproject/public/Philance/my-app/public /opt/openproject/public/philance-app/public
+	  sudo mount --bind /opt/openproject/public/Philance/my-app /opt/openproject/public/philance-app
   SHELL
   config.vm.provision "shell", run: "always", inline: <<-SHELL
-      sudo mount --bind /opt/openproject/public/Philance/my-app/src /opt/openproject/public/philance-app/src
-      sudo mount --bind /opt/openproject/public/Philance/my-app/public /opt/openproject/public/philance-app/public
+      sudo mount --bind /opt/openproject/public/Philance/my-app /opt/openproject/public/philance-app
 	  cd /opt/openproject/public/philance-app;sudo npm start &
   SHELL
 end
