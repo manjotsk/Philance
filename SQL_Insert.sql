@@ -14,4 +14,4 @@ values('PROJECT', 'APPLICANT_STATUS', 'REJECTED', 'Applicant rejected for a proj
 
 /*-- job application status-------*/
 
-commit;ss
+commit;

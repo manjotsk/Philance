@@ -91,7 +91,7 @@ CREATE TABLE philance.user_notifications (
 );
 
 
--/* Project impact cater, project roles, user types */
+/* Project impact cater, project roles, user types */
 CREATE TABLE philance.project_lookups (
     type VARCHAR(100),
     id VARCHAR(100),
