@@ -1,1 +1,3 @@
 mysql.sql
+*/node_modules/*
+*yarn.lock
