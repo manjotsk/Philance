@@ -58,4 +58,10 @@ sudo npm install --save-dev pre-commit
 #
 # Install the React application with the material react kit
 #
-sudo yarn install
+sudo yarn install --force
+#
+# Install the back-end api server
+#
+cd /opt/openproject/public/Philance/server-api
+sudo yarn install --force
+
