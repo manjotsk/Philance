@@ -7,7 +7,7 @@ var bodyParser = require("body-parser");
 
 const routes = require('./routes');
 const http = require('http');
-const port = process.env.PORT || 9000;
+const port = process.env.PORT || 3001;
 
 var app = express();
 
@@ -55,7 +55,7 @@ app.use((req, res, next) => {
 // });
 
 server = http.createServer(app);
-server.listen(port, 'localhost', () => {
+server.listen(port, '0.0.0.0', () => {
   console.log('\n*** Server started on port %d ***\n', port);
 });
 
