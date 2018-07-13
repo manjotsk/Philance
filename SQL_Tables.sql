@@ -46,7 +46,7 @@ CREATE TABLE philance.users (
     rate DECIMAL(5 , 2 ),
     auth_src VARCHAR(100),
     last_login DATETIME,
-    statu VARCHAR(50),
+    status VARCHAR(50),
     creation_date DATETIME,
     created_by INT,
     last_updated_date DATETIME,
