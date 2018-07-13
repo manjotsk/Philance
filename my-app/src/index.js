@@ -4,7 +4,6 @@ import { createBrowserHistory } from "history";
 import { Router, Route, Switch } from "react-router-dom";
 
 import indexRoutes from "philance/routes/index.jsx";
-
 import "assets/scss/material-dashboard-pro-react.css?v=1.2.0";
 
 const hist = createBrowserHistory();

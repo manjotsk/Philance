@@ -1,7 +1,5 @@
-import PublicHomePage from "philance/views/PublicHome/PublicHomePage.jsx";
+import Pages from "philance/layouts/Pages.jsx";
 
-var indexRoutes = [
-  { path: "/", name: "home", component: PublicHomePage }
-];
+var indexRoutes = [{ path: "/", name: "Pages", component: Pages }];
 
 export default indexRoutes;

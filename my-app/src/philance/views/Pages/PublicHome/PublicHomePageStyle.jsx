@@ -1,5 +1,5 @@
 // ##############################
-// // // RegisterPage view styles
+// // // Public Home Page view styles
 // #############################
 
 import {
@@ -9,8 +9,11 @@ import {
 
 import customCheckboxRadioSwitch from "assets/jss/material-dashboard-pro-react/customCheckboxRadioSwitch.jsx";
 
-const registerPageStyle = {
+const publicHomePageStyle = {
   ...customCheckboxRadioSwitch,
+  flex: {
+    flex: 1
+  },
   cardTitle: {
     ...cardTitle,
     textAlign: "center"
@@ -27,7 +30,18 @@ const registerPageStyle = {
       "0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)",
     marginBottom: "100px",
     padding: "40px 0px",
-    marginTop: "15vh"
+    marginTop: "20vh"
+  },
+  infoArea: {
+    maxWidth: "660px",
+    margin: "0 auto",
+    padding: "0px"
+  },
+  title: {
+    fontSize: "28px"
+  },
+  description: {
+    fontSize: "18px"
   },
   center: {
     textAlign: "center"
@@ -61,7 +75,40 @@ const registerPageStyle = {
   checkboxLabel: {
     marginLeft: "6px",
     color: "rgba(0, 0, 0, 0.26)"
+  },
+  fullPage: {
+    "&:before": {
+      backgroundColor: "rgba(0, 0, 0, 0.65)"
+    },
+    "&:before,&:after": {
+      display: "block",
+      content: '""',
+      position: "absolute",
+      width: "100%",
+      height: "100%",
+      top: "0",
+      left: "0",
+      zIndex: "5"
+    }
+  },
+  fullPageBackground: {
+    position: "absolute",
+    zIndex: "-5",
+    height: "100%",
+    width: "100%",
+    display: "block",
+    top: "0",
+    left: "0",
+    backgroundSize: "cover",
+    backgroundPosition: "center center"
+  },
+  wrapper: {
+    height: "auto",
+    minHeight: "100vh",
+    position: "relative",
+    top: "0",
+    overflow: "hidden"
   }
 };
 
-export default registerPageStyle;
+export default publicHomePageStyle;

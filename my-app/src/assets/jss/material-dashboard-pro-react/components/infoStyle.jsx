@@ -9,7 +9,8 @@ import {
   successColor,
   infoColor,
   roseColor,
-  grayColor
+  grayColor,
+  blackColor
 } from "assets/jss/material-dashboard-pro-react.jsx";
 
 const infoStyle = {
@@ -44,6 +45,9 @@ const infoStyle = {
   gray: {
     color: grayColor
   },
+  black: {
+    color: blackColor
+  },
   icon: {
     width: "36px",
     height: "36px"
@@ -59,7 +63,7 @@ const infoStyle = {
     fontSize: "18px"
   },
   description: {
-    color: grayColor,
+    color: blackColor,
     overflow: "hidden",
     marginTop: "0px",
     fontSize: "14px"
