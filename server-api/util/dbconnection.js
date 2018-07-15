@@ -3,8 +3,8 @@ var mysql = require("mysql");
 var connectionPool = mysql.createPool({
     host : 'localhost',
     port : 3306,
-    user : 'root',
-    password : 'philance',
+    user : 'philance',
+    password : 'ph1ldb',
     database : 'philance',
     multipleStatements : true,
     insecureAuth: true,

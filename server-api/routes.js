@@ -2,6 +2,6 @@
 
 module.exports = function (app) {
     /* eslint-disable global-require */
-    app.use('/user', require('./user'));
+    app.use('/users', require('./users'));
     app.use('/project', require('./project'));
 };

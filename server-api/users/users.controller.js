@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 exports.register = (req, res, next) => {
-        var _sql = 'SELECT count(*) as total FROM user_registration where email = ?';
+        var _sql = 'SELECT count(*) as total FROM users where email = ?';
         connectionPool.query(_sql, req.body.email, (err, userCount) => {
             if (err) {
                 console.error();
@@ -22,9 +22,9 @@ exports.register = (req, res, next) => {
                         });
                     } else {
                         var user = [
-                            [req.body.userId, req.body.firstName, req.body.lastName, req.body.email, hash]
+                            [req.body.firstName, req.body.lastName, req.body.email, hash]
                         ];
-                        connectionPool.query('INSERT INTO user_registration (user_id,first_name,last_name,email,password) VALUES ?', [user], (err, result) => {
+                        connectionPool.query('INSERT INTO users (Fname,lname,email,password) VALUES ?', [user], (err, result) => {
                             if (err) {
                                 console.error();
                                 throw err;
@@ -41,7 +41,7 @@ exports.register = (req, res, next) => {
 }
 
 exports.login = (req, res, next) => {
-    var _sql = 'SELECT user_id,email,password FROM user_registration where email = ?';
+    var _sql = 'SELECT user_id,email,password FROM users where email = ?';
     connectionPool.query(_sql, req.body.email, (err, user) => {
         if (err) {
             console.error();

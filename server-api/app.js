@@ -1,4 +1,4 @@
-var createError = require('http-errors');
+// var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
@@ -38,10 +38,13 @@ app.use((req, res, next) => {
   next();
 });
 
-// catch 404 and forward to error handler
-// app.use(function(req, res, next) {
-//   next(createError(404));
-// });
+//catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  const error = new Error('Not found');
+  error.status = 404;
+  next(error);
+  // next(createError(404));
+});
 
 // error handler
 // app.use(function(err, req, res, next) {
@@ -53,6 +56,14 @@ app.use((req, res, next) => {
 //   res.status(err.status || 500);
 //   res.render('error');
 // });
+app.use((error, req, res, next) => {
+  res.status(error.status || 500);
+  res.json({
+      error: {
+          message: error.message
+      }
+  });
+});
 
 server = http.createServer(app);
 server.listen(port, '0.0.0.0', () => {
