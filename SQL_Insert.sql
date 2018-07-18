@@ -12,6 +12,51 @@ values('PROJECT', 'APPLICANT_STATUS', 'APPROVED', 'Applicant approved for a proj
 insert into philance.philance_lookups	
 values('PROJECT', 'APPLICANT_STATUS', 'REJECTED', 'Applicant rejected for a project', CURTIME(), 0, CURTIME(),0);
 
-/*-- job application status-------*/
+/* Impact Categories*/ 
+insert into philance.philance_lookups
+values ('IMPACT_CATEGORIES', 'COMMUNITY', 'Community', 'Community Service', curtime(), 0, curtime(), 0);
+
+insert into philance.philance_lookups
+values ('IMPACT_CATEGORIES', 'ELDERLY', 'Elderly', 'Elderly Service', curtime(), 0, curtime(), 0);
+
+insert into philance.philance_lookups
+values ('IMPACT_CATEGORIES', 'HOMELESS', 'Homeless', 'Homeles Service', curtime(), 0, curtime(), 0);
+
+insert into philance.philance_lookups
+values ('IMPACT_CATEGORIES', 'OTHER', 'Other', 'Other Service', curtime(), 0, curtime(), 0);
+
+/*User Types*/
+insert into philance.philance_lookups
+values ('USER_TYPES', 'PROJECT', 'Project Owner', 'Person who creates a project', curtime(), 0, curtime(), 0);
+
+insert into philance.philance_lookups
+values ('USER_TYPES', 'PROJECT', 'Project Sponsor', 'Person who funds a project', curtime(), 0, curtime(), 0);
+
+insert into philance.philance_lookups
+values ('USER_TYPES', 'PROJECT', 'Project Member', 'All freelancers who support fulfill a project', curtime(), 0, curtime(), 0);
+
+/*Project Roles*/
+insert into philance.philance_lookups
+values ('PROJECT_ROLES', 'PROJECT', 'Developer', 'Developer', curtime(), 0, curtime(), 0);
+
+insert into philance.philance_lookups
+values ('PROJECT_ROLES', 'PROJECT', 'Manager', 'Project Manager', curtime(), 0, curtime(), 0);
+
+insert into philance.philance_lookups
+values ('PROJECT_ROLES', 'PROJECT', 'Tester', 'Tester', curtime(), 0, curtime(), 0);
+
+/* Skills Lookup*/
+insert into philance.philance_lookups
+values ('SKILLS', 'IT', 'Database Development', 'Database Development', curtime(), 0, curtime(), 0);
+
+insert into philance.philance_lookups
+values ('SKILLS', 'IT', 'JAVA Development', 'JAVA Development', curtime(), 0, curtime(), 0);
+
+insert into philance.philance_lookups
+values ('SKILLS', 'BUSINESS', 'Project Management', 'Project Development', curtime(), 0, curtime(), 0);
+
+insert into philance.philance_lookups
+values ('SKILLS', 'OTHER', 'Other', 'Other', curtime(), 0, curtime(), 0);
+
 
 commit;
