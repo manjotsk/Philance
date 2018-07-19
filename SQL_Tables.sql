@@ -109,6 +109,7 @@ CREATE TABLE philance.projects (
     start_date DATETIME,
     end_date DATETIME,
     estimated_budget DECIMAL(10 , 2 ),
+    status varchar(30),
     creation_date DATETIME,
     created_by INT,
     last_updated_date DATETIME,
