@@ -76,7 +76,7 @@ values (2, 'Message', 'Yes', 'No', 'Yes', curtime(), 2, curtime(), 2);
 
 /* User Creates a Project */
 insert into philance.projects
-values(1, 'Develop a database', 'Develop a database to support oldage home operations', 2, 2, 'Detroit, MI', curtime(), curtime()+3, '150', curtime(), 1, curtime(),1);
+values(1, 'Develop a database', 'Develop a database to support oldage home operations', 2, 2, 'Detroit, MI', curtime(), curtime()+3, '150', 'Active', curtime(), 1, curtime(),1);
 
 /* insert skills needed, impact categories, and any other lists'*/
 insert into philance.project_details 
