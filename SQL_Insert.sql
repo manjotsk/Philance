@@ -58,5 +58,16 @@ values ('SKILLS', 'BUSINESS', 'Project Management', 'Project Development', curti
 insert into philance.philance_lookups
 values ('SKILLS', 'OTHER', 'Other', 'Other', curtime(), 0, curtime(), 0);
 
+/* Possible notificaiton that user can set */
+insert into philance.philance_lookups
+values ('NOTIFICATION', 'TRIGGER', 'Message', 'When another Philance members messages a user', curtime(), 0, curtime(), 0);
+
+insert into philance.philance_lookups
+values ('NOTIFICATION', 'TRIGGER', 'Project Application Status', 'When a project application is approved/rejected', curtime(), 0, curtime(), 0);
+
+insert into philance.philance_lookups
+values ('NOTIFICATION', 'TRIGGER', 'Project Updates', 'When a updates are available on project', curtime(), 0, curtime(), 0);
+
+
 
 commit;
