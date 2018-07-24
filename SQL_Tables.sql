@@ -55,6 +55,7 @@ CREATE TABLE philance.users (
     last_updated_date DATETIME,
     last_updated_by INT,
     interests VARCHAR(3072),
+    location VARCHAR(3072),
     INDEX usr_fname_ix (fname),
     INDEX usr_lname_ix (lname),
     INDEX usr_interests_ix (interests)
