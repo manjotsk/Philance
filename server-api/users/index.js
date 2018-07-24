@@ -12,6 +12,7 @@ router.get('/', function(req, res, next) {
 router.post("/register", UserController.register);
 router.post("/login", UserController.login);
 router.post("/passwordReset/:_userId", UserController.passwordReset);
+router.get("/search", UserController.search);
 //router.post("/userUpdate/:_userId", checkAuth, UserController.userUpdate);
 
 module.exports = router;

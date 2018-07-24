@@ -1,18 +1,21 @@
 var connectionPool = require('../util/dbconnection');
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-
+var moment = require('moment')
 exports.register = (req, res, next) => {
         var _sql = 'SELECT count(*) as total FROM users where email = ?';
         connectionPool.query(_sql, req.body.email, (err, userCount) => {
             if (err) {
                 console.error();
                 console.log('In user registration user count error');
-                throw err;
+                // throw err;
+                return res.status(500).json({
+                    error: "Database query error - " + err
+                })
             }
             if (userCount[0].total >= 1) {
                 return res.status(409).json({
-                    message: "User # " + req.body.firstName + " " + req.body.lastName + " already registered"
+                    message: `User with same email ${req.body.email} already registered`
                 });
             } else {
                 bcrypt.hash(req.body.password, 10, (err, hash) => {
@@ -22,22 +25,22 @@ exports.register = (req, res, next) => {
                         });
                     } else {
                         var user = [
-                            [req.body.firstName, req.body.lastName, req.body.email, hash]
+                            [req.body.firstName, req.body.lastName, req.body.email, hash, new Date()]
                         ];
-                        connectionPool.query('INSERT INTO users (Fname,lname,email,password) VALUES ?', [user], (err, result) => {
+                        connectionPool.query('INSERT INTO users (Fname,lname,email,password,creation_date) VALUES ?', [user], (err, result) => {
                             if (err) {
                                 console.error();
                                 throw err;
                             };
                             res.status(200).json({
                                 message: "User # " + req.body.firstName + " " + req.body.lastName + " Registered Successfully"
-                            });
-                        }
-                        );
+                        });
                     }
-                });
-            }
-        });
+                    );
+                }
+            });
+        }
+    });
 }
 
 exports.login = (req, res, next) => {
@@ -85,6 +88,38 @@ exports.login = (req, res, next) => {
             });
         }
     });
+}
+    
+exports.search = (req, res, next) => {
+    //TODO: Add Validators
+    var userName;
+    if(Object.keys(req.query).length === 0){
+        var searchQuery = 'SELECT * from users';
+        connectionPool.query(searchQuery, (err, users) => {
+            if (err) {
+                res.status(500).send('Error with the database')
+                return;
+            } else {
+                res.status(200).send(users);
+            }
+        })
+    }else{
+        var firstName=req.query.fname;
+        var personType=req.query.pType;
+        var lastName=req.query.lname;
+        var location=req.query.loc;
+        var distance=req.query.dist;
+        var searchQuery = 'SELECT * FROM users WHERE fname LIKE ? AND lname LIKE ?';
+        connectionPool.query(searchQuery,[firstName,lastName],(err,users)=>{
+            if (err) {
+                res.status(500).send('Error with the database'+err)
+                return;
+            } else {
+                res.status(200).send(users);
+            }
+        })
+        // res.status(200).send(req.query);
+    }
 }
 
 exports.passwordReset = (req, res, next) => {
