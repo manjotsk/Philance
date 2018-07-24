@@ -9,6 +9,7 @@
     "@types/googlemaps": "3.30.8",
     "@types/markerclustererplus": "2.1.33",
     "ajv": "6.5.0",
+    "axios": "^0.18.0",
     "bcrypt": "^2.0.1",
     "chartist": "0.10.1",
     "express": "^4.16.3",
