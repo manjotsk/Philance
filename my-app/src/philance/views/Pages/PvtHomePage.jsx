@@ -19,10 +19,9 @@ import Card from "components/Card/Card.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import CtButton from "components/CustomButtons/Button.jsx";
 
-//import publicHomePageStyle from "./PublicHomePageStyle";
-import publicHomePageStyle from "assets/jss/material-dashboard-pro-react/views/registerPageStyle";
+import pvtHomePageStyle from "assets/jss/material-dashboard-pro-react/views/registerPageStyle";
 
-class PublicHomePage extends React.Component {
+class PvtHomePage extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -35,7 +34,7 @@ class PublicHomePage extends React.Component {
         <GridContainer justify="center">
           <GridItem xs={12} sm={12} md={10} lg={10}>
             <Card className={classes.cardSignup}>
-              <h2 className={classes.cardTitle}>Helping You Help Others!</h2>
+              <h2 className={classes.cardTitle}>Private Home Page</h2>
               <CardBody>
                 <GridContainer justify="center">
                   <GridItem xs={12} sm={12} md={5}>
@@ -94,8 +93,8 @@ class PublicHomePage extends React.Component {
   }
 }
 
-PublicHomePage.propTypes = {
+PvtHomePage.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(publicHomePageStyle)(PublicHomePage);
+export default withStyles(pvtHomePageStyle)(PvtHomePage);

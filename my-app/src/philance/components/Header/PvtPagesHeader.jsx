@@ -22,11 +22,11 @@ import MenuIcon from "@material-ui/icons/Menu";
 // core components
 import Button from "components/CustomButtons/Button";
 
-import { pagesRoutes } from "philance/routes/pages.jsx";
+import { pvtPagesRoutes } from "philance/routes/pages.jsx";
 
-import publicPagesHeaderStyle from "assets/jss/material-dashboard-pro-react/components/pagesHeaderStyle.jsx";
+import pvtPagesHeaderStyle from "assets/jss/material-dashboard-pro-react/components/pagesHeaderStyle.jsx";
 
-class PublicPagesHeader extends React.Component {
+class PvtPagesHeader extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -55,7 +55,7 @@ class PublicPagesHeader extends React.Component {
 
     var list = (
       <List className={classes.list}>
-        {pagesRoutes.map((prop, key) => {
+        {pvtPagesRoutes.map((prop, key) => {
           if (prop.redirect) {
             return null;
           }
@@ -147,9 +147,9 @@ class PublicPagesHeader extends React.Component {
   }
 }
 
-PublicPagesHeader.propTypes = {
+PvtPagesHeader.propTypes = {
   classes: PropTypes.object.isRequired,
   color: PropTypes.oneOf(["primary", "info", "success", "warning", "danger"])
 };
 
-export default withStyles(publicPagesHeaderStyle)(PublicPagesHeader);
+export default withStyles(pvtPagesHeaderStyle)(PvtPagesHeader);

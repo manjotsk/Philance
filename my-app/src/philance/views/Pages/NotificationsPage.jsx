@@ -19,9 +19,9 @@ import CardBody from "components/Card/CardBody.jsx";
 import CtButton from "components/CustomButtons/Button.jsx";
 
 //import publicHomePageStyle from "./PublicHomePageStyle";
-import findProjectPageStyle from "assets/jss/material-dashboard-pro-react/views/registerPageStyle";
+import notificationsPageStyle from "assets/jss/material-dashboard-pro-react/views/registerPageStyle";
 
-class FindProjectPage extends React.Component {
+class NotificationsPage extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -34,12 +34,12 @@ class FindProjectPage extends React.Component {
         <GridContainer justify="center">
           <GridItem xs={12} sm={12} md={10} lg={10}>
             <Card className={classes.cardSignup}>
-              <h2 className={classes.cardTitle}>Find Projects</h2>
+              <h2 className={classes.cardTitle}>Notifications Page</h2>
               <CardBody>
                 <InfoArea
                   classes={classes}
-                  title="Browse projects"
-                  description="Browse projects"
+                  title="Notifications"
+                  description="Notifications"
                   icon={Accessibility}
                   iconColor="rose"
                 />
@@ -52,8 +52,8 @@ class FindProjectPage extends React.Component {
   }
 }
 
-FindProjectPage.propTypes = {
+NotificationsPage.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(findProjectPageStyle)(FindProjectPage);
+export default withStyles(notificationsPageStyle)(NotificationsPage);

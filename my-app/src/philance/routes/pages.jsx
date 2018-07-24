@@ -1,9 +1,14 @@
-import PublicHomePage from "philance/views/Pages/PublicHome/PublicHomePage.jsx";
+import PublicHomePage from "philance/views/Pages/PublicHomePage.jsx";
+import PvtHomePage from "philance/views/Pages/PvtHomePage.jsx";
 import StartProjectPage from "philance/views/Pages/StartProjectPage.jsx";
-import FindProjectPage from "philance/views/Pages/FindProjectPage.jsx";
+import ProjectSearch from "philance/views/Pages/ProjectSearchPage.jsx";
 import HowItWorksPage from "philance/views/Pages/HowItWorksPage.jsx";
 import RegisterPage from "philance/views/Pages/RegisterPage.jsx";
 import LoginPage from "philance/views/Pages/LoginPage.jsx";
+import MyProjectsPage from "philance/views/Pages/MyProjectsPage.jsx";
+import NotificationsPage from "philance/views/Pages/NotificationsPage.jsx";
+import MessagesPage from "philance/views/Pages/MessagesPage.jsx";
+import UserProfile from "philance/views/Pages/UserProfilePage.jsx";
 
 // @material-ui/icons
 import HomeIcon from "@material-ui/icons/Home";
@@ -12,11 +17,15 @@ import SearchIcon from "@material-ui/icons/Search";
 import HelpIcon from "@material-ui/icons/Help";
 import FingerprintIcon from "@material-ui/icons/Fingerprint";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
+import NotificationsIcon from "@material-ui/icons/Notifications";
+import MessageIcon from "@material-ui/icons/Message";
+import PersonIcon from "@material-ui/icons/Person";
+import FolderIcon from "@material-ui/icons/Folder";
 
-const pagesRoutes = [
+export const pagesRoutes = [
   {
     path: "/home",
-    name: "Public Home Page",
+    name: "Home Page",
     short: "Home",
     mini: "PHP",
     icon: HomeIcon,
@@ -36,7 +45,7 @@ const pagesRoutes = [
     short: "Find A project",
     mini: "FPP",
     icon: SearchIcon,
-    component: FindProjectPage
+    component: ProjectSearch
   },
   {
     path: "/how-it-works",
@@ -66,8 +75,71 @@ const pagesRoutes = [
     redirect: true,
     path: "/",
     pathTo: "/home",
-    name: "Public Home Page"
+    name: "Home Page"
   }
 ];
 
-export default pagesRoutes;
+export const pvtPagesRoutes = [
+  {
+    path: "/home",
+    name: "Home Page",
+    short: "Home",
+    mini: "HP",
+    icon: HomeIcon,
+    component: PvtHomePage
+  },
+  {
+    path: "/start-project",
+    name: "Start Project Page",
+    short: "Start A Project",
+    mini: "SPP",
+    icon: LaunchIcon,
+    component: StartProjectPage
+  },
+  {
+    path: "/find-project",
+    name: "Find Project Page",
+    short: "Find A project",
+    mini: "FPP",
+    icon: SearchIcon,
+    component: ProjectSearch
+  },
+  {
+    path: "/my-projects",
+    name: "My Projects Page",
+    short: "My Projects",
+    mini: "MPP",
+    icon: FolderIcon,
+    component: MyProjectsPage
+  },
+  {
+    path: "/notifications",
+    name: "Notifications Page",
+    short: "Notifications",
+    mini: "NP",
+    icon: NotificationsIcon,
+    component: NotificationsPage
+  },
+  {
+    path: "/messages",
+    name: "Messages Page",
+    short: "Messages",
+    mini: "MP",
+    icon: MessageIcon,
+    component: MessagesPage
+  },
+  {
+    path: "/profile",
+    name: "User Profile Page",
+    short: "User Profile",
+    mini: "UP",
+    icon: PersonIcon,
+    component: UserProfile
+  },
+  {
+    redirect: true,
+    path: "/",
+    pathTo: "/home",
+    name: "Home Page"
+  }
+];
