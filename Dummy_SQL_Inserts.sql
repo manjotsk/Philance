@@ -1,14 +1,3 @@
-/* Below table stores users notification preferences */
-/* Possible notificaiton that user can set */
-insert into philance.philance_lookups
-values ('NOTIFICATION', 'TRIGGER', 'Message', 'When another Philance members messages a user', curtime(), 0, curtime(), 0);
-
-insert into philance.philance_lookups
-values ('NOTIFICATION', 'TRIGGER', 'Project Application Status', 'When a project application is approved/rejected', curtime(), 0, curtime(), 0);
-
-insert into philance.philance_lookups
-values ('NOTIFICATION', 'TRIGGER', 'Project Updates', 'When a updates are available on project', curtime(), 0, curtime(), 0);
-
 /* sign up user */
 insert into philance.users(user_id,fname,lname,email,password,status, creation_date, created_by, last_updated_date, last_updated_by)
 values	(' 1', 'Karthik', 'Sarvepali', 'test@gmail.com', 'welcome123','Active', CURTIME(), 1, CURTIME(), 1);
