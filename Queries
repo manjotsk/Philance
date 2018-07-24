@@ -1,0 +1,51 @@
+DB Queries with MYSql Variables
+---------------------------------------
+1. Search Projects -- This query does not handle empty strings or empty spaces '' or '  '...
+------------------------------------------
+set @keyword = null;
+set @skill = null;
+set @impact = null;
+set @resourcetype = null;
+set @status = null;
+
+SELECT 
+    prj.project_name,
+    prj.description,
+    prj.location,
+    prj.estimated_budget,
+    prj.status
+FROM
+    philance.projects prj,
+    philance.project_details det1,
+    philance.project_details det2
+WHERE
+    1 = 1
+        AND prj.project_id = det1.project_id
+        AND prj.project_id = det2.project_id
+        AND det1.detail_type = 'SKILLS'
+        AND det2.detail_type = 'IMPACT_CATEGORY'
+        and prj.status = ifnull(@status, prj.status)
+        AND (prj.project_name RLIKE (IFNULL(@keyword, '^'))
+        OR det1.name RLIKE (IFNULL(@keyword, '^'))
+        OR det2.name RLIKE (IFNULL(@keyword, '^')))
+        AND CASE
+        WHEN @volunteer IS NOT NULL THEN prj.volunteers > 0
+        ELSE 1 = 1
+    END
+        AND CASE
+        WHEN @resourcetype LIKE '%Volunteers%' THEN prj.Volunteers > 0
+        WHEN @resourcetype LIKE '%Freelancers%' THEN prj.freelancers > 0
+        ELSE 1 = 1
+    END
+        AND CASE
+        WHEN @impact IS NOT NULL AND @impact != '' THEN det2.name IN (@impact)
+        ELSE 1 = 1
+    END
+        AND CASE
+        WHEN @skill IS NOT NULL AND @skill != '' THEN det1.name IN (@skill)
+        ELSE 1 = 1
+    END
+GROUP BY prj.project_name , prj.description , prj.location , prj.estimated_budget , prj.status;
+---------------------------------------
+1. Search Projects
+------------------------------------------
