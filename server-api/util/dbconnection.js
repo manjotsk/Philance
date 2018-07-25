@@ -1,16 +1,29 @@
-var mysql = require("mysql");
+// var mysql = require("mysql");
+const Sequelize = require('sequelize');
 
-var connectionPool = mysql.createPool({
-    host : 'localhost',
-    port : 3306,
-    user : 'philance',
-    password : 'ph1ldb',
-    database : 'philance',
-    multipleStatements : true,
-    insecureAuth: true,
-    connectionLimit:30
-  });
+// var connectionPool = mysql.createPool({
+//     host : 'localhost',
+//     port : 3306,
+//     user : 'philance',
+//     password : 'ph1ldb',
+//     database : 'philance',
+//     multipleStatements : true,
+//     insecureAuth: true,
+//     connectionLimit:30
+//   });
 
+const sequelize = new Sequelize('philance', 'philance', 'ph1ldb', {
+  host: 'localhost',
+  dialect: 'mysql',
+  operatorsAliases: true,
+  pool: {
+    max: 5,
+    min: 0,
+    acquire: 30000,
+    idle: 10000
+  },
+
+});
   // connectionPool.getConnection(function(err,conn){
   //   if (err) throw err;
   //   console.log('Connected!');
@@ -28,4 +41,5 @@ var connectionPool = mysql.createPool({
   //   // before sending a COM_QUIT packet to the MySQL server.
   // });
 
-  module.exports = connectionPool;
+  // module.exports = connectionPool;
+  module.exports = sequelize;
