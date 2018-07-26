@@ -127,7 +127,114 @@
 			"response": []
 		},
 		{
-			"name": "Search Projects",
+			"name": "Search Projects By ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"location\"] = jsonData.project.location === \"Nashua,NH\";",
+							"tests[\"projectId\"] = jsonData.project.projectId === 1;",
+							"tests[\"volunteers\"] = jsonData.project.volunteers === \"1\";",
+							"tests[\"freelancers\"] = jsonData.project.freelancers === \"2\";",
+							"tests[\"projectName\"] = jsonData.project.projectName === \"Create Project From Postman\";",
+							"tests[\"description\"] = jsonData.project.decription === null;",
+							"tests[\"startDate\"] = jsonData.project.startDate.includes(\"2018-07-24\");",
+							"tests[\"endDate\"] = jsonData.project.endDate.includes('2018-07-30');",
+							"tests[\"estimatedBudget\"] = jsonData.project.estimatedBudget === \"10.00\";",
+							"tests[\"projectDetails0.projectid\"] = jsonData.projectDetails[0].projectId === 1;",
+							"tests[\"projectDetails0.detailType\"] = jsonData.projectDetails[0].detailType === \"IMPACT_CATEGORY\";",
+							"tests[\"projectDetails0.name\"] = jsonData.projectDetails[0].name === \"Elderly\";",
+							"tests[\"projectDetails0.certificationReq\"] = jsonData.projectDetails[0].certificationReq === \"No\";",
+							"tests[\"projectDetails0.certificationLink\"] = jsonData.projectDetails[0].certificationLink === null;",
+							"tests[\"projectDetails0.attribute1\"] = jsonData.projectDetails[0].attribute1 === null;",
+							"tests[\"projectDetails0.attribute2\"] = jsonData.projectDetails[0].attribute2 === null;",
+							"tests[\"projectDetails0.attribute3\"] = jsonData.projectDetails[0].attribute3 === null;",
+							"tests[\"projectDetails0.attribute4\"] = jsonData.projectDetails[0].attribute4 === null;",
+							"tests[\"projectDetails0.attribute5\"] = jsonData.projectDetails[0].attribute5 === null;",
+							"tests[\"projectDetails1.projectid\"] = jsonData.projectDetails[1].projectId === 1;",
+							"tests[\"projectDetails1.detailType\"] = jsonData.projectDetails[1].detailType === \"IMPACT_CATEGORY\";",
+							"tests[\"projectDetails1.name\"] = jsonData.projectDetails[1].name === \"Other\";",
+							"tests[\"projectDetails1.certificationReq\"] = jsonData.projectDetails[1].certificationReq === \"No\";",
+							"tests[\"projectDetails1.certificationLink\"] = jsonData.projectDetails[1].certificationLink === null;",
+							"tests[\"projectDetails1.attribute1\"] = jsonData.projectDetails[1].attribute1 === null;",
+							"tests[\"projectDetails1.attribute2\"] = jsonData.projectDetails[1].attribute2 === null;",
+							"tests[\"projectDetails1.attribute3\"] = jsonData.projectDetails[1].attribute3 === null;",
+							"tests[\"projectDetails1.attribute4\"] = jsonData.projectDetails[1].attribute4 === null;",
+							"tests[\"projectDetails1.attribute5\"] = jsonData.projectDetails[1].attribute5 === null;",
+							"tests[\"projectDetails2.projectid\"] = jsonData.projectDetails[2].projectId === 1;",
+							"tests[\"projectDetails2.detailType\"] = jsonData.projectDetails[2].detailType === \"SKILLS\";",
+							"tests[\"projectDetails2.name\"] = jsonData.projectDetails[2].name === \"Database Development\";",
+							"tests[\"projectDetails2.certificationReq\"] = jsonData.projectDetails[2].certificationReq === \"No\";",
+							"tests[\"projectDetails2.certificationLink\"] = jsonData.projectDetails[2].certificationLink === null;",
+							"tests[\"projectDetails2.attribute1\"] = jsonData.projectDetails[2].attribute1 === null;",
+							"tests[\"projectDetails2.attribute2\"] = jsonData.projectDetails[2].attribute2 === null;",
+							"tests[\"projectDetails2.attribute3\"] = jsonData.projectDetails[2].attribute3 === null;",
+							"tests[\"projectDetails2.attribute4\"] = jsonData.projectDetails[2].attribute4 === null;",
+							"tests[\"projectDetails2.attribute5\"] = jsonData.projectDetails[2].attribute5 === null;",
+							"tests[\"projectDetails3.projectid\"] = jsonData.projectDetails[3].projectId === 1;",
+							"tests[\"projectDetails3.detailType\"] = jsonData.projectDetails[3].detailType === \"SKILLS\";",
+							"tests[\"projectDetails3.name\"] = jsonData.projectDetails[3].name === \"Java Development\";",
+							"tests[\"projectDetails3.certificationReq\"] = jsonData.projectDetails[3].certificationReq === \"No\";",
+							"tests[\"projectDetails3.certificationLink\"] = jsonData.projectDetails[3].certificationLink === null;",
+							"tests[\"projectDetails3.attribute1\"] = jsonData.projectDetails[3].attribute1 === null;",
+							"tests[\"projectDetails3.attribute2\"] = jsonData.projectDetails[3].attribute2 === null;",
+							"tests[\"projectDetails3.attribute3\"] = jsonData.projectDetails[3].attribute3 === null;",
+							"tests[\"projectDetails3.attribute4\"] = jsonData.projectDetails[3].attribute4 === null;",
+							"tests[\"projectDetails3.attribute5\"] = jsonData.projectDetails[3].attribute5 === null;",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": {
+					"raw": "http://localhost:3001/philance/projects?projectId=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"philance",
+						"projects"
+					],
+					"query": [
+						{
+							"key": "projectId",
+							"value": "1",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic cm9vdDpaZW50cmUxMTA=",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{  \n  \"location\":\"Detroit, MI\",\n  \"distance\":\"10\",\n  \"keywords\":\"DEVELOP|Create\",\n  \"resourceType\":\"Freelancers\",\n  \"projectStatus\":\"ACTIVE\",\n  \"userId\" : \"1\",\n  \"skills\":[  \n     {  \n        \"skill\":\"Database Development\"\n     },\n     {  \n        \"skill\":\"Java Development\"\n     }\n  ],\n  \"impactCategories\":[  \n     {  \n        \"category\":\"Elderly\"\n     },\n     {  \n        \"category\":\"Other\"\n     }\n  ]\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Project Search",
 			"event": [
 				{
 					"listen": "test",
