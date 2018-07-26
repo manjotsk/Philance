@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon ./bin/www"
+    "test": "newman run ../api-tests/Philance.json",
+    "start": "nodemon app.js"
   },
   "dependencies": {
     "bcrypt": "^2.0.1",
@@ -25,6 +25,7 @@
     "sequelize": "^4.38.0"
   },
   "devDependencies": {
-    "nodemon": "^1.17.5"
+    "nodemon": "^1.17.5",
+	"newman": "^3.10.0"
   }
 }

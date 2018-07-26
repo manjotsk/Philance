@@ -1,0 +1,172 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Philance",
+		"_postman_id": "1f17a61d-6e64-0a9d-c4c1-7d354765e622",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:3001/users/register",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"message\"] = jsonData.message.search(\"Registered Successfully\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://localhost:3001/philance/users/register",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic cm9vdDpaZW50cmUxMTA=",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\" : \"Vijay3\",\n    \"lastName\" : \"Gandra3\",\n    \"email\" : \"vijy3.gandra@gmail.com\",\n    \"password\" : \"test123\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3001/users/login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"message\"] = jsonData.message === \"authentication successful\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://localhost:3001/philance/users/login",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic cm9vdDpaZW50cmUxMTA=",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\" : \"vijy3.gandra@gmail.com\",\n    \"password\" : \"test123\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3001/projects/createProjects",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"status\"] = jsonData.projects.status === \"ACTIVE\";",
+							"tests[\"projectName\"] = jsonData.projects.projectName === \"Create Project From Postman\";",
+							"tests[\"volunteers\"] = jsonData.projects.volunteers === \"1\";",
+							"tests[\"freelancers\"] = jsonData.projects.freelancers === \"2\";",
+							"tests[\"location\"] = jsonData.projects.location === \"Nashua,NH\";",
+							"tests[\"startDate\"] = jsonData.projects.startDate.includes(\"2018-07-24\");",
+							"tests[\"endDate\"] = jsonData.projects.endDate.includes('2018-07-30');",
+							"tests[\"estimatedBudget\"] = jsonData.projects.estimatedBudget === \"10\";",
+							"tests[\"createdBy\"] = jsonData.projects.createdBy === \"1\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://localhost:3001/philance/projects",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic cm9vdDpaZW50cmUxMTA=",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{  \n  \"projectName\" : \"Create Project From Postman\",\n  \"description\" : \"Create Project description From Postman\",\n  \"location\":\"Nashua,NH\",\n  \"volunteers\":\"1\",\n  \"freelancers\":\"2\",\n  \"estimatedBudget\":\"10\",\n  \"userId\":\"1\",\n  \"startDate\" :\"07/24/2018\",\n  \"endDate\" :\"07/30/2018\",\n  \"skills\":[  \n     {  \n        \"skill\":\"Database Development\"\n     },\n     {  \n        \"skill\":\"Java Development\"\n     }\n  ],\n  \"impactCategories\":[  \n     {  \n        \"category\":\"Elderly\"\n     },\n     {  \n        \"category\":\"Other\"\n     }\n  ]\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3001/philance/projects/projectid=1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"location\"] = jsonData.projects[0].location === \"Nashua,NH\";",
+							"tests[\"projectId\"] = jsonData.projects[0].projectId === 1;",
+							"tests[\"projectName\"] = jsonData.projects[0].projectName === \"Create Project From Postman\";",
+							"tests[\"description\"] = jsonData.projects[0].description === null;",
+							"tests[\"estimatedBudget\"] = jsonData.projects[0].estimatedBudget === \"10.00\";",
+							"tests[\"status\"] = jsonData.projects[0].status === \"ACTIVE\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://localhost:3001/philance/projects/search",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic cm9vdDpaZW50cmUxMTA=",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{  \n  \"location\":\"Detroit, MI\",\n  \"distance\":\"10\",\n  \"keywords\":\"DEVELOP|Create\",\n  \"resourceType\":\"Freelancers\",\n  \"projectStatus\":\"ACTIVE\",\n  \"userId\" : \"1\",\n  \"skills\":[  \n     {  \n        \"skill\":\"Database Development\"\n     },\n     {  \n        \"skill\":\"Java Development\"\n     }\n  ],\n  \"impactCategories\":[  \n     {  \n        \"category\":\"Elderly\"\n     },\n     {  \n        \"category\":\"Other\"\n     }\n  ]\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
