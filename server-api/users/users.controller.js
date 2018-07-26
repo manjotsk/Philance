@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 var moment = require('moment')
 var users = require("./users.model");
 const sequelize = require('../util/dbconnection');
+const Op = sequelize.Op;
 var helper = require('../helpers/common');
 var commonFunctions = helper.commonFunctions;
 exports.register = (req, res, next) => {
@@ -134,7 +135,12 @@ exports.search = (req, res, next) => {
                 sequelize.sync()
                     .then(() => {
                         users.findAll({
-                            attributes: ['user_id', 'location']
+                            attributes: ['user_id', 'location'],
+                            where: {
+                                location: {
+                                    [Op.ne]: null
+                                }
+                            }
                         })
                             .then(_users => {
                                 commonFunctions.entitiesDistanceValidator(_users, req, (error, response) => {
