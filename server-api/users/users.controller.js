@@ -5,8 +5,11 @@ var moment = require('moment')
 var users = require("./users.model");
 const sequelize = require('../util/dbconnection');
 const Op = sequelize.Op;
-var helper = require('../helpers/common');
-var commonFunctions = helper.commonFunctions;
+var helpers = require('../helpers')
+var commonFunctions = helpers.default.common;
+var userApi = helpers.default.userApi;
+
+
 exports.register = (req, res, next) => {
     sequelize.sync().then(() => users.findOne({ where: { email: req.body.email } }).then(_user => {
         console.log('_user : ' + _user);
@@ -86,18 +89,23 @@ exports.login = (req, res, next) => {
 
 exports.search = (req, res, next) => {
     //TODO: Add Validators
+    var userSearchApi = userApi.search;
     var userName;
 
     if (Object.keys(req.body).length === 0) {                //if no seach body parameter is provided
-        sequelize.sync()
-            .then(() => {
-                users.findAll({
-                    attributes: ['user_id', 'location']
-                })
-                    .then(_users => {
-                        res.status(200).send(_users)
-                    })
-            })
+
+        userSearchApi.findAllUsers((response) => {
+            res.status(response.statusCode).send(response.responseData)
+        })
+        // sequelize.sync()
+        //     .then(() => {
+        //         users.findAll({
+        //             attributes: ['user_id', 'location']
+        //         })
+        //             .then(_users => {
+        //                 res.status(200).send(_users)
+        //             })
+        //     })
 
     } else {                                                  //if seach body parameter is provided
         var firstName = req.body.fname;
@@ -105,23 +113,19 @@ exports.search = (req, res, next) => {
         var lastName = req.body.lname;
         var location = req.body.loc;
         var distance = req.body.dist;
-
         if (firstName && lastName) {
             //if only first name/ last name is provided
             if ((firstName && lastName) && (personType == null && distance == null && location == null)) {
-                var searchQuery = 'SELECT * FROM users WHERE fname LIKE ? AND lname LIKE ?';
-                connectionPool.query(searchQuery, [firstName, lastName], (err, users) => {
-                    if (err) {
-                        res.status(500).send('Error with the database' + err)
-                        return;
-                    } else {
-                        res.status(200).send(users);
+                userSearchApi.findUsersWithFirstName(req,(err,response) => {
+                    if(err){
+                        console.log(err)
+                        res.status(response.statusCode).send(err);
+                    }else{
+                        res.status(response.statusCode).send(response.responseData);
                     }
                 })
             }
             //if distance/location is provided    
-
-
         }
         else {
             if (((distance || location))) {
@@ -132,27 +136,13 @@ exports.search = (req, res, next) => {
                     return res.status(409).send('please provide a location')
                 }
 
-                sequelize.sync()
-                    .then(() => {
-                        users.findAll({
-                            attributes: ['user_id', 'location'],
-                            where: {
-                                location: {
-                                    [Op.ne]: null
-                                }
-                            }
-                        })
-                            .then(_users => {
-                                commonFunctions.entitiesDistanceValidator(_users, req, (error, response) => {
-                                    if (error) {
-                                        res.status(500).send(error)
-                                    } else {
-                                        res.status(200).send(response)
-                                    }
-                                    return;
-                                })
-                            })
-                    })
+                userSearchApi.findUsersWithLocation.onlyWithLocation(req,(err,response)=>{
+                    if(err){
+                        res.status(response.statusCode).send(err);
+                    }else{
+                        res.status(response.statusCode).send(response.responseData);
+                    }
+                })
 
             }
 
