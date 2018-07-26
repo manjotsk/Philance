@@ -1,6 +1,6 @@
 'use strict';
 var distance = require('google-distance');
-distance.apiKey = 'AIzaSyCtwSrfVg4SzAG4Y3Rg8qyCdVqEutqhou0';
+distance.apiKey = '';
 var projects = require("./projects.model");
 var projectDetails = require("./project.details.model");
 // var users = require("../users/users.model");
