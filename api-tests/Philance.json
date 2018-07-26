@@ -8,7 +8,7 @@
 	},
 	"item": [
 		{
-			"name": "http://localhost:3001/users/register",
+			"name": "Register a user",
 			"event": [
 				{
 					"listen": "test",
@@ -16,7 +16,7 @@
 						"type": "text/javascript",
 						"exec": [
 							"var jsonData = JSON.parse(responseBody);",
-							"tests[\"message\"] = jsonData.message.search(\"Registered Successfully\");"
+							"tests[\"message\"] = jsonData.message.includes(\"Registered Successfully\");"
 						]
 					}
 				}
@@ -38,14 +38,14 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"firstName\" : \"Vijay3\",\n    \"lastName\" : \"Gandra3\",\n    \"email\" : \"vijy3.gandra@gmail.com\",\n    \"password\" : \"test123\"\n}"
+					"raw": "{\n    \"firstName\" : \"Vijay4\",\n    \"lastName\" : \"Gandra4\",\n    \"email\" : \"vijy4.gandra@gmail.com\",\n    \"password\" : \"test123\"\n}"
 				},
 				"description": ""
 			},
 			"response": []
 		},
 		{
-			"name": "http://localhost:3001/users/login",
+			"name": "User login",
 			"event": [
 				{
 					"listen": "test",
@@ -82,7 +82,7 @@
 			"response": []
 		},
 		{
-			"name": "http://localhost:3001/projects/createProjects",
+			"name": "Create a project",
 			"event": [
 				{
 					"listen": "test",
@@ -127,7 +127,7 @@
 			"response": []
 		},
 		{
-			"name": "http://localhost:3001/philance/projects/projectid=1",
+			"name": "Search Projects",
 			"event": [
 				{
 					"listen": "test",
