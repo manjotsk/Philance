@@ -38,7 +38,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"firstName\" : \"Vijay4\",\n    \"lastName\" : \"Gandra4\",\n    \"email\" : \"vijy4.gandra@gmail.com\",\n    \"password\" : \"test123\"\n}"
+					"raw": "{\n    \"firstName\" : \"Vijay\",\n    \"lastName\" : \"Gandra\",\n    \"email\" : \"vijy.gandra@gmail.com\",\n    \"password\" : \"test123\"\n}"
 				},
 				"description": ""
 			},
@@ -75,7 +75,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"email\" : \"vijy3.gandra@gmail.com\",\n    \"password\" : \"test123\"\n}"
+					"raw": "{\n    \"email\" : \"vijy.gandra@gmail.com\",\n    \"password\" : \"test123\"\n}"
 				},
 				"description": ""
 			},
