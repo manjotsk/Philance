@@ -5,10 +5,8 @@ const router = express.Router();
 
 const projectsController = require('./projects.controller');
 
-router.post("/createProjects", projectsController.createProjects);
-router.post("/findProjects", projectsController.findProjects);
-router.get("/findProjects", projectsController.findProjectById);
-
-//router.get('/', controller.index);
+router.post("/", projectsController.createProjects);
+router.post("/search", projectsController.findProjects);
+router.get("/", projectsController.findProjectById);
 
 module.exports = router;
