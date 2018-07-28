@@ -11,6 +11,13 @@ var userApi = helpers.default.userApi;
 
 
 exports.register = (req, res, next) => {
+    if((req.body.email==null) || (req.body.password==null) || (req.body.firstName==null)){
+        res.status(409).json({
+            message: "Missing Data for registering. Fill Required Details"
+        });
+        return;
+    }
+
     sequelize.sync().then(() => users.findOne({ where: { email: req.body.email } }).then(_user => {
         console.log('_user : ' + _user);
         if (_user == null) {
