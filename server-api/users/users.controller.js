@@ -50,37 +50,49 @@ exports.register = (req, res, next) => {
 
 exports.login = (req, res, next) => {
 
+    if((req.body.email==null) || (req.body.password==null)){
+        res.status(409).json({
+            message: "Please provide Username/Password"
+        });
+        return;
+    }
     sequelize.sync().then(() => users.findOne({
         where: { email: req.body.email }
     }).then(_user => {
+        if (_user == null) {
+            res.status(409).json({
+                message: "User Not Found"
+            });
+        } else {
+            bcrypt.compare(req.body.password, _user.password, (err, result) => {
+                if (err) {
+                    return res.status(409).json({
+                        message: "authentication failed"
+                    });
+                }
 
-        bcrypt.compare(req.body.password, _user.password, (err, result) => {
-            if (err) {
-                return res.status(409).json({
+                if (result) {
+                    const token = jwt.sign(
+                        {
+                            email: _user.email,
+                            userId: _user.userId
+                        }, 'philance_secret',
+                        process.env.JWT_KEY,
+                        {
+                            expiresIn: "1h"
+                        }
+                    );
+                    return res.status(200).json({
+                        message: "authentication successful",
+                        token: token
+                    });
+                }
+                res.status(409).json({
                     message: "authentication failed"
                 });
-            }
-
-            if (result) {
-                const token = jwt.sign(
-                    {
-                        email: _user.email,
-                        userId: _user.userId
-                    }, 'philance_secret',
-                    process.env.JWT_KEY,
-                    {
-                        expiresIn: "1h"
-                    }
-                );
-                return res.status(200).json({
-                    message: "authentication successful",
-                    token: token
-                });
-            }
-            res.status(409).json({
-                message: "authentication failed"
             });
-        });
+
+        }
 
     })
     )
