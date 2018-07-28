@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "test": "newman run ../api-tests/Philance.json --reporters cli,html --reporter-html-export /tmp/report.html",
+    "test": "newman run ../api-tests/Philance.json --reporters cli,junit,html --reporter-html-export /tmp/report.html",
     "start": "nodemon app.js"
   },
   "dependencies": {
