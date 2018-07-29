@@ -1,7 +1,7 @@
 {
 	"variables": [],
 	"info": {
-		"name": "Philance copy",
+		"name": "Philance",
 		"_postman_id": "b86e2f35-076c-32b4-ef77-72f6d7c20b67",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
@@ -16,7 +16,121 @@
 					"description": "",
 					"item": [
 						{
+							"name": "auth",
+							"description": "",
+							"item": [
+								{
+									"name": "Register a user",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"type": "text/javascript",
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);",
+													"tests[\"message\"] = jsonData.message.includes(\"Registered Successfully\");"
+												]
+											}
+										}
+									],
+									"request": {
+										"url": "http://localhost:3001/philance/users/register",
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Basic cm9vdDpaZW50cmUxMTA="
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"firstName\" : \"Vijay\",\n    \"lastName\" : \"Gandra\",\n    \"email\" : \"vijy.gandra@gmail.com\",\n    \"password\" : \"test123\"\n}"
+										},
+										"description": ""
+									},
+									"response": []
+								},
+								{
+									"name": "User login",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"type": "text/javascript",
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);",
+													"tests[\"message\"] = jsonData.message === \"authentication successful\";"
+												]
+											}
+										}
+									],
+									"request": {
+										"url": "http://localhost:3001/philance/users/login",
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Basic cm9vdDpaZW50cmUxMTA="
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"email\" : \"vijy.gandra@gmail.com\",\n    \"password\" : \"test123\"\n}"
+										},
+										"description": ""
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
 							"name": "Search all Users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"tests[\"userId\"] = jsonData[0].userId === 100;",
+											"tests[\"firstName\"] = jsonData[0].firstName === \"Ram\";",
+											"tests[\"lastName\"] = jsonData[0].lastName === \"Sailopal\";",
+											"tests[\"email\"] = jsonData[0].email === \"rsailopal@gmail.com\";",
+											"tests[\"phoneNumber\"] = jsonData[0].phoneNumber === null;",
+											"tests[\"organization\"] = jsonData[0].organization === null;",
+											"tests[\"title\"] = jsonData[0].title === null;",
+											"tests[\"rate\"] = jsonData[0].rate === null;",
+											"tests[\"auth_src\"] = jsonData[0].auth_src === null;",
+											"tests[\"status\"] = jsonData[0].status === null;",
+											"tests[\"lastLogin\"] = jsonData[0].lastLogin === null;",
+											"tests[\"interests\"] = jsonData[0].interests === null;",
+											"tests[\"location\"] = jsonData[0].location === \"Birmingham\";",
+											"tests[\"userId1\"] = jsonData[1].userId === 101;",
+											"tests[\"firstName1\"] = jsonData[1].firstName === \"Vijay\";",
+											"tests[\"lastName1\"] = jsonData[1].lastName === \"Gandra\";",
+											"tests[\"email1\"] = jsonData[1].email === \"vijy.gandra@gmail.com\";",
+											"tests[\"phoneNumber1\"] = jsonData[1].phoneNumber === null;",
+											"tests[\"organization1\"] = jsonData[1].organization === null;",
+											"tests[\"title1\"] = jsonData[1].title === null;",
+											"tests[\"rate1\"] = jsonData[1].rate === null;",
+											"tests[\"auth_src1\"] = jsonData[1].auth_src === null;",
+											"tests[\"status1\"] = jsonData[1].status === null;",
+											"tests[\"lastLogin1\"] = jsonData[1].lastLogin === null;",
+											"tests[\"interests1\"] = jsonData[1].interests === null;",
+											"tests[\"location1\"] = jsonData[1].location === null;"
+										]
+									}
+								}
+							],
 							"request": {
 								"url": "localhost:3001/philance/users/search",
 								"method": "POST",
@@ -31,18 +145,43 @@
 						},
 						{
 							"name": "Search user by location and distance",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"tests[\"userId\"] = jsonData[0].userId === 100;",
+											"tests[\"firstName\"] = jsonData[0].firstName === \"Ram\";",
+											"tests[\"lastName\"] = jsonData[0].lastName === \"Sailopal\";",
+											"tests[\"email\"] = jsonData[0].email === \"rsailopal@gmail.com\";",
+											"tests[\"phoneNumber\"] = jsonData[0].phoneNumber === null;",
+											"tests[\"organization\"] = jsonData[0].organization === null;",
+											"tests[\"title\"] = jsonData[0].title === null;",
+											"tests[\"rate\"] = jsonData[0].rate === null;",
+											"tests[\"auth_src\"] = jsonData[0].auth_src === null;",
+											"tests[\"status\"] = jsonData[0].status === null;",
+											"tests[\"lastLogin\"] = jsonData[0].lastLogin === null;",
+											"tests[\"interests\"] = jsonData[0].interests === null;",
+											"tests[\"location\"] = jsonData[0].location === \"Birmingham\";"
+										]
+									}
+								}
+							],
 							"request": {
 								"url": "localhost:3001/philance/users/search",
 								"method": "POST",
 								"header": [
 									{
 										"key": "Content-Type",
-										"value": "application/json"
+										"value": "application/json",
+										"description": ""
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"loc\":\"Brisbane, CA\",\n\t\"dist\":50\n\t\n}"
+									"raw": "{\n\t\"loc\":\"Birmingham\",\n\t\"dist\":50\n\t\n}"
 								},
 								"description": ""
 							},
@@ -50,18 +189,43 @@
 						},
 						{
 							"name": "Search Users with First and last names",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"tests[\"userId\"] = jsonData[0].userId === 101;",
+											"tests[\"firstName\"] = jsonData[0].firstName === \"Vijay\";",
+											"tests[\"lastName\"] = jsonData[0].lastName === \"Gandra\";",
+											"tests[\"email\"] = jsonData[0].email === \"vijy.gandra@gmail.com\";",
+											"tests[\"phoneNumber\"] = jsonData[0].phoneNumber === null;",
+											"tests[\"organization\"] = jsonData[0].organization === null;",
+											"tests[\"title\"] = jsonData[0].title === null;",
+											"tests[\"rate\"] = jsonData[0].rate === null;",
+											"tests[\"auth_src\"] = jsonData[0].auth_src === null;",
+											"tests[\"status\"] = jsonData[0].status === null;",
+											"tests[\"lastLogin\"] = jsonData[0].lastLogin === null;",
+											"tests[\"interests\"] = jsonData[0].interests === null;",
+											"tests[\"location\"] = jsonData[0].location === null;"
+										]
+									}
+								}
+							],
 							"request": {
 								"url": "localhost:3001/philance/users/search",
 								"method": "POST",
 								"header": [
 									{
 										"key": "Content-Type",
-										"value": "application/json"
+										"value": "application/json",
+										"description": ""
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"fname\":\"James\",\n\t\"lname\":\"Sparrow\"\n}"
+									"raw": "{\n\t\"fname\":\"Vijay\",\n\t\"lname\":\"Gandra\"\n}"
 								},
 								"description": ""
 							},
@@ -69,95 +233,43 @@
 						},
 						{
 							"name": "Search User by location and first/lastname",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"tests[\"userId\"] = jsonData[0].userId === 100;",
+											"tests[\"firstName\"] = jsonData[0].firstName === \"Ram\";",
+											"tests[\"lastName\"] = jsonData[0].lastName === \"Sailopal\";",
+											"tests[\"email\"] = jsonData[0].email === \"rsailopal@gmail.com\";",
+											"tests[\"phoneNumber\"] = jsonData[0].phoneNumber === null;",
+											"tests[\"organization\"] = jsonData[0].organization === null;",
+											"tests[\"title\"] = jsonData[0].title === null;",
+											"tests[\"rate\"] = jsonData[0].rate === null;",
+											"tests[\"auth_src\"] = jsonData[0].auth_src === null;",
+											"tests[\"status\"] = jsonData[0].status === null;",
+											"tests[\"lastLogin\"] = jsonData[0].lastLogin === null;",
+											"tests[\"interests\"] = jsonData[0].interests === null;",
+											"tests[\"location\"] = jsonData[0].location === \"Birmingham\";"
+										]
+									}
+								}
+							],
 							"request": {
 								"url": "localhost:3001/philance/users/search",
 								"method": "POST",
 								"header": [
 									{
 										"key": "Content-Type",
-										"value": "application/json"
+										"value": "application/json",
+										"description": ""
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"fname\":\"James\",\n\t\"loc\":\"Brisbane, CA\",\n\t\"dist\":50\n}"
-								},
-								"description": ""
-							},
-							"response": []
-						}
-					],
-					"_postman_isSubFolder": true
-				},
-				{
-					"name": "auth",
-					"description": "",
-					"item": [
-						{
-							"name": "Register a user",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"type": "text/javascript",
-										"exec": [
-											"var jsonData = JSON.parse(responseBody);",
-											"tests[\"message\"] = jsonData.message.includes(\"Registered Successfully\");"
-										]
-									}
-								}
-							],
-							"request": {
-								"url": "http://localhost:3001/philance/users/register",
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "Basic cm9vdDpaZW50cmUxMTA="
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"firstName\" : \"Vijay\",\n    \"lastName\" : \"Gandra\",\n    \"email\" : \"vijy.gandra@gmail.com\",\n    \"password\" : \"test123\"\n}"
-								},
-								"description": ""
-							},
-							"response": []
-						},
-						{
-							"name": "User login",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"type": "text/javascript",
-										"exec": [
-											"var jsonData = JSON.parse(responseBody);",
-											"tests[\"message\"] = jsonData.message === \"authentication successful\";"
-										]
-									}
-								}
-							],
-							"request": {
-								"url": "http://localhost:3001/philance/users/login",
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "Basic cm9vdDpaZW50cmUxMTA="
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"email\" : \"vijy.gandra@gmail.com\",\n    \"password\" : \"test123\"\n}"
+									"raw": "{\n\t\"fname\":\"Ram\",\n\t\"loc\":\"Birmingham\",\n\t\"dist\":50\n}"
 								},
 								"description": ""
 							},
@@ -173,199 +285,198 @@
 			"description": "",
 			"item": [
 				{
-					"name": "Project Search Operations",
-					"description": "",
-					"item": [
+					"name": "Create a project",
+					"event": [
 						{
-							"name": "Create a project",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"type": "text/javascript",
-										"exec": [
-											"var jsonData = JSON.parse(responseBody);",
-											"tests[\"status\"] = jsonData.projects.status === \"ACTIVE\";",
-											"tests[\"projectName\"] = jsonData.projects.projectName === \"Create Project From Postman\";",
-											"tests[\"volunteers\"] = jsonData.projects.volunteers === \"1\";",
-											"tests[\"freelancers\"] = jsonData.projects.freelancers === \"2\";",
-											"tests[\"location\"] = jsonData.projects.location === \"Nashua,NH\";",
-											"tests[\"startDate\"] = jsonData.projects.startDate.includes(\"2018-07-24\");",
-											"tests[\"endDate\"] = jsonData.projects.endDate.includes('2018-07-30');",
-											"tests[\"estimatedBudget\"] = jsonData.projects.estimatedBudget === \"10\";",
-											"tests[\"createdBy\"] = jsonData.projects.createdBy === \"1\";"
-										]
-									}
-								}
-							],
-							"request": {
-								"url": "http://localhost:3001/philance/projects",
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "Basic cm9vdDpaZW50cmUxMTA="
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{  \n  \"projectName\" : \"Create Project From Postman\",\n  \"description\" : \"Create Project description From Postman\",\n  \"location\":\"Nashua,NH\",\n  \"volunteers\":\"1\",\n  \"freelancers\":\"2\",\n  \"estimatedBudget\":\"10\",\n  \"userId\":\"1\",\n  \"startDate\" :\"07/24/2018\",\n  \"endDate\" :\"07/30/2018\",\n  \"skills\":[  \n     {  \n        \"skill\":\"Database Development\"\n     },\n     {  \n        \"skill\":\"Java Development\"\n     }\n  ],\n  \"impactCategories\":[  \n     {  \n        \"category\":\"Elderly\"\n     },\n     {  \n        \"category\":\"Other\"\n     }\n  ]\n}"
-								},
-								"description": ""
-							},
-							"response": []
-						},
-						{
-							"name": "Project Search",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"type": "text/javascript",
-										"exec": [
-											"var jsonData = JSON.parse(responseBody);",
-											"tests[\"location\"] = jsonData.projects[0].location === \"Nashua,NH\";",
-											"tests[\"projectId\"] = jsonData.projects[0].projectId === 1;",
-											"tests[\"projectName\"] = jsonData.projects[0].projectName === \"Create Project From Postman\";",
-											"tests[\"description\"] = jsonData.projects[0].description === null;",
-											"tests[\"estimatedBudget\"] = jsonData.projects[0].estimatedBudget === \"10.00\";",
-											"tests[\"status\"] = jsonData.projects[0].status === \"ACTIVE\";"
-										]
-									}
-								}
-							],
-							"request": {
-								"url": "http://localhost:3001/philance/projects/search",
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "Basic cm9vdDpaZW50cmUxMTA=",
-										"description": ""
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"description": ""
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{  \n  \"location\":\"Detroit, MI\",\n  \"distance\":\"10\",\n  \"keywords\":\"DEVELOP|Create\",\n  \"resourceType\":\"Freelancers\",\n  \"projectStatus\":\"ACTIVE\",\n  \"userId\" : \"1\",\n  \"skills\":[  \n     {  \n        \"skill\":\"Database Development\"\n     },\n     {  \n        \"skill\":\"Java Development\"\n     }\n  ],\n  \"impactCategories\":[  \n     {  \n        \"category\":\"Elderly\"\n     },\n     {  \n        \"category\":\"Other\"\n     }\n  ]\n}"
-								},
-								"description": ""
-							},
-							"response": []
-						},
-						{
-							"name": "Search Projects By ID",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"type": "text/javascript",
-										"exec": [
-											"var jsonData = JSON.parse(responseBody);",
-											"tests[\"location\"] = jsonData.project.location === \"Nashua,NH\";",
-											"tests[\"projectId\"] = jsonData.project.projectId === 1;",
-											"tests[\"volunteers\"] = jsonData.project.volunteers === \"1\";",
-											"tests[\"freelancers\"] = jsonData.project.freelancers === \"2\";",
-											"tests[\"projectName\"] = jsonData.project.projectName === \"Create Project From Postman\";",
-											"tests[\"description\"] = jsonData.project.decription === null;",
-											"tests[\"startDate\"] = jsonData.project.startDate.includes(\"2018-07-24\");",
-											"tests[\"endDate\"] = jsonData.project.endDate.includes('2018-07-30');",
-											"tests[\"estimatedBudget\"] = jsonData.project.estimatedBudget === \"10.00\";",
-											"tests[\"projectDetails0.projectid\"] = jsonData.projectDetails[0].projectId === 1;",
-											"tests[\"projectDetails0.detailType\"] = jsonData.projectDetails[0].detailType === \"IMPACT_CATEGORY\";",
-											"tests[\"projectDetails0.name\"] = jsonData.projectDetails[0].name === \"Elderly\";",
-											"tests[\"projectDetails0.certificationReq\"] = jsonData.projectDetails[0].certificationReq === \"No\";",
-											"tests[\"projectDetails0.certificationLink\"] = jsonData.projectDetails[0].certificationLink === null;",
-											"tests[\"projectDetails0.attribute1\"] = jsonData.projectDetails[0].attribute1 === null;",
-											"tests[\"projectDetails0.attribute2\"] = jsonData.projectDetails[0].attribute2 === null;",
-											"tests[\"projectDetails0.attribute3\"] = jsonData.projectDetails[0].attribute3 === null;",
-											"tests[\"projectDetails0.attribute4\"] = jsonData.projectDetails[0].attribute4 === null;",
-											"tests[\"projectDetails0.attribute5\"] = jsonData.projectDetails[0].attribute5 === null;",
-											"tests[\"projectDetails1.projectid\"] = jsonData.projectDetails[1].projectId === 1;",
-											"tests[\"projectDetails1.detailType\"] = jsonData.projectDetails[1].detailType === \"IMPACT_CATEGORY\";",
-											"tests[\"projectDetails1.name\"] = jsonData.projectDetails[1].name === \"Other\";",
-											"tests[\"projectDetails1.certificationReq\"] = jsonData.projectDetails[1].certificationReq === \"No\";",
-											"tests[\"projectDetails1.certificationLink\"] = jsonData.projectDetails[1].certificationLink === null;",
-											"tests[\"projectDetails1.attribute1\"] = jsonData.projectDetails[1].attribute1 === null;",
-											"tests[\"projectDetails1.attribute2\"] = jsonData.projectDetails[1].attribute2 === null;",
-											"tests[\"projectDetails1.attribute3\"] = jsonData.projectDetails[1].attribute3 === null;",
-											"tests[\"projectDetails1.attribute4\"] = jsonData.projectDetails[1].attribute4 === null;",
-											"tests[\"projectDetails1.attribute5\"] = jsonData.projectDetails[1].attribute5 === null;",
-											"tests[\"projectDetails2.projectid\"] = jsonData.projectDetails[2].projectId === 1;",
-											"tests[\"projectDetails2.detailType\"] = jsonData.projectDetails[2].detailType === \"SKILLS\";",
-											"tests[\"projectDetails2.name\"] = jsonData.projectDetails[2].name === \"Database Development\";",
-											"tests[\"projectDetails2.certificationReq\"] = jsonData.projectDetails[2].certificationReq === \"No\";",
-											"tests[\"projectDetails2.certificationLink\"] = jsonData.projectDetails[2].certificationLink === null;",
-											"tests[\"projectDetails2.attribute1\"] = jsonData.projectDetails[2].attribute1 === null;",
-											"tests[\"projectDetails2.attribute2\"] = jsonData.projectDetails[2].attribute2 === null;",
-											"tests[\"projectDetails2.attribute3\"] = jsonData.projectDetails[2].attribute3 === null;",
-											"tests[\"projectDetails2.attribute4\"] = jsonData.projectDetails[2].attribute4 === null;",
-											"tests[\"projectDetails2.attribute5\"] = jsonData.projectDetails[2].attribute5 === null;",
-											"tests[\"projectDetails3.projectid\"] = jsonData.projectDetails[3].projectId === 1;",
-											"tests[\"projectDetails3.detailType\"] = jsonData.projectDetails[3].detailType === \"SKILLS\";",
-											"tests[\"projectDetails3.name\"] = jsonData.projectDetails[3].name === \"Java Development\";",
-											"tests[\"projectDetails3.certificationReq\"] = jsonData.projectDetails[3].certificationReq === \"No\";",
-											"tests[\"projectDetails3.certificationLink\"] = jsonData.projectDetails[3].certificationLink === null;",
-											"tests[\"projectDetails3.attribute1\"] = jsonData.projectDetails[3].attribute1 === null;",
-											"tests[\"projectDetails3.attribute2\"] = jsonData.projectDetails[3].attribute2 === null;",
-											"tests[\"projectDetails3.attribute3\"] = jsonData.projectDetails[3].attribute3 === null;",
-											"tests[\"projectDetails3.attribute4\"] = jsonData.projectDetails[3].attribute4 === null;",
-											"tests[\"projectDetails3.attribute5\"] = jsonData.projectDetails[3].attribute5 === null;",
-											"",
-											""
-										]
-									}
-								}
-							],
-							"request": {
-								"url": {
-									"raw": "http://localhost:3001/philance/projects?projectId=1",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "3001",
-									"path": [
-										"philance",
-										"projects"
-									],
-									"query": [
-										{
-											"key": "projectId",
-											"value": "1"
-										}
-									],
-									"variable": []
-								},
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "Basic cm9vdDpaZW50cmUxMTA="
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{  \n  \"location\":\"Detroit, MI\",\n  \"distance\":\"10\",\n  \"keywords\":\"DEVELOP|Create\",\n  \"resourceType\":\"Freelancers\",\n  \"projectStatus\":\"ACTIVE\",\n  \"userId\" : \"1\",\n  \"skills\":[  \n     {  \n        \"skill\":\"Database Development\"\n     },\n     {  \n        \"skill\":\"Java Development\"\n     }\n  ],\n  \"impactCategories\":[  \n     {  \n        \"category\":\"Elderly\"\n     },\n     {  \n        \"category\":\"Other\"\n     }\n  ]\n}"
-								},
-								"description": ""
-							},
-							"response": []
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"status\"] = jsonData.projects.status === \"ACTIVE\";",
+									"tests[\"projectName\"] = jsonData.projects.projectName === \"Create Project From Postman\";",
+									"tests[\"volunteers\"] = jsonData.projects.volunteers === \"1\";",
+									"tests[\"freelancers\"] = jsonData.projects.freelancers === \"2\";",
+									"tests[\"location\"] = jsonData.projects.location === \"Nashua,NH\";",
+									"tests[\"startDate\"] = jsonData.projects.startDate.includes(\"2018-07-24\");",
+									"tests[\"endDate\"] = jsonData.projects.endDate.includes('2018-07-30');",
+									"tests[\"estimatedBudget\"] = jsonData.projects.estimatedBudget === \"10\";",
+									"tests[\"createdBy\"] = jsonData.projects.createdBy === \"1\";"
+								]
+							}
 						}
 					],
-					"_postman_isSubFolder": true
+					"request": {
+						"url": "http://localhost:3001/philance/projects",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic cm9vdDpaZW50cmUxMTA=",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{  \n  \"projectName\" : \"Create Project From Postman\",\n  \"description\" : \"Create Project description From Postman\",\n  \"location\":\"Nashua,NH\",\n  \"volunteers\":\"1\",\n  \"freelancers\":\"2\",\n  \"estimatedBudget\":\"10\",\n  \"userId\":\"1\",\n  \"startDate\" :\"07/24/2018\",\n  \"endDate\" :\"07/30/2018\",\n  \"skills\":[  \n     {  \n        \"skill\":\"Database Development\"\n     },\n     {  \n        \"skill\":\"Java Development\"\n     }\n  ],\n  \"impactCategories\":[  \n     {  \n        \"category\":\"Elderly\"\n     },\n     {  \n        \"category\":\"Other\"\n     }\n  ]\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Project Search",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"location\"] = jsonData.projects[0].location === \"Nashua,NH\";",
+									"tests[\"projectId\"] = jsonData.projects[0].projectId === 1;",
+									"tests[\"projectName\"] = jsonData.projects[0].projectName === \"Create Project From Postman\";",
+									"tests[\"description\"] = jsonData.projects[0].description === null;",
+									"tests[\"estimatedBudget\"] = jsonData.projects[0].estimatedBudget === \"10.00\";",
+									"tests[\"status\"] = jsonData.projects[0].status === \"ACTIVE\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:3001/philance/projects/search",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic cm9vdDpaZW50cmUxMTA=",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{  \n  \"location\":\"Detroit, MI\",\n  \"distance\":\"10\",\n  \"keywords\":\"DEVELOP|Create\",\n  \"resourceType\":\"Freelancers\",\n  \"projectStatus\":\"ACTIVE\",\n  \"userId\" : \"1\",\n  \"skills\":[  \n     {  \n        \"skill\":\"Database Development\"\n     },\n     {  \n        \"skill\":\"Java Development\"\n     }\n  ],\n  \"impactCategories\":[  \n     {  \n        \"category\":\"Elderly\"\n     },\n     {  \n        \"category\":\"Other\"\n     }\n  ]\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Search Projects By ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"location\"] = jsonData.project.location === \"Nashua,NH\";",
+									"tests[\"projectId\"] = jsonData.project.projectId === 1;",
+									"tests[\"volunteers\"] = jsonData.project.volunteers === \"1\";",
+									"tests[\"freelancers\"] = jsonData.project.freelancers === \"2\";",
+									"tests[\"projectName\"] = jsonData.project.projectName === \"Create Project From Postman\";",
+									"tests[\"description\"] = jsonData.project.decription === null;",
+									"tests[\"startDate\"] = jsonData.project.startDate.includes(\"2018-07-24\");",
+									"tests[\"endDate\"] = jsonData.project.endDate.includes('2018-07-30');",
+									"tests[\"estimatedBudget\"] = jsonData.project.estimatedBudget === \"10.00\";",
+									"tests[\"projectDetails0.projectid\"] = jsonData.projectDetails[0].projectId === 1;",
+									"tests[\"projectDetails0.detailType\"] = jsonData.projectDetails[0].detailType === \"IMPACT_CATEGORY\";",
+									"tests[\"projectDetails0.name\"] = jsonData.projectDetails[0].name === \"Elderly\";",
+									"tests[\"projectDetails0.certificationReq\"] = jsonData.projectDetails[0].certificationReq === \"No\";",
+									"tests[\"projectDetails0.certificationLink\"] = jsonData.projectDetails[0].certificationLink === null;",
+									"tests[\"projectDetails0.attribute1\"] = jsonData.projectDetails[0].attribute1 === null;",
+									"tests[\"projectDetails0.attribute2\"] = jsonData.projectDetails[0].attribute2 === null;",
+									"tests[\"projectDetails0.attribute3\"] = jsonData.projectDetails[0].attribute3 === null;",
+									"tests[\"projectDetails0.attribute4\"] = jsonData.projectDetails[0].attribute4 === null;",
+									"tests[\"projectDetails0.attribute5\"] = jsonData.projectDetails[0].attribute5 === null;",
+									"tests[\"projectDetails1.projectid\"] = jsonData.projectDetails[1].projectId === 1;",
+									"tests[\"projectDetails1.detailType\"] = jsonData.projectDetails[1].detailType === \"IMPACT_CATEGORY\";",
+									"tests[\"projectDetails1.name\"] = jsonData.projectDetails[1].name === \"Other\";",
+									"tests[\"projectDetails1.certificationReq\"] = jsonData.projectDetails[1].certificationReq === \"No\";",
+									"tests[\"projectDetails1.certificationLink\"] = jsonData.projectDetails[1].certificationLink === null;",
+									"tests[\"projectDetails1.attribute1\"] = jsonData.projectDetails[1].attribute1 === null;",
+									"tests[\"projectDetails1.attribute2\"] = jsonData.projectDetails[1].attribute2 === null;",
+									"tests[\"projectDetails1.attribute3\"] = jsonData.projectDetails[1].attribute3 === null;",
+									"tests[\"projectDetails1.attribute4\"] = jsonData.projectDetails[1].attribute4 === null;",
+									"tests[\"projectDetails1.attribute5\"] = jsonData.projectDetails[1].attribute5 === null;",
+									"tests[\"projectDetails2.projectid\"] = jsonData.projectDetails[2].projectId === 1;",
+									"tests[\"projectDetails2.detailType\"] = jsonData.projectDetails[2].detailType === \"SKILLS\";",
+									"tests[\"projectDetails2.name\"] = jsonData.projectDetails[2].name === \"Database Development\";",
+									"tests[\"projectDetails2.certificationReq\"] = jsonData.projectDetails[2].certificationReq === \"No\";",
+									"tests[\"projectDetails2.certificationLink\"] = jsonData.projectDetails[2].certificationLink === null;",
+									"tests[\"projectDetails2.attribute1\"] = jsonData.projectDetails[2].attribute1 === null;",
+									"tests[\"projectDetails2.attribute2\"] = jsonData.projectDetails[2].attribute2 === null;",
+									"tests[\"projectDetails2.attribute3\"] = jsonData.projectDetails[2].attribute3 === null;",
+									"tests[\"projectDetails2.attribute4\"] = jsonData.projectDetails[2].attribute4 === null;",
+									"tests[\"projectDetails2.attribute5\"] = jsonData.projectDetails[2].attribute5 === null;",
+									"tests[\"projectDetails3.projectid\"] = jsonData.projectDetails[3].projectId === 1;",
+									"tests[\"projectDetails3.detailType\"] = jsonData.projectDetails[3].detailType === \"SKILLS\";",
+									"tests[\"projectDetails3.name\"] = jsonData.projectDetails[3].name === \"Java Development\";",
+									"tests[\"projectDetails3.certificationReq\"] = jsonData.projectDetails[3].certificationReq === \"No\";",
+									"tests[\"projectDetails3.certificationLink\"] = jsonData.projectDetails[3].certificationLink === null;",
+									"tests[\"projectDetails3.attribute1\"] = jsonData.projectDetails[3].attribute1 === null;",
+									"tests[\"projectDetails3.attribute2\"] = jsonData.projectDetails[3].attribute2 === null;",
+									"tests[\"projectDetails3.attribute3\"] = jsonData.projectDetails[3].attribute3 === null;",
+									"tests[\"projectDetails3.attribute4\"] = jsonData.projectDetails[3].attribute4 === null;",
+									"tests[\"projectDetails3.attribute5\"] = jsonData.projectDetails[3].attribute5 === null;",
+									"",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": {
+							"raw": "http://localhost:3001/philance/projects?projectId=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"philance",
+								"projects"
+							],
+							"query": [
+								{
+									"key": "projectId",
+									"value": "1",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic cm9vdDpaZW50cmUxMTA=",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{  \n  \"location\":\"Detroit, MI\",\n  \"distance\":\"10\",\n  \"keywords\":\"DEVELOP|Create\",\n  \"resourceType\":\"Freelancers\",\n  \"projectStatus\":\"ACTIVE\",\n  \"userId\" : \"1\",\n  \"skills\":[  \n     {  \n        \"skill\":\"Database Development\"\n     },\n     {  \n        \"skill\":\"Java Development\"\n     }\n  ],\n  \"impactCategories\":[  \n     {  \n        \"category\":\"Elderly\"\n     },\n     {  \n        \"category\":\"Other\"\n     }\n  ]\n}"
+						},
+						"description": ""
+					},
+					"response": []
 				}
 			]
 		}
