@@ -68,6 +68,7 @@ values ('NOTIFICATION', 'TRIGGER', 'Project Application Status', 'When a project
 insert into philance.philance_lookups
 values ('NOTIFICATION', 'TRIGGER', 'Project Updates', 'When a updates are available on project', curtime(), 0, curtime(), 0);
 
-
+insert into philance.users
+values (100, 'Ram', 'Sailopal', 'rsailopal@gmail.com', '$2b$10$lkezHqJk/Y5zup4gEEEXYeMfEBL0zVnRTrDFpNGZvVeZlERLtCtZi', null, null, null, null, null, null, null, null, null, null, null, null, 'Birmingham');
 
 commit;
