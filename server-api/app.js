@@ -23,8 +23,6 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-routes(app);
-
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
@@ -37,6 +35,8 @@ app.use((req, res, next) => {
   }
   next();
 });
+
+routes(app);
 
 //catch 404 and forward to error handler
 app.use(function(req, res, next) {
