@@ -1,8 +1,8 @@
 {
 	"variables": [],
 	"info": {
-		"name": "Philance",
-		"_postman_id": "1f17a61d-6e64-0a9d-c4c1-7d354765e622",
+		"name": "Philance copy",
+		"_postman_id": "3c6d47de-9dd5-cb3a-29a1-da805fb9023a",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
@@ -22,7 +22,7 @@
 				}
 			],
 			"request": {
-				"url": "http://localhost:3001/philance/users/register",
+				"url": "http://localhost:3001/philance/users/",
 				"method": "POST",
 				"header": [
 					{
@@ -82,6 +82,117 @@
 			"response": []
 		},
 		{
+			"name": "User Search By Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"userId\"] = jsonData.user[0].userId === 1;",
+							"tests[\"firstName\"] = jsonData.user[0].firstName === \"Vijay\";",
+							"tests[\"lastName\"] = jsonData.user[0].lastName === \"Gandra\";",
+							"tests[\"email\"] = jsonData.user[0].email === \"vijy.gandra@gmail.com\";",
+							"tests[\"phoneNumber\"] = jsonData.user[0].phoneNumber === null;",
+							"tests[\"organization\"] = jsonData.user[0].organization === null;",
+							"tests[\"title\"] = jsonData.user[0].title === null;",
+							"tests[\"rate\"] = jsonData.user[0].rate === null;",
+							"tests[\"auth_src\"] = jsonData.user[0].auth_src === null;",
+							"tests[\"status\"] = jsonData.user[0].status === null;",
+							"tests[\"lastLogin\"] = jsonData.user[0].lastLogin === null;",
+							"tests[\"interests\"] = jsonData.user[0].interests === null;",
+							"tests[\"location\"] = jsonData.user[0].location === null;",
+							"tests[\"userSkills\"] = jsonData.user[0].userSkills === null;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": {
+					"raw": "http://localhost:3001/philance/users?userId=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"philance",
+						"users"
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "1",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "User Update",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"name\"] = jsonData.error.name === \"SequelizeValidationError\";",
+							"tests[\"message\"] = jsonData.error.errors[0].message === \"Validation isEmail on email failed\";",
+							"tests[\"type\"] = jsonData.error.errors[0].type === \"Validation error\";",
+							"tests[\"path\"] = jsonData.error.errors[0].path === \"email\";",
+							"tests[\"value\"] = jsonData.error.errors[0].value === \"test1@gmail.com\";",
+							"tests[\"instance.userId\"] = jsonData.error.errors[0].instance.userId === null;",
+							"tests[\"instance.firstName\"] = jsonData.error.errors[0].instance.firstName === \"Vijay1\";",
+							"tests[\"instance.lastName\"] = jsonData.error.errors[0].instance.lastName === \"Gandra1\";",
+							"tests[\"instance.email\"] = jsonData.error.errors[0].instance.email === \"test1@gmail.com\";",
+							"tests[\"instance.location\"] = jsonData.error.errors[0].instance.location === \"Nashua, NH\";",
+							"tests[\"instance.interests\"] = jsonData.error.errors[0].instance.interests === \"CREATE|DEVELOP\";",
+							"tests[\"instance.organization\"] = jsonData.error.errors[0].instance.organization === \"Philance\";",
+							"tests[\"instance.rate\"] = jsonData.error.errors[0].instance.rate === \"60\";",
+							"tests[\"validatorKey\"] = jsonData.error.errors[0].validatorKey === \"isEmail\";",
+							"tests[\"validatorName\"] = jsonData.error.errors[0].validatorName === \"isEmail\";",
+							"tests[\"validatorArgs.allow_display_name\"] = jsonData.error.errors[0].validatorArgs[0].allow_display_name === false;",
+							"tests[\"validatorArgs.require_display_name\"] = jsonData.error.errors[0].validatorArgs[0].require_display_name === false;",
+							"tests[\"validatorArgs.allow_utf8_local_part\"] = jsonData.error.errors[0].validatorArgs[0].allow_utf8_local_part === true;",
+							"tests[\"validatorArgs.require_tld\"] = jsonData.error.errors[0].validatorArgs[0].require_tld === true;",
+							"tests[\"__raw.validatorName\"] = jsonData.error.errors[0].__raw.validatorName === \"isEmail\";",
+							"tests[\"__raw.validatorArgs.allow_display_name\"] = jsonData.error.errors[0].__raw.validatorArgs[0].allow_display_name === false;",
+							"tests[\"__raw.validatorArgs.require_display_name\"] = jsonData.error.errors[0].__raw.validatorArgs[0].require_display_name === false;",
+							"tests[\"__raw.validatorArgs.allow_utf8_local_part\"] = jsonData.error.errors[0].__raw.validatorArgs[0].allow_utf8_local_part === true;",
+							"tests[\"__raw.validatorArgs.require_tld\"] = jsonData.error.errors[0].__raw.validatorArgs[0].require_tld === true;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://localhost:3001/philance/users/",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{  \r\n   \"firstName\" : \"Vijay1\",\r\n   \"lastName\" : \"Gandra1\",\r\n   \"email\" : \"test1@gmail.com\",\r\n   \"location\":\"Nashua, NH\",\r\n   \"interests\" : \"CREATE|DEVELOP\",\r\n   \"organization\":\"Philance\",\r\n   \"rate\":\"60\",\r\n   \"userId\":3,\r\n   \"userSkills\":[  \r\n      {  \r\n        \"userId\": 3,\r\n        \"skillCode\": \"DATABASE\",\r\n        \"skillName\": \"Database Development\",\r\n        \"certified\": \"Yes\",\r\n        \"certificationLink\": null,\r\n        \"startDate\": \"2018-04-20T00:00:00.000Z\",\r\n        \"endDate\": null\r\n      },\r\n      {  \r\n        \"userId\": 3,\r\n        \"skillCode\": \"BUSINESS\",\r\n        \"skillName\": \"Project Management\",\r\n        \"certified\": \"Yes\",\r\n        \"certificationLink\": null,\r\n        \"startDate\": \"2018-04-20T00:00:00.000Z\",\r\n        \"endDate\": null\r\n      }\r\n   ]\r\n}\r\n"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
 			"name": "Create a project",
 			"event": [
 				{
@@ -90,21 +201,22 @@
 						"type": "text/javascript",
 						"exec": [
 							"var jsonData = JSON.parse(responseBody);",
-							"tests[\"status\"] = jsonData.projects.status === \"ACTIVE\";",
-							"tests[\"projectName\"] = jsonData.projects.projectName === \"Create Project From Postman\";",
-							"tests[\"volunteers\"] = jsonData.projects.volunteers === \"1\";",
-							"tests[\"freelancers\"] = jsonData.projects.freelancers === \"2\";",
-							"tests[\"location\"] = jsonData.projects.location === \"Nashua,NH\";",
-							"tests[\"startDate\"] = jsonData.projects.startDate.includes(\"2018-07-24\");",
-							"tests[\"endDate\"] = jsonData.projects.endDate.includes('2018-07-30');",
-							"tests[\"estimatedBudget\"] = jsonData.projects.estimatedBudget === \"10\";",
-							"tests[\"createdBy\"] = jsonData.projects.createdBy === \"1\";"
+							"tests[\"status\"] = jsonData.project[0].status === \"ACTIVE\";",
+							"tests[\"projectName\"] = jsonData.project[0].projectName === \"Create Project From Postman\";",
+							"tests[\"volunteers\"] = jsonData.project[0].volunteers === \"1\";",
+							"tests[\"freelancers\"] = jsonData.project[0].freelancers === \"2\";",
+							"tests[\"location\"] = jsonData.project[0].location === \"Nashua,NH\";",
+							"tests[\"description\"] = jsonData.project[0].decription === null;",
+							"tests[\"startDate\"] = jsonData.project[0].startDate.includes(\"2018-07-24\");",
+							"tests[\"endDate\"] = jsonData.project[0].endDate.includes('2018-07-30');",
+							"tests[\"estimatedBudget\"] = jsonData.project[0].estimatedBudget === \"10.00\";",
+							"tests[\"createdBy\"] = jsonData.project[0].createdBy === 1;"
 						]
 					}
 				}
 			],
 			"request": {
-				"url": "http://localhost:3001/philance/projects",
+				"url": "http://localhost:3001/philance/projects/",
 				"method": "POST",
 				"header": [
 					{
@@ -120,7 +232,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{  \n  \"projectName\" : \"Create Project From Postman\",\n  \"description\" : \"Create Project description From Postman\",\n  \"location\":\"Nashua,NH\",\n  \"volunteers\":\"1\",\n  \"freelancers\":\"2\",\n  \"estimatedBudget\":\"10\",\n  \"userId\":\"1\",\n  \"startDate\" :\"07/24/2018\",\n  \"endDate\" :\"07/30/2018\",\n  \"skills\":[  \n     {  \n        \"skill\":\"Database Development\"\n     },\n     {  \n        \"skill\":\"Java Development\"\n     }\n  ],\n  \"impactCategories\":[  \n     {  \n        \"category\":\"Elderly\"\n     },\n     {  \n        \"category\":\"Other\"\n     }\n  ]\n}"
+					"raw": "{  \r\n   \"projectName\" : \"Create Project From Postman\",\r\n   \"description\" : \"Create Project description From Postman\",\r\n   \"location\":\"Nashua,NH\",\r\n   \"volunteers\":\"1\",\r\n   \"freelancers\":\"2\",\r\n   \"estimatedBudget\":\"10\",\r\n   \"userId\":\"1\",\r\n   \"startDate\" :\"07/24/2018\",\r\n   \"endDate\" :\"07/30/2018\",\r\n   \"projectDetails\":[  \r\n      {  \r\n        \"detailType\": \"SKILLS\",\r\n        \"name\": \"Database Development\",\r\n        \"certificationReq\": \"NO\",\r\n        \"certificationLink\": \"\",\r\n        \"attribute1\" : \"\",\r\n        \"attribute2\" : \"\",\r\n        \"attribute3\" : \"\",\r\n        \"attribute4\" : \"\",\r\n        \"attribute5\" : \"\"\r\n      },\r\n      {  \r\n        \"detailType\": \"SKILLS\",\r\n        \"name\": \"Java Development\",\r\n        \"certificationReq\": \"NO\",\r\n        \"certificationLink\": \"\",\r\n        \"attribute1\" : \"\",\r\n        \"attribute2\" : \"\",\r\n        \"attribute3\" : \"\",\r\n        \"attribute4\" : \"\",\r\n        \"attribute5\" : \"\"\r\n      },\r\n      {  \r\n        \"detailType\": \"IMPACT_CATEGORY\",\r\n        \"name\": \"Elderly\",\r\n        \"certificationReq\": \"NO\",\r\n        \"certificationLink\": \"\",\r\n        \"attribute1\" : \"\",\r\n        \"attribute2\" : \"\",\r\n        \"attribute3\" : \"\",\r\n        \"attribute4\" : \"\",\r\n        \"attribute5\" : \"\"\r\n      },\r\n      {  \r\n      \"detailType\": \"IMPACT_CATEGORY\",\r\n        \"name\": \"Other\",\r\n        \"certificationReq\": \"NO\",\r\n        \"certificationLink\": \"\",\r\n        \"attribute1\" : \"\",\r\n        \"attribute2\" : \"\",\r\n        \"attribute3\" : \"\",\r\n        \"attribute4\" : \"\",\r\n        \"attribute5\" : \"\"\r\n      }\r\n   ]\r\n}\r\n"
 				},
 				"description": ""
 			},
@@ -135,55 +247,86 @@
 						"type": "text/javascript",
 						"exec": [
 							"var jsonData = JSON.parse(responseBody);",
-							"tests[\"location\"] = jsonData.project.location === \"Nashua,NH\";",
-							"tests[\"projectId\"] = jsonData.project.projectId === 1;",
-							"tests[\"volunteers\"] = jsonData.project.volunteers === \"1\";",
-							"tests[\"freelancers\"] = jsonData.project.freelancers === \"2\";",
-							"tests[\"projectName\"] = jsonData.project.projectName === \"Create Project From Postman\";",
-							"tests[\"description\"] = jsonData.project.decription === null;",
-							"tests[\"startDate\"] = jsonData.project.startDate.includes(\"2018-07-24\");",
-							"tests[\"endDate\"] = jsonData.project.endDate.includes('2018-07-30');",
-							"tests[\"estimatedBudget\"] = jsonData.project.estimatedBudget === \"10.00\";",
-							"tests[\"projectDetails0.projectid\"] = jsonData.projectDetails[0].projectId === 1;",
-							"tests[\"projectDetails0.detailType\"] = jsonData.projectDetails[0].detailType === \"IMPACT_CATEGORY\";",
-							"tests[\"projectDetails0.name\"] = jsonData.projectDetails[0].name === \"Elderly\";",
-							"tests[\"projectDetails0.certificationReq\"] = jsonData.projectDetails[0].certificationReq === \"No\";",
-							"tests[\"projectDetails0.certificationLink\"] = jsonData.projectDetails[0].certificationLink === null;",
-							"tests[\"projectDetails0.attribute1\"] = jsonData.projectDetails[0].attribute1 === null;",
-							"tests[\"projectDetails0.attribute2\"] = jsonData.projectDetails[0].attribute2 === null;",
-							"tests[\"projectDetails0.attribute3\"] = jsonData.projectDetails[0].attribute3 === null;",
-							"tests[\"projectDetails0.attribute4\"] = jsonData.projectDetails[0].attribute4 === null;",
-							"tests[\"projectDetails0.attribute5\"] = jsonData.projectDetails[0].attribute5 === null;",
-							"tests[\"projectDetails1.projectid\"] = jsonData.projectDetails[1].projectId === 1;",
-							"tests[\"projectDetails1.detailType\"] = jsonData.projectDetails[1].detailType === \"IMPACT_CATEGORY\";",
-							"tests[\"projectDetails1.name\"] = jsonData.projectDetails[1].name === \"Other\";",
-							"tests[\"projectDetails1.certificationReq\"] = jsonData.projectDetails[1].certificationReq === \"No\";",
-							"tests[\"projectDetails1.certificationLink\"] = jsonData.projectDetails[1].certificationLink === null;",
-							"tests[\"projectDetails1.attribute1\"] = jsonData.projectDetails[1].attribute1 === null;",
-							"tests[\"projectDetails1.attribute2\"] = jsonData.projectDetails[1].attribute2 === null;",
-							"tests[\"projectDetails1.attribute3\"] = jsonData.projectDetails[1].attribute3 === null;",
-							"tests[\"projectDetails1.attribute4\"] = jsonData.projectDetails[1].attribute4 === null;",
-							"tests[\"projectDetails1.attribute5\"] = jsonData.projectDetails[1].attribute5 === null;",
-							"tests[\"projectDetails2.projectid\"] = jsonData.projectDetails[2].projectId === 1;",
-							"tests[\"projectDetails2.detailType\"] = jsonData.projectDetails[2].detailType === \"SKILLS\";",
-							"tests[\"projectDetails2.name\"] = jsonData.projectDetails[2].name === \"Database Development\";",
-							"tests[\"projectDetails2.certificationReq\"] = jsonData.projectDetails[2].certificationReq === \"No\";",
-							"tests[\"projectDetails2.certificationLink\"] = jsonData.projectDetails[2].certificationLink === null;",
-							"tests[\"projectDetails2.attribute1\"] = jsonData.projectDetails[2].attribute1 === null;",
-							"tests[\"projectDetails2.attribute2\"] = jsonData.projectDetails[2].attribute2 === null;",
-							"tests[\"projectDetails2.attribute3\"] = jsonData.projectDetails[2].attribute3 === null;",
-							"tests[\"projectDetails2.attribute4\"] = jsonData.projectDetails[2].attribute4 === null;",
-							"tests[\"projectDetails2.attribute5\"] = jsonData.projectDetails[2].attribute5 === null;",
-							"tests[\"projectDetails3.projectid\"] = jsonData.projectDetails[3].projectId === 1;",
-							"tests[\"projectDetails3.detailType\"] = jsonData.projectDetails[3].detailType === \"SKILLS\";",
-							"tests[\"projectDetails3.name\"] = jsonData.projectDetails[3].name === \"Java Development\";",
-							"tests[\"projectDetails3.certificationReq\"] = jsonData.projectDetails[3].certificationReq === \"No\";",
-							"tests[\"projectDetails3.certificationLink\"] = jsonData.projectDetails[3].certificationLink === null;",
-							"tests[\"projectDetails3.attribute1\"] = jsonData.projectDetails[3].attribute1 === null;",
-							"tests[\"projectDetails3.attribute2\"] = jsonData.projectDetails[3].attribute2 === null;",
-							"tests[\"projectDetails3.attribute3\"] = jsonData.projectDetails[3].attribute3 === null;",
-							"tests[\"projectDetails3.attribute4\"] = jsonData.projectDetails[3].attribute4 === null;",
-							"tests[\"projectDetails3.attribute5\"] = jsonData.projectDetails[3].attribute5 === null;",
+							"tests[\"location\"] = jsonData.project[0].location === \"Nashua,NH\";",
+							"tests[\"projectId\"] = jsonData.project[0].projectId === 1;",
+							"tests[\"volunteers\"] = jsonData.project[0].volunteers === \"1\";",
+							"tests[\"freelancers\"] = jsonData.project[0].freelancers === \"2\";",
+							"tests[\"projectName\"] = jsonData.project[0].projectName === \"Create Project From Postman\";",
+							"tests[\"description\"] = jsonData.project[0].decription === null;",
+							"tests[\"startDate\"] = jsonData.project[0].startDate.includes(\"2018-07-24\");",
+							"tests[\"endDate\"] = jsonData.project[0].endDate.includes('2018-07-30');",
+							"tests[\"estimatedBudget\"] = jsonData.project[0].estimatedBudget === \"10.00\";",
+							"tests[\"Status\"] = jsonData.project[0].status === \"ACTIVE\";",
+							"tests[\"project_detail.projectid\"] = jsonData.project[0].project_detail.projectId === 1;",
+							"tests[\"project_detail.detailType\"] = jsonData.project[0].project_detail.detailType === \"IMPACT_CATEGORY\";",
+							"tests[\"project_detail.detailType\"] = jsonData.project[0].project_detail.name === \"Elderly\";",
+							"tests[\"project_detail.certificationReq\"] = jsonData.project[0].project_detail.certificationReq === \"NO\";",
+							"tests[\"project_detail.certificationLink\"] = jsonData.project[0].project_detail.certificationLink === \"\";",
+							"tests[\"project_detail.attribute1\"] = jsonData.project[0].project_detail.attribute1 === \"\";",
+							"tests[\"project_detail.attribute2\"] = jsonData.project[0].project_detail.attribute2 === \"\";",
+							"tests[\"project_detail.attribute3\"] = jsonData.project[0].project_detail.attribute3 === \"\";",
+							"tests[\"project_detail.attribute4\"] = jsonData.project[0].project_detail.attribute4 === \"\";",
+							"tests[\"project_detail.attribute5\"] = jsonData.project[0].project_detail.attribute5 === \"\";",
+							"tests[\"location1\"] = jsonData.project[0].location === \"Nashua,NH\";",
+							"tests[\"projectId1\"] = jsonData.project[0].projectId === 1;",
+							"tests[\"volunteers1\"] = jsonData.project[0].volunteers === \"1\";",
+							"tests[\"freelancers1\"] = jsonData.project[0].freelancers === \"2\";",
+							"tests[\"projectName1\"] = jsonData.project[0].projectName === \"Create Project From Postman\";",
+							"tests[\"description1\"] = jsonData.project[0].decription === null;",
+							"tests[\"startDate1\"] = jsonData.project[0].startDate.includes(\"2018-07-24\");",
+							"tests[\"endDate1\"] = jsonData.project[0].endDate.includes('2018-07-30');",
+							"tests[\"estimatedBudget1\"] = jsonData.project[0].estimatedBudget === \"10.00\";",
+							"tests[\"Status1\"] = jsonData.project[0].status === \"ACTIVE\";",
+							"tests[\"project_detail1.projectid\"] = jsonData.project[0].project_detail.projectId === 1;",
+							"tests[\"project_detail1.detailType\"] = jsonData.project[0].project_detail.detailType === \"IMPACT_CATEGORY\";",
+							"tests[\"project_detail1.detailType\"] = jsonData.project[1].project_detail.name === \"Other\";",
+							"tests[\"project_detail1.certificationReq\"] = jsonData.project[1].project_detail.certificationReq === \"NO\";",
+							"tests[\"project_detail1.certificationLink\"] = jsonData.project[1].project_detail.certificationLink === \"\";",
+							"tests[\"project_detail1.attribute1\"] = jsonData.project[1].project_detail.attribute1 === \"\";",
+							"tests[\"project_detail1.attribute2\"] = jsonData.project[1].project_detail.attribute2 === \"\";",
+							"tests[\"project_detail1.attribute3\"] = jsonData.project[1].project_detail.attribute3 === \"\";",
+							"tests[\"project_detail1.attribute4\"] = jsonData.project[1].project_detail.attribute4 === \"\";",
+							"tests[\"project_detail1.attribute5\"] = jsonData.project[1].project_detail.attribute5 === \"\";",
+							"tests[\"location2\"] = jsonData.project[2].location === \"Nashua,NH\";",
+							"tests[\"projectId2\"] = jsonData.project[2].projectId === 1;",
+							"tests[\"volunteers2\"] = jsonData.project[2].volunteers === \"1\";",
+							"tests[\"freelancers2\"] = jsonData.project[2].freelancers === \"2\";",
+							"tests[\"projectName2\"] = jsonData.project[2].projectName === \"Create Project From Postman\";",
+							"tests[\"description2\"] = jsonData.project[2].decription === null;",
+							"tests[\"startDate2\"] = jsonData.project[2].startDate.includes(\"2018-07-24\");",
+							"tests[\"endDate2\"] = jsonData.project[2].endDate.includes('2018-07-30');",
+							"tests[\"estimatedBudget2\"] = jsonData.project[2].estimatedBudget === \"10.00\";",
+							"tests[\"Status2\"] = jsonData.project[2].status === \"ACTIVE\";",
+							"tests[\"project_detail2.projectid\"] = jsonData.project[2].project_detail.projectId === 1;",
+							"tests[\"project_detail2.detailType\"] = jsonData.project[2].project_detail.detailType === \"SKILLS\";",
+							"tests[\"project_detail2.detailType\"] = jsonData.project[2].project_detail.name === \"Database Development\";",
+							"tests[\"project_detail2.certificationReq\"] = jsonData.project[2].project_detail.certificationReq === \"NO\";",
+							"tests[\"project_detail2.certificationLink\"] = jsonData.project[2].project_detail.certificationLink === \"\";",
+							"tests[\"project_detail2.attribute1\"] = jsonData.project[2].project_detail.attribute1 === \"\";",
+							"tests[\"project_detail2.attribute2\"] = jsonData.project[2].project_detail.attribute2 === \"\";",
+							"tests[\"project_detail2.attribute3\"] = jsonData.project[2].project_detail.attribute3 === \"\";",
+							"tests[\"project_detail2.attribute4\"] = jsonData.project[2].project_detail.attribute4 === \"\";",
+							"tests[\"project_detail2.attribute5\"] = jsonData.project[2].project_detail.attribute5 === \"\";",
+							"tests[\"location3\"] = jsonData.project[3].location === \"Nashua,NH\";",
+							"tests[\"projectId3\"] = jsonData.project[3].projectId === 1;",
+							"tests[\"volunteers3\"] = jsonData.project[3].volunteers === \"1\";",
+							"tests[\"freelancers3\"] = jsonData.project[3].freelancers === \"2\";",
+							"tests[\"projectName3\"] = jsonData.project[3].projectName === \"Create Project From Postman\";",
+							"tests[\"description3\"] = jsonData.project[3].decription === null;",
+							"tests[\"startDate3\"] = jsonData.project[3].startDate.includes(\"2018-07-24\");",
+							"tests[\"endDate3\"] = jsonData.project[3].endDate.includes('2018-07-30');",
+							"tests[\"estimatedBudget3\"] = jsonData.project[3].estimatedBudget === \"10.00\";",
+							"tests[\"Status3\"] = jsonData.project[3].status === \"ACTIVE\";",
+							"tests[\"project_detail3.projectid\"] = jsonData.project[3].project_detail.projectId === 1;",
+							"tests[\"project_detail3.detailType\"] = jsonData.project[3].project_detail.detailType === \"SKILLS\";",
+							"tests[\"project_detail3.detailType\"] = jsonData.project[3].project_detail.name === \"Java Development\";",
+							"tests[\"project_detail3.certificationReq\"] = jsonData.project[3].project_detail.certificationReq === \"NO\";",
+							"tests[\"project_detail3.certificationLink\"] = jsonData.project[3].project_detail.certificationLink === \"\";",
+							"tests[\"project_detail3.attribute1\"] = jsonData.project[3].project_detail.attribute1 === \"\";",
+							"tests[\"project_detail3.attribute2\"] = jsonData.project[3].project_detail.attribute2 === \"\";",
+							"tests[\"project_detail3.attribute3\"] = jsonData.project[3].project_detail.attribute3 === \"\";",
+							"tests[\"project_detail3.attribute4\"] = jsonData.project[3].project_detail.attribute4 === \"\";",
+							"tests[\"project_detail3.attribute5\"] = jsonData.project[3].project_detail.attribute5 === \"\";",
 							"",
 							""
 						]

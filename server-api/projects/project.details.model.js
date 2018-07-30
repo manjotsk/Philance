@@ -25,7 +25,7 @@ const projectDetails = sequelize.define('project_details', {
     detailType: {
         type: Sequelize.STRING,
         field: 'detail_type',
-        allowNull: false,
+        // allowNull: false,
         primaryKey: true,
         values : ['SKILLS','IMPACT_CATEGORY']
     },
@@ -86,10 +86,10 @@ const projectDetails = sequelize.define('project_details', {
         timestamps: false,
         freezeTableName: true
     }
-)
-// .then(() => sequilize.addConstraint('projectDetailsPk',['project_id','detail_type', 'name'], {
-//     type: 'primary key'
-// }));
-
+);
+// projectDetails.associate = function (models) {
+//     projects.belongsTo(projectDetails,{as: 'projectDetails', foreignKey:'projectId'} );
+// };
+// projects.belongsTo(projectDetails,{as: 'projectDetails', foreignKey:'projectId'} );
 
 module.exports = projectDetails;

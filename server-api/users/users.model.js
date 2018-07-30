@@ -2,14 +2,14 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../util/dbconnection');
 
-sequelize
-    .authenticate()
-    .then(() => {
-        console.log('Connection has been established successfully for users.');
-    })
-    .catch(err => {
-        console.error('Unable to connect to the database:', err);
-    });
+// sequelize
+//     .authenticate()
+//     .then(() => {
+//         console.log('Connection has been established successfully for users.');
+//     })
+//     .catch(err => {
+//         console.error('Unable to connect to the database:', err);
+//     });
 
 const users = sequelize.define('users', {
     userId: {
@@ -20,7 +20,11 @@ const users = sequelize.define('users', {
     },
     firstName: {
         type: Sequelize.STRING,
-        field: 'fName'
+        field: 'fName',
+        allowNull : false, 
+        validate: {
+            notEmpty : true
+        }
     },
     lastName: {
         type: Sequelize.STRING,
@@ -28,11 +32,17 @@ const users = sequelize.define('users', {
     },
     email: {
         type: Sequelize.STRING,
-        field: 'email'
+        field: 'email',   
+        allowNull : false,     
+        validate: {
+            isEmail: true,
+            notEmpty : true
+        }
     },
     password: {
         type: Sequelize.STRING,
-        field: 'password'
+        field: 'password',
+        allowNull : false
     },
     phoneNumber: {
         type: Sequelize.STRING,
@@ -64,7 +74,8 @@ const users = sequelize.define('users', {
     },
     creationDate: {
         type: Sequelize.DATE,
-        field: 'creation_date'
+        field: 'creation_date',
+        default : Sequelize.DATE
     },
     createdBy: {
         type: Sequelize.INTEGER,
@@ -72,7 +83,8 @@ const users = sequelize.define('users', {
     },
     lastUpdatedDate: {
         type: Sequelize.DATE,
-        field: 'last_updated_date'
+        field: 'last_updated_date',
+        default : Sequelize.DATE
     },
     lastUpdatedBy: {
         type: Sequelize.INTEGER,

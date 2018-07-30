@@ -2,9 +2,10 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 var users = require("./users.model");
+var userSkills = require("./user.skills.model");
 const sequelize = require('../util/dbconnection');
 
-exports.register = (req, res, next) => {
+exports.createProfile = (req, res, next) => {
 
     sequelize.sync().then(() => users.findOne({ where: { email: req.body.email } }).then(_user => {
         console.log('_user : ' + _user);
@@ -24,7 +25,12 @@ exports.register = (req, res, next) => {
                     }).then((_user) => {
                         res.status(200).json({
                             message: "User # " + req.body.firstName + " " + req.body.lastName + " Registered Successfully",
-                            user : _user
+                            user: _user
+                        });
+                    }).catch(err => {
+                        console.log(err);
+                        res.status(500).json({
+                            error: err.message
                         });
                     })
                 }
@@ -33,7 +39,7 @@ exports.register = (req, res, next) => {
             console.log('User Registered');
             return res.status(409).json({
                 message: "User # " + req.body.firstName + " " + req.body.lastName + " already registered",
-                user : _user
+                user: _user
             })
         }
 
@@ -43,7 +49,7 @@ exports.register = (req, res, next) => {
 }
 
 exports.login = (req, res, next) => {
-
+console.log ('Login : '+ req.body.email +' Passowrd : '+ req.body.password);
     sequelize.sync().then(() => users.findOne({
         where: { email: req.body.email }
     }).then(_user => {
@@ -78,6 +84,77 @@ exports.login = (req, res, next) => {
 
     })
     )
+
+}
+
+exports.getProfile = (req, res, next) => {
+    // users.associate = function (models) {
+    // };
+    sequelize.sync().then(() => users.findAll({
+        where: { userId: req.query.userId },
+        required : false ,
+        include: [{ model: userSkills, nested: true, as: 'userSkills' }]
+    }).then((_user) => {
+        res.status(200).json({
+            user: _user
+        });
+    }
+    )
+    )
+}
+
+
+exports.updateProfile = (req, res, next) => {
+
+    // users.belongsTo(userSkills, { as: 'userSkills', foreignKey: 'userId' });
+
+    sequelize.sync().then(() => users.update({
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        location: req.body.location,
+        interests: req.body.interests,
+        organization: req.body.organization,
+        rate: req.body.rate,
+        lastupdatedBy: req.body.userId
+    },
+        {
+            where: {
+                userId: req.body.userId,
+            }
+        }, {
+            include: [{ model: userSkills, nested: true }]
+        }
+    ).then(_user => {
+        if (_user) {
+            userSkills.destroy({ where: { userId: req.body.userId }, truncate: true, force: true }).then(
+                sequelize.transaction(function (t) {
+                    sequelize.Promise.each(req.body.userSkills, function (itemToUpdate) {
+                        userSkills.create(itemToUpdate);
+                    }).then((_createdRecords) => {
+                        console.log('Updated Records : ' + _createdRecords);
+                    });
+                })
+            )
+            users.findAll({
+                where: { userId: req.body.userId },
+                include: [{ model: userSkills, nested: true, as: 'userSkills' }]
+            }).then((_user) => {
+                res.status(200).json({
+                    user: _user
+                });
+            }
+            )
+        }
+    }
+    )
+    )
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                error: err
+            });
+        })
 
 }
 
