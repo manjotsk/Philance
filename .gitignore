@@ -2,3 +2,4 @@ mysql.sql
 */node_modules/*
 *yarn.lock
 *package-lock.json
+server-api/server-api.log
