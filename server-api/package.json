@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "test": "newman run ../api-tests/Philance.json --reporters cli,html --reporter-html-export /tmp/report.html",
-    "start": "nodemon app.js"
+    "start": "nodemon ./bin/www"
   },
   "dependencies": {
     "bcrypt": "^2.0.1",
@@ -13,7 +13,7 @@
     "debug": "~2.6.9",
     "express": "~4.16.0",
     "global": "^4.3.2",
-	"hoek": "^5.0.3",
+    "hoek": "^5.0.3",
     "http-errors": "~1.6.2",
     "jade": "~1.11.0",
     "jsonwebtoken": "^8.3.0",
@@ -27,6 +27,6 @@
   },
   "devDependencies": {
     "nodemon": "^1.17.5",
-	"newman": "^3.10.0"
+    "newman": "^3.10.0"
   }
 }

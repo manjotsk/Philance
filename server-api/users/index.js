@@ -4,15 +4,15 @@ var router = express.Router();
 const UserController = require('./users.controller');
 //const checkAuth = require('../util/check-auth');
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+router.post("/", UserController.createProfile);
+router.put("/", UserController.updateProfile);
+router.get("/", UserController.getProfile);
 
-router.post("/register", UserController.register);
 router.post("/login", UserController.login);
 router.post("/passwordReset/:_userId", UserController.passwordReset);
 router.post("/search", UserController.search);
 //router.post("/userUpdate/:_userId", checkAuth, UserController.userUpdate);
+
+//router.post("/passwordReset/:_userId", UserController.passwordReset);
 
 module.exports = router;

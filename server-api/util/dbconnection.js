@@ -24,6 +24,16 @@ const sequelize = new Sequelize('philance', 'philance', 'ph1ldb', {
   },
 
 });
+
+sequelize
+    .authenticate()
+    .then(() => {
+        console.log('Connection has been established successfully');
+    })
+    .catch(err => {
+        console.error('Unable to connect to the database:', err);
+    });
+
   // connectionPool.getConnection(function(err,conn){
   //   if (err) throw err;
   //   console.log('Connected!');
