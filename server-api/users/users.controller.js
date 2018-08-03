@@ -102,156 +102,34 @@ exports.search = (req, res, next) => {
     var userSearchApi = userApi.search;
     var userName;
 
-    if (Object.keys(req.body).length === 0) {                //if no seach body parameter is provided
-
-        userSearchApi.findAllUsers((response) => {
-            res.status(response.statusCode).send(response.responseData)
-        })
-
-    } else {                                                  //if seach body parameter is provided
-        var firstName = req.body.fname;
-        var personType = req.body.pType;
-        var lastName = req.body.lname;
-        var location = req.body.loc;
-        var distance = req.body.dist;
-        if ((firstName || lastName) && (distance == null && location == null)) {
-            //if only first name and last name is provided
-            if ((firstName && lastName) && (personType == null && distance == null && location == null)) {
-                userSearchApi.findUsersWithFirstNameAndLastName(req, (err, response) => {
-                    if (err) {
-                        console.log(err)
-                        res.status(response.statusCode).send(response.responseData);
-                    } else {
-                        res.status(response.statusCode).send(response.responseData);
-                    }
-                })
-            }
-            //if only first name or last name is provided
-            if ((firstName || lastName) && !(firstName && lastName) && (personType == null && distance == null && location == null)) {
-                if (firstName && (lastName == null)) {
-                    userSearchApi.findUsersWithFirstName(req, (err, response) => {
-                        if (err) {
-                            console.log(err)
-                            res.status(response.statusCode).send(response.responseData);
-                        } else {
-                            res.status(response.statusCode).send(response.responseData);
-                        }
-                    })
-                }
-                if (lastName && (firstName == null)) {
-                    userSearchApi.findUsersWithLastName(req, (err, response) => {
-                        if (err) {
-                            console.log(err)
-                            res.status(response.statusCode).send(response.responseData);
-                        } else {
-                            res.status(response.statusCode).send(response.responseData);
-                        }
-                    })
-                }
-            }
-            if ((firstName || lastName) && (personType) && (distance == null && location == null)) {
-                //if first name and last name provided with person type
-                if (firstName && lastname) {
-                    userSearchApi.findUsersWithNameAndType(req, (err, response) => {
-                        if (err) {
-                            console.log(err)
-                            res.status(response.statusCode).send(response.responseData);
-                        } else {
-                            res.status(response.statusCode).send(response.responseData);
-                        }
-                    })
-                }
-                if (firstName && (lastName == null)) {
-                    //if last name provided with person type
-                    userSearchApi.findUsersWithFirstNameAndType(req, (err, response) => {
-                        if (err) {
-                            console.log(err)
-                            res.status(response.statusCode).send(response.responseData);
-                        } else {
-                            res.status(response.statusCode).send(response.responseData);
-                        }
-                    })
-
-                }
-                if (lastName && (firstName == null)) {
-                    //if first name provided with person type
-                    userSearchApi.findUsersWithLastNameAndType(req, (err, response) => {
-                        if (err) {
-                            console.log(err)
-                            res.status(response.statusCode).send(response.responseData);
-                        } else {
-                            res.status(response.statusCode).send(response.responseData);
-                        }
-                    })
-
-                }
-            }
-
-            //if distance/location is provided    
+    if(req.body.dist||req.body.loc){
+        if(req.body.dist==null||req.body.loc==null){
+            res.status(409).send({message:`${req.body.dist?'Location ':' Distance '} is required`})
         }
-        else {
-            if (((distance && location))) {
-                if (distance == null) {
-                    return res.status(409).send('please provide distance')
-                }
-                if (location == null) {
-                    return res.status(409).send('please provide a location')
-                }
-                if (distance && location && (personType == null && firstName == null && lastName == null)) {
-                    userSearchApi.findUsersWithLocation.onlyWithLocation(req, (err, response) => {
-                        if (err) {
-                            res.status(response.statusCode).send(response.responseData);
-                        } else {
-                            res.status(response.statusCode).send(response.responseData);
-                        }
-                    })
-                }
-                if (distance && location && personType & firstName == null && lastName == null) {
-                    userSearchApi.findUsersWithLocation.locationAndType(req, (err, response) => {
-                        if (err) {
-                            res.status(response.statusCode).send(response.responseData);
-                        } else {
-                            res.status(response.statusCode).send(response.responseData);
-                        }
-                    })
-                }
-                if (distance && location && (firstName || lastName)) {
-                    if (firstName && lastName) {
-                        userSearchApi.findUsersWithLocation.locationTypeAndName(req, (err, response) => {
-                            if (err) {
-                                res.status(response.statusCode).send(response.responseData);
-                            } else {
-                                res.status(response.statusCode).send(response.responseData);
-                            }
-                        })
-                    }
-                    if (firstName && (lastName == null)) {
-                        userSearchApi.findUsersWithLocation.locationTypeAndFirstName(req, (err, response) => {
-                            if (err) {
-                                res.status(response.statusCode).send(response.responseData);
-                            } else {
-                                res.status(response.statusCode).send(response.responseData);
-                            }
-                        })
-                    }
-                    if (lastName && (firstName == null)) {
-                        userSearchApi.findUsersWithLocation.locationTypeAndLastName(req, (err, response) => {
-                            if (err) {
-                                res.status(response.statusCode).send(response.responseData);
-                            } else {
-                                res.status(response.statusCode).send(response.responseData);
-                            }
-                        })
-                    }
-                }
-
-            }
-
-        }
-        //TODO if firstname/ Last name is provided with distance
-
-        // res.status(200).send(req.query);
     }
+
+    var _sql=   `SELECT * FROM users as usrs `;
+    
+    _sql=req.body.skill==null?_sql:_sql+`INNER JOIN user_skills as skls `;
+    // _sql=req.body.ptype==null?_sql:_sql+`INNER JOIN user_skills `;
+    
+    _sql=Object.keys(req.body).length === 0?_sql:_sql+`WHERE `;
+    _sql=req.body.fname==null?              _sql:_sql+`fname = '${req.body.fname}' AND `;
+    _sql=req.body.lname==null?              _sql:_sql+`lname = '${req.body.lname}' AND `;
+    _sql=req.body.personLoc==null?          _sql:_sql+`location LIKE %${req.body.personLoc}% AND `;
+    _sql=req.body.skill==null?             _sql:_sql+`skls.skill_name LIKE '%${req.body.skill}%' AND`;
+    
+    _sql=_sql.slice(0,-4)
+
+    sequelize.query(_sql,{ type: sequelize.QueryTypes.SELECT}).then((_users)=>{
+        res.status(200).send(_users)
+    })
+    .catch((err)=>{
+        res.status(200).send(err)
+    })
+
+
+
 }
 exports.getProfile = (req, res, next) => {
     // users.associate = function (models) {
