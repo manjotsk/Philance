@@ -70,9 +70,27 @@ const userSkills = sequelize.define('user_skills', {
     {
         timestamps: false,
         freezeTableName: true
+    },
+    {
+        classMethods: {
+            associate: function (models) {
+                userSkills.belongsTo(models.users, { foreignKey: 'user_id' })
+            }
+        }
+    },
+    {
+        instanceMethods: {
+            toJSON: function () {
+                var values = this.get();
+                if (this.users) {
+                    values.userId = users.userId;
+                }
+                return values;
+            }
+        }
     }
 )
-users.belongsTo(userSkills,{as: 'userSkills', foreignKey:'userId'});
+users.belongsTo(userSkills, { as: 'userSkills', foreignKey: 'userId' });
 // users.associate = function (models) {
 //     users.belongsTo(userSkills,{foreignKey:'userId'});
 // };

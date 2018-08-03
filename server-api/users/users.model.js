@@ -102,6 +102,14 @@ const users = sequelize.define('users', {
     {
         timestamps: false,
         freezeTableName: true
+    },
+        {
+        classMethods: {
+            associate: function(models) {
+              users.hasMany(models.userSkills, {foreignKey: 'user_id'})
+              users.hasMany(models.projectTeam, {foreignKey: 'user_id'})
+            }
+          }
     }
 );
 
