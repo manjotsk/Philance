@@ -4,6 +4,9 @@ const jwt = require("jsonwebtoken");
 var moment = require('moment')
 var users = require("./users.model");
 var userSkills = require("./user.skills.model");
+var projects = require("../projects/projects.model");
+var projectDetails = require("../projects/project.details.model");
+var projectTeam = require("../projects/projects.team.model");
 const sequelize = require('../util/dbconnection');
 const Op = sequelize.Op;
 var helpers = require('../helpers')
@@ -11,7 +14,8 @@ var commonFunctions = helpers.default.common;
 var userApi = helpers.default.userApi;
 
 exports.createProfile = (req, res, next) => {
-    sequelize.sync().then(() => users.findOne({ where: { email: req.body.email } }).then(_user => {
+
+    users.findOne({ where: { email: req.body.email } }).then(_user => {
         console.log('_user : ' + _user);
         if (_user == null) {
             console.log('Not Registered');
@@ -50,12 +54,12 @@ exports.createProfile = (req, res, next) => {
 
     }
     )
-    )
 }
 
 exports.login = (req, res, next) => {
     console.log('Login : ' + req.body.email + ' Passowrd : ' + req.body.password);
-    sequelize.sync().then(() => users.findOne({
+    
+    users.findOne({
         where: { email: req.body.email }
     }).then(_user => {
         console.log('************************'+_user)
@@ -93,7 +97,6 @@ exports.login = (req, res, next) => {
         });
 
     })
-    )
 
 }
 
@@ -132,18 +135,16 @@ exports.search = (req, res, next) => {
 
 }
 exports.getProfile = (req, res, next) => {
-    // users.associate = function (models) {
-    // };
-    sequelize.sync().then(() => users.findAll({
-        where: { userId: req.query.userId },
-        required: false,
-        include: [{ model: userSkills, nested: true, as: 'userSkills' }]
+
+    users.hasMany(userSkills, { foreignKey: 'userId' });
+    users.findAll({
+        where: { userId: req.params.userId },
+        include: [{ model: userSkills, nested: true, duplicating: false, required: false }]
     }).then((_user) => {
         res.status(200).json({
             user: _user
         });
     }
-    )
     )
 }
 
@@ -151,6 +152,8 @@ exports.getProfile = (req, res, next) => {
 exports.updateProfile = (req, res, next) => {
 
     // users.belongsTo(userSkills, { as: 'userSkills', foreignKey: 'userId' });
+
+    users.hasMany(userSkills, { foreignKey: 'userId' });
 
     sequelize.sync().then(() => users.update({
         firstName: req.body.firstName,
@@ -177,18 +180,27 @@ exports.updateProfile = (req, res, next) => {
                         userSkills.create(itemToUpdate);
                     }).then((_createdRecords) => {
                         console.log('Updated Records : ' + _createdRecords);
-                    });
-                })
-            )
             users.findAll({
                 where: { userId: req.body.userId },
-                include: [{ model: userSkills, nested: true, as: 'userSkills' }]
+                            include: [{ model: userSkills, nested: true, as: 'userSkills', duplicating: false, required: false }]
             }).then((_user) => {
                 res.status(200).json({
                     user: _user
                 });
             }
             )
+                    });
+                })
+            )
+            // users.findAll({
+            //     where: { userId: req.body.userId },
+            //     include: [{ model: userSkills, nested: true, as: 'userSkills',duplicating: false,required : false }]
+            // }).then((_user) => {
+            //     res.status(200).json({
+            //         user: _user
+            //     });
+            // }
+            // )
         }
     }
     )
@@ -200,6 +212,29 @@ exports.updateProfile = (req, res, next) => {
             });
         })
 
+}
+
+/**
+ * This is to get the list of projects either created by user or applied by the user
+ */
+
+exports.getProjects = (req, res, next) => {
+
+    projects.hasMany(projectDetails, { foreignKey: 'projectId' });
+    projects.hasMany(projectTeam, { foreignKey: 'projectId' });
+    users.hasMany(projectTeam, { foreignKey: 'userId' });
+    projectTeam.belongsTo(users, { foreignKey: 'userId' });
+
+    var sql = 'select distinct proj.*, \'OWNER\' from projects proj where 1 = 1 and proj.created_by =' + req.params.userId + ' union ' +
+        'select distinct proj.*, projteam.role from projects proj, project_team projteam where 1 = 1 and proj.project_id = projteam.project_id and user_id =' + req.params.userId;
+
+    sequelize.sync();
+    sequelize.query(sql, { model: projects }).then((_projects) => {
+        res.status(200).json({
+            Projects: _projects
+        });
+    }
+    )
 }
 
 exports.passwordReset = (req, res, next) => {

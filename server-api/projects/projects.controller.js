@@ -3,32 +3,20 @@ var distance = require('google-distance');
 distance.apiKey = '';
 var projects = require("./projects.model");
 var projectDetails = require("./project.details.model");
-// var users = require("../users/users.model");
+var projectTeam = require("./projects.team.model");
+var users = require("../users/users.model");
 const Sequelize = require('sequelize');
 const sequelize = require('../util/dbconnection');
 
+/**
+ * This function is used to get
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ */
 exports.createProjects = (req, res, next) => {
 
-    // projects.belongsTo(projectDetails, { as: 'projectDetails', foreignKey: 'projectId' });
-
-    console.log('in Create Project');
-
-    console.log("projectName" + req.body.projectName);
-    console.log("description" + req.body.description);
-    console.log("volunteers" + req.body.volunteers);
-    console.log("freelancers" + req.body.freelancers);
-    console.log("location" + req.body.location);
-    console.log("startDate" + req.body.startDate);
-    console.log("endDate" + req.body.endDate);
-    console.log("estimatedBudget" + req.body.estimatedBudget);
-
-    sequelize.sync();
-
-    // return sequelize.transaction({
-    //     type: Sequelize.Transaction.EXCLUSIVE
-    // }, function (t) {
-
-        sequelize.sync().then (() => projects.create({
+    projects.create({
             projectName: req.body.projectName,
             description: req.body.description,
             volunteers: req.body.volunteers,
@@ -42,21 +30,20 @@ exports.createProjects = (req, res, next) => {
         }).then(_projects => {
             sequelize.transaction(function (t) {
                 sequelize.Promise.each(req.body.projectDetails, function (itemToUpdate) {
-                    // console.log(itemToUpdate)
                     projectDetails.create({
                         // itemToUpdate,
-                        projectId : _projects.projectId,
-                        detailType : itemToUpdate.detailType,
-                        name : itemToUpdate.name,
-                        certificationReq : itemToUpdate.certificationReq,
+                    projectId: _projects.projectId,
+                    detailType: itemToUpdate.detailType,
+                    name: itemToUpdate.name,
+                    certificationReq: itemToUpdate.certificationReq,
                         certificationLink: itemToUpdate.certificationLink,
-                        attribute1 : itemToUpdate.attribute1,
-                        attribute2 : itemToUpdate.attribute2,
-                        attribute3 : itemToUpdate.attribute3,
-                        attribute4 : itemToUpdate.attribute4,
-                        attribute5 : itemToUpdate.attribute5,                       
-                        createdBy : req.body.userId,
-                        lastUpdatedBy : req.body.userId
+                    attribute1: itemToUpdate.attribute1,
+                    attribute2: itemToUpdate.attribute2,
+                    attribute3: itemToUpdate.attribute3,
+                    attribute4: itemToUpdate.attribute4,
+                    attribute5: itemToUpdate.attribute5,
+                    createdBy: req.body.userId,
+                    lastUpdatedBy: req.body.userId
                     });
                 }).then((_createdRecords) => {
                     projects.findAll({
@@ -70,26 +57,13 @@ exports.createProjects = (req, res, next) => {
                     )
                 });
             })
-            // projects.findAll({
-            //     where: { projectId: _projects.projectId },
-            //     include: [{ model: projectDetails, nested: true, as: 'projectDetails' }]
-            // }).then((_resultProject) => {
-            //     res.status(200).json({
-            //         project: _resultProject
-            //     });
-            // }
-            // )
         })
-
-    // }
-    )
-
 }
 
 /**
- * GET - list of projects
+ * GET - list of projects based on User Search Criteria. It may or may not be created or assigned to the user 
  */
-exports.findProjects = (req, res, next) => {
+exports.getProjects = (req, res, next) => {
     var _resourceType = ((req.body.resourceType != null && req.body.resourceType != '') ? req.body.resourceType : 1);
     var _projectStatus = ((req.body.projectStatus != null && req.body.projectStatus != '') ? ('\'' + req.body.projectStatus + '\'') : null);
     var skillQuery = '';
@@ -108,16 +82,8 @@ exports.findProjects = (req, res, next) => {
 
     var sql = 'SELECT prj.project_id as projectId,prj.project_name as projectName,prj.description as description,prj.location as location,prj.estimated_budget as estimatedBudget,prj.status as status FROM philance.projects prj,philance.project_details det1,philance.project_details det2 where 1=1 AND ' +
         ' prj.status = ifnull(' + _projectStatus + ', prj.status) AND prj.project_name REGEXP \'' + req.body.keywords + '\' and case when ' +
-        _resourceType + ' like \'/%Volunteers/%\' then prj.volunteers > 0 when ' + _resourceType + ' like \'/%Freelancers/%\' then prj.freelancers > 0 else 1=1 end '+
-        skillQuery + impactCategoryQuery +' GROUP BY prj.project_name , prj.description , prj.location , prj.estimated_budget , prj.status';
-
-    // var sql = 'SELECT proj.project_id as projectId,proj.project_name as projectName, proj.description as description,proj.volunteers as volunteers, proj.freelancers as freelancers, proj.location as location, proj.start_date as startDate,proj.end_date as endDate, proj.estimated_budget as estimatedBudget, proj.creation_date as creationDate, proj.created_by as createdBy,proj.last_updated_by as lastUpdatedBy, proj.last_updated_date as lastUpdatedDate, proj.status as status FROM projects proj';// where proj.project_name REGEXP \'' + req.body.keywords + '\'';
-
-    // Commented as the Location is an entry and not required to get from User Profile
-    // users.findOne({
-    //     where: { userId: req.body.userId },
-    //     attributes: ['location']
-    // }).then(_users => {
+        _resourceType + ' like \'/%Volunteers/%\' then prj.volunteers > 0 when ' + _resourceType + ' like \'/%Freelancers/%\' then prj.freelancers > 0 else 1=1 end ' +
+        skillQuery + impactCategoryQuery + ' GROUP BY prj.project_name , prj.description , prj.location , prj.estimated_budget , prj.status';
 
     sequelize.query(sql, { model: projects }).then((_projects) => {
 
@@ -164,22 +130,140 @@ exports.findProjects = (req, res, next) => {
  * This is to get the specific Project details based on the projectId 
  */
 
-exports.findProjectById = (req, res, next) => {
+exports.getProjectById = (req, res, next) => {
 
-    // projects.belongsTo(projectDetails, { as: 'projectDetails', foreignKey: 'projectId' });
-    projects.belongsTo(projectDetails, { foreignKey: 'projectId' });
+    projects.hasMany(projectDetails, { foreignKey: 'projectId' });
+    projects.hasMany(projectTeam, { foreignKey: 'projectId' });
+    users.hasMany(projectTeam, { foreignKey: 'userId' });
+    projectTeam.belongsTo(users, { foreignKey: 'userId' });
 
-    sequelize.sync().then(() => projects.findAll({
-        where: { projectId: req.query.projectId },
-        include: [{ model: projectDetails, nested: true }]
+    projects.findAll({
+        raw: true,
+        where: { projectId: req.params.projectId },
+        include: [{ model: projectDetails, nested: true, duplicating: false, required: false },
+        {
+            model: projectTeam, nested: true, duplicating: false, required: false,
+            include: [{ model: users, required: true, nested: true, attributes: ['userId', 'firstName', 'lastName', 'email'] }//, {attributes: ['fname' ,'lname', 'email'] }//, where : {userId : projectTeam.userId}}
+            ]
+        }]
     }).then((_project) => {
-        // projectDetails.findAll({ where: { projectId: req.query.projectId }, order: sequelize.col('detail_type') }).then((_projectDetails) => {
 
         res.status(200).json({
             project: _project
         });
+    }).catch(err => {
+        console.log(err);
+        res.status(500).json({
+            error: err
+        });
+    })
+}
+
+
+exports.resourceApplyForProject = (req, res, next) => {
+    console.log(req.params.projectId);
+    
+    projectTeam.findAll({ where: { projectId: req.params.projectId, userId: req.body.userId } }).then(_projectTeam => {
+        console.log('_projectTeam : '+_projectTeam);
+        console.log('_projectTeam Length : '+_projectTeam.length);
+        if (_projectTeam === null || _projectTeam.length === 0) {
+            projectTeam.create({
+                projectId: req.params.projectId,
+                userId: req.body.userId,
+                applicantMessage: req.body.applicantMessage,
+                role: req.body.role,
+                type: req.body.type,
+                status: 'APPLIED',
+                // appliedDate: sequelize.literal('CURRENT_TIMESTAMP'),
+                // creationDate: sequelize.literal('CURRENT_TIMESTAMP'),
+                createdBy: req.body.userId,
+                // lastUpdatedDate: sequelize.literal('CURRENT_TIMESTAMP'),
+                lastUpdatedBy: req.body.userId
+            }).then((_projectTeam) => {
+                res.status(200).json({
+                    message: "User successfully applied for the Project",
+                    Application: _projectTeam
+                });
+            }).catch(err => {
+                console.log(err);
+                res.status(500).json({
+                    error: err.message
+                });
+            })
+        } else {
+            console.log('User already applied for the Project');
+            return res.status(409).json({
+                message: "User already applied for the Project",
+                Application: _projectTeam
+            })
+        }
+
     }
     )
+}
 
-    )
+
+
+/**
+ * This is to get the list if users who applied for a specific Project. This is called when comes to one comes to candidate review page
+ */
+
+exports.resourceListForReview = (req, res, next) => {
+
+    projects.hasMany(projectDetails, { foreignKey: 'projectId' });
+    projects.hasMany(projectTeam, { foreignKey: 'projectId' });
+    users.hasMany(projectTeam, { foreignKey: 'userId' });
+    projectTeam.belongsTo(users, { foreignKey: 'userId' });
+
+    projectTeam.findAll({
+        raw: true,
+        where: { projectId: req.params.projectId },
+        include: [{ model: users, nested: false, duplicating: false, attributes: ['userId', 'firstName', 'lastName', 'email'] }]
+    }).then((_projectTeam) => {
+        res.status(200).json({
+            Candidates: _projectTeam
+        });
+    }).catch(err => {
+        console.log(err);
+        res.status(500).json({
+            error: err
+        });
+    })
+}
+
+/**
+ * 
+ */
+exports.resourceApproveOrReject = (req, res, next) => {
+
+users.hasMany(projectTeam, { foreignKey: 'userId' });
+projectTeam.belongsTo(users, { foreignKey: 'userId' });
+
+    sequelize.transaction(function (t) {
+        sequelize.Promise.each(req.body.projectTeam, function (itemToUpdate) {
+            projectTeam.update({
+                startDate: itemToUpdate.startDate,
+                endDate: itemToUpdate.endDate,
+                role: itemToUpdate.role,
+                type: itemToUpdate.type,
+                status: itemToUpdate.status,
+                lastUpdatedBy: itemToUpdate.userId,
+                lastUpdatedDate: itemToUpdate.lastUpdatedDate
+            }, { where: { projectId: req.params.projectId, userId: itemToUpdate.applicantId } })
+        })
+    }).then(_updatedRows => {
+        projectTeam.findAll({
+        raw: true,
+        where: { projectId: req.params.projectId },
+        include: [{ model: users, nested: false, duplicating: false, attributes: ['userId', 'firstName', 'lastName', 'email'] }]
+    }).then(function(_projectTeam) {
+        res.status(200).json({
+            Candidates: _projectTeam
+        });
+    })}).catch(err => {
+        console.log(err);
+        res.status(500).json({
+            error: err.message
+        });
+    })
 }

@@ -1,16 +1,17 @@
 'use strict';
 const Sequelize = require('sequelize');
 const sequelize = require('../util/dbconnection');
-var projectDetails = require("./project.details.model");
+// var projectDetails = require("./project.details.model");
+// var projectTeam = require("./projects.team.model");
 
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log('Connection has been established successfully.');
-  })
-  .catch(err => {
-    console.error('Unable to connect to the database:', err);
-  });
+// sequelize
+//   .authenticate()
+//   .then(() => {
+//     console.log('Connection has been established successfully.');
+//   })
+//   .catch(err => {
+//     console.error('Unable to connect to the database:', err);
+//   });
 
 const projects = sequelize.define('projects', {
     projectId: {
@@ -84,6 +85,14 @@ const projects = sequelize.define('projects', {
     {
         timestamps: false,
         freezeTableName: true
+    },
+    {
+        classMethods: {
+            associate: function(models) {
+              projects.hasMany(models.projectDetails, {foreignKey: 'project_id'})
+              projects.hasMany(models.projectTeam, {foreignKey: 'project_id'})
+            }
+          }
     }
 );
 

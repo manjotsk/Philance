@@ -3,14 +3,14 @@ const Sequelize = require('sequelize');
 const sequelize = require('../util/dbconnection');
 var projects = require("./projects.model");
 
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log('Connection has been established successfully for Project Details.');
-  })
-  .catch(err => {
-    console.error('Unable to connect to the database for Project Details : ', err);
-  });
+// sequelize
+//   .authenticate()
+//   .then(() => {
+//     console.log('Connection has been established successfully for Project Details.');
+//   })
+//   .catch(err => {
+//     console.error('Unable to connect to the database for Project Details : ', err);
+//   });
 
 const projectDetails = sequelize.define('project_details', {
     projectId: {
@@ -85,6 +85,24 @@ const projectDetails = sequelize.define('project_details', {
     {
         timestamps: false,
         freezeTableName: true
+    },
+    {
+        classMethods: {
+            associate: function(models) {
+              projectDetails.belongsTo(models.projects, {foreignKey: 'project_id'})
+            }
+          }
+    },
+    {
+    instanceMethods: {
+        toJSON: function () {
+          var values = this.get();
+          if (this.projects) {
+            values.projectId = projects.projectId;
+          }   
+          return values;
+        }
+      }
     }
 );
 // projectDetails.associate = function (models) {
