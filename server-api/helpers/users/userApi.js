@@ -2,7 +2,7 @@ const sequelize = require('../../util/dbconnection');
 var users = require("../../users/users.model");
 const Op = sequelize.Op;
 var helpers = require('../../helpers').default
-var commonFunctions = require('../../helpers/common')
+var commonFunctions = require('../../helpers/common').commonFunctions
 var userApi = {
     search: {
         findAllUsers: (callback) => {
@@ -107,7 +107,7 @@ var userApi = {
                                 if (_users.length == 0) {
                                     callback(null, { statusCode: 200, responseData: _users })
                                 } else {
-                                    commonFunctions.commonFunctions.entitiesDistanceValidator(_users, req, (err, response) => {
+                                    commonFunctions.entitiesDistanceValidator(_users, req, (err, response) => {
                                         if (err) {
                                             callback(err, { statusCode: 500, responseData: err })
                                         } else {
@@ -143,7 +143,7 @@ var userApi = {
                                 if (_users.length == 0) {
                                     callback(null, { statusCode: 200, responseData: _users })
                                 } else {
-                                    commonFunctions.commonFunctions.entitiesDistanceValidator(_users, req, (err, response) => {
+                                    commonFunctions.entitiesDistanceValidator(_users, req, (err, response) => {
                                         if (err) {
                                             callback(err, { statusCode: 500, responseData: err })
                                         } else {
@@ -179,7 +179,7 @@ var userApi = {
                                 if (_users.length == 0) {
                                     callback(null, { statusCode: 200, responseData: _users })
                                 } else {
-                                    commonFunctions.commonFunctions.entitiesDistanceValidator(_users, req, (err, response) => {
+                                    commonFunctions.entitiesDistanceValidator(_users, req, (err, response) => {
                                         if (err) {
                                             callback(err, { statusCode: 500, responseData: err })
                                         } else {
@@ -214,7 +214,7 @@ var userApi = {
                                 if (_users.length == 0) {
                                     callback(null, { statusCode: 200, responseData: _users })
                                 } else {
-                                    commonFunctions.commonFunctions.entitiesDistanceValidator(_users, req, (err, response) => {
+                                    commonFunctions.entitiesDistanceValidator(_users, req, (err, response) => {
                                         if (err) {
                                             callback(err, { statusCode: 500, responseData: err })
                                         } else {
@@ -250,7 +250,7 @@ var userApi = {
                                 if (_users.length == 0) {
                                     callback(null, { statusCode: 200, responseData: _users })
                                 } else {
-                                    commonFunctions.commonFunctions.entitiesDistanceValidator(_users, req, (err, response) => {
+                                    commonFunctions.entitiesDistanceValidator(_users, req, (err, response) => {
                                         if (err) {
                                             callback(err, { statusCode: 500, responseData: err })
                                         } else {

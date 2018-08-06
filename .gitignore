@@ -3,3 +3,4 @@ mysql.sql
 *yarn.lock
 *package-lock.json
 server-api/server-api.log
+server-api/config/config.js

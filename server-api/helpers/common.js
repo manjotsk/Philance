@@ -1,3 +1,6 @@
+var googleAPI=require('../config/googleAPI')
+var axios = require('axios')
+
 var commonFunctions = {
     entitiesDistanceValidator: (_entities, req, callback) => {
         var _count = 0;
@@ -34,6 +37,13 @@ var commonFunctions = {
         }
         )
 
+    },
+    usersPresentInRadialDistance: (_users, res) => {
+
+        var currentLocation = 'Amritsar, Punjab, India'
+        var locationToValidate = 'Chajjal Wadi, Punjab, India'
+        var withinDistance = 50;
+        googleAPI.defult.findLatLon()
     }
 }
 exports.commonFunctions = commonFunctions;

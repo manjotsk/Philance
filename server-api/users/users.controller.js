@@ -10,9 +10,8 @@ var projectTeam = require("../projects/projects.team.model");
 const sequelize = require('../util/dbconnection');
 const Op = sequelize.Op;
 var helpers = require('../helpers')
-var commonFunctions = helpers.default.common;
 var userApi = helpers.default.userApi;
-
+var commonFunctions = require('../helpers/common').commonFunctions
 exports.createProfile = (req, res, next) => {
 
     users.findOne({ where: { email: req.body.email } }).then(_user => {
@@ -102,36 +101,36 @@ exports.login = (req, res, next) => {
 
 exports.search = (req, res, next) => {
     //TODO: Add Validators
-    var userSearchApi = userApi.search;
-    var userName;
+    // if(req.body.dist||req.body.loc){
+    //     if(req.body.dist==null||req.body.loc==null){
+    //         res.status(409).send({message:`${req.body.dist?'Location ':' Distance '} is required`})
+    //     }
+    // }
+    // var cutAtEnd=false;
+    // var _sql=   `SELECT * FROM users as usrs `;
 
-    if(req.body.dist||req.body.loc){
-        if(req.body.dist==null||req.body.loc==null){
-            res.status(409).send({message:`${req.body.dist?'Location ':' Distance '} is required`})
-        }
-    }
-
-    var _sql=   `SELECT * FROM users as usrs `;
+    // _sql=req.body.skill==null?_sql:_sql+`INNER JOIN user_skills as skls `;
+    // // _sql=req.body.ptype==null?_sql:_sql+`INNER JOIN user_skills `;
     
-    _sql=req.body.skill==null?_sql:_sql+`INNER JOIN user_skills as skls `;
-    // _sql=req.body.ptype==null?_sql:_sql+`INNER JOIN user_skills `;
+    // _sql=Object.keys(req.body).length === 0?_sql:_sql+`WHERE `;
+    // _sql=req.body.fname==null?              _sql:_sql+`fname = '${req.body.fname}' AND `,cutAtEnd=true;
+    // _sql=req.body.lname==null?              _sql:_sql+`lname = '${req.body.lname}' AND `,cutAtEnd=true;
+    // _sql=req.body.personLoc==null?          _sql:_sql+`location LIKE %${req.body.personLoc}% AND `,cutAtEnd=true;
+    // _sql=req.body.skill==null?              _sql:_sql+`skls.skill_name LIKE '%${req.body.skill}%' AND`,cutAtEnd=true;
     
-    _sql=Object.keys(req.body).length === 0?_sql:_sql+`WHERE `;
-    _sql=req.body.fname==null?              _sql:_sql+`fname = '${req.body.fname}' AND `;
-    _sql=req.body.lname==null?              _sql:_sql+`lname = '${req.body.lname}' AND `;
-    _sql=req.body.personLoc==null?          _sql:_sql+`location LIKE %${req.body.personLoc}% AND `;
-    _sql=req.body.skill==null?             _sql:_sql+`skls.skill_name LIKE '%${req.body.skill}%' AND`;
-    
-    _sql=_sql.slice(0,-4)
+    // cutAtEnd?_sql=_sql.slice(0,-4):_sql;
 
-    sequelize.query(_sql,{ type: sequelize.QueryTypes.SELECT}).then((_users)=>{
-        res.status(200).send(_users)
-    })
-    .catch((err)=>{
-        res.status(200).send(err)
-    })
-
-
+    // sequelize.query(_sql,{ type: sequelize.QueryTypes.SELECT}).then((_users)=>{
+    //     if(req.body.dist||req.body.loc){
+    //         commonFunctions.usersPresentInRadialDistance(_users,res)
+    //     }
+    //     res.status(200).send(_users)
+    // })
+    // .catch((err)=>{
+    //     res.status(200).send(err)
+    // })
+    commonFunctions.usersPresentInRadialDistance(req,res)
+    // res.status(200).send('performed')
 
 }
 exports.getProfile = (req, res, next) => {
