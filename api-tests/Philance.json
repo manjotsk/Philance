@@ -1,13 +1,12 @@
 {
-	"variables": [],
 	"info": {
+		"_postman_id": "b3dcfa6e-d2c2-47ff-b10f-c5c070857dd6",
 		"name": "Philance copy",
-		"_postman_id": "5963b355-d209-4bff-295a-fdfbd59d0d4a",
-		"description": "",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
+			"_postman_id": "b1fa0433-44d9-452a-84ba-4bdc9f6965a2",
 			"name": "Register a user",
 			"event": [
 				{
@@ -26,29 +25,39 @@
 				}
 			],
 			"request": {
-				"url": "http://localhost:3001/philance/users/",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Basic cm9vdDpaZW50cmUxMTA=",
-						"description": ""
+						"value": "Basic cm9vdDpaZW50cmUxMTA="
 					},
 					{
 						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\n    \"firstName\" : \"Vijay\",\n    \"lastName\" : \"Gandra\",\n    \"email\" : \"vijy.gandra@gmail.com\",\n    \"password\" : \"test123\"\n}"
 				},
-				"description": ""
+				"url": {
+					"raw": "http://localhost:3001/philance/users/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"philance",
+						"users",
+						""
+					]
+				}
 			},
 			"response": []
 		},
 		{
+			"_postman_id": "6e0a5b0a-c91e-4ad6-a5ed-b4c5eb31275e",
 			"name": "Register a user copy",
 			"event": [
 				{
@@ -64,24 +73,35 @@
 				}
 			],
 			"request": {
-				"url": "http://localhost:3001/philance/users/",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\n\t\"firstName\" : \"Karthik\",\n\t\"lastName\" : \"Sarvepalli\",\n\t\"email\" : \"karthik.sarvepalli@gmail.com\",\n\t\"password\" : \"abc1234\"\n}"
 				},
-				"description": ""
+				"url": {
+					"raw": "http://localhost:3001/philance/users/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"philance",
+						"users",
+						""
+					]
+				}
 			},
 			"response": []
 		},
 		{
+			"_postman_id": "6781231a-7546-4340-8c93-726459a22b4f",
 			"name": "User login",
 			"event": [
 				{
@@ -97,29 +117,39 @@
 				}
 			],
 			"request": {
-				"url": "http://localhost:3001/philance/users/login",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Basic cm9vdDpaZW50cmUxMTA=",
-						"description": ""
+						"value": "Basic cm9vdDpaZW50cmUxMTA="
 					},
 					{
 						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\n    \"email\" : \"vijy.gandra@gmail.com\",\n    \"password\" : \"test123\"\n}"
 				},
-				"description": ""
+				"url": {
+					"raw": "http://localhost:3001/philance/users/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"philance",
+						"users",
+						"login"
+					]
+				}
 			},
 			"response": []
 		},
 		{
+			"_postman_id": "4d8e5867-75eb-403d-9dec-d603b6ec4d5e",
 			"name": "Get User By Id",
 			"event": [
 				{
@@ -148,18 +178,31 @@
 				}
 			],
 			"request": {
-				"url": "http://localhost:3001/philance/users/1",
 				"method": "GET",
 				"header": [],
 				"body": {
 					"mode": "raw",
 					"raw": ""
 				},
+				"url": {
+					"raw": "http://localhost:3001/philance/users/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"philance",
+						"users",
+						"1"
+					]
+				},
 				"description": "UserSearchById"
 			},
 			"response": []
 		},
 		{
+			"_postman_id": "aeb7ee45-50f6-4567-ae53-8ef6ebf11032",
 			"name": "User Update",
 			"event": [
 				{
@@ -195,24 +238,36 @@
 				}
 			],
 			"request": {
-				"url": "http://localhost:3001/philance/users/",
 				"method": "PUT",
 				"header": [
 					{
 						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": "{  \r\n   \"firstName\" : \"Vijay Kumar\",\r\n   \"lastName\" : \"Gandra1\",\r\n   \"email\" : \"vijy.gandra@gmail.com\",\r\n   \"location\":\"Nashua, NH\",\r\n   \"interests\" : \"CREATE|DEVELOP\",\r\n   \"organization\":\"Philance\",\r\n   \"rate\":\"60\",\r\n   \"userId\":1,\r\n   \"userSkills\":[  \r\n      {  \r\n        \"userId\": 1,\r\n        \"skillCode\": \"DATABASE\",\r\n        \"skillName\": \"Database Development\",\r\n        \"certified\": \"Yes\",\r\n        \"certificationLink\": null,\r\n        \"startDate\": \"2018-08-02T00:00:00.000Z\",\r\n        \"endDate\": null\r\n      },\r\n      {  \r\n        \"userId\": 1,\r\n        \"skillCode\": \"BUSINESS\",\r\n        \"skillName\": \"Project Management\",\r\n        \"certified\": \"Yes\",\r\n        \"certificationLink\": null,\r\n        \"startDate\": \"2018-08-02T00:00:00.000Z\",\r\n        \"endDate\": null\r\n      }\r\n   ]\r\n}"
 				},
+				"url": {
+					"raw": "http://localhost:3001/philance/users/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"philance",
+						"users",
+						""
+					]
+				},
 				"description": "UserUpdate"
 			},
 			"response": []
 		},
 		{
+			"_postman_id": "89cfb4d7-3560-4a2b-adc7-13643aa2fbbe",
 			"name": "Get User By Id After Update",
 			"event": [
 				{
@@ -256,18 +311,31 @@
 				}
 			],
 			"request": {
-				"url": "http://localhost:3001/philance/users/1",
 				"method": "GET",
 				"header": [],
 				"body": {
 					"mode": "raw",
 					"raw": ""
 				},
+				"url": {
+					"raw": "http://localhost:3001/philance/users/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"philance",
+						"users",
+						"1"
+					]
+				},
 				"description": "UserSearchById"
 			},
 			"response": []
 		},
 		{
+			"_postman_id": "6ada8ede-31aa-476e-baef-e7fc70ade621",
 			"name": "Create a project",
 			"event": [
 				{
@@ -292,29 +360,39 @@
 				}
 			],
 			"request": {
-				"url": "http://localhost:3001/philance/projects/",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Basic cm9vdDpaZW50cmUxMTA=",
-						"description": ""
+						"value": "Basic cm9vdDpaZW50cmUxMTA="
 					},
 					{
 						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": "{  \r\n   \"projectName\" : \"Create Project From Postman\",\r\n   \"description\" : \"Create Project description From Postman\",\r\n   \"location\":\"Nashua,NH\",\r\n   \"volunteers\":\"1\",\r\n   \"freelancers\":\"2\",\r\n   \"estimatedBudget\":\"10\",\r\n   \"userId\":\"1\",\r\n   \"startDate\" :\"07/24/2018\",\r\n   \"endDate\" :\"07/30/2018\",\r\n   \"projectDetails\":[  \r\n      {  \r\n        \"detailType\": \"SKILLS\",\r\n        \"name\": \"Database Development\",\r\n        \"certificationReq\": \"NO\",\r\n        \"certificationLink\": \"\",\r\n        \"attribute1\" : \"\",\r\n        \"attribute2\" : \"\",\r\n        \"attribute3\" : \"\",\r\n        \"attribute4\" : \"\",\r\n        \"attribute5\" : \"\"\r\n      },\r\n      {  \r\n        \"detailType\": \"SKILLS\",\r\n        \"name\": \"Java Development\",\r\n        \"certificationReq\": \"NO\",\r\n        \"certificationLink\": \"\",\r\n        \"attribute1\" : \"\",\r\n        \"attribute2\" : \"\",\r\n        \"attribute3\" : \"\",\r\n        \"attribute4\" : \"\",\r\n        \"attribute5\" : \"\"\r\n      },\r\n      {  \r\n        \"detailType\": \"IMPACT_CATEGORY\",\r\n        \"name\": \"Elderly\",\r\n        \"certificationReq\": \"NO\",\r\n        \"certificationLink\": \"\",\r\n        \"attribute1\" : \"\",\r\n        \"attribute2\" : \"\",\r\n        \"attribute3\" : \"\",\r\n        \"attribute4\" : \"\",\r\n        \"attribute5\" : \"\"\r\n      },\r\n      {  \r\n      \"detailType\": \"IMPACT_CATEGORY\",\r\n        \"name\": \"Other\",\r\n        \"certificationReq\": \"NO\",\r\n        \"certificationLink\": \"\",\r\n        \"attribute1\" : \"\",\r\n        \"attribute2\" : \"\",\r\n        \"attribute3\" : \"\",\r\n        \"attribute4\" : \"\",\r\n        \"attribute5\" : \"\"\r\n      }\r\n   ]\r\n}\r\n"
 				},
-				"description": ""
+				"url": {
+					"raw": "http://localhost:3001/philance/projects/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"philance",
+						"projects",
+						""
+					]
+				}
 			},
 			"response": []
 		},
 		{
+			"_postman_id": "76011a77-c6b7-4de6-8112-cfa955cd4edb",
 			"name": "Create Project copy",
 			"event": [
 				{
@@ -339,24 +417,36 @@
 				}
 			],
 			"request": {
-				"url": "http://localhost:3001/philance/projects/",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": "{  \r\n   \"projectName\" : \"Create Project for Test Apply\",\r\n   \"description\" : \"Create Project for Test from Postman\",\r\n   \"location\":\"Nashua,NH\",\r\n   \"volunteers\":\"2\",\r\n   \"freelancers\":\"6\",\r\n   \"estimatedBudget\":\"10000\",\r\n   \"userId\":\"2\",\r\n   \"startDate\" :\"07/24/2018\",\r\n   \"endDate\" :\"08/31/2018\",\r\n   \r\n   \"projectDetails\":[  \r\n      {  \r\n        \"detailType\": \"SKILLS\",\r\n        \"name\": \"Database Development\",\r\n        \"certificationReq\": \"NO\",\r\n        \"certificationLink\": \"\",\r\n        \"attribute1\" : \"\",\r\n        \"attribute2\" : \"\",\r\n        \"attribute3\" : \"\",\r\n        \"attribute4\" : \"\",\r\n        \"attribute5\" : \"\"\r\n      },\r\n      {  \r\n        \"detailType\": \"SKILLS\",\r\n        \"name\": \"Node JS Development\",\r\n        \"certificationReq\": \"NO\",\r\n        \"certificationLink\": \"\",\r\n        \"attribute1\" : \"\",\r\n        \"attribute2\" : \"\",\r\n        \"attribute3\" : \"\",\r\n        \"attribute4\" : \"\",\r\n        \"attribute5\" : \"\"\r\n      },\r\n      {  \r\n        \"detailType\": \"IMPACT_CATEGORY\",\r\n        \"name\": \"Elderly\",\r\n        \"certificationReq\": \"NO\",\r\n        \"certificationLink\": \"\",\r\n        \"attribute1\" : \"\",\r\n        \"attribute2\" : \"\",\r\n        \"attribute3\" : \"\",\r\n        \"attribute4\" : \"\",\r\n        \"attribute5\" : \"\"\r\n      },\r\n      {  \r\n        \"detailType\": \"IMPACT_CATEGORY\",\r\n        \"name\": \"Other\",\r\n        \"certificationReq\": \"NO\",\r\n        \"certificationLink\": \"\",\r\n        \"attribute1\" : \"\",\r\n        \"attribute2\" : \"\",\r\n        \"attribute3\" : \"\",\r\n        \"attribute4\" : \"\",\r\n        \"attribute5\" : \"\"\r\n      }\r\n   ]\r\n}"
 				},
+				"url": {
+					"raw": "http://localhost:3001/philance/projects/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"philance",
+						"projects",
+						""
+					]
+				},
 				"description": "Create Project"
 			},
 			"response": []
 		},
 		{
+			"_postman_id": "848cc2eb-d0d1-4bf5-81ea-07196f8a18d0",
 			"name": "Project Search",
 			"event": [
 				{
@@ -377,29 +467,39 @@
 				}
 			],
 			"request": {
-				"url": "http://localhost:3001/philance/projects/search",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Basic cm9vdDpaZW50cmUxMTA=",
-						"description": ""
+						"value": "Basic cm9vdDpaZW50cmUxMTA="
 					},
 					{
 						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": "{  \n  \"location\":\"Detroit, MI\",\n  \"distance\":\"10\",\n  \"keywords\":\"DEVELOP|Create\",\n  \"resourceType\":\"Freelancers\",\n  \"projectStatus\":\"ACTIVE\",\n  \"userId\" : \"1\",\n  \"skills\":[  \n     {  \n        \"skill\":\"Database Development\"\n     },\n     {  \n        \"skill\":\"Java Development\"\n     }\n  ],\n  \"impactCategories\":[  \n     {  \n        \"category\":\"Elderly\"\n     },\n     {  \n        \"category\":\"Other\"\n     }\n  ]\n}"
 				},
-				"description": ""
+				"url": {
+					"raw": "http://localhost:3001/philance/projects/search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"philance",
+						"projects",
+						"search"
+					]
+				}
 			},
 			"response": []
 		},
 		{
+			"_postman_id": "b9c19217-8e70-4e61-8b32-09487dae49d1",
 			"name": "Project By Id",
 			"event": [
 				{
@@ -570,18 +670,31 @@
 				}
 			],
 			"request": {
-				"url": "http://localhost:3001/philance/projects/1",
 				"method": "GET",
 				"header": [],
 				"body": {
 					"mode": "raw",
 					"raw": ""
 				},
+				"url": {
+					"raw": "http://localhost:3001/philance/projects/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"philance",
+						"projects",
+						"1"
+					]
+				},
 				"description": "ProjectSearchById"
 			},
 			"response": []
 		},
 		{
+			"_postman_id": "62469773-3e72-4b17-80e6-f11c8fc27dc2",
 			"name": "My Projects",
 			"event": [
 				{
@@ -610,18 +723,32 @@
 				}
 			],
 			"request": {
-				"url": "http://localhost:3001/philance/users/1/projects/",
 				"method": "GET",
 				"header": [],
 				"body": {
 					"mode": "raw",
 					"raw": ""
 				},
-				"description": ""
+				"url": {
+					"raw": "http://localhost:3001/philance/users/1/projects/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"philance",
+						"users",
+						"1",
+						"projects",
+						""
+					]
+				}
 			},
 			"response": []
 		},
 		{
+			"_postman_id": "96c1c789-4eb8-4620-9b96-7ee1ed03376a",
 			"name": "Apply For Project",
 			"event": [
 				{
@@ -635,24 +762,36 @@
 				}
 			],
 			"request": {
-				"url": "http://localhost:3001/philance/projects/2/users",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\r\n\"userId\" : \"1\",\r\n\"applicantMessage\" : \"Applying for the Project for Test\",\r\n\"role\" : \"APPLICANT\",\r\n\"type\" : \"\"\r\n}"
 				},
-				"description": ""
+				"url": {
+					"raw": "http://localhost:3001/philance/projects/2/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"philance",
+						"projects",
+						"2",
+						"users"
+					]
+				}
 			},
 			"response": []
 		},
 		{
+			"_postman_id": "b070101f-0eac-4d7e-a39e-2020e6d3ad38",
 			"name": "Candidate List For Review",
 			"event": [
 				{
@@ -666,18 +805,31 @@
 				}
 			],
 			"request": {
-				"url": "http://localhost:3001/philance/projects/2/users",
 				"method": "GET",
 				"header": [],
 				"body": {
 					"mode": "raw",
 					"raw": ""
 				},
-				"description": ""
+				"url": {
+					"raw": "http://localhost:3001/philance/projects/2/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"philance",
+						"projects",
+						"2",
+						"users"
+					]
+				}
 			},
 			"response": []
 		},
 		{
+			"_postman_id": "00598ca4-9058-4ff3-adb9-569030376d7f",
 			"name": "Candidate Accept or Reject",
 			"event": [
 				{
@@ -691,24 +843,36 @@
 				}
 			],
 			"request": {
-				"url": "http://localhost:3001/philance/projects/2/users",
 				"method": "PUT",
 				"header": [
 					{
 						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": "{  \r\n   \"projectTeam\":[  \r\n      {  \r\n         \"applicantId\":\"1\",\r\n         \"startDate\":\"\",\r\n         \"endDate\":\"\",\r\n         \"role\":\"APPLICANT\",\r\n         \"type\":\"\",\r\n         \"status\":\"ACCEPT\",\r\n         \"userId\":\"2\"\r\n      }\r\n   ]\r\n}"
 				},
-				"description": ""
+				"url": {
+					"raw": "http://localhost:3001/philance/projects/2/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"philance",
+						"projects",
+						"2",
+						"users"
+					]
+				}
 			},
 			"response": []
 		},
 		{
+			"_postman_id": "9d67a062-ee8e-4e53-a661-15ecf5eeb2f3",
 			"name": "Get Common Lookup",
 			"event": [
 				{
@@ -820,14 +984,322 @@
 				}
 			],
 			"request": {
-				"url": "http://localhost:3001/philance/lookups/ALL",
 				"method": "GET",
 				"header": [],
 				"body": {
 					"mode": "raw",
 					"raw": ""
 				},
-				"description": ""
+				"url": {
+					"raw": "http://localhost:3001/philance/lookups/ALL",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"philance",
+						"lookups",
+						"ALL"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "e6c8e68a-eff7-440a-821a-477f5ec27760",
+			"name": "All User Search",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "40c7a0d4-bb36-4e3e-9a81-41e011bca834",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"})",
+							"pm.test(\"Response time is less than 100ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(100);",
+							"});",
+							"",
+							"// var reqBody = JSON.parse(request.data);",
+							"var resBody = JSON.parse(responseBody);",
+							"",
+							"console.log(request.data,'*****************');",
+							"console.log(resBody[0],'#################');",
+							"",
+							"// tests.Data = reqBody.fname === resBody[0];"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:3001/philance/users/search",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"philance",
+						"users",
+						"search"
+					]
+				},
+				"description": "This Request fetches users from the database on the basis of the different input factors and their combinations.\ninputs keys- \n{\n\tfname,\n\tlname,\n\tpersonLoc,\n\tskill,\n\tptype\n}\n"
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "bf963bde-0188-4722-b588-8f96ec50ed40",
+			"name": "User Search by Name (firstname)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ae4c187f-ebf4-40d7-9285-06b41c5fd2f3",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"})",
+							"pm.test(\"Response time is less than 100ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(100);",
+							"});",
+							"",
+							"var reqBody = JSON.parse(request.data);",
+							"var resBody = JSON.parse(responseBody);",
+							"",
+							"console.log(request.data,'*****************');",
+							"console.log(resBody[0],'#################');",
+							"",
+							"tests[\"First name matches\"] = resBody[0].fname.includes(reqBody.fname);",
+							"",
+							"tests[\"First name matches\"] = resBody[0].fname.includes(reqBody.fname);",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"fname\":\"Vijay\"\n}"
+				},
+				"url": {
+					"raw": "localhost:3001/philance/users/search",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"philance",
+						"users",
+						"search"
+					]
+				},
+				"description": "This Request fetches users from the database on the basis of the different input factors and their combinations.\ninputs keys- \n{\n\tfname,\n\tlname,\n\tpersonLoc,\n\tskill,\n\tptype\n}\n"
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "a24efd20-9004-455b-8bdf-6842c06534eb",
+			"name": "User Search by Name (lastname)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "af3c4184-9e05-4c55-8cac-35e9669927ec",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"})",
+							"pm.test(\"Response time is less than 100ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(100);",
+							"});",
+							"",
+							"var reqBody = JSON.parse(request.data);",
+							"var resBody = JSON.parse(responseBody);",
+							"",
+							"",
+							"if(resBody.length===0){",
+							"    tests[\"No User Found\"] = true;",
+							"    ",
+							"}else{",
+							"    tests[\"Last name matches\"] = resBody[0].lname.includes(reqBody.lname);",
+							"}",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"lname\":\"Gandra\"\n}"
+				},
+				"url": {
+					"raw": "localhost:3001/philance/users/search",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"philance",
+						"users",
+						"search"
+					]
+				},
+				"description": "This Request fetches users from the database on the basis of the different input factors and their combinations.\ninputs keys- \n{\n\tfname,\n\tlname,\n\tpersonLoc,\n\tskill,\n\tptype\n}\n"
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "728734f0-8e9b-4ab2-bb92-b350f08cd690",
+			"name": "User Search by targer user's Location",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3e207169-445e-4a89-abd0-a743a5ed8e23",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"})",
+							"pm.test(\"Response time is less than 100ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(100);",
+							"});",
+							"",
+							"var reqBody = JSON.parse(request.data);",
+							"var resBody = JSON.parse(responseBody);",
+							"",
+							"",
+							"if(resBody.length===0){",
+							"    tests[\"No User Found\"] = true;",
+							"    ",
+							"}else{",
+							"    tests[\"Location matches\"] = resBody[0].location.includes(reqBody.personLoc);",
+							"}",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"personLoc\":\"Nashua\"\n}"
+				},
+				"url": {
+					"raw": "localhost:3001/philance/users/search",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"philance",
+						"users",
+						"search"
+					]
+				},
+				"description": "This Request fetches users from the database on the basis of the different input factors and their combinations.\ninputs keys- \n{\n\tfname,\n\tlname,\n\tpersonLoc,\n\tskill,\n\tptype\n}\n"
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "cd7c323d-d8fa-4bef-a357-19cfe7be5e2e",
+			"name": "User Search by targer user's Skill",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9f581911-a437-47f8-87fe-d0cecd38d6a4",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"})",
+							"pm.test(\"Response time is less than 100ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(100);",
+							"});",
+							"",
+							"var reqBody = JSON.parse(request.data);",
+							"var resBody = JSON.parse(responseBody);",
+							"",
+							"",
+							"if(resBody.length===0){",
+							"    tests[\"No User Found\"] = true;",
+							"    ",
+							"}else{",
+							"    tests[\"Skill matches\"] = resBody[0].skill_name.toUpperCase().includes(reqBody.skill.toUpperCase());",
+							"}",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"skill\":\"project management\"\n}"
+				},
+				"url": {
+					"raw": "localhost:3001/philance/users/search",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"philance",
+						"users",
+						"search"
+					]
+				},
+				"description": "This Request fetches users from the database on the basis of the different input factors and their combinations.\ninputs keys- \n{\n\tfname,\n\tlname,\n\tpersonLoc,\n\tskill,\n\tptype\n}\n"
 			},
 			"response": []
 		}
