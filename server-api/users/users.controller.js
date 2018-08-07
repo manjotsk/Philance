@@ -111,16 +111,16 @@ exports.search = (req, res, next) => {
         }
     }
 
-    var _sql=   `SELECT * FROM users as usrs `;
+    var _sql=   `SELECT * FROM users `;
     
-    _sql=req.body.skill==null?_sql:_sql+`INNER JOIN user_skills as skls `;
+    _sql=req.body.skill==null?_sql:_sql+`INNER JOIN user_skills `;
     // _sql=req.body.ptype==null?_sql:_sql+`INNER JOIN user_skills `;
     
     _sql=Object.keys(req.body).length === 0?_sql:_sql+`WHERE `;
-    _sql=req.body.fname==null?              _sql:_sql+`fname = '${req.body.fname}' AND `;
-    _sql=req.body.lname==null?              _sql:_sql+`lname = '${req.body.lname}' AND `;
-    _sql=req.body.personLoc==null?          _sql:_sql+`location LIKE %${req.body.personLoc}% AND `;
-    _sql=req.body.skill==null?             _sql:_sql+`skls.skill_name LIKE '%${req.body.skill}%' AND`;
+    _sql=req.body.fname==null?              _sql:_sql+`users.fname = '${req.body.fname}' AND `;
+    _sql=req.body.lname==null?              _sql:_sql+`users.lname = '${req.body.lname}' AND `;
+    _sql=req.body.personLoc==null?          _sql:_sql+`users.location LIKE '%${req.body.personLoc}%' AND `;
+    _sql=req.body.skill==null?             _sql:_sql+`user_skills.skill_name LIKE '%${req.body.skill}%' AND`;
     
     _sql=_sql.slice(0,-4)
 
