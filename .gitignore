@@ -3,3 +3,5 @@ mysql.sql
 *yarn.lock
 *package-lock.json
 server-api/server-api.log
+frontend-test/*.pyc
+frontend-test/test.html
