@@ -3,16 +3,7 @@ const Sequelize = require('sequelize');
 const sequelize = require('../util/dbconnection');
 var users = require("./users.model");
 
-// sequelize
-//     .authenticate()
-//     .then(() => {
-//         console.log('Connection has been established successfully for user skills.');
-//     })
-//     .catch(err => {
-//         console.error('Unable to connect to the database:', err);
-//     });
-
-const userSkills = sequelize.define('user_skills', {
+const userNotifications = sequelize.define('user_notifications', {
     userId: {
         field: 'user_id',
         type: Sequelize.INTEGER,  
@@ -22,35 +13,23 @@ const userSkills = sequelize.define('user_skills', {
             key: 'user_id'
         }
     },
-    skillCode: {
+    notificationTrigger: {
         type: Sequelize.STRING,
-        field: 'skill_code'
+        field: 'notification_trigger'
     },
-    skillName: {
+    email: {
         type: Sequelize.STRING,
-        field: 'skill_name',
-        primaryKey: true        
+        field: 'email'
     },
-    certified: {
+    text: {
         type: Sequelize.STRING,
-        field: 'certified',
-        defaultValue : 'NO',
-        values : ['YES','NO']
+        field: 'text'
     },
-    certificationLink: {
+    push: {
         type: Sequelize.STRING,
-        field: 'certification_link'
+        field: 'push'
     },
-    startDate: {
-        type: Sequelize.DATE,
-        field: 'start_date',
-        defaultValue: Sequelize.NOW
-    },
-    endDate: {
-        type: Sequelize.DATE,
-        field: 'end_date'
-    },
-    creationDate: {
+   creationDate: {
         type: Sequelize.DATE,
         field: 'creation_date'
     },
@@ -74,7 +53,7 @@ const userSkills = sequelize.define('user_skills', {
     {
         classMethods: {
             associate: function (models) {
-                userSkills.belongsTo(models.users, { foreignKey: 'user_id' })
+                userNotifications.hasOne(models.users, { foreignKey: 'user_id' })
             }
         }
     },
@@ -90,9 +69,9 @@ const userSkills = sequelize.define('user_skills', {
         }
     }
 )
-// users.belongsTo(userSkills, { as: 'userSkills', foreignKey: 'userId' });
+// users.hasOne(userNotifications, { as: 'userNotifications', foreignKey: 'userId' });
 // users.associate = function (models) {
 //     users.belongsTo(userSkills,{foreignKey:'userId'});
 // };
 
-module.exports = userSkills;
+module.exports = userNotifications;

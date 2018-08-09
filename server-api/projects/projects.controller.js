@@ -60,6 +60,74 @@ exports.createProjects = (req, res, next) => {
         })
 }
 
+exports.updateProjects = (req, res, next) => {
+    var _count = 0;
+    console.log('In update projects');
+    projects.hasMany(projectDetails, { foreignKey: 'projectId' });
+
+    sequelize.transaction(function (t) {
+        projects.update({
+            projectName: req.body.projectName,
+            description: req.body.description,
+            status: req.body.status,
+            volunteers: req.body.volunteers,
+            freelancers: req.body.freelancers,
+            location: req.body.location,
+            startDate: req.body.startDate,
+            endDate: req.body.endDate,
+            estimatedBudget: req.body.estimatedBudget,
+            lastUpdatedBy: req.body.userId,
+        }, {
+                where: { projectId: req.params.projectId }, omitNull: true
+            }, { transaction: t }).then(_projects => {
+                projectDetails.destroy({ where: { projectId: req.params.projectId }, truncate: true, force: true },
+                    { transaction: t }).then(
+
+                        sequelize.Promise.each(req.body.projectDetails, function (itemToUpdate) {
+
+                            projectDetails.create({
+                                projectId: req.params.projectId,
+                                detailType: itemToUpdate.detailType,
+                                name: itemToUpdate.name,
+                                certificationReq: itemToUpdate.certificationReq,
+                                certificationLink: itemToUpdate.certificationLink,
+                                attribute1: itemToUpdate.attribute1,
+                                attribute2: itemToUpdate.attribute2,
+                                attribute3: itemToUpdate.attribute3,
+                                attribute4: itemToUpdate.attribute4,
+                                attribute5: itemToUpdate.attribute5,
+                                createdBy: req.body.userId,
+                                lastUpdatedBy: req.body.userId
+                            }, { omitNull: true }, { transaction: t }).then((_createdRecords) => {
+                                _count++;
+                                if (_count === (req.body.projectDetails).length) {
+                                    projects.findAll({
+                                        where: { projectId: req.params.projectId },
+                                        include: [{ model: projectDetails, nested: true, duplicating: false, required: false }]
+                                    }).then((_projects) => {
+                                        res.status(200).json({
+                                            project: _projects
+                                        });
+                                    }
+                                    ).catch(function (err) {
+                                        console.log(err);
+                                    });
+                                }
+                            }
+                            ).catch(function (err) {
+                                console.log(err);
+                            });
+                        }
+                        )
+                    )
+            }
+            )
+    }
+    )
+}
+
+
+
 /**
  * GET - list of projects based on User Search Criteria. It may or may not be created or assigned to the user 
  */
@@ -164,8 +232,8 @@ exports.resourceApplyForProject = (req, res, next) => {
     console.log(req.params.projectId);
     
     projectTeam.findAll({ where: { projectId: req.params.projectId, userId: req.body.userId } }).then(_projectTeam => {
-        console.log('_projectTeam : '+_projectTeam);
-        console.log('_projectTeam Length : '+_projectTeam.length);
+        console.log('_projectTeam : ' + _projectTeam);
+        console.log('_projectTeam Length : ' + _projectTeam.length);
         if (_projectTeam === null || _projectTeam.length === 0) {
             projectTeam.create({
                 projectId: req.params.projectId,
@@ -236,8 +304,8 @@ exports.resourceListForReview = (req, res, next) => {
  */
 exports.resourceApproveOrReject = (req, res, next) => {
 
-users.hasMany(projectTeam, { foreignKey: 'userId' });
-projectTeam.belongsTo(users, { foreignKey: 'userId' });
+    users.hasMany(projectTeam, { foreignKey: 'userId' });
+    projectTeam.belongsTo(users, { foreignKey: 'userId' });
 
     sequelize.transaction(function (t) {
         sequelize.Promise.each(req.body.projectTeam, function (itemToUpdate) {
@@ -256,11 +324,12 @@ projectTeam.belongsTo(users, { foreignKey: 'userId' });
         raw: true,
         where: { projectId: req.params.projectId },
         include: [{ model: users, nested: false, duplicating: false, attributes: ['userId', 'firstName', 'lastName', 'email'] }]
-    }).then(function(_projectTeam) {
+        }).then(function (_projectTeam) {
         res.status(200).json({
             Candidates: _projectTeam
         });
-    })}).catch(err => {
+        })
+    }).catch(err => {
         console.log(err);
         res.status(500).json({
             error: err.message

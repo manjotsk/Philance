@@ -181,21 +181,21 @@
 							"tests[\"lastLogin\"] = jsonData.user[0].lastLogin === null;",
 							"tests[\"interests\"] = jsonData.user[0].interests === \"CREATE|DEVELOP\";",
 							"tests[\"location\"] = jsonData.user[0].location === \"Nashua, NH\";",
-							"if (jsonData.user[0].userSkills!==null) {",
-							"tests[\"userSkills.userId\"] = jsonData.user[0].userSkills.userId === 1;",
-							"tests[\"userSkills.skillCode\"] = jsonData.user[0].userSkills.skillCode === \"DATABASE\" || \"BUSINESS\";",
-							"tests[\"userSkills.skillName\"] = jsonData.user[0].userSkills.skillName === \"Database Development\" || \"Project Management\";",
-							"tests[\"userSkills.certified\"] = jsonData.user[0].userSkills.certified === \"Yes\";",
-							"tests[\"userSkills.certificationLink\"] = jsonData.user[0].userSkills.certificationLink === null;",
-							"tests[\"userSkills.startDate\"] = jsonData.user[0].userSkills.startDate.includes(\"2018-08-02\");",
-							"tests[\"userSkills.endDate\"] = jsonData.user[0].userSkills.endDate === null;",
+							"if (jsonData.user[0].user_skills!==null) {",
+							"tests[\"user_skills.userId\"] = jsonData.user[0].user_skills[0].userId === 1;",
+							"tests[\"user_skills.skillCode\"] = jsonData.user[0].user_skills[0].skillCode === \"DATABASE\" || \"BUSINESS\";",
+							"tests[\"user_skills.skillName\"] = jsonData.user[0].user_skills[0].skillName === \"Database Development\" || \"Project Management\";",
+							"tests[\"user_skills.certified\"] = jsonData.user[0].user_skills[0].certified === \"Yes\";",
+							"tests[\"user_skills.certificationLink\"] = jsonData.user[0].user_skills[0].certificationLink === null;",
+							"tests[\"user_skills.startDate\"] = jsonData.user[0].user_skills[0].startDate.includes(\"2018-08-02\");",
+							"tests[\"user_skills.endDate\"] = jsonData.user[0].user_skills[0].endDate === null;",
 							"}"
 						]
 					}
 				}
 			],
 			"request": {
-				"url": "http://localhost:3001/philance/users/",
+				"url": "http://localhost:3001/philance/users/1",
 				"method": "PUT",
 				"header": [
 					{
@@ -206,7 +206,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{  \r\n   \"firstName\" : \"Vijay Kumar\",\r\n   \"lastName\" : \"Gandra1\",\r\n   \"email\" : \"vijy.gandra@gmail.com\",\r\n   \"location\":\"Nashua, NH\",\r\n   \"interests\" : \"CREATE|DEVELOP\",\r\n   \"organization\":\"Philance\",\r\n   \"rate\":\"60\",\r\n   \"userId\":1,\r\n   \"userSkills\":[  \r\n      {  \r\n        \"userId\": 1,\r\n        \"skillCode\": \"DATABASE\",\r\n        \"skillName\": \"Database Development\",\r\n        \"certified\": \"Yes\",\r\n        \"certificationLink\": null,\r\n        \"startDate\": \"2018-08-02T00:00:00.000Z\",\r\n        \"endDate\": null\r\n      },\r\n      {  \r\n        \"userId\": 1,\r\n        \"skillCode\": \"BUSINESS\",\r\n        \"skillName\": \"Project Management\",\r\n        \"certified\": \"Yes\",\r\n        \"certificationLink\": null,\r\n        \"startDate\": \"2018-08-02T00:00:00.000Z\",\r\n        \"endDate\": null\r\n      }\r\n   ]\r\n}"
+					"raw": "{  \r\n   \"firstName\" : \"Vijay Kumar\",\r\n   \"lastName\" : \"Gandra1\",\r\n   \"email\" : \"vijy.gandra@gmail.com\",\r\n   \"location\":\"Nashua, NH\",\r\n   \"interests\" : \"CREATE|DEVELOP\",\r\n   \"organization\":\"Philance\",\r\n   \"rate\":\"60\",\r\n   \"userSkills\":[  \r\n      {  \r\n        \"skillCode\": \"DATABASE\",\r\n        \"skillName\": \"Database Development\",\r\n        \"certified\": \"Yes\",\r\n        \"certificationLink\": null,\r\n        \"startDate\": \"2018-08-02T00:00:00.000Z\",\r\n        \"endDate\": null\r\n      },\r\n      {  \r\n        \"skillCode\": \"BUSINESS\",\r\n        \"skillName\": \"Project Management\",\r\n        \"certified\": \"Yes\",\r\n        \"certificationLink\": null,\r\n        \"startDate\": \"2018-08-02T00:00:00.000Z\",\r\n        \"endDate\": null\r\n      }\r\n   ]\r\n}"
 				},
 				"description": "UserUpdate"
 			},
@@ -828,6 +828,108 @@
 					"raw": ""
 				},
 				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Update Projects",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"status\"] = jsonData.project[0].status === \"ACTIVE\";",
+							"tests[\"projectName\"] = jsonData.project[0].projectName === \"Create Project From Postman\";",
+							"tests[\"volunteers\"] = jsonData.project[0].volunteers === \"1\";",
+							"tests[\"freelancers\"] = jsonData.project[0].freelancers === \"2\";",
+							"tests[\"location\"] = jsonData.project[0].location === \"Nashua,NH\";",
+							"tests[\"description\"] = jsonData.project[0].decription === null;",
+							"tests[\"startDate\"] = jsonData.project[0].startDate.includes(\"2018-08-08\");",
+							"tests[\"endDate\"] = jsonData.project[0].endDate.includes('2018-08-31');",
+							"tests[\"estimatedBudget\"] = jsonData.project[0].estimatedBudget === \"10.00\";",
+							"tests[\"createdBy\"] = jsonData.project[0].createdBy === 1;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://localhost:3001/philance/projects/1",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{  \r\n   \"projectName\" : \"Create Project From Postman\",\r\n   \"description\" : \"Create Project description From Postman\",\r\n   \"location\":\"Nashua,NH\",\r\n   \"volunteers\":\"1\",\r\n   \"freelancers\":\"2\",\r\n   \"estimatedBudget\":\"10\",\r\n   \"userId\":\"1\",\r\n   \"startDate\" :\"08/08/2018\",\r\n   \"endDate\" :\"08/31/2018\",\r\n   \"projectDetails\":[  \r\n      {  \r\n        \"detailType\": \"SKILLS\",\r\n        \"name\": \"NODE JS Development\",\r\n        \"certificationReq\": \"NO\",\r\n        \"certificationLink\": \"\",\r\n        \"attribute1\" : \"\",\r\n        \"attribute2\" : \"\",\r\n        \"attribute3\" : \"\",\r\n        \"attribute4\" : \"\",\r\n        \"attribute5\" : \"\"\r\n      },\r\n      {  \r\n      \"detailType\": \"IMPACT_CATEGORY\",\r\n        \"name\": \"Other\",\r\n        \"certificationReq\": \"NO\",\r\n        \"certificationLink\": \"\",\r\n        \"attribute1\" : \"\",\r\n        \"attribute2\" : \"\",\r\n        \"attribute3\" : \"\",\r\n        \"attribute4\" : \"\",\r\n        \"attribute5\" : \"\"\r\n      }\r\n   ]\r\n}\r\n"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "User Update with Notifications",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"userId\"] = jsonData.user[0].userId === 1;",
+							"tests[\"firstName\"] = jsonData.user[0].firstName === \"Vijay Kumar\";",
+							"tests[\"lastName\"] = jsonData.user[0].lastName === \"Gandra1\";",
+							"tests[\"email\"] = jsonData.user[0].email === \"vijy.gandra@gmail.com\";",
+							"tests[\"phoneNumber\"] = jsonData.user[0].phoneNumber === null;",
+							"tests[\"organization\"] = jsonData.user[0].organization === \"Philance\";",
+							"tests[\"title\"] = jsonData.user[0].title === null;",
+							"tests[\"rate\"] = jsonData.user[0].rate === \"60.00\";",
+							"tests[\"auth_src\"] = jsonData.user[0].auth_src === null;",
+							"tests[\"lastLogin\"] = jsonData.user[0].lastLogin === null;",
+							"tests[\"interests\"] = jsonData.user[0].interests === \"CREATE|DEVELOP\";",
+							"tests[\"location\"] = jsonData.user[0].location === \"Nashua, NH\";",
+							"if (jsonData.user[0].user_skills!==null) {",
+							"tests[\"user_skills.userId\"] = jsonData.user[0].user_skills[0].userId === 1;",
+							"tests[\"user_skills.skillCode\"] = jsonData.user[0].user_skills[0].skillCode === \"DATABASE\" || \"BUSINESS\";",
+							"tests[\"user_skills.skillName\"] = jsonData.user[0].user_skills[0].skillName === \"Database Development\" || \"Project Management\";",
+							"tests[\"user_skills.certified\"] = jsonData.user[0].user_skills[0].certified === \"Yes\";",
+							"tests[\"user_skills.certificationLink\"] = jsonData.user[0].user_skills[0].certificationLink === null;",
+							"tests[\"user_skills.startDate\"] = jsonData.user[0].user_skills[0].startDate.includes(\"2018-08-02\");",
+							"tests[\"user_skills.endDate\"] = jsonData.user[0].user_skills[0].endDate === null;",
+							"}",
+							"if (jsonData.user[0].user_notification!==null) {",
+							"tests[\"user_notification.userId\"] = jsonData.user[0].user_notification.userId === 1;",
+							"tests[\"user_notification.notificationTrigger\"] = jsonData.user[0].user_notification.notificationTrigger === \"SEND\";",
+							"tests[\"user_notification.email\"] = jsonData.user[0].user_notification.email === \"Yes\";",
+							"tests[\"user_notification.text\"] = jsonData.user[0].user_notification.text === \"Yes\";",
+							"tests[\"user_notification.push\"] = jsonData.user[0].user_notification.push === \"Yes\";",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://localhost:3001/philance/users/1",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{  \r\n   \"firstName\" : \"Vijay Kumar\",\r\n   \"lastName\" : \"Gandra1\",\r\n   \"email\" : \"vijy.gandra@gmail.com\",\r\n   \"location\":\"Nashua, NH\",\r\n   \"interests\" : \"CREATE|DEVELOP\",\r\n   \"organization\":\"Philance\",\r\n   \"rate\":\"60\",\r\n   \"userSkills\":[  \r\n      {  \r\n        \"skillCode\": \"DATABASE\",\r\n        \"skillName\": \"Database Development\",\r\n        \"certified\": \"Yes\",\r\n        \"certificationLink\": null,\r\n        \"startDate\": \"2018-08-02T00:00:00.000Z\",\r\n        \"endDate\": null\r\n      },\r\n      {  \r\n        \"skillCode\": \"BUSINESS\",\r\n        \"skillName\": \"Project Management\",\r\n        \"certified\": \"Yes\",\r\n        \"certificationLink\": null,\r\n        \"startDate\": \"2018-08-02T00:00:00.000Z\",\r\n        \"endDate\": null\r\n      }\r\n   ],\r\n      \"userNotifications\":\r\n      {  \r\n        \"notificationTrigger\": \"SEND\",\r\n        \"email\": \"Yes\",\r\n        \"text\": \"Yes\",\r\n        \"push\": \"Yes\"\r\n    }\r\n  \r\n}"
+				},
+				"description": "UserUpdate"
 			},
 			"response": []
 		}
