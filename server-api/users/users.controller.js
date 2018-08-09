@@ -10,9 +10,6 @@ var projectDetails = require("../projects/project.details.model");
 var projectTeam = require("../projects/projects.team.model");
 const sequelize = require('../util/dbconnection');
 const Op = sequelize.Op;
-var helpers = require('../helpers')
-var commonFunctions = helpers.default.common;
-var userApi = helpers.default.userApi;
 
 exports.createProfile = (req, res, next) => {
 
@@ -103,7 +100,6 @@ exports.login = (req, res, next) => {
 
 exports.search = (req, res, next) => {
     //TODO: Add Validators
-    var userSearchApi = userApi.search;
     var userName;
 
     if(req.body.dist||req.body.loc){
