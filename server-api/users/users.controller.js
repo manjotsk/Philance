@@ -10,6 +10,9 @@ var projectDetails = require("../projects/project.details.model");
 var projectTeam = require("../projects/projects.team.model");
 const sequelize = require('../util/dbconnection');
 const Op = sequelize.Op;
+var config=require('../config/config')
+var authutil=require('../util/authutil')
+
 
 exports.createProfile = (req, res, next) => {
 
@@ -60,7 +63,7 @@ exports.login = (req, res, next) => {
     users.findOne({
         where: { email: req.body.email }
     }).then(_user => {
-        console.log('************************'+_user)
+        console.log('************************'+_user.userId)
         if(_user==null){
             return res.status(409).json({
                 message: "User not Found"
@@ -78,7 +81,7 @@ exports.login = (req, res, next) => {
                     {
                         email: _user.email,
                         userId: _user.userId
-                    }, 'philance_secret',
+                    }, 'philance_secret'+_user.userId,
                     process.env.JWT_KEY,
                     {
                         expiresIn: "1h"
@@ -297,7 +300,7 @@ exports.getProjects = (req, res, next) => {
     )
 }
 
-exports.passwordReset = (req, res, next) => {
+exports.createPasswordResetToken = (req, res, next) => {
     //   User.remove({ _id: req.params.userId })
     //     .exec()
     //     .then(result => {
@@ -311,7 +314,64 @@ exports.passwordReset = (req, res, next) => {
     //         error: err
     //       });
     //     });
+    var token=req.body.token;
+    var email=req.body.email;
+    jwt.verify(token, 'philance_secret'+req.params._userId, function(err, decoded) {
+        if(err){
+            console.log(decoded+' failed') // bar
+            res.status(401).send(err)
+        }else{
+            console.log(JSON.stringify(decoded)+' Passes') // bar
+            if(req.params._userId==decoded.userId&&req.body.email==decoded.email){
+                console.log('User Verified')
+                //TODO: send email with link that expires in 1 hour
+                const token = jwt.sign(
+                    {
+                        email: req.body.email,
+                        userId: req.params._userId
+                    }, 'philance_secret',
+                    process.env.JWT_KEY,
+                    {
+                        expiresIn: "1h"
+                    }
+                );
+                var dev=config.development.unsecure;
+                res.status(200).send({
+                    url:dev.protocol+dev.host+dev.port+'/philance/users/passwordReset?token='+token
+                })
+            }else{
+                console.log('User not Verified')
+                res.status(500).send("Invalid UserID or Email")
+            }
+        }
+      
+    });
+
     console.log("In user password reset Controller");
 };
+exports.passwordReset = (req, res, next) => {
+    jwt.verify(req.query.token, 'philance_secret', function(err, decoded) {
+        if(err){
+            console.log(decoded+' failed')
+            res.status(401).send(err)
+        }else{
+            authutil.createPassword(req.body.password).then((response)=>{
+                users.update({
+                    password: response.hash
+                },{
+                    where:{
+                        userId:decoded.userId
+                    }
+                }).then(()=>{
+                    console.log('Successful')
+                })
+                res.status(200).send(response)
+                
+            }).catch((error)=>{
+                res.status(500).send(error)
+            })
 
-
+        }
+      
+    });
+}
