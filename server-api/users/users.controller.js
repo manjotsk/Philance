@@ -10,8 +10,8 @@ var projectDetails = require("../projects/project.details.model");
 var projectTeam = require("../projects/projects.team.model");
 const sequelize = require('../util/dbconnection');
 const Op = sequelize.Op;
-var config=require('../config/config')
-var authutil=require('../util/authutil')
+var config = require('../config/config')
+var authutil = require('../util/authutil')
 
 
 exports.createProfile = (req, res, next) => {
@@ -59,12 +59,12 @@ exports.createProfile = (req, res, next) => {
 
 exports.login = (req, res, next) => {
     console.log('Login : ' + req.body.email + ' Passowrd : ' + req.body.password);
-    
+
     users.findOne({
         where: { email: req.body.email }
     }).then(_user => {
-        console.log('************************'+_user.userId)
-        if(_user==null){
+        console.log('************************' + _user.userId)
+        if (_user == null) {
             return res.status(409).json({
                 message: "User not Found"
             });
@@ -81,7 +81,7 @@ exports.login = (req, res, next) => {
                     {
                         email: _user.email,
                         userId: _user.userId
-                    }, 'philance_secret'+_user.userId,
+                    }, 'philance_secret' + _user.userId,
                     process.env.JWT_KEY,
                     {
                         expiresIn: "1h"
@@ -105,31 +105,31 @@ exports.search = (req, res, next) => {
     //TODO: Add Validators
     var userName;
 
-    if(req.body.dist||req.body.loc){
-        if(req.body.dist==null||req.body.loc==null){
-            res.status(409).send({message:`${req.body.dist?'Location ':' Distance '} is required`})
+    if (req.body.dist || req.body.loc) {
+        if (req.body.dist == null || req.body.loc == null) {
+            res.status(409).send({ message: `${req.body.dist ? 'Location ' : ' Distance '} is required` })
         }
     }
 
-    var _sql=   `SELECT * FROM users `+`    `;
-    
-    _sql=req.body.skill==null?_sql:_sql+`INNER JOIN user_skills `;
-    // _sql=req.body.ptype==null?_sql:_sql+`INNER JOIN user_skills `;
-    
-    _sql=Object.keys(req.body).length === 0?_sql:_sql+`WHERE `;
-    _sql=req.body.fname==null?              _sql:_sql+`users.fname LIKE '%${req.body.fname}%' AND `;
-    _sql=req.body.lname==null?              _sql:_sql+`users.lname LIKE '%${req.body.lname}%' AND `;
-    _sql=req.body.personLoc==null?          _sql:_sql+`users.location LIKE '%${req.body.personLoc}%' AND `;
-    _sql=req.body.skill==null?             _sql:_sql+`user_skills.skill_name LIKE '%${req.body.skill}%' AND`;
-    
-    _sql=_sql.slice(0,-4)
+    var _sql = `SELECT * FROM users ` + `    `;
 
-    sequelize.query(_sql,{ type: sequelize.QueryTypes.SELECT}).then((_users)=>{
+    _sql = req.body.skill == null ? _sql : _sql + `INNER JOIN user_skills `;
+    // _sql=req.body.ptype==null?_sql:_sql+`INNER JOIN user_skills `;
+
+    _sql = Object.keys(req.body).length === 0 ? _sql : _sql + `WHERE `;
+    _sql = req.body.fname == null ? _sql : _sql + `users.fname LIKE '%${req.body.fname}%' AND `;
+    _sql = req.body.lname == null ? _sql : _sql + `users.lname LIKE '%${req.body.lname}%' AND `;
+    _sql = req.body.personLoc == null ? _sql : _sql + `users.location LIKE '%${req.body.personLoc}%' AND `;
+    _sql = req.body.skill == null ? _sql : _sql + `user_skills.skill_name LIKE '%${req.body.skill}%' AND`;
+
+    _sql = _sql.slice(0, -4)
+
+    sequelize.query(_sql, { type: sequelize.QueryTypes.SELECT }).then((_users) => {
         res.status(200).send(_users)
     })
-    .catch((err)=>{
-        res.status(200).send(err)
-    })
+        .catch((err) => {
+            res.status(200).send(err)
+        })
 
 
 
@@ -157,7 +157,7 @@ exports.updateProfile = (req, res, next) => {
     users.hasOne(userNotifications, { foreignKey: 'userId' });
 
     // sequelize.transaction(function (t) {
-        users.update({
+    users.update({
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
@@ -169,33 +169,33 @@ exports.updateProfile = (req, res, next) => {
     },
         {
             where: {
-                    userId: req.params.userId,
+                userId: req.params.userId,
             }
         }, {
             include: [{ model: userSkills, nested: true }]
         }
     ).then(_user => {
         if (_user) {
-                userSkills.destroy({ where: { userId: req.params.userId }, truncate: true, force: true }).then(
+            userSkills.destroy({ where: { userId: req.params.userId }, truncate: true, force: true }).then(
                 sequelize.transaction(function (t) {
                     sequelize.Promise.each(req.body.userSkills, function (itemToUpdate) {
-                            userSkills.create({
-                                userId: req.params.userId,
-                                skillCode: itemToUpdate.skillCode,
-                                skillName: itemToUpdate.skillName,
-                                certified: itemToUpdate.certified,
-                                certificationLink: itemToUpdate.certificationLink,
-                                startDate: itemToUpdate.startDate,
-                                endDate: itemToUpdate.endDate,
-                                createdBy: req.body.userId,
-                                lastUpdatedBy: req.body.userId
-                    }).then((_createdRecords) => {
-                                _count++;
-                                if (_count === (req.body.userSkills).length) {
+                        userSkills.create({
+                            userId: req.params.userId,
+                            skillCode: itemToUpdate.skillCode,
+                            skillName: itemToUpdate.skillName,
+                            certified: itemToUpdate.certified,
+                            certificationLink: itemToUpdate.certificationLink,
+                            startDate: itemToUpdate.startDate,
+                            endDate: itemToUpdate.endDate,
+                            createdBy: req.body.userId,
+                            lastUpdatedBy: req.body.userId
+                        }).then((_createdRecords) => {
+                            _count++;
+                            if (_count === (req.body.userSkills).length) {
                                 // if (_createdRecords) {
-                                    if ( typeof req.body.userNotifications !== 'undefined' &&  req.body.userNotifications !== null) {
+                                if (typeof req.body.userNotifications !== 'undefined' && req.body.userNotifications !== null) {
                                     userNotifications.findOne({ where: { userId: req.params.userId } }).then(_userNotifications => {
-    
+
                                         if (_userNotifications) {
                                             userNotifications.update({
                                                 notificationTrigger: req.body.userNotifications.notificationTrigger,
@@ -204,16 +204,16 @@ exports.updateProfile = (req, res, next) => {
                                                 push: req.body.userNotifications.push,
                                                 lastUpdatedBy: req.params.userId,
                                             }, { where: { userId: req.params.userId } }).then(_updateCount => {
-            users.findAll({
+                                                users.findAll({
                                                     where: { userId: req.params.userId },
                                                     include: [{ model: userSkills, nested: true, duplicating: false, required: false },
                                                     { model: userNotifications, nested: true, duplicating: false, required: false }]
-            }).then((_user) => {
-                res.status(200).json({
-                    user: _user
-                });
-            }
-            )
+                                                }).then((_user) => {
+                                                    res.status(200).json({
+                                                        user: _user
+                                                    });
+                                                }
+                                                )
                                             }
                                             )
                                         } else {
@@ -232,7 +232,7 @@ exports.updateProfile = (req, res, next) => {
                                                 }).then((_user) => {
                                                     res.status(200).json({
                                                         user: _user
-                    });
+                                                    });
                                                 }
                                                 )
                                             }
@@ -252,9 +252,9 @@ exports.updateProfile = (req, res, next) => {
                                     }
                                     )
                                 }
-                                }
-                            })
+                            }
                         })
+                    })
                 })
             )
             // users.findAll({
@@ -268,12 +268,12 @@ exports.updateProfile = (req, res, next) => {
             // )
         }
     }
-        ).catch(err => {
-            console.log(err);
-            res.status(500).json({
-                error: err
-            });
-        })
+    ).catch(err => {
+        console.log(err);
+        res.status(500).json({
+            error: err
+        });
+    })
     // })
 }
 
@@ -314,15 +314,15 @@ exports.createPasswordResetToken = (req, res, next) => {
     //         error: err
     //       });
     //     });
-    var token=req.body.token;
-    var email=req.body.email;
-    jwt.verify(token, 'philance_secret'+req.params._userId, function(err, decoded) {
-        if(err){
-            console.log(decoded+' failed') // bar
+    var token = req.body.token;
+    var email = req.body.email;
+    jwt.verify(token, 'philance_secret' + req.params._userId, function (err, decoded) {
+        if (err) {
+            console.log(decoded + ' failed') // bar
             res.status(401).send(err)
-        }else{
-            console.log(JSON.stringify(decoded)+' Passes') // bar
-            if(req.params._userId==decoded.userId&&req.body.email==decoded.email){
+        } else {
+            console.log(JSON.stringify(decoded) + ' Passes') // bar
+            if (req.params._userId == decoded.userId && req.body.email == decoded.email) {
                 console.log('User Verified')
                 //TODO: send email with link that expires in 1 hour
                 const token = jwt.sign(
@@ -335,43 +335,43 @@ exports.createPasswordResetToken = (req, res, next) => {
                         expiresIn: "1h"
                     }
                 );
-                var dev=config.development.unsecure;
+                var dev = config.development.unsecure;
                 res.status(200).send({
-                    url:dev.protocol+dev.host+dev.port+'/philance/users/passwordReset?token='+token
+                    url: dev.protocol + dev.host + dev.port + '/philance/users/passwordReset?token=' + token
                 })
-            }else{
+            } else {
                 console.log('User not Verified')
                 res.status(500).send("Invalid UserID or Email")
             }
         }
-      
+
     });
 
     console.log("In user password reset Controller");
 };
 exports.passwordReset = (req, res, next) => {
-    jwt.verify(req.query.token, 'philance_secret', function(err, decoded) {
-        if(err){
-            console.log(decoded+' failed')
+    jwt.verify(req.query.token, 'philance_secret', function (err, decoded) {
+        if (err) {
+            console.log(decoded + ' failed')
             res.status(401).send(err)
-        }else{
-            authutil.createPassword(req.body.password).then((response)=>{
+        } else {
+            authutil.createPassword(req.body.password).then((response) => {
                 users.update({
                     password: response.hash
-                },{
-                    where:{
-                        userId:decoded.userId
-                    }
-                }).then(()=>{
-                    console.log('Successful')
-                })
+                }, {
+                        where: {
+                            userId: decoded.userId
+                        }
+                    }).then(() => {
+                        console.log('Successful')
+                    })
                 res.status(200).send(response)
-                
-            }).catch((error)=>{
+
+            }).catch((error) => {
                 res.status(500).send(error)
             })
 
         }
-      
+
     });
 }
