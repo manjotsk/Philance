@@ -12,7 +12,7 @@ const sequelize = require('../util/dbconnection');
 const Op = sequelize.Op;
 var config = require('../config/config')
 var authutil = require('../util/authutil')
-
+var userHelper=require('../helpers/user')
 
 exports.createProfile = (req, res, next) => {
 
@@ -336,6 +336,18 @@ exports.createPasswordResetToken = (req, res, next) => {
                     }
                 );
                 var dev = config.development.unsecure;
+                //send email
+                userHelper.emailUsers({
+                    config:{
+                        from:'manjot.kalsi@simbaquartz.com',
+                        // to: req.body.email,                      //email to be requested from the database
+                        to: 'manjot.kalsi@simbaquartz.com',                      //email to be requested from the database
+                    },
+                    data:{
+                        url:dev.protocol + dev.host + dev.port + '/philance/users/passwordReset?token=' + token,
+                        subject:'Password Reset Mail, Team-Philance',
+                        text:'Hi Manjot\nPlease follow the below link to reset your email\n\n\t'+dev.protocol + dev.host + dev.port + '/philance/users/passwordReset?token=' + token+'\n This link is valid for 1 hour only. \n\n Thank you\nRegards\nPhilance Development Team'
+                    }})
                 res.status(200).send({
                     url: dev.protocol + dev.host + dev.port + '/philance/users/passwordReset?token=' + token
                 })
@@ -364,6 +376,7 @@ exports.passwordReset = (req, res, next) => {
                         }
                     }).then(() => {
                         console.log('Successful')
+                        //send email
                     })
                 res.status(200).send(response)
 
