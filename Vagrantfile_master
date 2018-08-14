@@ -17,13 +17,7 @@ Vagrant.configure("2") do |config|
       trigger.run_remote = {inline: "sudo chmod +x /opt/openproject/public/Philance/mysqldump.sh;/opt/openproject/public/Philance/mysqldump.sh"}
     end
   config.vm.provision "shell", inline: <<-SHELL
-      sudo yum -y install xorg-x11-server-Xvfb.x86_64 python2-pip firefox
-	  sudo pip install selenium
-	  sudo pip install pyxvfb
-	  sudo pip install nose
-	  sudo pip install nose-html-reporting
 	  Xvfb :1 > /dev/null 2>&1 &
-	  cd /home; tar -xvf /opt/openproject/public/Philance/Selenium/geckodriver-v0.20.1-linux64.tar.gz
       sudo chmod +x /opt/openproject/public/Philance/*.sh
 	  sudo chmod +x /opt/openproject/public/Philance/*.py
 	  sudo chmod +x /opt/openproject/public/Philance/frontend-test/*.sh
