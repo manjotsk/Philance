@@ -1,6 +1,7 @@
 // var connectionPool = require('../util/dbconnection');
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+var moment = require('moment')
 var users = require("./users.model");
 var userSkills = require("./user.skills.model");
 var userNotifications = require("./user.notifications.model");
@@ -8,6 +9,7 @@ var projects = require("../projects/projects.model");
 var projectDetails = require("../projects/project.details.model");
 var projectTeam = require("../projects/projects.team.model");
 const sequelize = require('../util/dbconnection');
+const Op = sequelize.Op;
 
 exports.createProfile = (req, res, next) => {
 
@@ -20,12 +22,13 @@ exports.createProfile = (req, res, next) => {
                     return res.status(500).json({
                         error: "password hashing failed! detailed error as follows - " + err
                     });
-                } else {                    
+                } else {
                     users.create({
                         firstName: req.body.firstName,
                         lastName: req.body.lastName,
                         email: req.body.email,
-                        password: hash
+                        password: hash,
+                        location: req.body.location
                     }).then((_user) => {
                         res.status(200).json({
                             message: "User # " + req.body.firstName + " " + req.body.lastName + " Registered Successfully",
@@ -57,7 +60,12 @@ exports.login = (req, res, next) => {
     users.findOne({
         where: { email: req.body.email }
     }).then(_user => {
-
+        console.log('************************'+_user)
+        if(_user==null){
+            return res.status(409).json({
+                message: "User not Found"
+            });
+        }
         bcrypt.compare(req.body.password, _user.password, (err, result) => {
             if (err) {
                 return res.status(409).json({
@@ -90,6 +98,39 @@ exports.login = (req, res, next) => {
 
 }
 
+exports.search = (req, res, next) => {
+    //TODO: Add Validators
+    var userName;
+
+    if(req.body.dist||req.body.loc){
+        if(req.body.dist==null||req.body.loc==null){
+            res.status(409).send({message:`${req.body.dist?'Location ':' Distance '} is required`})
+        }
+    }
+
+    var _sql=   `SELECT * FROM users `+`    `;
+    
+    _sql=req.body.skill==null?_sql:_sql+`INNER JOIN user_skills `;
+    // _sql=req.body.ptype==null?_sql:_sql+`INNER JOIN user_skills `;
+    
+    _sql=Object.keys(req.body).length === 0?_sql:_sql+`WHERE `;
+    _sql=req.body.fname==null?              _sql:_sql+`users.fname LIKE '%${req.body.fname}%' AND `;
+    _sql=req.body.lname==null?              _sql:_sql+`users.lname LIKE '%${req.body.lname}%' AND `;
+    _sql=req.body.personLoc==null?          _sql:_sql+`users.location LIKE '%${req.body.personLoc}%' AND `;
+    _sql=req.body.skill==null?             _sql:_sql+`user_skills.skill_name LIKE '%${req.body.skill}%' AND`;
+    
+    _sql=_sql.slice(0,-4)
+
+    sequelize.query(_sql,{ type: sequelize.QueryTypes.SELECT}).then((_users)=>{
+        res.status(200).send(_users)
+    })
+    .catch((err)=>{
+        res.status(200).send(err)
+    })
+
+
+
+}
 exports.getProfile = (req, res, next) => {
 
     users.hasMany(userSkills, { foreignKey: 'userId' });

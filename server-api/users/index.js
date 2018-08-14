@@ -10,6 +10,9 @@ router.put("/:userId", UserController.updateProfile);
 router.get("/:userId", UserController.getProfile);
 // This is called for User Login
 router.post("/login", UserController.login);
+router.post("/passwordReset/:_userId", UserController.passwordReset);
+router.post("/search", UserController.search);
+//router.post("/userUpdate/:_userId", checkAuth, UserController.userUpdate);
 
 //router.post("/passwordReset/:_userId", UserController.passwordReset);
 // This is called for getting the user details
