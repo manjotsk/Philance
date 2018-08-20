@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import {connect} from 'react-redux'
+import { Redirect } from 'react-router-dom'
 import {emailChanged, passwordChanged, textChanged, registerUser, firstNameChanged, lastNameChanged} from '../../actions/register'
 
 // @material-ui/core components
@@ -25,6 +26,8 @@ import CustomInput from "components/CustomInput/CustomInput.jsx";
 import InfoArea from "components/InfoArea/InfoArea.jsx";
 import Card from "components/Card/Card.jsx";
 import CardBody from "components/Card/CardBody.jsx";
+
+import LoginPage from './LoginPage.jsx'
 
 import registerPageStyle from "assets/jss/material-dashboard-pro-react/views/registerPageStyle";
 
@@ -60,8 +63,9 @@ onButtonPress() {
 
   render() {
     const { classes } = this.props;
-    return (
-      <div className={classes.container}>
+    if(!this.props.isRegistered) {
+      return(
+        <div className={classes.container}>
         <GridContainer justify="center">
           <GridItem xs={12} sm={12} md={10}>
             <Card className={classes.cardSignup}>
@@ -198,8 +202,6 @@ onButtonPress() {
                       <div className={classes.center}>
                         <Button round color="info" onClick={()=>{
                           this.onButtonPress()
-                          if(this.props.isRegistered)
-                            <a href="#/login"></a>
                           }}>
                           {this.props.error}
                         </Button>
@@ -218,7 +220,12 @@ onButtonPress() {
           </GridItem>
         </GridContainer>
       </div>
-    );
+      )
+    }
+    else
+    {
+      return <Redirect to="/login" push />
+    }
   }
 }
 
