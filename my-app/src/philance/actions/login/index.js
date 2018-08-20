@@ -1,8 +1,9 @@
 import {
     EMAIL_CHANGED,
+    INVALID_CREDENTIALS,
+    LOGIN_NETWORK_ERROR,
     PASSWORD_CHANGED,
     LOGIN_USER_SUCCESS,
-    LOGIN_USER_FAIL,
     LOGIN_USER,
     PASSWORD_EMPTY,
     EMAIL_EMPTY,
@@ -52,20 +53,18 @@ export const loginUser = ({email, password}) => {
             email: email,
             password: password
         })
-        .then(response=>console.log(response))
+        .then(response=>{
+            const status = response.response.status
+            status==200?
+                dispatch({type: LOGIN_USER_SUCCESS}):
+                dispatch({type: INVALID_CREDENTIALS})
+        })
         .catch(error=>{
-        console.log(error);
+            const status = error.response.status
+            if (status == 409)
+                dispatch({type: INVALID_CREDENTIALS})
+            else 
+                dispatch({type: LOGIN_NETWORK_ERROR})
         });
     }
-}
-
-const loginUserSuccess = (dispatch, user) => {
-    dispatch({
-        type: LOGIN_USER_SUCCESS,
-        payload: user
-    })
-}
-
-const loginUserFail = (dispatch, user) => {
-    dispatch({type: LOGIN_USER_FAIL})
 }
