@@ -54,14 +54,14 @@ export const loginUser = ({email, password}) => {
             password: password
         })
         .then(response=>{
-            const status = response.response.status
-            status==200?
+            const status = response.status
+            status===200?
                 dispatch({type: LOGIN_USER_SUCCESS}):
                 dispatch({type: INVALID_CREDENTIALS})
         })
         .catch(error=>{
             const status = error.response.status
-            if (status == 409)
+            if (status === 409)
                 dispatch({type: INVALID_CREDENTIALS})
             else 
                 dispatch({type: LOGIN_NETWORK_ERROR})

@@ -27,7 +27,7 @@ export default (state = INITIAL_STATE, action) => {
         case LOGIN_USER:
             return{...state, error: 'LET\'s GO'}
         case LOGIN_USER_SUCCESS:
-            return {...state, ...INITIAL_STATE, user: action.payload, error: 'LET\'s GO', isLoggedIn: true}
+            return {...state, ...INITIAL_STATE, user: action.payload, error: 'Success', isLoggedIn: true}
         case  FIELDS_EMPTY:
             return {...state, error: 'Both fields must filled'}
         case PASSWORD_EMPTY:
