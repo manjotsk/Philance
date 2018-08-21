@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Switch, Route, Redirect } from "react-router-dom";
+import {connect} from 'react-redux'
 
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -22,8 +23,7 @@ import bgImagePub from "philance/assets/img/philance-bg3.jpeg";
 class Pages extends React.Component {
   render() {
     const { classes, ...rest } = this.props;
-    let isLoggedIn = false;
-    if (isLoggedIn) {
+    if (this.props.isLoggedIn) {
       // display private pages
       return (
         <div>
@@ -91,8 +91,14 @@ class Pages extends React.Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+      isLoggedIn: state.auth.isLoggedIn,
+  }
+}
+
 Pages.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(pagesStyle)(Pages);
+export default connect(mapStateToProps)(withStyles(pagesStyle)(Pages));

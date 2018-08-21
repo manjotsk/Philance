@@ -1,6 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+import {connect} from 'react-redux'
+import { Redirect } from 'react-router-dom'
+import {emailChanged, passwordChanged, textChanged, registerUser, firstNameChanged, lastNameChanged} from '../../actions/register'
+
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -23,6 +27,8 @@ import InfoArea from "components/InfoArea/InfoArea.jsx";
 import Card from "components/Card/Card.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 
+import LoginPage from './LoginPage.jsx'
+
 import registerPageStyle from "assets/jss/material-dashboard-pro-react/views/registerPageStyle";
 
 class RegisterPage extends React.Component {
@@ -30,10 +36,36 @@ class RegisterPage extends React.Component {
     super(props);
   }
 
+  onEmailChange(text) {
+    this.props.emailChanged(text)
+    this.props.textChanged()
+  }
+
+  onPasswordChange(text) {
+    this.props.passwordChanged(text)
+    this.props.textChanged()
+  }
+
+  onFirstNameChange(text) {
+    this.props.firstNameChanged(text)
+    this.props.textChanged()
+  }
+
+  onLastNameChange(text) {
+    this.props.lastNameChanged(text)
+    this.props.textChanged()
+  }
+
+onButtonPress() {
+    const {email, password, firstName, lastName} = this.props;
+    this.props.registerUser({firstName, lastName, email, password})
+}
+
   render() {
     const { classes } = this.props;
-    return (
-      <div className={classes.container}>
+    if(!this.props.isRegistered) {
+      return(
+        <div className={classes.container}>
         <GridContainer justify="center">
           <GridItem xs={12} sm={12} md={10}>
             <Card className={classes.cardSignup}>
@@ -84,6 +116,9 @@ class RegisterPage extends React.Component {
                           className: classes.customFormControlClasses
                         }}
                         inputProps={{
+                          onChange: e => {
+                            this.onFirstNameChange(e.target.value)
+                          },
                           startAdornment: (
                             <InputAdornment
                               position="start"
@@ -101,6 +136,9 @@ class RegisterPage extends React.Component {
                           className: classes.customFormControlClasses
                         }}
                         inputProps={{
+                          onChange: e => {
+                            this.onLastNameChange(e.target.value)
+                          },
                           startAdornment: (
                             <InputAdornment
                               position="start"
@@ -118,6 +156,9 @@ class RegisterPage extends React.Component {
                           className: classes.customFormControlClasses
                         }}
                         inputProps={{
+                          onChange: e => {
+                            this.onEmailChange(e.target.value)
+                          },
                           startAdornment: (
                             <InputAdornment
                               position="start"
@@ -135,6 +176,10 @@ class RegisterPage extends React.Component {
                           className: classes.customFormControlClasses
                         }}
                         inputProps={{
+                          onChange: e => {
+                            this.onPasswordChange(e.target.value)
+                          },
+                          type: 'password',
                           startAdornment: (
                             <InputAdornment
                               position="start"
@@ -155,8 +200,10 @@ class RegisterPage extends React.Component {
                         </span>
                       </FormLabel>
                       <div className={classes.center}>
-                        <Button round color="info">
-                          Get started
+                        <Button round color="info" onClick={()=>{
+                          this.onButtonPress()
+                          }}>
+                          {this.props.error}
                         </Button>
                       </div>
                     </form>
@@ -173,7 +220,23 @@ class RegisterPage extends React.Component {
           </GridItem>
         </GridContainer>
       </div>
-    );
+      )
+    }
+    else
+    {
+      return <Redirect to="/login" push />
+    }
+  }
+}
+
+const mapStateToProps = state => {
+  return {
+      email: state.reg.email,
+      password: state.reg.password,
+      error: state.reg.error,
+      firstName: state.reg.firstName,
+      lastName: state.reg.lastName,
+      isRegistered: state.reg.registered
   }
 }
 
@@ -181,4 +244,4 @@ RegisterPage.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(registerPageStyle)(RegisterPage);
+export default connect(mapStateToProps, {emailChanged, passwordChanged, textChanged, registerUser, firstNameChanged, lastNameChanged})(withStyles(registerPageStyle)(RegisterPage))
