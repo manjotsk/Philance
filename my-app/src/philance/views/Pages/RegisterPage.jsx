@@ -27,8 +27,6 @@ import InfoArea from "components/InfoArea/InfoArea.jsx";
 import Card from "components/Card/Card.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 
-import LoginPage from './LoginPage.jsx'
-
 import registerPageStyle from "assets/jss/material-dashboard-pro-react/views/registerPageStyle";
 
 class RegisterPage extends React.Component {

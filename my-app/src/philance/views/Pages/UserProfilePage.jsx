@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+import {connect} from 'react-redux'
+
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -24,10 +26,21 @@ import userProfileStyles from "philance/views/PageStyles/UserProfileStyles.jsx";
 
 import avatar from "assets/img/faces/marc.jpg";
 
+import {textChanged, updateProfile} from '../../actions/userProfile'
+
 class UserProfile extends React.Component {
   constructor(props) {
     super(props);
   }
+
+  onFieldChange() {
+    this.props.textChanged()
+  }
+
+  onButtonPress() {
+    const {userName, email, firstName, lastName, city, country, postalCode, description, text} = this.props;
+    this.props.updateProfile({userName, email, firstName, lastName, city, country, postalCode, description, text})
+}
 
   render() {
     const { classes } = this.props;
@@ -144,8 +157,8 @@ class UserProfile extends React.Component {
                     />
                   </GridItem>
                 </GridContainer>
-                <Button color="rose" className={classes.updateProfileButton}>
-                  Update Profile
+                <Button color="rose" className={classes.updateProfileButton} onClick={()=>{}}>
+                  {this.props.text}
                 </Button>
                 <Clearfix />
               </CardBody>
@@ -178,4 +191,18 @@ UserProfile.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(userProfileStyles)(UserProfile);
+const mapStateToProps = state => {
+  return {
+    userName: state.user.userName,
+    email: state.user.email,
+    firstName: state.user.firstName,
+    lastName: state.user.lastName,
+    city: state.user.city,
+    country: state.user.country,
+    postalCode: state.user.postalCode,
+    description: state.user.description,
+    text: state.user.text
+  }
+}
+
+export default connect(mapStateToProps, {textChanged, updateProfile})(withStyles(userProfileStyles)(UserProfile));
