@@ -116,7 +116,6 @@ export const registerUser = ({ firstName, lastName, email, password }) =>
                 })
             )
             .catch(error=>{
-                console.log('ss',typeof(error.response.status))
                 const status = error.response.status
                 if (status == 409)
                     dispatch({type: ALREADY_REGISTER})
@@ -128,4 +127,3 @@ export const registerUser = ({ firstName, lastName, email, password }) =>
         }
     }
 }
-

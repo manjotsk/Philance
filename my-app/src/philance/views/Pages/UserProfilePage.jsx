@@ -26,20 +26,76 @@ import userProfileStyles from "philance/views/PageStyles/UserProfileStyles.jsx";
 
 import avatar from "assets/img/faces/marc.jpg";
 
-import {textChanged, updateProfile} from '../../actions/userProfile'
+import {
+  textChanged,
+  updateProfile,
+  userNameChanged,
+  emailChanged,
+  firstNameChanged,
+  lastNameChanged,
+  cityChanged,
+  countryChanged,
+  postalCodeChanged,
+  descriptionChanged
+} from '../../actions/userProfile'
 
 class UserProfile extends React.Component {
   constructor(props) {
     super(props);
   }
 
-  onFieldChange() {
+  onEmailChange(text) {
+    this.props.emailChanged(text)
     this.props.textChanged()
   }
 
-  onButtonPress() {
-    const {userName, email, firstName, lastName, city, country, postalCode, description, text} = this.props;
-    this.props.updateProfile({userName, email, firstName, lastName, city, country, postalCode, description, text})
+  onUserNameChange(text) {
+    this.props.userNameChanged(text)
+    this.props.textChanged()
+  }
+
+  onFirstNameChange(text) {
+    this.props.firstNameChanged(text)
+    this.props.textChanged()
+  }
+
+  onLastNameChange(text) {
+    this.props.lastNameChanged(text)
+    this.props.textChanged()
+  }
+
+  onCityChange(text) {
+    this.props.cityChanged(text)
+    this.props.textChanged()
+  }
+
+  onPostalCodeChange(text) {
+    this.props.postalCodeChanged(text)
+    this.props.textChanged()
+  }
+
+  onCountryChange(text) {
+    this.props.countryChanged(text)
+    this.props.textChanged()
+  }
+
+  onDescriptionChange(text) {
+    this.props.descriptionChanged(text)
+    this.props.textChanged()
+  }
+
+   onButtonPress() {
+    const {
+      userName,
+      email,
+      firstName,
+      lastName,
+      city,
+      country,
+      postalCode,
+      description
+    } = this.props
+    this.props.updateProfile({userName, email, firstName, lastName, city, country, postalCode, description})
 }
 
   render() {
@@ -76,7 +132,10 @@ class UserProfile extends React.Component {
                       labelText="Username"
                       id="username"
                       formControlProps={{
-                        fullWidth: true
+                        fullWidth: true,
+                        onChange: e => {
+                          this.onUserNameChange(e.target.value)
+                        }
                       }}
                     />
                   </GridItem>
@@ -85,7 +144,10 @@ class UserProfile extends React.Component {
                       labelText="Email address"
                       id="email-address"
                       formControlProps={{
-                        fullWidth: true
+                        fullWidth: true,
+                        onChange: e => {
+                          this.onEmailChange(e.target.value)
+                        }
                       }}
                     />
                   </GridItem>
@@ -96,7 +158,10 @@ class UserProfile extends React.Component {
                       labelText="First Name"
                       id="first-name"
                       formControlProps={{
-                        fullWidth: true
+                        fullWidth: true,
+                        onChange: e => {
+                          this.onFirstNameChange(e.target.value)
+                        }
                       }}
                     />
                   </GridItem>
@@ -105,7 +170,10 @@ class UserProfile extends React.Component {
                       labelText="Last Name"
                       id="last-name"
                       formControlProps={{
-                        fullWidth: true
+                        fullWidth: true,
+                        onChange: e => {
+                          this.onLastNameChange(e.target.value)
+                        }
                       }}
                     />
                   </GridItem>
@@ -116,7 +184,10 @@ class UserProfile extends React.Component {
                       labelText="City"
                       id="city"
                       formControlProps={{
-                        fullWidth: true
+                        fullWidth: true,
+                        onChange: e => {
+                          this.onCityChange(e.target.value)
+                        }
                       }}
                     />
                   </GridItem>
@@ -125,7 +196,10 @@ class UserProfile extends React.Component {
                       labelText="Country"
                       id="country"
                       formControlProps={{
-                        fullWidth: true
+                        fullWidth: true,
+                        onChange: e => {
+                          this.onCountryChange(e.target.value)
+                        }
                       }}
                     />
                   </GridItem>
@@ -134,7 +208,10 @@ class UserProfile extends React.Component {
                       labelText="Postal Code"
                       id="postal-code"
                       formControlProps={{
-                        fullWidth: true
+                        fullWidth: true,
+                        onChange: e => {
+                          this.onPostalCodeChange(e.target.value)
+                        }
                       }}
                     />
                   </GridItem>
@@ -152,12 +229,18 @@ class UserProfile extends React.Component {
                       }}
                       inputProps={{
                         multiline: true,
-                        rows: 5
+                        rows: 5,
+                        onChange: e => {
+                          this.onDescriptionChange(e.target.value)
+                        }
                       }}
                     />
                   </GridItem>
                 </GridContainer>
-                <Button color="rose" className={classes.updateProfileButton} onClick={()=>{}}>
+                <Button color="rose" className={classes.updateProfileButton} onClick={()=>{
+                  this.onButtonPress()
+                  console.log(this.props)
+                }}>
                   {this.props.text}
                 </Button>
                 <Clearfix />
@@ -205,4 +288,15 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, {textChanged, updateProfile})(withStyles(userProfileStyles)(UserProfile));
+export default connect(mapStateToProps, {
+  textChanged,
+  updateProfile,
+  userNameChanged,
+  emailChanged,
+  firstNameChanged,
+  lastNameChanged,
+  cityChanged,
+  countryChanged,
+  postalCodeChanged,
+  descriptionChanged
+})(withStyles(userProfileStyles)(UserProfile));
