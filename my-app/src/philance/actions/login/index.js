@@ -12,6 +12,8 @@ import {
 
 import axios from 'axios'
 
+import hostname from '../../../config'
+
 export const emailChanged = text => {
     return {
         type: EMAIL_CHANGED,
@@ -49,7 +51,7 @@ export const loginUser = ({email, password}) => {
         dispatch({type: LOGIN_USER})
         console.log('email is', email)
         console.log('password is', password)
-        axios.post('http://127.0.0.1:3001/philance/users/login/', {
+        axios.post(hostname()+'/philance/users/login/', {
             email: email,
             password: password
         })

@@ -14,6 +14,8 @@ import {
 
 import axios from 'axios'
 
+import hostname from '../../../config'
+
 export const firstNameChanged = text => {
     return {
         type: REGISTER_FIRST_NAME_CHANGED,
@@ -47,8 +49,15 @@ export const textChanged = () => {
         type: REGISTER_USER
     }
 }
-
-export const registerUser = ({ firstName, lastName, email, password }) => {
+/**
+ * Registers the user based on input criteria.
+ *  The method makes sure it validates the email 
+ *  Password should have more than 6 characters
+ *  All the fields must be filled
+ * @param {*} param0 input object in the format { firstName, lastName, email, password }
+ */
+export const registerUser = ({ firstName, lastName, email, password }) => 
+{
     const reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
     if(email === '' || password === '' || firstName == '' || lastName == '' ) 
         return {
@@ -69,9 +78,7 @@ export const registerUser = ({ firstName, lastName, email, password }) => {
     else {
         return dispatch => {
             dispatch({type: REGISTER_USER})
-            console.log('email is', email)
-            console.log('password is', password)
-            axios.post('http://localhost:3001/philance/users/', {
+            axios.post(hostname()+'/philance/users/', {
                 firstName: firstName,
                 lastName: lastName,
                 email: email,
