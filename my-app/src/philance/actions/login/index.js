@@ -14,12 +14,22 @@ import axios from 'axios'
 
 import hostname from '../../../config'
 
+/**
+ * The method recieves the text from password input field and updates the email key parameter in the redux store
+ * @param {*} param0 Input is received in the form of text
+ */
+
 export const emailChanged = text => {
     return {
         type: EMAIL_CHANGED,
         payload: text
     }
 }
+
+/**
+ * The method recieves the text from password input field and updates the password key parameter in the redux store
+ * @param {*} param0 Input is received in the form of text
+ */
 
 export const passwordChanged = text => {
     return {
@@ -28,11 +38,22 @@ export const passwordChanged = text => {
     }
 }
 
+/**
+ * The method checks weather text in any of the input field is changed
+ * @param {*} param0 No inputs received
+ */
+
 export const textChanged = () => {
     return {
         type: LOGIN_USER
     }
 }
+
+/**
+ * Logins the user based on input criteria.
+ *  All the fields must be filled
+ * @param {*} param0 input object in the format { email, password }
+ */
 
 export const loginUser = ({email, password}) => {
     if(email === '' && password === '') 

@@ -16,12 +16,22 @@ import axios from 'axios'
 
 import hostname from '../../../config'
 
+/**
+ * The method recieves the text from password input field and updates the first name key parameter in the redux store
+ * @param {*} param0 Input is received in the form of text
+ */
+
 export const firstNameChanged = text => {
     return {
         type: REGISTER_FIRST_NAME_CHANGED,
         payload: text
     }
 }
+
+/**
+ * The method recieves the text from password input field and updates the last name key parameter in the redux store
+ * @param {*} param0 Input is received in the form of text
+ */
 
 export const lastNameChanged = text => {
     return {
@@ -30,6 +40,11 @@ export const lastNameChanged = text => {
     }
 }
 
+/**
+ * The method recieves the text from password input field and updates the email key parameter in the redux store
+ * @param {*} param0 Input is received in the form of text
+ */
+
 export const emailChanged = text => {
     return {
         type: REGISTER_EMAIL_CHANGED,
@@ -37,12 +52,22 @@ export const emailChanged = text => {
     }
 }
 
+/**
+ * The method recieves the text from password input field and updates the password key parameter in the redux store
+ * @param {*} param0 Input is received in the form of text
+ */
+
 export const passwordChanged = text => {
     return {
         type: REGISTER_PASSWORD_CHANGED,
         payload: text
     }
 }
+
+/**
+ * The method checks weather text in any of the input field is changed
+ * @param {*} param0 no inputs received
+ */
 
 export const textChanged = () => {
     return {
