@@ -8,11 +8,11 @@ import {
     USER_PROFILE_FIRSTNAME_CHANGED,
     USER_PROFILE_LASTNAME_CHANGED,
     USER_PROFILE_POSTAL_CODE_CHANGED,
-    USER_PROFILE_USERNAME_CHANGED
+    USER_PROFILE_CONTACT_CHANGED
 } from '../actions/types'
 
 const INITIAL_STATE = {
-    userName: '',
+    contact: '',
     email: '',
     firstName: '',
     lastName: '',
@@ -43,8 +43,8 @@ export default (state = INITIAL_STATE, action) => {
             return {...state, email: action.payload}
         case USER_PROFILE_POSTAL_CODE_CHANGED:
             return {...state, postalCode: action.payload}
-        case USER_PROFILE_USERNAME_CHANGED:
-            return {...state, userName: action.payload}
+        case USER_PROFILE_CONTACT_CHANGED:
+            return {...state, contact: action.payload}
         default:
             return state
     }

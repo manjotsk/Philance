@@ -29,7 +29,7 @@ import avatar from "assets/img/faces/marc.jpg";
 import {
   textChanged,
   updateProfile,
-  userNameChanged,
+  contactChanged,
   emailChanged,
   firstNameChanged,
   lastNameChanged,
@@ -49,8 +49,8 @@ class UserProfile extends React.Component {
     this.props.textChanged()
   }
 
-  onUserNameChange(text) {
-    this.props.userNameChanged(text)
+  oncontactChange(text) {
+    this.props.contactChanged(text)
     this.props.textChanged()
   }
 
@@ -86,7 +86,7 @@ class UserProfile extends React.Component {
 
    onButtonPress() {
     const {
-      userName,
+      contact,
       email,
       firstName,
       lastName,
@@ -95,7 +95,7 @@ class UserProfile extends React.Component {
       postalCode,
       description
     } = this.props
-    this.props.updateProfile({userName, email, firstName, lastName, city, country, postalCode, description})
+    this.props.updateProfile({contact, email, firstName, lastName, city, country, postalCode, description})
 }
 
   render() {
@@ -115,7 +115,7 @@ class UserProfile extends React.Component {
               </CardHeader>
               <CardBody>
                 <GridContainer>
-                  <GridItem xs={12} sm={12} md={5}>
+                  <GridItem xs={12} sm={12} md={12}>
                     <CustomInput
                       labelText="Company (disabled)"
                       id="company-disabled"
@@ -127,19 +127,7 @@ class UserProfile extends React.Component {
                       }}
                     />
                   </GridItem>
-                  <GridItem xs={12} sm={12} md={3}>
-                    <CustomInput
-                      labelText="Username"
-                      id="username"
-                      formControlProps={{
-                        fullWidth: true,
-                        onChange: e => {
-                          this.onUserNameChange(e.target.value)
-                        }
-                      }}
-                    />
-                  </GridItem>
-                  <GridItem xs={12} sm={12} md={4}>
+                  <GridItem xs={12} sm={12} md={12}>
                     <CustomInput
                       labelText="Email address"
                       id="email-address"
@@ -153,7 +141,7 @@ class UserProfile extends React.Component {
                   </GridItem>
                 </GridContainer>
                 <GridContainer>
-                  <GridItem xs={12} sm={12} md={6}>
+                  <GridItem xs={12} sm={12} md={12}>
                     <CustomInput
                       labelText="First Name"
                       id="first-name"
@@ -165,7 +153,7 @@ class UserProfile extends React.Component {
                       }}
                     />
                   </GridItem>
-                  <GridItem xs={12} sm={12} md={6}>
+                  <GridItem xs={12} sm={12} md={12}>
                     <CustomInput
                       labelText="Last Name"
                       id="last-name"
@@ -179,7 +167,7 @@ class UserProfile extends React.Component {
                   </GridItem>
                 </GridContainer>
                 <GridContainer>
-                  <GridItem xs={12} sm={12} md={4}>
+                  <GridItem xs={12} sm={12} md={12}>
                     <CustomInput
                       labelText="City"
                       id="city"
@@ -191,7 +179,7 @@ class UserProfile extends React.Component {
                       }}
                     />
                   </GridItem>
-                  <GridItem xs={12} sm={12} md={4}>
+                  <GridItem xs={12} sm={12} md={12}>
                     <CustomInput
                       labelText="Country"
                       id="country"
@@ -203,7 +191,7 @@ class UserProfile extends React.Component {
                       }}
                     />
                   </GridItem>
-                  <GridItem xs={12} sm={12} md={4}>
+                  <GridItem xs={12} sm={12} md={12}>
                     <CustomInput
                       labelText="Postal Code"
                       id="postal-code"
@@ -211,6 +199,18 @@ class UserProfile extends React.Component {
                         fullWidth: true,
                         onChange: e => {
                           this.onPostalCodeChange(e.target.value)
+                        }
+                      }}
+                    />
+                  </GridItem>
+                  <GridItem xs={12} sm={12} md={12}>
+                    <CustomInput
+                      labelText="Contact"
+                      id="contact"
+                      formControlProps={{
+                        fullWidth: true,
+                        onChange: e => {
+                          this.onContactChange(e.target.value)
                         }
                       }}
                     />
@@ -236,13 +236,14 @@ class UserProfile extends React.Component {
                       }}
                     />
                   </GridItem>
+                  <GridItem xs={12} sm={12} md={12}>
+                    <Button color="rose" onClick={()=>{
+                    this.onButtonPress()
+                    }}>
+                    {this.props.text}
+                  </Button>
+                </GridItem>
                 </GridContainer>
-                <Button color="rose" className={classes.updateProfileButton} onClick={()=>{
-                  this.onButtonPress()
-                  console.log(this.props)
-                }}>
-                  {this.props.text}
-                </Button>
                 <Clearfix />
               </CardBody>
             </Card>
@@ -276,7 +277,7 @@ UserProfile.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    userName: state.user.userName,
+    contact: state.user.contact,
     email: state.user.email,
     firstName: state.user.firstName,
     lastName: state.user.lastName,
@@ -291,7 +292,7 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps, {
   textChanged,
   updateProfile,
-  userNameChanged,
+  contactChanged,
   emailChanged,
   firstNameChanged,
   lastNameChanged,

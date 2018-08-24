@@ -8,7 +8,7 @@ import {
     USER_PROFILE_FIRSTNAME_CHANGED,
     USER_PROFILE_LASTNAME_CHANGED,
     USER_PROFILE_POSTAL_CODE_CHANGED,
-    USER_PROFILE_USERNAME_CHANGED
+    USER_PROFILE_CONTACT_CHANGED
 } from '../types'
 
 import axios from 'axios'
@@ -35,9 +35,9 @@ export const emailChanged = text => {
     }
 }
 
-export const userNameChanged = text => {
+export const contactChanged = text => {
     return {
-        type: USER_PROFILE_USERNAME_CHANGED,
+        type: USER_PROFILE_CONTACT_CHANGED,
         payload: text
     }
 }

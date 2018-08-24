@@ -9,12 +9,16 @@ import {
     REGISTER_PASSWORD_CHANGED,
     REGISTER_USER,
     REGISTER_USER_SUCCESS,
+    LOGIN_USER_SUCCESS,
+    LOGIN_NETWORK_ERROR,
+    REMOVE_REGISTER_TOAST,
     WEAK_PASSWORD
 } from '../types'
 
 import axios from 'axios'
 
 import hostname from '../../../config'
+import {loginUser} from '../login'
 
 /**
  * The method recieves the text from password input field and updates the first name key parameter in the redux store
@@ -74,6 +78,18 @@ export const textChanged = () => {
         type: REGISTER_USER
     }
 }
+
+/**
+ * The method removes the Welcome text from the private home page after its unmounting 
+ * @param {*} param0 no inputs received
+ */
+
+export const registerToast = () => {
+    return {
+        type: REMOVE_REGISTER_TOAST
+    }
+}
+
 /**
  * Registers the user based on input criteria.
  *  The method makes sure it validates the email 
@@ -81,6 +97,7 @@ export const textChanged = () => {
  *  All the fields must be filled
  * @param {*} param0 input object in the format { firstName, lastName, email, password }
  */
+
 export const registerUser = ({ firstName, lastName, email, password }) => 
 {
     const reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
@@ -110,10 +127,21 @@ export const registerUser = ({ firstName, lastName, email, password }) =>
                 password: password,
             })
             .then(response=>
-                dispatch({
-                    type: REGISTER_USER_SUCCESS,
-                    payload: response
-                })
+                {
+                    dispatch({
+                        type: REGISTER_USER_SUCCESS,
+                        payload: response
+                    })
+                        axios.post(hostname()+'/philance/users/login/', {
+                            email: email,
+                            password: password
+                        }
+                    )
+                    .then(()=>
+                            dispatch({type: LOGIN_USER_SUCCESS})
+                        )
+                }
+                
             )
             .catch(error=>{
                 const status = error.response.status

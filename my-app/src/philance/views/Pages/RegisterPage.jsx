@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import {connect} from 'react-redux'
-import { Redirect } from 'react-router-dom'
 import {emailChanged, passwordChanged, textChanged, registerUser, firstNameChanged, lastNameChanged} from '../../actions/register'
 
 // @material-ui/core components
@@ -61,7 +60,6 @@ onButtonPress() {
 
   render() {
     const { classes } = this.props;
-    if(!this.props.isRegistered) {
       return(
         <div className={classes.container}>
         <GridContainer justify="center">
@@ -219,11 +217,6 @@ onButtonPress() {
         </GridContainer>
       </div>
       )
-    }
-    else
-    {
-      return <Redirect to="/login" push />
-    }
   }
 }
 
