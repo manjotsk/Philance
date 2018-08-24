@@ -7,19 +7,29 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import NoAlertPresentException
 import unittest, time, re
 
-class Messages(unittest.TestCase):
+class UnauthorisedAccess(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Firefox()
+        options = webdriver.ChromeOptions()
+	options.add_argument('--headless')
+	options.add_argument('--disable-gpu')
+	options.add_argument('--window-size=1500,1000')
+        self.driver = webdriver.Chrome(chrome_options=options)
         self.driver.implicitly_wait(30)
         self.base_url = "https://www.katalon.com/"
         self.verificationErrors = []
         self.accept_next_alert = True
     
-    def test_messages(self):
+    def test_unauthorised_access(self):
         driver = self.driver
-        driver.get("http://127.0.0.1:3000/messages")
-        driver.find_element_by_xpath("(.//*[normalize-space(text()) and normalize-space(.)='Notifications'])[1]/following::div[1]").click()
-        try: self.assertEqual("Messages Page", driver.find_element_by_xpath("(.//*[normalize-space(text()) and normalize-space(.)='User Profile'])[1]/following::h2[1]").text)
+        driver.get("http://127.0.0.1:3000/login")
+        driver.find_element_by_xpath("(.//*[normalize-space(text()) and normalize-space(.)='How It Works'])[1]/following::div[1]").click()
+        driver.find_element_by_id("email").click()
+        driver.find_element_by_id("email").clear()
+        driver.find_element_by_id("email").send_keys("tbellow@gmail.com")
+        driver.find_element_by_id("password").clear()
+        driver.find_element_by_id("password").send_keys("test999")
+        driver.find_element_by_xpath("(.//*[normalize-space(text()) and normalize-space(.)='Password'])[1]/following::button[1]").click()
+        try: self.assertEqual("INVALID CREDENTIALS", driver.find_element_by_xpath("(.//*[normalize-space(text()) and normalize-space(.)='Password'])[1]/following::button[1]").text)
         except AssertionError as e: self.verificationErrors.append(str(e))
     
     def is_element_present(self, how, what):

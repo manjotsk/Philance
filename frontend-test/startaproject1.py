@@ -1,5 +1,10 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+#
+#	Test that the correct page loads when clicking on "start a project"
+#	Validates that the field are as expected.
+#
+#
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys

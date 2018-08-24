@@ -1,4 +1,9 @@
 # -*- coding: utf-8 -*-
+#
+#	Tests for current page load on clicking on find a project
+#	Checks that all the field work as expected
+#	
+#
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys

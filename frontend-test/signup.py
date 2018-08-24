@@ -1,5 +1,10 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+#
+#	Test that the Signup page loads the correct page
+#   Test that all the field are validated to ensure that they are all filled in
+#   Test that the email address is validated correctly
+#
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -22,6 +27,37 @@ class UntitledTestCase(unittest.TestCase):
         driver.find_element_by_xpath("//div[@id='root']/div/header/div/div[2]/ul/li[6]/a/div").click()
         try: self.assertEqual("Join Philance and ...", driver.find_element_by_xpath("//div[@id='root']/div/div/div/div/div/div/div/h2").text)
         except AssertionError as e: self.verificationErrors.append(str(e)) 
+        driver.find_element_by_xpath("(.//*[normalize-space(text()) and normalize-space(.)='or with your email'])[1]/following::button[1]").click()
+        try: self.assertEqual("ALL FIELDS ARE REQUIRED", driver.find_element_by_xpath("(.//*[normalize-space(text()) and normalize-space(.)='or with your email'])[1]/following::button[1]").text)
+        except AssertionError as e: self.verificationErrors.append(str(e))
+        driver.find_element_by_xpath("(.//*[normalize-space(text()) and normalize-space(.)='or with your email'])[1]/following::input[1]").click()
+        driver.find_element_by_xpath("(.//*[normalize-space(text()) and normalize-space(.)='or with your email'])[1]/following::input[1]").clear()
+        driver.find_element_by_xpath("(.//*[normalize-space(text()) and normalize-space(.)='or with your email'])[1]/following::input[1]").send_keys("Bill")
+        driver.find_element_by_xpath("(.//*[normalize-space(text()) and normalize-space(.)='or with your email'])[1]/following::button[1]").click()
+        try: self.assertEqual("ALL FIELDS ARE REQUIRED", driver.find_element_by_xpath("(.//*[normalize-space(text()) and normalize-space(.)='or with your email'])[1]/following::button[1]").text)
+        except AssertionError as e: self.verificationErrors.append(str(e))
+        driver.find_element_by_xpath("(.//*[normalize-space(text()) and normalize-space(.)='or with your email'])[1]/following::input[2]").click()
+        driver.find_element_by_xpath("(.//*[normalize-space(text()) and normalize-space(.)='or with your email'])[1]/following::input[2]").clear()
+        driver.find_element_by_xpath("(.//*[normalize-space(text()) and normalize-space(.)='or with your email'])[1]/following::input[2]").send_keys("Bains")
+        driver.find_element_by_xpath("(.//*[normalize-space(text()) and normalize-space(.)='or with your email'])[1]/following::button[1]").click()
+        try: self.assertEqual("ALL FIELDS ARE REQUIRED", driver.find_element_by_xpath("(.//*[normalize-space(text()) and normalize-space(.)='or with your email'])[1]/following::button[1]").text)
+        except AssertionError as e: self.verificationErrors.append(str(e))
+        driver.find_element_by_xpath("(.//*[normalize-space(text()) and normalize-space(.)='or with your email'])[1]/following::input[3]").click()
+        driver.find_element_by_xpath("(.//*[normalize-space(text()) and normalize-space(.)='or with your email'])[1]/following::input[3]").clear()
+        driver.find_element_by_xpath("(.//*[normalize-space(text()) and normalize-space(.)='or with your email'])[1]/following::input[3]").send_keys("bbains@gmail")
+        driver.find_element_by_xpath("(.//*[normalize-space(text()) and normalize-space(.)='or with your email'])[1]/following::button[1]").click()
+        driver.find_element_by_xpath("(.//*[normalize-space(text()) and normalize-space(.)='or with your email'])[1]/following::input[4]").click()
+        driver.find_element_by_xpath("(.//*[normalize-space(text()) and normalize-space(.)='or with your email'])[1]/following::input[4]").click()
+        driver.find_element_by_xpath("(.//*[normalize-space(text()) and normalize-space(.)='or with your email'])[1]/following::button[1]").click()
+        try: self.assertEqual("ALL FIELDS ARE REQUIRED", driver.find_element_by_xpath("(.//*[normalize-space(text()) and normalize-space(.)='or with your email'])[1]/following::button[1]").text)
+        except AssertionError as e: self.verificationErrors.append(str(e))
+        driver.find_element_by_xpath("(.//*[normalize-space(text()) and normalize-space(.)='or with your email'])[1]/following::input[4]").click()
+        driver.find_element_by_xpath("(.//*[normalize-space(text()) and normalize-space(.)='or with your email'])[1]/following::input[4]").clear()
+        driver.find_element_by_xpath("(.//*[normalize-space(text()) and normalize-space(.)='or with your email'])[1]/following::input[4]").send_keys("tester")
+        driver.find_element_by_xpath("(.//*[normalize-space(text()) and normalize-space(.)='or with your email'])[1]/following::button[1]").click()
+        try: self.assertEqual("INVALID EMAIL", driver.find_element_by_xpath("(.//*[normalize-space(text()) and normalize-space(.)='or with your email'])[1]/following::button[1]").text)
+        except AssertionError as e: self.verificationErrors.append(str(e))
+	
     def is_element_present(self, how, what):
         try: self.driver.find_element(by=how, value=what)
         except NoSuchElementException as e: return False
