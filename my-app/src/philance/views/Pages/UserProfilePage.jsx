@@ -6,6 +6,13 @@ import {connect} from 'react-redux'
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
+import FormControl from "@material-ui/core/FormControl";
+
+
+
+import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 
 // @material-ui/icons
 import PermIdentity from "@material-ui/icons/PermIdentity";
@@ -42,6 +49,15 @@ import {
 class UserProfile extends React.Component {
   constructor(props) {
     super(props);
+    this.state = { country: '', region: '' };
+  }
+
+  selectCountry (val) {
+    this.setState({ country: val });
+  }
+
+  selectRegion (val) {
+    this.setState({ region: val });
   }
 
   onEmailChange(text) {
@@ -100,6 +116,7 @@ class UserProfile extends React.Component {
 
   render() {
     const { classes } = this.props;
+    const { country, region } = this.state;
     return (
       <div className={classes.container}>
         <GridContainer>
@@ -117,18 +134,6 @@ class UserProfile extends React.Component {
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={12}>
                     <CustomInput
-                      labelText="Company (disabled)"
-                      id="company-disabled"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      inputProps={{
-                        disabled: true
-                      }}
-                    />
-                  </GridItem>
-                  <GridItem xs={12} sm={12} md={12}>
-                    <CustomInput
                       labelText="Email address"
                       id="email-address"
                       formControlProps={{
@@ -143,8 +148,8 @@ class UserProfile extends React.Component {
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={12}>
                     <CustomInput
-                      labelText="First Name"
-                      id="first-name"
+                      labelText="Password"
+                      id="password"
                       formControlProps={{
                         fullWidth: true,
                         onChange: e => {
@@ -153,43 +158,111 @@ class UserProfile extends React.Component {
                       }}
                     />
                   </GridItem>
-                  <GridItem xs={12} sm={12} md={12}>
-                    <CustomInput
-                      labelText="Last Name"
-                      id="last-name"
-                      formControlProps={{
-                        fullWidth: true,
-                        onChange: e => {
-                          this.onLastNameChange(e.target.value)
-                        }
-                      }}
-                    />
-                  </GridItem>
                 </GridContainer>
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={12}>
-                    <CustomInput
-                      labelText="City"
-                      id="city"
-                      formControlProps={{
-                        fullWidth: true,
-                        onChange: e => {
-                          this.onCityChange(e.target.value)
-                        }
+                    <FormControl fullWidth className={classes.selectFormControl}>
+                  <InputLabel
+                    htmlFor="simple-select"
+                    className={classes.selectLabel}
+                  >
+                    Choose City
+                  </InputLabel>
+                  <Select
+                    MenuProps={{
+                      className: classes.selectMenu
+                    }}
+                    classes={{
+                      select: classes.select
+                    }}
+                    value={this.state.simpleSelect}
+                    onChange={this.handleSimple}
+                    inputProps={{
+                      name: "simpleSelect",
+                      id: "simple-select"
+                    }}
+                  >
+                    <MenuItem
+                      disabled
+                      classes={{
+                        root: classes.selectMenuItem
                       }}
-                    />
+                    >
+                      Country
+                    </MenuItem>
+                    <MenuItem
+                      classes={{
+                        root: classes.selectMenuItem,
+                        selected: classes.selectMenuItemSelected
+                      }}
+                      value="2"
+                    >
+                      Paris
+                    </MenuItem>
+                    <MenuItem
+                      classes={{
+                        root: classes.selectMenuItem,
+                        selected: classes.selectMenuItemSelected
+                      }}
+                      value="3"
+                    >
+                      Bucharest
+                    </MenuItem>
+                  </Select>
+                </FormControl>
+                        <br/><br/>
                   </GridItem>
                   <GridItem xs={12} sm={12} md={12}>
-                    <CustomInput
-                      labelText="Country"
-                      id="country"
-                      formControlProps={{
-                        fullWidth: true,
-                        onChange: e => {
-                          this.onCountryChange(e.target.value)
-                        }
+                    <FormControl fullWidth className={classes.selectFormControl}>
+                  <InputLabel
+                    htmlFor="simple-select"
+                    className={classes.selectLabel}
+                  >
+                    Interests
+                  </InputLabel>
+                  <Select
+                    MenuProps={{
+                      className: classes.selectMenu
+                    }}
+                    classes={{
+                      select: classes.select
+                    }}
+                    value={this.state.simpleSelect}
+                    onChange={this.handleSimple}
+                    inputProps={{
+                      name: "simpleSelect",
+                      id: "simple-select"
+                    }}
+                  >
+                    <MenuItem
+                      disabled
+                      classes={{
+                        root: classes.selectMenuItem
                       }}
-                    />
+                    >
+                      Choose City
+                    </MenuItem>
+                    <MenuItem
+                      classes={{
+                        root: classes.selectMenuItem,
+                        selected: classes.selectMenuItemSelected
+                      }}
+                      value="2"
+                    >
+                      Paris
+                    </MenuItem>
+                    <MenuItem
+                      classes={{
+                        root: classes.selectMenuItem,
+                        selected: classes.selectMenuItemSelected
+                      }}
+                      value="3"
+                    >
+                      Bucharest
+                    </MenuItem>
+                  </Select>
+                </FormControl>
+                        <br/><br/>
                   </GridItem>
                   <GridItem xs={12} sm={12} md={12}>
                     <CustomInput
@@ -218,25 +291,6 @@ class UserProfile extends React.Component {
                 </GridContainer>
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={12}>
-                    <InputLabel style={{ color: "#AAAAAA" }}>
-                      About me
-                    </InputLabel>
-                    <CustomInput
-                      labelText="Description about me"
-                      id="about-me"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      inputProps={{
-                        multiline: true,
-                        rows: 5,
-                        onChange: e => {
-                          this.onDescriptionChange(e.target.value)
-                        }
-                      }}
-                    />
-                  </GridItem>
-                  <GridItem xs={12} sm={12} md={12}>
                     <Button color="rose" onClick={()=>{
                     this.onButtonPress()
                     }}>
@@ -256,12 +310,60 @@ class UserProfile extends React.Component {
                 </a>
               </CardAvatar>
               <CardBody profile>
-                <h6 className={classes.cardCategory}>VOLUNTEER / FREELANCER</h6>
-                <h4 className={classes.cardTitle}>Alec Thompson</h4>
-                <p className={classes.description}>Description about me</p>
-                <Button color="rose" round>
-                  Follow
-                </Button>
+                <GridContainer>
+                <GridItem xs={12} sm={12} md={12}>
+                    <CustomInput
+                      labelText="Name"
+                      id="name"
+                      formControlProps={{
+                        fullWidth: true,
+                        onChange: e => {
+                          this.onFirstNameChange(e.target.value)
+                        }
+                      }}
+                    />
+                  </GridItem>
+                  <GridItem xs={12} sm={12} md={12}>
+                    <CustomInput
+                      labelText="Title"
+                      id="title"
+                      formControlProps={{
+                        fullWidth: true,
+                        onChange: e => {
+                          this.onFirstNameChange(e.target.value)
+                        }
+                      }}
+                    />
+                  </GridItem>
+                  <GridItem xs={12} sm={12} md={12}>
+                    <CustomInput
+                      labelText="Organization"
+                      id="organization"
+                      formControlProps={{
+                        fullWidth: true,
+                        onChange: e => {
+                          this.onFirstNameChange(e.target.value)
+                        }
+                      }}
+                    />
+                  </GridItem>
+                  <GridItem xs={12} sm={12} md={12}>
+                      <CustomInput
+                        labelText="Description about me"
+                        id="about-me"
+                        formControlProps={{
+                          fullWidth: true
+                        }}
+                        inputProps={{
+                          multiline: true,
+                          rows: 5,
+                          onChange: e => {
+                            this.onDescriptionChange(e.target.value)
+                          }
+                        }}
+                      />
+                  </GridItem>
+                </GridContainer>
               </CardBody>
             </Card>
           </GridItem>

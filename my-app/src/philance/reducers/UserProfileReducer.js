@@ -20,13 +20,13 @@ const INITIAL_STATE = {
     country: '',
     postalCode: '',
     description: '',
-    text: 'UPDATE PROFILE'
+    text: 'SAVE CHANGES'
 }
 
 export default (state = INITIAL_STATE, action) => {
     switch(action.type) {
         case USER_PROFILE_TEXT_CHANGED:
-            return {...state, text: 'UPDATE PROFILE'}
+            return {...state, text: 'SAVE CHANGES'}
         case USER_PROFILE_FIELDS_EMPTY:
             return {...state, text: 'ALL FIELDS ARE REQUIRED'}
         case USER_PROFILE_LASTNAME_CHANGED:
