@@ -70,8 +70,8 @@ class ProjectSearch extends React.Component {
     const id = filter.pivotId || filter.id;
     return row[id] !== undefined
       ? String(row[id])
-          .toLowerCase()
-          .includes(filter.value.toLowerCase())
+        .toLowerCase()
+        .includes(filter.value.toLowerCase())
       : true;
   }
 
@@ -96,7 +96,7 @@ class ProjectSearch extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <div className={classes.container}>
+      <GridContainer>
         <GridContainer>
           <GridItem xs={12} sm={12}>
             <Card>
@@ -512,7 +512,8 @@ class ProjectSearch extends React.Component {
             </Card>
           </GridItem>
         </GridContainer>
-      </div>
+      </GridContainer>
+
     );
   }
 }

@@ -32,7 +32,6 @@ class UserProfile extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <div className={classes.container}>
         <GridContainer>
           <GridItem xs={12} sm={12} md={8}>
             <Card>
@@ -159,8 +158,8 @@ class UserProfile extends React.Component {
                 </a>
               </CardAvatar>
               <CardBody profile>
-                <h6 className={classes.cardCategory}>VOLUNTEER / FREELANCER</h6>
-                <h4 className={classes.cardTitle}>Alec Thompson</h4>
+                <h6 className={classes.cardCategory}>VOLUNTEER </h6>
+                <h4 className={classes.cardTitle}>Ajay Kapur</h4>
                 <p className={classes.description}>Description about me</p>
                 <Button color="rose" round>
                   Follow
@@ -169,7 +168,6 @@ class UserProfile extends React.Component {
             </Card>
           </GridItem>
         </GridContainer>
-      </div>
     );
   }
 }

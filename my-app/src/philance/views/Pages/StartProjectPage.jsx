@@ -80,7 +80,6 @@ class StartProject extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <div className={classes.container}>
         <GridContainer justify="center">
           <GridItem xs={12} sm={12} md={12}>
             <Card>
@@ -381,7 +380,6 @@ class StartProject extends React.Component {
             </Card>
           </GridItem>
         </GridContainer>
-      </div>
     );
   }
 }

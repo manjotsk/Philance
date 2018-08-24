@@ -30,7 +30,6 @@ class MessagesPage extends React.Component {
     const { classes } = this.props;
 
     return (
-      <div className={classes.container}>
         <GridContainer justify="center">
           <GridItem xs={12} sm={12} md={10} lg={10}>
             <Card className={classes.cardSignup}>
@@ -47,7 +46,6 @@ class MessagesPage extends React.Component {
             </Card>
           </GridItem>
         </GridContainer>
-      </div>
     );
   }
 }
