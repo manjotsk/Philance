@@ -2,6 +2,7 @@ import {
     ALREADY_REGISTER,
     FIELDS_EMPTY,
     INVALID_EMAIL,
+    LOGIN_USER_SUCCESS,
     NETWORK_ERROR,
     REGISTER_EMAIL_CHANGED,
     REGISTER_FIRST_NAME_CHANGED,
@@ -9,8 +10,6 @@ import {
     REGISTER_PASSWORD_CHANGED,
     REGISTER_USER,
     REGISTER_USER_SUCCESS,
-    LOGIN_USER_SUCCESS,
-    LOGIN_NETWORK_ERROR,
     REMOVE_REGISTER_TOAST,
     WEAK_PASSWORD
 } from '../types'
@@ -18,7 +17,6 @@ import {
 import axios from 'axios'
 
 import hostname from '../../../config'
-import {loginUser} from '../login'
 
 /**
  * The method recieves the text from password input field and updates the first name key parameter in the redux store

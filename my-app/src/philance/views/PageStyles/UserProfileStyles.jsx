@@ -30,6 +30,10 @@ const userProfileStyles = {
   },
   updateProfileButton: {
     alignItems: "center"
+  },
+  welcomeHeading: {
+    ...cardTitle,
+    color: "#4eed58"
   }
 };
 export default userProfileStyles;
