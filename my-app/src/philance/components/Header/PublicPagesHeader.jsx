@@ -22,7 +22,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 // core components
 import Button from "components/CustomButtons/Button";
 
-import { pagesRoutes } from "philance/routes/pages.jsx";
+import { dashboardRoutes } from "philance/routes/dashboard.jsx";
 
 import publicPagesHeaderStyle from "assets/jss/material-dashboard-pro-react/components/pagesHeaderStyle.jsx";
 
@@ -55,7 +55,7 @@ class PublicPagesHeader extends React.Component {
 
     var list = (
       <List className={classes.list}>
-        {pagesRoutes.map((prop, key) => {
+        {dashboardRoutes.map((prop, key) => {
           if (prop.redirect) {
             return null;
           }

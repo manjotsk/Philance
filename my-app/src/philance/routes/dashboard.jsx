@@ -23,7 +23,7 @@ import MessageIcon from "@material-ui/icons/Message";
 import PersonIcon from "@material-ui/icons/Person";
 import FolderIcon from "@material-ui/icons/Folder";
 
-export const pagesRoutes = [
+export const dashboardRoutes = [
   {
     path: "/home",
     name: "Home Page",
@@ -73,15 +73,6 @@ export const pagesRoutes = [
     component: RegisterPage
   },
   {
-    path: "/forgotPassword",
-    name: "Forgot Password Page",
-    short: "Forgot Password",
-    mini: "FP",
-    icon: PersonAddIcon,
-    component: ForgotPassword
-    
-  },
-  {
     redirect: true,
     path: "/",
     pathTo: "/home",
@@ -89,7 +80,7 @@ export const pagesRoutes = [
   }
 ];
 
-export const pvtPagesRoutes = [
+export const pvtDashboardRoutes = [
   {
     path: "/home",
     name: "Home Page",

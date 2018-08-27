@@ -84,14 +84,18 @@ export const registerUser = ({ firstName, lastName, email, password }) => {
                 })
             )
             .catch(error=>{
-                console.log('ss',typeof(error.response.status))
-                const status = error.response.status
-                if (status == 409)
-                    dispatch({type: ALREADY_REGISTER})
-                else if (status == 500)
-                    dispatch({type: INVALID_EMAIL})
-                else 
+                if(error.response.status==null){
                     dispatch({type: NETWORK_ERROR})
+                }else{
+                    console.log('ss',typeof(error.response.status))
+                    const status = error.response.status
+                    if (status == 409)
+                        dispatch({type: ALREADY_REGISTER})
+                    else if (status == 500)
+                        dispatch({type: INVALID_EMAIL})
+                    else 
+                        dispatch({type: NETWORK_ERROR})
+                }
             });
         }
     }

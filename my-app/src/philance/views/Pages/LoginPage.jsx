@@ -133,14 +133,14 @@ onButtonPress() {
                       </Button>
                     </CardActions>
                     <CardActions className={classes.justifyContentCenter}>
-                      <Button color="info" simple size="small">
+                      <Button onClick={()=>{this.props.history.push("/forgotPassword")}} color="info" simple size="small">
                         Forgot Password?
                       </Button>
                     </CardActions>
                   </CardBody>
                   <CardFooter className={classes.justifyContentCenter}>
                     Don't have an account?
-                    <Button color="info" simple size="small">
+                    <Button onClick={()=>{this.props.history.push("/register")}} color="info" simple size="small">
                       Sign Up
                     </Button>
                   </CardFooter>
