@@ -1,8 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 #
-#	Test that the correct page loads when clicking on "start a project"
-#	Validates that the field are as expected.
+#	Tests for current page load on clicking on Login
+#	Checks for unauthorised access
 #
 #
 from selenium import webdriver
@@ -15,7 +15,11 @@ import unittest, time, re
 
 class UntitledTestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Firefox()
+        options = webdriver.ChromeOptions()
+	options.add_argument('--headless')
+	options.add_argument('--disable-gpu')
+	options.add_argument('--window-size=1500,1000')
+        self.driver = webdriver.Chrome(chrome_options=options)
         self.driver.implicitly_wait(30)
         self.base_url = "https://www.katalon.com/"
         self.verificationErrors = []
@@ -24,16 +28,22 @@ class UntitledTestCase(unittest.TestCase):
     def test_untitled_test_case(self):
         driver = self.driver
         driver.get("http://127.0.0.1:3000")
-        driver.find_element_by_xpath("//div[@id='root']/div/header/div/div[2]/ul/li[2]/a/div").click()
-        try: self.assertEqual("Start a project to help others OR ask for help", driver.find_element_by_xpath("//div[@id='root']/div/div/div/div/div/div/div/div/div/h4").text)
+        driver.find_element_by_xpath("//div[@id='root']/div/header/div/div[2]/ul/li[5]/a/div").click()
+        try: self.assertEqual("", driver.find_element_by_id("email").get_attribute("value"))
         except AssertionError as e: self.verificationErrors.append(str(e)) 
-	driver.find_element_by_xpath("(//input[@value=''])[6]").click()
-	try: self.assertEqual("SU", driver.find_element_by_xpath("//div[@id='root']/div/div/div/div/div/div/div/div[2]/form/div[7]/div[2]/div/div[2]/div/div/div/div/table/thead/tr[2]/th").text)
+        try: self.assertEqual("", driver.find_element_by_id("password").get_attribute("value"))
         except AssertionError as e: self.verificationErrors.append(str(e))
-        driver.find_element_by_xpath("(//input[@value=''])[7]").click()
-        try: self.assertEqual("SU", driver.find_element_by_xpath("//div[@id='root']/div/div/div/div/div/div/div/div[2]/form/div[7]/div[3]/div/div[2]/div/div/div/div/table/thead/tr[2]/th").text)
+	driver.find_element_by_xpath("(.//*[normalize-space(text()) and normalize-space(.)='How It Works'])[1]/following::div[1]").click()
+        driver.find_element_by_id("email").click()
+        driver.find_element_by_id("email").clear()
+        driver.find_element_by_id("email").send_keys("tbellow@gmail.com")
+        driver.find_element_by_id("password").clear()
+        driver.find_element_by_id("password").send_keys("test999")
+        driver.find_element_by_xpath("(.//*[normalize-space(text()) and normalize-space(.)='Password'])[1]/following::button[1]").click()
+	time.sleep(5)
+        try: self.assertEqual("INVALID CREDENTIALS", driver.find_element_by_xpath("(.//*[normalize-space(text()) and normalize-space(.)='Password'])[1]/following::button[1]").text)
         except AssertionError as e: self.verificationErrors.append(str(e))
-
+		
     def is_element_present(self, how, what):
         try: self.driver.find_element(by=how, value=what)
         except NoSuchElementException as e: return False
