@@ -1,5 +1,5 @@
 import axios from 'axios'
-import hostname from '../../config'
+import hostname from '../../../config'
 
 var skills = []
 
@@ -9,7 +9,7 @@ export const getInterests =()=> axios.get(hostname() + '/philance/lookups/Intere
     skills.push({key:element.meaning, value: element.meaning, text: element.meaning})
   })
 })
-.catch(function (error) {
+.catch( (error) => {
   console.log(error)
 })
 

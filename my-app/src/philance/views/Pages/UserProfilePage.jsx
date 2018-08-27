@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import {connect} from 'react-redux'
-import { Dropdown } from 'semantic-ui-react'
 
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -11,8 +10,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
 
-import { countryOptions, skillsOptions, getInterests } from '../common'
-
+import {CountryDropdown, InterestsDropdown} from '../../components/DoubleDropdown'
 // @material-ui/icons
 import PermIdentity from "@material-ui/icons/PermIdentity";
 
@@ -50,13 +48,6 @@ import {
 class UserProfile extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-
-    }
-  }
-
-  componentDidMount() {
-     getInterests()
   }
 
   componentWillUnmount() {
@@ -127,7 +118,6 @@ class UserProfile extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { country, region } = this.state;
     return (
       <div className={classes.container}>
         {this.props.showToast?
@@ -183,21 +173,9 @@ class UserProfile extends React.Component {
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={12}>
                     <br/>
-                    <Dropdown
-                    placeholder='Select Country'
-                    fluid
-                    search
-                    selection
-                    options={countryOptions}
-                    value={this.state.value}
-                    onChange={async (e, {value})=>{
-                      await this.setState({value})
-                      console.log(this.state.value)
-
-                    }}
-                    />
+                    <CountryDropdown/>
                     <br/><br/>
-                    <Dropdown placeholder='Select Interests' fluid search multiple selection options={skillsOptions}/>
+                    <InterestsDropdown/>
                   </GridItem>
                   
                   <GridItem xs={12} sm={12} md={12}>
