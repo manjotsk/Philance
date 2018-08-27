@@ -171,13 +171,76 @@ class UserProfile extends React.Component {
                   </GridItem>
                 </GridContainer>
                 <GridContainer>
+                <GridItem xs={12} sm={12} md={12}>
+                    <FormControl fullWidth className={classes.selectFormControl}>
+                  <InputLabel
+                    htmlFor="simple-select"
+                    className={classes.selectLabel}
+                  >
+                    Interests
+                  </InputLabel>
+                  <Select
+                    MenuProps={{
+                      className: classes.selectMenu
+                    }}
+                    classes={{
+                      select: classes.select
+                    }}
+                    value={this.state.simpleSelect}
+                    onChange={this.handleSimple}
+                    inputProps={{
+                      name: "simpleSelect",
+                      id: "simple-select"
+                    }}
+                  >
+                    <MenuItem
+                      disabled
+                      classes={{
+                        root: classes.selectMenuItem
+                      }}
+                    >
+                      Select
+                    </MenuItem>
+                    <MenuItem
+                      classes={{
+                        root: classes.selectMenuItem,
+                        selected: classes.selectMenuItemSelected
+                      }}
+                      value="2"
+                    >
+                      Animal Welfare
+                    </MenuItem>
+                    <MenuItem
+                      classes={{
+                        root: classes.selectMenuItem,
+                        selected: classes.selectMenuItemSelected
+                      }}
+                      value="3"
+                    >
+                      Child Welfare
+                    </MenuItem>
+                    <MenuItem
+                      classes={{
+                        root: classes.selectMenuItem,
+                        selected: classes.selectMenuItemSelected
+                      }}
+                      value="3"
+                    >
+                      Community Development
+                    </MenuItem>
+                  </Select>
+                </FormControl>
+                        <br/><br/>
+                  </GridItem>
+                </GridContainer>
+                <GridContainer>
                   <GridItem xs={12} sm={12} md={12}>
                     <FormControl fullWidth className={classes.selectFormControl}>
                   <InputLabel
                     htmlFor="simple-select"
                     className={classes.selectLabel}
                   >
-                    Choose City
+                    Country
                   </InputLabel>
                   <Select
                     MenuProps={{
@@ -208,7 +271,7 @@ class UserProfile extends React.Component {
                       }}
                       value="2"
                     >
-                      Paris
+                      United States
                     </MenuItem>
                     <MenuItem
                       classes={{
@@ -219,48 +282,14 @@ class UserProfile extends React.Component {
                     >
                       Bucharest
                     </MenuItem>
-                  </Select>
-                </FormControl>
-                        <br/><br/>
-                  </GridItem>
-                  <GridItem xs={12} sm={12} md={12}>
-                    <FormControl fullWidth className={classes.selectFormControl}>
-                  <InputLabel
-                    htmlFor="simple-select"
-                    className={classes.selectLabel}
-                  >
-                    Interests
-                  </InputLabel>
-                  <Select
-                    MenuProps={{
-                      className: classes.selectMenu
-                    }}
-                    classes={{
-                      select: classes.select
-                    }}
-                    value={this.state.simpleSelect}
-                    onChange={this.handleSimple}
-                    inputProps={{
-                      name: "simpleSelect",
-                      id: "simple-select"
-                    }}
-                  >
-                    <MenuItem
-                      disabled
-                      classes={{
-                        root: classes.selectMenuItem
-                      }}
-                    >
-                      Choose City
-                    </MenuItem>
                     <MenuItem
                       classes={{
                         root: classes.selectMenuItem,
                         selected: classes.selectMenuItemSelected
                       }}
-                      value="2"
+                      value="3"
                     >
-                      Paris
+                      Argentina
                     </MenuItem>
                     <MenuItem
                       classes={{
@@ -269,12 +298,13 @@ class UserProfile extends React.Component {
                       }}
                       value="3"
                     >
-                      Bucharest
+                      Angola
                     </MenuItem>
                   </Select>
                 </FormControl>
                         <br/><br/>
                   </GridItem>
+                  
                   <GridItem xs={12} sm={12} md={12}>
                     <CustomInput
                       labelText="Postal Code"
@@ -289,7 +319,7 @@ class UserProfile extends React.Component {
                   </GridItem>
                   <GridItem xs={12} sm={12} md={12}>
                     <CustomInput
-                      labelText="Contact"
+                      labelText="Phone"
                       id="contact"
                       formControlProps={{
                         fullWidth: true,
