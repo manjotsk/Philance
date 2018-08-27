@@ -14,7 +14,11 @@ import unittest, time, re
 
 class UntitledTestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Firefox()
+        options = webdriver.ChromeOptions()
+	options.add_argument('--headless')
+	options.add_argument('--disable-gpu')
+	options.add_argument('--window-size=1500,1000')
+        self.driver = webdriver.Chrome(chrome_options=options)
         self.driver.implicitly_wait(30)
         self.base_url = "https://www.katalon.com/"
         self.verificationErrors = []

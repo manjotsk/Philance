@@ -32,10 +32,15 @@ class Pages extends React.Component {
             <div className={classes.fullPage}>
               <Switch>
                 {pvtPagesRoutes.map((prop, key) => {
-                  if (prop.redirect) {
+                  if (prop.redirect && this.props.registered) {
                     return (
-                      <Redirect from={prop.path} to={prop.pathTo} key={key} />
+                      <Redirect to ="/profile" />
                     );
+                  }
+                  else if(prop.redirect && !this.props.registered) {
+                      return (
+                        <Redirect from={prop.path} to={prop.pathTo} key={key} />
+                      )
                   }
                   return (
                     <Route
@@ -94,6 +99,7 @@ class Pages extends React.Component {
 const mapStateToProps = state => {
   return {
       isLoggedIn: state.auth.isLoggedIn,
+      registered: state.reg.registered
   }
 }
 

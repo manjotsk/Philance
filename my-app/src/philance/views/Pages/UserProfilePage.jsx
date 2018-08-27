@@ -34,6 +34,8 @@ import userProfileStyles from "philance/views/PageStyles/UserProfileStyles.jsx";
 
 import avatar from "assets/img/faces/marc.jpg";
 
+import {registerToast} from '../../actions/register'
+
 import {
   textChanged,
   updateProfile,
@@ -53,6 +55,10 @@ class UserProfile extends React.Component {
     this.state = {
 
     }
+  }
+
+  componentWillUnmount() {
+    this.props.registerToast()
   }
 
   selectCountry (val) {
@@ -122,6 +128,13 @@ class UserProfile extends React.Component {
     const { country, region } = this.state;
     return (
       <div className={classes.container}>
+        {this.props.showToast?
+          <h3 className={classes.welcomeHeading}>
+            Welcome to Philance! Please take a few moments to complete your User Profile and you can then post a project or join an existing project.
+          </h3>
+       :null
+       }
+       <br/>
         <GridContainer>
           <GridItem xs={12} sm={12} md={8}>
             <Card>
@@ -184,6 +197,7 @@ class UserProfile extends React.Component {
                     <br/><br/>
                     <Dropdown placeholder='Select Interests' fluid search multiple selection options={skillsOptions}/>
                   </GridItem>
+                  
                   <GridItem xs={12} sm={12} md={12}>
                     <CustomInput
                       labelText="Postal Code"
@@ -198,7 +212,7 @@ class UserProfile extends React.Component {
                   </GridItem>
                   <GridItem xs={12} sm={12} md={12}>
                     <CustomInput
-                      labelText="Contact"
+                      labelText="Phone"
                       id="contact"
                       formControlProps={{
                         fullWidth: true,
@@ -307,7 +321,8 @@ const mapStateToProps = state => {
     country: state.user.country,
     postalCode: state.user.postalCode,
     description: state.user.description,
-    text: state.user.text
+    text: state.user.text,
+    showToast: state.reg.showToast,
   }
 }
 
@@ -321,5 +336,6 @@ export default connect(mapStateToProps, {
   cityChanged,
   countryChanged,
   postalCodeChanged,
-  descriptionChanged
+  descriptionChanged,
+  registerToast
 })(withStyles(userProfileStyles)(UserProfile));

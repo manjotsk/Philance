@@ -22,15 +22,10 @@ import CtButton from "components/CustomButtons/Button.jsx";
 import pvtHomePageStyle from "assets/jss/material-dashboard-pro-react/views/registerPageStyle";
 
 import {connect} from 'react-redux';
-import {registerToast} from '../../actions/register'
 
 class PvtHomePage extends React.Component {
   constructor(props) {
     super(props);
-  }
-
-  componentWillUnmount() {
-    this.props.registerToast()
   }
 
   render() {
@@ -38,9 +33,6 @@ class PvtHomePage extends React.Component {
 
     return (
       <div className={classes.container}>
-        {
-          this.props.showToast?<h2 className={classes.heading}>Welcome to Philance!</h2>:null
-        }
         <GridContainer justify="center">
           <GridItem xs={12} sm={12} md={10} lg={10}>
             <Card className={classes.cardSignup}>
@@ -103,14 +95,8 @@ class PvtHomePage extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    showToast: state.reg.showToast
-  }
-}
-
 PvtHomePage.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default connect(mapStateToProps, {registerToast})(withStyles(pvtHomePageStyle)(PvtHomePage));
+export default connect()(withStyles(pvtHomePageStyle)(PvtHomePage));
