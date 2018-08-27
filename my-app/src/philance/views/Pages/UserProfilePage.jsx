@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import {connect} from 'react-redux'
+import { Dropdown } from 'semantic-ui-react'
 
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -10,7 +11,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
 
-
+import { countryOptions, skillsOptions } from '../common'
 
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 
@@ -49,7 +50,9 @@ import {
 class UserProfile extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { country: '', region: '' };
+    this.state = {
+
+    }
   }
 
   selectCountry (val) {
@@ -156,113 +159,30 @@ class UserProfile extends React.Component {
                           this.onFirstNameChange(e.target.value)
                         }
                       }}
+                      inputProps={{
+                        type: 'password'
+                      }}
                     />
                   </GridItem>
                 </GridContainer>
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={12}>
-                    <FormControl fullWidth className={classes.selectFormControl}>
-                  <InputLabel
-                    htmlFor="simple-select"
-                    className={classes.selectLabel}
-                  >
-                    Choose City
-                  </InputLabel>
-                  <Select
-                    MenuProps={{
-                      className: classes.selectMenu
+                    <br/>
+                    <Dropdown
+                    placeholder='Select Country'
+                    fluid
+                    search
+                    selection
+                    options={countryOptions}
+                    value={this.state.value}
+                    onChange={async (e, {value})=>{
+                      await this.setState({value})
+                      console.log(this.state.value)
+
                     }}
-                    classes={{
-                      select: classes.select
-                    }}
-                    value={this.state.simpleSelect}
-                    onChange={this.handleSimple}
-                    inputProps={{
-                      name: "simpleSelect",
-                      id: "simple-select"
-                    }}
-                  >
-                    <MenuItem
-                      disabled
-                      classes={{
-                        root: classes.selectMenuItem
-                      }}
-                    >
-                      Country
-                    </MenuItem>
-                    <MenuItem
-                      classes={{
-                        root: classes.selectMenuItem,
-                        selected: classes.selectMenuItemSelected
-                      }}
-                      value="2"
-                    >
-                      Paris
-                    </MenuItem>
-                    <MenuItem
-                      classes={{
-                        root: classes.selectMenuItem,
-                        selected: classes.selectMenuItemSelected
-                      }}
-                      value="3"
-                    >
-                      Bucharest
-                    </MenuItem>
-                  </Select>
-                </FormControl>
-                        <br/><br/>
-                  </GridItem>
-                  <GridItem xs={12} sm={12} md={12}>
-                    <FormControl fullWidth className={classes.selectFormControl}>
-                  <InputLabel
-                    htmlFor="simple-select"
-                    className={classes.selectLabel}
-                  >
-                    Interests
-                  </InputLabel>
-                  <Select
-                    MenuProps={{
-                      className: classes.selectMenu
-                    }}
-                    classes={{
-                      select: classes.select
-                    }}
-                    value={this.state.simpleSelect}
-                    onChange={this.handleSimple}
-                    inputProps={{
-                      name: "simpleSelect",
-                      id: "simple-select"
-                    }}
-                  >
-                    <MenuItem
-                      disabled
-                      classes={{
-                        root: classes.selectMenuItem
-                      }}
-                    >
-                      Choose City
-                    </MenuItem>
-                    <MenuItem
-                      classes={{
-                        root: classes.selectMenuItem,
-                        selected: classes.selectMenuItemSelected
-                      }}
-                      value="2"
-                    >
-                      Paris
-                    </MenuItem>
-                    <MenuItem
-                      classes={{
-                        root: classes.selectMenuItem,
-                        selected: classes.selectMenuItemSelected
-                      }}
-                      value="3"
-                    >
-                      Bucharest
-                    </MenuItem>
-                  </Select>
-                </FormControl>
-                        <br/><br/>
+                    />
+                    <br/><br/>
+                    <Dropdown placeholder='Select Interests' fluid search multiple selection options={skillsOptions}/>
                   </GridItem>
                   <GridItem xs={12} sm={12} md={12}>
                     <CustomInput
