@@ -99,11 +99,11 @@ export const registerToast = () => {
 export const registerUser = ({ firstName, lastName, email, password }) => 
 {
     const reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-    if(email === '' || password === '' || firstName == '' || lastName == '' ) 
+    if(email === '' || password === '' || firstName === '' || lastName === '' ) 
         return {
             type: FIELDS_EMPTY
         }
-    else if (reg.test(email) == false) {
+    else if (reg.test(email) === false) {
         return {
             type: INVALID_EMAIL
         }
@@ -143,9 +143,9 @@ export const registerUser = ({ firstName, lastName, email, password }) =>
             )
             .catch(error=>{
                 const status = error.response.status
-                if (status == 409)
+                if (status === 409)
                     dispatch({type: ALREADY_REGISTER})
-                else if (status == 500)
+                else if (status === 500)
                     dispatch({type: INVALID_EMAIL})
                 else 
                     dispatch({type: NETWORK_ERROR})

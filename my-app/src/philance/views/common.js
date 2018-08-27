@@ -1,15 +1,16 @@
 import axios from 'axios'
+import hostname from '../../config'
 
+var skills = []
 
-
-export const getInterests = axios.get('/user?ID=12345')
+export const getInterests =()=> axios.get(hostname() + '/philance/lookups/Interests')
 .then( (response) => {
-  // handle success
-  console.log(response);
+    response.data.commonLookups.forEach((element) => {
+    skills.push({"value": element.meaning, "text": element.meaning})
+  })
 })
 .catch(function (error) {
-  // handle error
-  console.log(error);
+  console.log(error)
 })
 
 export const countryOptions = [
@@ -256,11 +257,4 @@ export const countryOptions = [
   { key: 'zw', value: 'Zimbabwe', flag: 'zw', text: 'Zimbabwe' },
 ]
 
-export const skillsOptions = [
-    { key: 'af', value: 'Skill 1', text: 'Skill 1' },
-    { key: 'ax', value: 'Skill 2', text: 'Skill 2' },
-    { key: 'al', value: 'Skill 3', text: 'Skill 3' },
-    { key: 'dz', value: 'Skill 4', text: 'Skill 4' },
-    { key: 'as', value: 'Skill 5', text: 'Skill 5' },
-    { key: 'ad', value: 'Skill 6', text: 'Skill ' }
-  ]
+export const skillsOptions = skills

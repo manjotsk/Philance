@@ -11,9 +11,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
 
-import { countryOptions, skillsOptions } from '../common'
-
-import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
+import { countryOptions, skillsOptions, getInterests } from '../common'
 
 // @material-ui/icons
 import PermIdentity from "@material-ui/icons/PermIdentity";
@@ -55,6 +53,10 @@ class UserProfile extends React.Component {
     this.state = {
 
     }
+  }
+
+  componentDidMount() {
+     getInterests()
   }
 
   componentWillUnmount() {
