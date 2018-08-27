@@ -1,9 +1,6 @@
-#!/usr/bin/python
 # -*- coding: utf-8 -*-
 #
-#	Test that the correct page loads when clicking on "start a project"
-#	Validates that the field are as expected.
-#
+#	Tests for current page load on clicking on Home
 #
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -13,7 +10,7 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import NoAlertPresentException
 import unittest, time, re
 
-class UntitledTestCase(unittest.TestCase):
+class HomeButton(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Firefox()
         self.driver.implicitly_wait(30)
@@ -21,19 +18,12 @@ class UntitledTestCase(unittest.TestCase):
         self.verificationErrors = []
         self.accept_next_alert = True
     
-    def test_untitled_test_case(self):
+    def test_home_button(self):
         driver = self.driver
-        driver.get("http://127.0.0.1:3000")
-        driver.find_element_by_xpath("//div[@id='root']/div/header/div/div[2]/ul/li[2]/a/div").click()
-        try: self.assertEqual("Start a project to help others OR ask for help", driver.find_element_by_xpath("//div[@id='root']/div/div/div/div/div/div/div/div/div/h4").text)
-        except AssertionError as e: self.verificationErrors.append(str(e)) 
-	driver.find_element_by_xpath("(//input[@value=''])[6]").click()
-	try: self.assertEqual("SU", driver.find_element_by_xpath("//div[@id='root']/div/div/div/div/div/div/div/div[2]/form/div[7]/div[2]/div/div[2]/div/div/div/div/table/thead/tr[2]/th").text)
+        driver.get("http://127.0.0.1:3000/home")
+        try: self.assertEqual("HOME", driver.find_element_by_xpath("(.//*[normalize-space(text()) and normalize-space(.)='Start A Project'])[1]/preceding::div[1]").text)
         except AssertionError as e: self.verificationErrors.append(str(e))
-        driver.find_element_by_xpath("(//input[@value=''])[7]").click()
-        try: self.assertEqual("SU", driver.find_element_by_xpath("//div[@id='root']/div/div/div/div/div/div/div/div[2]/form/div[7]/div[3]/div/div[2]/div/div/div/div/table/thead/tr[2]/th").text)
-        except AssertionError as e: self.verificationErrors.append(str(e))
-
+    
     def is_element_present(self, how, what):
         try: self.driver.find_element(by=how, value=what)
         except NoSuchElementException as e: return False
@@ -61,4 +51,3 @@ class UntitledTestCase(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

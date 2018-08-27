@@ -105,31 +105,31 @@ exports.search = (req, res, next) => {
     //TODO: Add Validators
     var userName;
 
-    if (req.body.dist || req.body.loc) {
-        if (req.body.dist == null || req.body.loc == null) {
-            res.status(409).send({ message: `${req.body.dist ? 'Location ' : ' Distance '} is required` })
+    if(req.body.dist||req.body.loc){
+        if(req.body.dist==null||req.body.loc==null){
+            res.status(409).send({message:`${req.body.dist?'Location ':' Distance '} is required`})
         }
     }
 
-    var _sql = `SELECT * FROM users ` + `    `;
-
-    _sql = req.body.skill == null ? _sql : _sql + `INNER JOIN user_skills `;
+    var _sql=   `SELECT * FROM users `+`    `;
+    
+    _sql=req.body.skill==null?_sql:_sql+`INNER JOIN user_skills `;
     // _sql=req.body.ptype==null?_sql:_sql+`INNER JOIN user_skills `;
+    
+    _sql=Object.keys(req.body).length === 0?_sql:_sql+`WHERE `;
+    _sql=req.body.fname==null?              _sql:_sql+`users.fname LIKE '%${req.body.fname}%' AND `;
+    _sql=req.body.lname==null?              _sql:_sql+`users.lname LIKE '%${req.body.lname}%' AND `;
+    _sql=req.body.personLoc==null?          _sql:_sql+`users.location LIKE '%${req.body.personLoc}%' AND `;
+    _sql=req.body.skill==null?             _sql:_sql+`user_skills.skill_name LIKE '%${req.body.skill}%' AND`;
+    
+    _sql=_sql.slice(0,-4)
 
-    _sql = Object.keys(req.body).length === 0 ? _sql : _sql + `WHERE `;
-    _sql = req.body.fname == null ? _sql : _sql + `users.fname LIKE '%${req.body.fname}%' AND `;
-    _sql = req.body.lname == null ? _sql : _sql + `users.lname LIKE '%${req.body.lname}%' AND `;
-    _sql = req.body.personLoc == null ? _sql : _sql + `users.location LIKE '%${req.body.personLoc}%' AND `;
-    _sql = req.body.skill == null ? _sql : _sql + `user_skills.skill_name LIKE '%${req.body.skill}%' AND`;
-
-    _sql = _sql.slice(0, -4)
-
-    sequelize.query(_sql, { type: sequelize.QueryTypes.SELECT }).then((_users) => {
+    sequelize.query(_sql,{ type: sequelize.QueryTypes.SELECT}).then((_users)=>{
         res.status(200).send(_users)
     })
-        .catch((err) => {
-            res.status(200).send(err)
-        })
+    .catch((err)=>{
+        res.status(200).send(err)
+    })
 
 
 
