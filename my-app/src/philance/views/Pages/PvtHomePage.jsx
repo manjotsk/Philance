@@ -30,7 +30,7 @@ class PvtHomePage extends React.Component {
     const { classes } = this.props;
 
     return (
-        <GridContainer>
+        <GridContainer direction="row" justify="center">
           <GridItem xs={12} sm={12} md={10} lg={10}>
             <Card className={classes.cardSignup}>
               <h2 className={classes.cardTitle}>Private Home Page</h2>

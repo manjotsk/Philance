@@ -144,7 +144,7 @@ class Sidebar extends React.Component {
               onClick={() => this.openCollapse("openAvatar")}
             >
               <ListItemText
-                primary={rtlActive ? "تانيا أندرو" : "Tania Andrew"}
+                primary={rtlActive ? "تانيا أندرو" : "Ajay Kapur"}
                 secondary={
                   <b
                     className={
@@ -393,12 +393,19 @@ class Sidebar extends React.Component {
       });
     var brand = (
       <div className={logoClasses}>
-        <a href="https://www.creative-tim.com" className={logoMini}>
-          <img src={logo} alt="logo" className={classes.img} />
-        </a>
-        <a href="https://www.creative-tim.com" className={logoNormal}>
-          {logoText}
-        </a>
+        <NavLink
+          to={"/home"}
+          className={classes.itemLink + " " + classes.userCollapseButton}
+        >
+          <div style={{ display:'flex',flexDirection: 'row',justifyContent:'center' }}>
+            <div>
+              <img src={logo} alt="logo" className={classes.img} />
+            </div>
+            <div className={logoNormal}>
+              {logoText}
+            </div>
+          </div>
+        </NavLink>
       </div>
     );
     const drawerPaper =
@@ -433,7 +440,7 @@ class Sidebar extends React.Component {
               keepMounted: true // Better open performance on mobile.
             }}
           >
-            {brand}
+            {/* {brand} */}
             <SidebarWrapper
               className={sidebarWrapper}
               user={user}

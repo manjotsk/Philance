@@ -24,14 +24,14 @@ import PersonIcon from "@material-ui/icons/Person";
 import FolderIcon from "@material-ui/icons/Folder";
 
 export const dashboardRoutes = [
-  {
-    path: "/home",
-    name: "Home Page",
-    short: "Home",
-    mini: "PHP",
-    icon: HomeIcon,
-    component: PublicHomePage
-  },
+  // {
+  //   path: "/home",
+  //   name: "Home Page",
+  //   short: "Home",
+  //   mini: "PHP",
+  //   icon: HomeIcon,
+  //   component: PublicHomePage
+  // },
   {
     path: "/start-project",
     name: "Start Project Page",
