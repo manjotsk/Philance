@@ -130,8 +130,8 @@ class UserProfile extends React.Component {
         <GridContainer>
           <GridItem xs={12} sm={12} md={8}>
             <Card>
-              <CardHeader color="rose" icon>
-                <CardIcon color="rose">
+              <CardHeader color="info" icon>
+                <CardIcon color="info">
                   <PermIdentity />
                 </CardIcon>
                 <h4 className={classes.cardIconTitle}>
@@ -205,7 +205,7 @@ class UserProfile extends React.Component {
                 </GridContainer>
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={12}>
-                    <Button color="rose" onClick={()=>{
+                    <Button color="info" onClick={()=>{
                     this.onButtonPress()
                     }}>
                     {this.props.text}

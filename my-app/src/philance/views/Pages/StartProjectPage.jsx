@@ -84,8 +84,8 @@ class StartProject extends React.Component {
         <GridContainer justify="center">
           <GridItem xs={12} sm={12} md={12}>
             <Card>
-              <CardHeader color="rose" text>
-                <CardText color="rose">
+              <CardHeader color="info" text>
+                <CardText color="info">
                   <h4>Start a project to help others OR ask for help</h4>
                 </CardText>
               </CardHeader>
@@ -289,8 +289,8 @@ class StartProject extends React.Component {
                     </GridItem>
                     <GridItem xs={12} sm={12} md={4}>
                       <Card>
-                        <CardHeader color="rose" icon>
-                          <CardIcon color="rose">
+                        <CardHeader color="info" icon>
+                          <CardIcon color="info">
                             <LibraryBooks />
                           </CardIcon>
                           <h4 className={classes.cardIconTitle}>Start Date</h4>
@@ -311,8 +311,8 @@ class StartProject extends React.Component {
                     </GridItem>
                     <GridItem xs={12} sm={12} md={4}>
                       <Card>
-                        <CardHeader color="rose" icon>
-                          <CardIcon color="rose">
+                        <CardHeader color="info" icon>
+                          <CardIcon color="info">
                             <LibraryBooks />
                           </CardIcon>
                           <h4 className={classes.cardIconTitle}>End Date</h4>
@@ -373,7 +373,7 @@ class StartProject extends React.Component {
                   <GridContainer>
                     <GridItem xs={12} sm={2} />
                     <GridItem xs={12} sm={2}>
-                      <Button color="rose">Create a Project</Button>
+                      <Button color="info">Create a Project</Button>
                     </GridItem>
                   </GridContainer>
                 </form>

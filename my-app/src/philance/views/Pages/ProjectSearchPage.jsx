@@ -100,8 +100,8 @@ class ProjectSearch extends React.Component {
         <GridContainer>
           <GridItem xs={12} sm={12}>
             <Card>
-              <CardHeader color="rose" icon>
-                <CardIcon color="rose">
+              <CardHeader color="info" icon>
+                <CardIcon color="info">
                   <Assignment />
                 </CardIcon>
                 <h4 className={classes.cardIconTitle}>Find Projects</h4>
@@ -466,7 +466,7 @@ class ProjectSearch extends React.Component {
                   <br />
                   <GridContainer>
                     <GridItem>
-                      <Button color="rose" onClick={() => this.findProjects()}>
+                      <Button color="info" onClick={() => this.findProjects()}>
                         Find
                       </Button>
                     </GridItem>
