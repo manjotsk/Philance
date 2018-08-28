@@ -1,13 +1,15 @@
 import {
     USER_PROFILE_TEXT_CHANGED,
     USER_PROFILE_FIELDS_EMPTY,
-    USER_PROFILE_CITY_CHANGED,
     USER_PROFILE_COUNTRY_CHANGED,
+    USER_PROFILE_NAME_CHANGED,
+    USER_PROFILE_ORGANIZATION_CHANGED,
+    USER_PROFILE_TITLE_CHANGED,
     USER_PROFILE_DESCRIPTION_CHANGED,
     USER_PROFILE_EMAIL_CHANGED,
-    USER_PROFILE_FIRSTNAME_CHANGED,
-    USER_PROFILE_LASTNAME_CHANGED,
+    USER_PROFILE_PASSWORD_CHANGED,
     USER_PROFILE_POSTAL_CODE_CHANGED,
+    USER_PROFILE_INTERESTS_CHANGED,
     USER_PROFILE_CONTACT_CHANGED
 } from '../types'
 
@@ -21,16 +23,30 @@ export const textChanged = () => {
     }
 }
 
-export const firstNameChanged = text => {
+export const emailChanged = text => {
     return {
-        type: USER_PROFILE_FIRSTNAME_CHANGED,
+        type: USER_PROFILE_EMAIL_CHANGED,
         payload: text
     }
 }
 
-export const emailChanged = text => {
+export const nameChanged = text => {
     return {
-        type: USER_PROFILE_EMAIL_CHANGED,
+        type: USER_PROFILE_NAME_CHANGED,
+        payload: text
+    }
+}
+
+export const oraganizationChanged = text => {
+    return {
+        type: USER_PROFILE_ORGANIZATION_CHANGED,
+        payload: text
+    }
+}
+
+export const titleChanged = text => {
+    return {
+        type: USER_PROFILE_TITLE_CHANGED,
         payload: text
     }
 }
@@ -49,20 +65,6 @@ export const descriptionChanged = text => {
     }
 }
 
-export const lastNameChanged = text => {
-    return {
-        type: USER_PROFILE_LASTNAME_CHANGED,
-        payload: text
-    }
-}
-
-export const cityChanged = text => {
-    return {
-        type: USER_PROFILE_CITY_CHANGED,
-        payload: text
-    }
-}
-
 export const postalCodeChanged = text => {
     return {
         type: USER_PROFILE_POSTAL_CODE_CHANGED,
@@ -77,8 +79,22 @@ export const countryChanged = text => {
     }
 }
 
-export const updateProfile = ({ userName, email, firstName, lastName, city, country, postalCode, description }) => {
-    if(userName === '' || email === '' || firstName === '' || lastName === '' || city === '' || country === '' || postalCode === '' || description === '') {
+export const passwordChanged = text => {
+    return {
+        type: USER_PROFILE_PASSWORD_CHANGED,
+        payload: text
+    }
+}
+
+export const interestschanged = text => {
+    return {
+        type: USER_PROFILE_INTERESTS_CHANGED,
+        payload: text
+    }
+}
+
+export const updateProfile = ({ email, password, contact, country, postalCode, description }) => {
+    if(email === ''  || country === '' || password === ''  || postalCode === '' || description === '' || contact === '') {
         return {
             type: USER_PROFILE_FIELDS_EMPTY
         }

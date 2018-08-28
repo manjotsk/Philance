@@ -2,7 +2,10 @@ import React from 'react'
 import { Dropdown } from 'semantic-ui-react'
 import {getInterests, skillsOptions} from './common'
 
-export default class InterestsDropdown extends React.Component {
+import {interestschanged, textChanged} from  '../../actions/userProfile'
+import store from '../../store/store'
+
+class InterestsDropdown extends React.Component {
     state = {
 
     }
@@ -10,6 +13,11 @@ export default class InterestsDropdown extends React.Component {
     componentDidMount() {
         getInterests()
      }
+
+     onInterestsChange(text) {
+        store.dispatch(interestschanged(text))
+        store.dispatch(textChanged())
+      }
 
     render () {
         return (
@@ -23,10 +31,12 @@ export default class InterestsDropdown extends React.Component {
                     value={this.state.value}
                     onChange={async (e, {value})=>{
                         await this.setState({value})
-                        console.log(this.state.value)
+                        this.onInterestsChange(this.state.value)
                     }}
                     />
     )
     }
 
 }
+
+export default InterestsDropdown

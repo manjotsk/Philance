@@ -5,10 +5,6 @@ import {connect} from 'react-redux'
 
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
-import FormControl from "@material-ui/core/FormControl";
 
 import {CountryDropdown, InterestsDropdown} from '../../components/DoubleDropdown'
 // @material-ui/icons
@@ -37,12 +33,12 @@ import {
   updateProfile,
   contactChanged,
   emailChanged,
-  firstNameChanged,
-  lastNameChanged,
-  cityChanged,
-  countryChanged,
   postalCodeChanged,
-  descriptionChanged
+  descriptionChanged,
+  oraganizationChanged,
+  titleChanged,
+  nameChanged,
+  passwordChanged
 } from '../../actions/userProfile'
 
 class UserProfile extends React.Component {
@@ -54,20 +50,32 @@ class UserProfile extends React.Component {
     this.props.registerToast()
   }
 
-  selectCountry (val) {
-    this.setState({ country: val });
-  }
-
-  selectRegion (val) {
-    this.setState({ region: val });
-  }
-
   onEmailChange(text) {
     this.props.emailChanged(text)
     this.props.textChanged()
   }
 
-  oncontactChange(text) {
+  onPasswordChange(text) {
+    this.props.passwordChanged(text)
+    this.props.textChanged()
+  }
+
+  onOrganizationChange(text) {
+    this.props.oraganizationChanged(text)
+    this.props.textChanged()
+  }
+
+  onNameChange(text) {
+    this.props.nameChanged(text)
+    this.props.textChanged()
+  }
+
+  onTitleChange(text) {
+    this.props.titleChanged(text)
+    this.props.textChanged()
+  }
+
+  onContactChange(text) {
     this.props.contactChanged(text)
     this.props.textChanged()
   }
@@ -82,18 +90,8 @@ class UserProfile extends React.Component {
     this.props.textChanged()
   }
 
-  onCityChange(text) {
-    this.props.cityChanged(text)
-    this.props.textChanged()
-  }
-
   onPostalCodeChange(text) {
     this.props.postalCodeChanged(text)
-    this.props.textChanged()
-  }
-
-  onCountryChange(text) {
-    this.props.countryChanged(text)
     this.props.textChanged()
   }
 
@@ -106,14 +104,12 @@ class UserProfile extends React.Component {
     const {
       contact,
       email,
-      firstName,
-      lastName,
-      city,
-      country,
       postalCode,
+      country,
+      password,
       description
     } = this.props
-    this.props.updateProfile({contact, email, firstName, lastName, city, country, postalCode, description})
+    this.props.updateProfile({email, password, contact, country, postalCode, description})
 }
 
   render() {
@@ -161,7 +157,7 @@ class UserProfile extends React.Component {
                       formControlProps={{
                         fullWidth: true,
                         onChange: e => {
-                          this.onFirstNameChange(e.target.value)
+                          this.onPasswordChange(e.target.value)
                         }
                       }}
                       inputProps={{
@@ -207,6 +203,7 @@ class UserProfile extends React.Component {
                   <GridItem xs={12} sm={12} md={12}>
                     <Button color="info" onClick={()=>{
                     this.onButtonPress()
+                    console.log(this.props)
                     }}>
                     {this.props.text}
                   </Button>
@@ -232,7 +229,7 @@ class UserProfile extends React.Component {
                       formControlProps={{
                         fullWidth: true,
                         onChange: e => {
-                          this.onFirstNameChange(e.target.value)
+                          this.onNameChange(e.target.value)
                         }
                       }}
                     />
@@ -244,7 +241,7 @@ class UserProfile extends React.Component {
                       formControlProps={{
                         fullWidth: true,
                         onChange: e => {
-                          this.onFirstNameChange(e.target.value)
+                          this.onTitleChange(e.target.value)
                         }
                       }}
                     />
@@ -256,7 +253,7 @@ class UserProfile extends React.Component {
                       formControlProps={{
                         fullWidth: true,
                         onChange: e => {
-                          this.onFirstNameChange(e.target.value)
+                          this.onOrganizationChange(e.target.value)
                         }
                       }}
                     />
@@ -295,14 +292,13 @@ const mapStateToProps = state => {
   return {
     contact: state.user.contact,
     email: state.user.email,
-    firstName: state.user.firstName,
-    lastName: state.user.lastName,
-    city: state.user.city,
     country: state.user.country,
     postalCode: state.user.postalCode,
     description: state.user.description,
     text: state.user.text,
     showToast: state.reg.showToast,
+    password: state.user.password,
+    interests: state.user.interests
   }
 }
 
@@ -311,11 +307,11 @@ export default connect(mapStateToProps, {
   updateProfile,
   contactChanged,
   emailChanged,
-  firstNameChanged,
-  lastNameChanged,
-  cityChanged,
-  countryChanged,
   postalCodeChanged,
   descriptionChanged,
-  registerToast
+  registerToast,
+  oraganizationChanged,
+  titleChanged,
+  nameChanged,
+  passwordChanged
 })(withStyles(userProfileStyles)(UserProfile));
