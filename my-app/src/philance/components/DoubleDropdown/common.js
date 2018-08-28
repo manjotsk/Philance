@@ -6,7 +6,7 @@ var skills = []
 export const getInterests =()=> axios.get(hostname() + '/philance/lookups/Interests')
 .then( (response) => {
     response.data.commonLookups.forEach((element) => {
-    skills.push({key:element.meaning, value: element.meaning, text: element.meaning})
+    skills.push({value: element.meaning, text: element.meaning})
   })
 })
 .catch( (error) => {
