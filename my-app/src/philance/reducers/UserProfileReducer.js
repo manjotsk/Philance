@@ -7,7 +7,10 @@ import {
     USER_PROFILE_PASSWORD_CHANGED,
     USER_PROFILE_POSTAL_CODE_CHANGED,
     USER_PROFILE_CONTACT_CHANGED,
-    USER_PROFILE_INTERESTS_CHANGED
+    USER_PROFILE_INTERESTS_CHANGED,
+    USER_PROFILE_NAME_CHANGED,
+    USER_PROFILE_ORGANIZATION_CHANGED,
+    USER_PROFILE_TITLE_CHANGED
 } from '../actions/types'
 
 const INITIAL_STATE = {
@@ -31,7 +34,7 @@ export default (state = INITIAL_STATE, action) => {
         case USER_PROFILE_FIELDS_EMPTY:
             return {...state, text: 'ALL FIELDS ARE REQUIRED'}
         case USER_PROFILE_PASSWORD_CHANGED:
-            return {...state, lastName: action.payload}
+            return {...state, password: action.payload}
         case USER_PROFILE_COUNTRY_CHANGED:
             return {...state, country: action.payload}
         case USER_PROFILE_INTERESTS_CHANGED:
@@ -44,6 +47,12 @@ export default (state = INITIAL_STATE, action) => {
             return {...state, postalCode: action.payload}
         case USER_PROFILE_CONTACT_CHANGED:
             return {...state, contact: action.payload}
+        case USER_PROFILE_NAME_CHANGED:
+            return {...state, name: action.payload}
+        case USER_PROFILE_TITLE_CHANGED:
+            return {...state, title: action.payload}
+        case USER_PROFILE_ORGANIZATION_CHANGED:
+            return {...state, organization: action.payload}
         default:
             return state
     }
