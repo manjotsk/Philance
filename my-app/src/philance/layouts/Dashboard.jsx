@@ -23,9 +23,9 @@ import {connect} from 'react-redux'
 import image from "assets/img/sidebar-2.jpg";
 import logo from "../assets/logos/philancelogo.png";
 
-const switchRoutes = (
+const switchRoutes =(isRegistered)=> (
   <Switch>
-    {pvtPagesRoutes.map((prop, key) => {
+    {/* {pvtPagesRoutes.map((prop, key) => {
       if (prop.redirect)
         return <Redirect from={prop.path} to={prop.pathTo} key={key} />;
       if (prop.collapse)
@@ -35,7 +35,26 @@ const switchRoutes = (
           );
         });
       return <Route path={prop.path} component={prop.component} key={key} />;
-    })}
+    })} */}
+    {pvtPagesRoutes.map((prop, key) => {
+                  if (prop.redirect && isRegistered) {
+                    return (
+                      <Redirect to ="/profile" />
+                    );
+                  }
+                  else if(prop.redirect && !isRegistered) {
+                    return (
+                      <Redirect from={prop.path} to={prop.pathTo} key={key} />
+                    )
+                  }
+                  return (
+                    <Route
+                      path={prop.path}
+                      component={prop.component}
+                      key={key}
+                    />
+                  );
+                })}
   </Switch>
 );
 
@@ -113,7 +132,7 @@ class Dashboard extends React.Component {
           {/* On the /maps/full-screen-maps route we want the map to be on full screen - this is not possible if the content and conatiner classes are present because they have some paddings which would make the map smaller */}
           {this.getRoute() ? (
             <div className={classes.content}>
-              <div className={classes.container}>{switchRoutes}</div>
+              <div className={classes.container}>{switchRoutes(this.props.isRegistered)}</div>
             </div>
           ) : (
               <div className={classes.map}>{switchRoutes}</div>
