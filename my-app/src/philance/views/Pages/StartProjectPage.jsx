@@ -85,13 +85,9 @@ class StartProject extends React.Component {
               <CardBody>
                 <form>
                   <GridContainer>
-                    <GridItem xs={12} sm={2}>
-                      <FormLabel className={classes.labelHorizontal}>
-                        Project Name
-                      </FormLabel>
-                    </GridItem>
                     <GridItem xs={12} sm={10}>
                       <CustomInput
+                        labelText ="Project Name"
                         id="projectName"
                         formControlProps={{
                           fullWidth: true
@@ -106,11 +102,6 @@ class StartProject extends React.Component {
                     </GridItem>
                   </GridContainer>
                   <GridContainer>
-                    <GridItem xs={12} sm={2}>
-                      <FormLabel className={classes.labelHorizontal}>
-                        Project Description
-                      </FormLabel>
-                    </GridItem>
                     <GridItem xs={12} sm={10}>
                       <CustomInput
                         id="projectDescription"
@@ -127,17 +118,6 @@ class StartProject extends React.Component {
                     </GridItem>
                   </GridContainer>
                   <GridContainer>
-                    <GridItem xs={12} sm={2}>
-                      <FormLabel
-                        className={
-                          classes.labelHorizontal +
-                          " " +
-                          classes.labelHorizontalRadioCheckbox
-                        }
-                      >
-                        Resources Needed to complete the project
-                      </FormLabel>
-                    </GridItem>
                     <GridItem xs={12} sm={10}>
                       <div
                         className={
@@ -220,11 +200,6 @@ class StartProject extends React.Component {
                   </GridContainer>
 
                   <GridContainer>
-                    <GridItem xs={12} sm={2}>
-                      <FormLabel className={classes.labelHorizontal}>
-                        Resource Skill Needed
-                      </FormLabel>
-                    </GridItem>
                     <GridItem xs={12} sm={10}>
                       <div>
                         <select
@@ -246,11 +221,6 @@ class StartProject extends React.Component {
                   </GridContainer>
 
                   <GridContainer>
-                    <GridItem xs={12} sm={2}>
-                      <FormLabel className={classes.labelHorizontal}>
-                        Select Impact Category
-                      </FormLabel>
-                    </GridItem>
                     <GridItem xs={12} sm={10}>
                       <div>
                         <select
@@ -270,13 +240,7 @@ class StartProject extends React.Component {
                       </div>
                     </GridItem>
                   </GridContainer>
-
                   <GridContainer>
-                    <GridItem xs={12} sm={2}>
-                      <FormLabel className={classes.labelHorizontal}>
-                        Project Location
-                      </FormLabel>
-                    </GridItem>
                     <GridItem xs={12} sm={7}>
                       <CustomInput
                         id="projectLocation"
@@ -296,11 +260,6 @@ class StartProject extends React.Component {
                     </GridItem>
                   </GridContainer>
                   <GridContainer>
-                    <GridItem xs={12} sm={2}>
-                      <FormLabel className={classes.labelHorizontal}>
-                        Target Project
-                      </FormLabel>
-                    </GridItem>
                     <GridItem xs={12} sm={12} md={4}>
                       <Card>
                         <CardHeader color="info" icon>
@@ -354,11 +313,6 @@ class StartProject extends React.Component {
                   </GridContainer>
 
                   <GridContainer>
-                    <GridItem xs={12} sm={2}>
-                      <FormLabel className={classes.labelHorizontal}>
-                        Estimated Budget for Project
-                      </FormLabel>
-                    </GridItem>
                     <GridItem xs={12} sm={10}>
                       <CustomInput
                         id="projectDescription"
@@ -375,13 +329,7 @@ class StartProject extends React.Component {
                       />
                     </GridItem>
                   </GridContainer>
-
                   <GridContainer>
-                    <GridItem xs={12} sm={2}>
-                      <FormLabel className={classes.labelHorizontal}>
-                        Attachments
-                      </FormLabel>
-                    </GridItem>
                     <GridItem xs={12} sm={10}>
                       <CustomInput
                         id="projectDescription"
