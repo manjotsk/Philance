@@ -9,6 +9,7 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import Face from "@material-ui/icons/Face";
 import Email from "@material-ui/icons/Email";
 import LockOutline from "@material-ui/icons/LockOutline";
+import { NavLink } from "react-router-dom";
 
 // core components
 import GridContainer from "components/Grid/GridContainer.jsx";
@@ -133,9 +134,11 @@ onButtonPress() {
                       </Button>
                     </CardActions>
                     <CardActions className={classes.justifyContentCenter}>
-                      <Button onClick={()=>{this.props.history.push("/forgotPassword")}} color="info" simple size="small">
+                    <NavLink to="/forgotPassword">
+                      <Button color="info" simple size="small">
                         Forgot Password?
                       </Button>
+                    </NavLink>
                     </CardActions>
                   </CardBody>
                   <CardFooter className={classes.justifyContentCenter}>

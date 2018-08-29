@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Datetime from "react-datetime";
+import { connect } from 'react-redux'
 
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -80,7 +81,7 @@ class StartProject extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-        <GridContainer justify="center">
+        <GridContainer className={this.props.isLoggedIn?null:classes.container} direction="row" justify="center">
           <GridItem xs={12} sm={12} md={12}>
             <Card>
               <CardHeader color="rose" text>
@@ -384,8 +385,14 @@ class StartProject extends React.Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    isLoggedIn: state.auth.isLoggedIn,
+  }
+}
+
 StartProject.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(startProjectPageStyle)(StartProject);
+export default connect(mapStateToProps)(withStyles(startProjectPageStyle)(StartProject));

@@ -1,6 +1,7 @@
 import React from "react";
 import ReactTable from "react-table";
 //import Axios from "axios";
+import { connect } from 'react-redux'
 import PropTypes from "prop-types";
 
 // @material-ui/core components
@@ -96,7 +97,8 @@ class ProjectSearch extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <GridContainer>
+      <GridContainer className={this.props.isLoggedIn?null:classes.container}>
+      {console.log(this.props.isLoggedIn,'***************************')}
         <GridContainer>
           <GridItem xs={12} sm={12}>
             <Card>
@@ -522,5 +524,11 @@ ProjectSearch.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
+const mapStateToProps = state => {
+  return {
+    isLoggedIn: state.auth.isLoggedIn,
+  }
+}
+
 const myObj = withStyles(extendedFormsStyle)(ProjectSearch);
-export default withStyles(projectSearchStyle)(myObj);
+export default connect(mapStateToProps)(withStyles(projectSearchStyle)(myObj));
