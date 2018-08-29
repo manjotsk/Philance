@@ -41,16 +41,58 @@ import FiberManualRecord from "@material-ui/icons/FiberManualRecord";
 import Today from "@material-ui/icons/Today";
 import LibraryBooks from "@material-ui/icons/LibraryBooks";
 import AvTimer from "@material-ui/icons/AvTimer";
-
+import { geolocated } from 'react-geolocated';
+import { compose, withProps } from "recompose"
 import startProjectPageStyle from "philance/views/PageStyles/StartProjectPageStyles";
+import {  withScriptjs, withGoogleMap, GoogleMap, Marker  } from "react-google-maps"
+
+import store from '../../store/store'
+import { startProject } from "../../actions/startProject";
+
+const MyMapComponent = compose(
+  withProps({
+    googleMapURL: "https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places",
+    loadingElement: <div style={{ height: `100%` }} />,
+    containerElement: <div style={{ height: `400px` }} />,
+    mapElement: <div style={{ height: `100%` }} />,
+  }),
+  withScriptjs,
+  withGoogleMap
+)((props) =>
+  <GoogleMap
+    defaultZoom={8}
+    defaultCenter={{ lat: -34.397, lng: 150.644 }}
+  >
+    {props.isMarkerShown && <Marker position={{ lat: -34.397, lng: 150.644 }} onClick={props.onMarkerClick} />}
+  </GoogleMap>
+)
+
 
 class StartProject extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      checked: [24, 22],
+      checked: '',
       selectedValue: null,
-      selectedEnabled: "b"
+      selectedEnabled: "b",
+      name: '',
+      description: '',
+      freelancers: '',
+      impact: '',
+      volunteerStatus: true,
+      freeLanceStatus: true,
+      volunteers: null,
+      freeLancers: null,
+      startDate: null,
+      endDate: null,
+      budget: null,
+      skills: null,
+      locationError: null,
+      latitude: -34.397,
+      longitude: 150.644,
+      error: 'Get Location',
+      enable: false,
+      isMarkerShown: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeEnabled = this.handleChangeEnabled.bind(this);
@@ -61,20 +103,20 @@ class StartProject extends React.Component {
   handleChangeEnabled(event) {
     this.setState({ selectedEnabled: event.target.value });
   }
-  handleToggle(value) {
-    const { checked } = this.state;
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
 
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
+  componentDidMount() {
+    this.delayedShowMarker()
+  }
 
-    this.setState({
-      checked: newChecked
-    });
+  delayedShowMarker = () => {
+    setTimeout(() => {
+      this.setState({ isMarkerShown: true })
+    }, 3000)
+  }
+
+  handleMarkerClick = () => {
+    this.setState({ isMarkerShown: false })
+    this.delayedShowMarker()
   }
 
   render() {
@@ -84,8 +126,8 @@ class StartProject extends React.Component {
         <GridContainer justify="center">
           <GridItem xs={12} sm={12} md={12}>
             <Card>
-              <CardHeader color="info" text>
-                <CardText color="info">
+              <CardHeader color="rose" text>
+                <CardText color="rose">
                   <h4>Start a project to help others OR ask for help</h4>
                 </CardText>
               </CardHeader>
@@ -104,7 +146,10 @@ class StartProject extends React.Component {
                           fullWidth: true
                         }}
                         inputProps={{
-                          placeholder: "Enter a Project Name"
+                          placeholder: "Enter a Project Name",
+                          onChange: e => {
+                            this.setState({name: e.target.value})
+                          }
                         }}
                       />
                     </GridItem>
@@ -122,7 +167,10 @@ class StartProject extends React.Component {
                           fullWidth: true
                         }}
                         inputProps={{
-                          placeholder: "Enter a Project Description"
+                          placeholder: "Enter a Project Description",
+                          onChange: e => {
+                            this.setState({description: e.target.value})
+                          }
                         }}
                       />
                     </GridItem>
@@ -151,7 +199,7 @@ class StartProject extends React.Component {
                           control={
                             <Checkbox
                               tabIndex={-1}
-                              onClick={() => this.handleToggle(3)}
+                              onClick={() => this.setState({volunteerStatus: !this.state.volunteerStatus})}
                               checkedIcon={
                                 <Check className={classes.checkedIcon} />
                               }
@@ -170,12 +218,15 @@ class StartProject extends React.Component {
                           class="form-control selectpicker"
                           data-style="btn btn-link"
                           id="exampleFormControlSelect1"
+                          value = {this.state.volunteers}
+                          onChange = {(e)=>{this.setState({volunteers: e.target.value})}}
+                          disabled={this.state.volunteerStatus}
                         >
-                          <option>1</option>
-                          <option>2</option>
-                          <option>3</option>
-                          <option>4</option>
-                          <option>5</option>
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
                         </select>
                         <div />
 
@@ -183,7 +234,7 @@ class StartProject extends React.Component {
                           control={
                             <Checkbox
                               tabIndex={-1}
-                              onClick={() => this.handleToggle(3)}
+                              onClick={() => this.setState({freeLanceStatus: !this.state.freeLanceStatus})}
                               checkedIcon={
                                 <Check className={classes.checkedIcon} />
                               }
@@ -202,12 +253,15 @@ class StartProject extends React.Component {
                           class="form-control selectpicker"
                           data-style="btn btn-link"
                           id="exampleFormControlSelect1"
+                          value = {this.state.freelancers}
+                          onChange = {(e)=>{this.setState({freelancers: e.target.value})}}
+                          disabled = {this.state.freeLanceStatus}
                         >
-                          <option>1</option>
-                          <option>2</option>
-                          <option>3</option>
-                          <option>4</option>
-                          <option>5</option>
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
                         </select>
                         <div />
                       </div>
@@ -227,12 +281,14 @@ class StartProject extends React.Component {
                           class="form-control selectpicker"
                           data-style="btn btn-link"
                           id="exampleFormControlSelect2"
+                          value = {this.state.skills}
+                          onChange = {(e)=>{this.setState({skills: e.target.value})}}
                         >
-                          <option>Skill 1</option>
-                          <option>Skill 2</option>
-                          <option>Skill 3</option>
-                          <option>Skill 4</option>
-                          <option>Skill 5</option>
+                          <option value = "Skill 1">Skill 1</option>
+                          <option value = "Skill 2">Skill 2</option>
+                          <option value = "Skill 3">Skill 3</option>
+                          <option value = "Skill 4">Skill 4</option>
+                          <option value = "Skill 5">Skill 5</option>
                         </select>
                       </div>
                     </GridItem>
@@ -251,12 +307,14 @@ class StartProject extends React.Component {
                           class="form-control selectpicker"
                           data-style="btn btn-link"
                           id="exampleFormControlSelect2"
+                          value = {this.state.impact}
+                          onChange = {(e)=>{this.setState({impact: e.target.value})}}
                         >
-                          <option>Impact Category 1</option>
-                          <option>Impact Category 2</option>
-                          <option>Impact Category 3</option>
-                          <option>Impact Category 4</option>
-                          <option>Impact Category 5</option>
+                          <option value = "Impact Category 1" >Impact Category 1</option>
+                          <option value = "Impact Category 2" >Impact Category 2</option>
+                          <option value = "Impact Category 3" >Impact Category 3</option>
+                          <option value = "Impact Category 4" >Impact Category 4</option>
+                          <option value = "Impact Category 5" >Impact Category 5</option>
                         </select>
                       </div>
                     </GridItem>
@@ -268,19 +326,38 @@ class StartProject extends React.Component {
                         Project Location
                       </FormLabel>
                     </GridItem>
-                    <GridItem xs={12} sm={10}>
+                    <GridItem xs={12} sm={7}>
                       <CustomInput
-                        id="projectDescription"
+                        id="projectLocation"
                         formControlProps={{
                           fullWidth: true
                         }}
                         inputProps={{
-                          placeholder: "Enter a Project Description"
+                          value:'latitude: '+this.state.latitude+' longitude: '+this.state.longitude,
+                          placeholder: "Enter a Project Location"
                         }}
                       />
                     </GridItem>
+                    <GridItem xs={12} sm={2}>
+                            <div>
+                              <Button color = "rose" className = "float-right" onClick={()=>{
+                                !this.props.isGeolocationAvailable
+                                  ? this.setState({error: 'Geolocation Not Supported'})
+                                  : !this.props.isGeolocationEnabled
+                                    ? null
+                                    : this.props.coords
+                                      ? this.setState({latitude: this.props.coords.latitude, longitude: this.props.coords.longitude, enable: true, error: 'Get Location'})
+                                      : this.setState({error: 'Getting Data'})
+                              }}>{this.state.error}</Button>
+                            </div>
+                    </GridItem>
                   </GridContainer>
-
+                 
+                    <MyMapComponent
+                      isMarkerShown={this.state.isMarkerShown}
+                      onMarkerClick={this.handleMarkerClick}
+                    />
+              
                   <GridContainer>
                     <GridItem xs={12} sm={2}>
                       <FormLabel className={classes.labelHorizontal}>
@@ -289,8 +366,8 @@ class StartProject extends React.Component {
                     </GridItem>
                     <GridItem xs={12} sm={12} md={4}>
                       <Card>
-                        <CardHeader color="info" icon>
-                          <CardIcon color="info">
+                        <CardHeader color="rose" icon>
+                          <CardIcon color="rose">
                             <LibraryBooks />
                           </CardIcon>
                           <h4 className={classes.cardIconTitle}>Start Date</h4>
@@ -303,7 +380,10 @@ class StartProject extends React.Component {
                           <FormControl fullWidth>
                             <Datetime
                               timeFormat={false}
-                              inputProps={{ placeholder: "Start Date" }}
+                              inputProps={{
+                                placeholder: "Start Date"
+                              }}
+                              onChange={date=>this.setState({startDate: date._d})}
                             />
                           </FormControl>
                         </CardBody>
@@ -311,8 +391,8 @@ class StartProject extends React.Component {
                     </GridItem>
                     <GridItem xs={12} sm={12} md={4}>
                       <Card>
-                        <CardHeader color="info" icon>
-                          <CardIcon color="info">
+                        <CardHeader color="rose" icon>
+                          <CardIcon color="rose">
                             <LibraryBooks />
                           </CardIcon>
                           <h4 className={classes.cardIconTitle}>End Date</h4>
@@ -325,7 +405,10 @@ class StartProject extends React.Component {
                           <FormControl fullWidth>
                             <Datetime
                               timeFormat={false}
-                              inputProps={{ placeholder: "End Date" }}
+                              inputProps={{
+                                placeholder: "End Date",
+                            }}
+                            onChange={date=>this.setState({startDate: date._d})}
                             />
                           </FormControl>
                         </CardBody>
@@ -346,7 +429,11 @@ class StartProject extends React.Component {
                           fullWidth: true
                         }}
                         inputProps={{
-                          placeholder: "Enter a Project Description"
+                          placeholder: "Enter estimated budget",
+                          onChange: e => {
+                            this.setState({budget: e.target.value})
+                            console.log(this.state.budget)
+                          }
                         }}
                       />
                     </GridItem>
@@ -373,7 +460,34 @@ class StartProject extends React.Component {
                   <GridContainer>
                     <GridItem xs={12} sm={2} />
                     <GridItem xs={12} sm={2}>
-                      <Button color="info">Create a Project</Button>
+                      <Button onClick = {()=>{
+                        const {
+                        name,
+                        description,
+                        volunteers,
+                        freelancers,
+                        skills,
+                        impact,
+                        startDate,
+                        endDate,
+                        budget,
+                        latitude,
+                        longitude,
+                      } = this.state
+                      store.dispatch(startProject(
+                        name,
+                        description,
+                        volunteers,
+                        freelancers,
+                        skills,
+                        impact,
+                        latitude,
+                        longitude,
+                        startDate,
+                        endDate,
+                        budget
+                      ))
+                      }} color="rose">Create a Project</Button>
                     </GridItem>
                   </GridContainer>
                 </form>
@@ -390,4 +504,9 @@ StartProject.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(startProjectPageStyle)(StartProject);
+export default geolocated({
+  positionOptions: {
+    enableHighAccuracy: false,
+  },
+  userDecisionTimeout: 5000,
+})(withStyles(startProjectPageStyle)(StartProject));
