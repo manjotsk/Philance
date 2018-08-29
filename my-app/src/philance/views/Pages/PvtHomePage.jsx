@@ -21,6 +21,8 @@ import CtButton from "components/CustomButtons/Button.jsx";
 
 import pvtHomePageStyle from "assets/jss/material-dashboard-pro-react/views/registerPageStyle";
 
+import {connect} from 'react-redux';
+
 class PvtHomePage extends React.Component {
   constructor(props) {
     super(props);
@@ -95,4 +97,4 @@ PvtHomePage.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(pvtHomePageStyle)(PvtHomePage);
+export default connect()(withStyles(pvtHomePageStyle)(PvtHomePage));

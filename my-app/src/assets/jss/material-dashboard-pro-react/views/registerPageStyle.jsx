@@ -15,6 +15,11 @@ const registerPageStyle = {
     ...cardTitle,
     textAlign: "center"
   },
+  heading: {
+    ...cardTitle,
+    textAlign: "center",
+    color: "white"
+  },
   container: {
     ...container,
     position: "relative",

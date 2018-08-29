@@ -18,6 +18,8 @@ import dashboardRoutes from "routes/dashboard.jsx";
 import { pagesRoutes, pvtPagesRoutes } from "philance/routes/pages.jsx";
 import appStyle from "assets/jss/material-dashboard-pro-react/layouts/dashboardStyle.jsx";
 
+import {connect} from 'react-redux'
+
 import image from "assets/img/sidebar-2.jpg";
 import logo from "../assets/logos/philancelogo.png";
 
@@ -51,6 +53,7 @@ class Dashboard extends React.Component {
     return this.props.location.pathname !== "/maps/full-screen-maps";
   }
   componentDidMount() {
+    console.log(this.props.isLoggedIn, this.props.isRegistered)
     if (navigator.platform.indexOf("Win") > -1) {
       ps = new PerfectScrollbar(this.refs.mainPanel, {
         suppressScrollX: true,
@@ -122,8 +125,15 @@ class Dashboard extends React.Component {
   }
 }
 
+const mapStateToProps =state=> {
+  return {
+    isLoggedIn: state.auth.isLoggedIn,
+    isRegistered: state.reg.registered
+  }
+}
+
 Dashboard.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(appStyle)(Dashboard);
+export default connect(mapStateToProps)(withStyles(appStyle)(Dashboard));
