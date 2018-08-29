@@ -6,7 +6,6 @@ import Datetime from "react-datetime";
 import withStyles from "@material-ui/core/styles/withStyles";
 import FormLabel from "@material-ui/core/FormLabel";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Radio from "@material-ui/core/Radio";
 import Checkbox from "@material-ui/core/Checkbox";
 
 // core components
@@ -19,62 +18,24 @@ import CardHeader from "components/Card/CardHeader.jsx";
 import CardText from "components/Card/CardText.jsx";
 import CardIcon from "components/Card/CardIcon.jsx";
 import CardBody from "components/Card/CardBody.jsx";
-import CustomDropdown from "components/CustomDropdown/CustomDropdown.jsx";
 
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
-import Switch from "@material-ui/core/Switch";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
 
 // @material-ui/icons
-import Timeline from "@material-ui/icons/Timeline";
-import Group from "@material-ui/icons/Group";
-import Email from "@material-ui/icons/Email";
-import LockOutline from "@material-ui/icons/LockOutline";
-import Face from "@material-ui/icons/Face";
-import LaunchIcon from "@material-ui/icons/Launch";
-import MailOutline from "@material-ui/icons/MailOutline";
 import Check from "@material-ui/icons/Check";
-import Contacts from "@material-ui/icons/Contacts";
-import FiberManualRecord from "@material-ui/icons/FiberManualRecord";
-import Today from "@material-ui/icons/Today";
 import LibraryBooks from "@material-ui/icons/LibraryBooks";
-import AvTimer from "@material-ui/icons/AvTimer";
 import { geolocated } from 'react-geolocated';
-import { compose, withProps } from "recompose"
 import startProjectPageStyle from "philance/views/PageStyles/StartProjectPageStyles";
-import {  withScriptjs, withGoogleMap, GoogleMap, Marker  } from "react-google-maps"
 
 import store from '../../store/store'
 import { startProject } from "../../actions/startProject";
-
-const MyMapComponent = compose(
-  withProps({
-    googleMapURL: "https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places",
-    loadingElement: <div style={{ height: `100%` }} />,
-    containerElement: <div style={{ height: `400px` }} />,
-    mapElement: <div style={{ height: `100%` }} />,
-  }),
-  withScriptjs,
-  withGoogleMap
-)((props) =>
-  <GoogleMap
-    defaultZoom={8}
-    defaultCenter={{ lat: -34.397, lng: 150.644 }}
-  >
-    {props.isMarkerShown && <Marker position={{ lat: -34.397, lng: 150.644 }} onClick={props.onMarkerClick} />}
-  </GoogleMap>
-)
-
 
 class StartProject extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       checked: '',
-      selectedValue: null,
-      selectedEnabled: "b",
       name: '',
       description: '',
       freelancers: '',
@@ -88,35 +49,25 @@ class StartProject extends React.Component {
       budget: null,
       skills: null,
       locationError: null,
-      latitude: -34.397,
-      longitude: 150.644,
+      latitude: '',
+      longitude: '',
       error: 'Get Location',
       enable: false,
-      isMarkerShown: false,
     };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleChangeEnabled = this.handleChangeEnabled.bind(this);
   }
-  handleChange(event) {
-    this.setState({ selectedValue: event.target.value });
-  }
-  handleChangeEnabled(event) {
-    this.setState({ selectedEnabled: event.target.value });
-  }
-
-  componentDidMount() {
-    this.delayedShowMarker()
-  }
-
-  delayedShowMarker = () => {
-    setTimeout(() => {
-      this.setState({ isMarkerShown: true })
-    }, 3000)
-  }
-
-  handleMarkerClick = () => {
-    this.setState({ isMarkerShown: false })
-    this.delayedShowMarker()
+  getLocation() {
+    !this.props.isGeolocationAvailable
+      ? this.setState({error: 'Geolocation Not Supported'})
+      : !this.props.isGeolocationEnabled
+        ? null
+        : this.props.coords
+          ? this.setState({
+            latitude: this.props.coords.latitude,
+            longitude: this.props.coords.longitude,
+            enable: true,
+            error: 'Get Location'
+          })
+          : this.setState({error: 'GET LOCATION'})
   }
 
   render() {
@@ -126,8 +77,8 @@ class StartProject extends React.Component {
         <GridContainer justify="center">
           <GridItem xs={12} sm={12} md={12}>
             <Card>
-              <CardHeader color="rose" text>
-                <CardText color="rose">
+              <CardHeader color="info" text>
+                <CardText color="info">
                   <h4>Start a project to help others OR ask for help</h4>
                 </CardText>
               </CardHeader>
@@ -340,24 +291,10 @@ class StartProject extends React.Component {
                     </GridItem>
                     <GridItem xs={12} sm={2}>
                             <div>
-                              <Button color = "rose" className = "float-right" onClick={()=>{
-                                !this.props.isGeolocationAvailable
-                                  ? this.setState({error: 'Geolocation Not Supported'})
-                                  : !this.props.isGeolocationEnabled
-                                    ? null
-                                    : this.props.coords
-                                      ? this.setState({latitude: this.props.coords.latitude, longitude: this.props.coords.longitude, enable: true, error: 'Get Location'})
-                                      : this.setState({error: 'Getting Data'})
-                              }}>{this.state.error}</Button>
+                              <Button color = "info" className = "float-right" onClick={()=>this.getLocation()}>{this.state.error}</Button>
                             </div>
                     </GridItem>
                   </GridContainer>
-                 
-                    <MyMapComponent
-                      isMarkerShown={this.state.isMarkerShown}
-                      onMarkerClick={this.handleMarkerClick}
-                    />
-              
                   <GridContainer>
                     <GridItem xs={12} sm={2}>
                       <FormLabel className={classes.labelHorizontal}>
@@ -366,8 +303,8 @@ class StartProject extends React.Component {
                     </GridItem>
                     <GridItem xs={12} sm={12} md={4}>
                       <Card>
-                        <CardHeader color="rose" icon>
-                          <CardIcon color="rose">
+                        <CardHeader color="info" icon>
+                          <CardIcon color="info">
                             <LibraryBooks />
                           </CardIcon>
                           <h4 className={classes.cardIconTitle}>Start Date</h4>
@@ -391,8 +328,8 @@ class StartProject extends React.Component {
                     </GridItem>
                     <GridItem xs={12} sm={12} md={4}>
                       <Card>
-                        <CardHeader color="rose" icon>
-                          <CardIcon color="rose">
+                        <CardHeader color="info" icon>
+                          <CardIcon color="info">
                             <LibraryBooks />
                           </CardIcon>
                           <h4 className={classes.cardIconTitle}>End Date</h4>
@@ -487,7 +424,7 @@ class StartProject extends React.Component {
                         endDate,
                         budget
                       ))
-                      }} color="rose">Create a Project</Button>
+                      }} color="info">Create a Project</Button>
                     </GridItem>
                   </GridContainer>
                 </form>
