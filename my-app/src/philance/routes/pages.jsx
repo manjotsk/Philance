@@ -9,6 +9,7 @@ import MyProjectsPage from "philance/views/Pages/MyProjectsPage.jsx";
 import NotificationsPage from "philance/views/Pages/NotificationsPage.jsx";
 import MessagesPage from "philance/views/Pages/MessagesPage.jsx";
 import UserProfile from "philance/views/Pages/UserProfilePage.jsx";
+import ForgotPassword from "../views/Pages/ForgotPassword";
 
 // @material-ui/icons
 import HomeIcon from "@material-ui/icons/Home";
@@ -70,6 +71,15 @@ export const pagesRoutes = [
     mini: "RP",
     icon: PersonAddIcon,
     component: RegisterPage
+  },
+  {
+    path: "/forgotPassword",
+    name: "Forgot Password Page",
+    short: "Forgot Password",
+    mini: "FP",
+    icon: PersonAddIcon,
+    component: ForgotPassword
+    
   },
   {
     redirect: true,

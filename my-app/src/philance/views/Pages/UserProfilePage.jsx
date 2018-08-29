@@ -1,10 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+import {connect} from 'react-redux'
+
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
-import InputLabel from "@material-ui/core/InputLabel";
 
+import {CountryDropdown, InterestsDropdown} from '../../components/DoubleDropdown'
 // @material-ui/icons
 import PermIdentity from "@material-ui/icons/PermIdentity";
 
@@ -24,20 +26,109 @@ import userProfileStyles from "philance/views/PageStyles/UserProfileStyles.jsx";
 
 import avatar from "assets/img/faces/marc.jpg";
 
+import {registerToast} from '../../actions/register'
+
+import {
+  textChanged,
+  updateProfile,
+  contactChanged,
+  emailChanged,
+  postalCodeChanged,
+  descriptionChanged,
+  oraganizationChanged,
+  titleChanged,
+  nameChanged,
+  passwordChanged
+} from '../../actions/userProfile'
+
 class UserProfile extends React.Component {
   constructor(props) {
     super(props);
   }
 
+  componentWillUnmount() {
+    this.props.registerToast()
+  }
+
+  onEmailChange(text) {
+    this.props.emailChanged(text)
+    this.props.textChanged()
+  }
+
+  onPasswordChange(text) {
+    this.props.passwordChanged(text)
+    this.props.textChanged()
+  }
+
+  onOrganizationChange(text) {
+    this.props.oraganizationChanged(text)
+    this.props.textChanged()
+  }
+
+  onNameChange(text) {
+    this.props.nameChanged(text)
+    this.props.textChanged()
+  }
+
+  onTitleChange(text) {
+    this.props.titleChanged(text)
+    this.props.textChanged()
+  }
+
+  onContactChange(text) {
+    this.props.contactChanged(text)
+    this.props.textChanged()
+  }
+
+  onFirstNameChange(text) {
+    this.props.firstNameChanged(text)
+    this.props.textChanged()
+  }
+
+  onLastNameChange(text) {
+    this.props.lastNameChanged(text)
+    this.props.textChanged()
+  }
+
+  onPostalCodeChange(text) {
+    this.props.postalCodeChanged(text)
+    this.props.textChanged()
+  }
+
+  onDescriptionChange(text) {
+    this.props.descriptionChanged(text)
+    this.props.textChanged()
+  }
+
+   onButtonPress() {
+    const {
+      contact,
+      email,
+      postalCode,
+      country,
+      password,
+      description
+    } = this.props
+    this.props.updateProfile({email, password, contact, country, postalCode, description})
+}
+
   render() {
     const { classes } = this.props;
     return (
-      <div className={classes.container}>
         <GridContainer>
+      <div>
+        {this.props.showToast?
+          <h3 className={classes.welcomeHeading}>
+            Welcome to Philance! Please take a few moments to complete your User Profile and you can then post a project or join an existing project.
+          </h3>
+       :null
+       }
+       <br/>
+       </div>
           <GridItem xs={12} sm={12} md={8}>
             <Card>
-              <CardHeader color="rose" icon>
-                <CardIcon color="rose">
+              <CardHeader color="info" icon>
+                <CardIcon color="info">
                   <PermIdentity />
                 </CardIcon>
                 <h4 className={classes.cardIconTitle}>
@@ -46,107 +137,79 @@ class UserProfile extends React.Component {
               </CardHeader>
               <CardBody>
                 <GridContainer>
-                  <GridItem xs={12} sm={12} md={5}>
-                    <CustomInput
-                      labelText="Company (disabled)"
-                      id="company-disabled"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      inputProps={{
-                        disabled: true
-                      }}
-                    />
-                  </GridItem>
-                  <GridItem xs={12} sm={12} md={3}>
-                    <CustomInput
-                      labelText="Username"
-                      id="username"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                    />
-                  </GridItem>
-                  <GridItem xs={12} sm={12} md={4}>
+                  <GridItem xs={12} sm={12} md={12}>
                     <CustomInput
                       labelText="Email address"
                       id="email-address"
                       formControlProps={{
-                        fullWidth: true
-                      }}
-                    />
-                  </GridItem>
-                </GridContainer>
-                <GridContainer>
-                  <GridItem xs={12} sm={12} md={6}>
-                    <CustomInput
-                      labelText="First Name"
-                      id="first-name"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                    />
-                  </GridItem>
-                  <GridItem xs={12} sm={12} md={6}>
-                    <CustomInput
-                      labelText="Last Name"
-                      id="last-name"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                    />
-                  </GridItem>
-                </GridContainer>
-                <GridContainer>
-                  <GridItem xs={12} sm={12} md={4}>
-                    <CustomInput
-                      labelText="City"
-                      id="city"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                    />
-                  </GridItem>
-                  <GridItem xs={12} sm={12} md={4}>
-                    <CustomInput
-                      labelText="Country"
-                      id="country"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                    />
-                  </GridItem>
-                  <GridItem xs={12} sm={12} md={4}>
-                    <CustomInput
-                      labelText="Postal Code"
-                      id="postal-code"
-                      formControlProps={{
-                        fullWidth: true
+                        fullWidth: true,
+                        onChange: e => {
+                          this.onEmailChange(e.target.value)
+                        }
                       }}
                     />
                   </GridItem>
                 </GridContainer>
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={12}>
-                    <InputLabel style={{ color: "#AAAAAA" }}>
-                      About me
-                    </InputLabel>
                     <CustomInput
-                      labelText="Description about me"
-                      id="about-me"
+                      labelText="Password"
+                      id="password"
                       formControlProps={{
-                        fullWidth: true
+                        fullWidth: true,
+                        onChange: e => {
+                          this.onPasswordChange(e.target.value)
+                        }
                       }}
                       inputProps={{
-                        multiline: true,
-                        rows: 5
+                        type: 'password'
                       }}
                     />
                   </GridItem>
                 </GridContainer>
-                <Button color="rose" className={classes.updateProfileButton}>
-                  Update Profile
-                </Button>
+                <GridContainer>
+                  <GridItem xs={12} sm={12} md={12}>
+                    <br/>
+                    <CountryDropdown/>
+                    <br/><br/>
+                    <InterestsDropdown/>
+                  </GridItem>
+                  
+                  <GridItem xs={12} sm={12} md={12}>
+                    <CustomInput
+                      labelText="Postal Code"
+                      id="postal-code"
+                      formControlProps={{
+                        fullWidth: true,
+                        onChange: e => {
+                          this.onPostalCodeChange(e.target.value)
+                        }
+                      }}
+                    />
+                  </GridItem>
+                  <GridItem xs={12} sm={12} md={12}>
+                    <CustomInput
+                      labelText="Phone"
+                      id="contact"
+                      formControlProps={{
+                        fullWidth: true,
+                        onChange: e => {
+                          this.onContactChange(e.target.value)
+                        }
+                      }}
+                    />
+                  </GridItem>
+                </GridContainer>
+                <GridContainer>
+                  <GridItem xs={12} sm={12} md={12}>
+                    <Button color="info" onClick={()=>{
+                    this.onButtonPress()
+                    console.log(this.props)
+                    }}>
+                    {this.props.text}
+                  </Button>
+                </GridItem>
+                </GridContainer>
                 <Clearfix />
               </CardBody>
             </Card>
@@ -159,17 +222,64 @@ class UserProfile extends React.Component {
                 </a>
               </CardAvatar>
               <CardBody profile>
-                <h6 className={classes.cardCategory}>VOLUNTEER / FREELANCER</h6>
-                <h4 className={classes.cardTitle}>Alec Thompson</h4>
-                <p className={classes.description}>Description about me</p>
-                <Button color="rose" round>
-                  Follow
-                </Button>
+                <GridContainer>
+                <GridItem xs={12} sm={12} md={12}>
+                    <CustomInput
+                      labelText="Name"
+                      id="name"
+                      formControlProps={{
+                        fullWidth: true,
+                        onChange: e => {
+                          this.onNameChange(e.target.value)
+                        }
+                      }}
+                    />
+                  </GridItem>
+                  <GridItem xs={12} sm={12} md={12}>
+                    <CustomInput
+                      labelText="Title"
+                      id="title"
+                      formControlProps={{
+                        fullWidth: true,
+                        onChange: e => {
+                          this.onTitleChange(e.target.value)
+                        }
+                      }}
+                    />
+                  </GridItem>
+                  <GridItem xs={12} sm={12} md={12}>
+                    <CustomInput
+                      labelText="Organization"
+                      id="organization"
+                      formControlProps={{
+                        fullWidth: true,
+                        onChange: e => {
+                          this.onOrganizationChange(e.target.value)
+                        }
+                      }}
+                    />
+                  </GridItem>
+                  <GridItem xs={12} sm={12} md={12}>
+                      <CustomInput
+                        labelText="Description about me"
+                        id="about-me"
+                        formControlProps={{
+                          fullWidth: true
+                        }}
+                        inputProps={{
+                          multiline: true,
+                          rows: 5,
+                          onChange: e => {
+                            this.onDescriptionChange(e.target.value)
+                          }
+                        }}
+                      />
+                  </GridItem>
+                </GridContainer>
               </CardBody>
             </Card>
           </GridItem>
         </GridContainer>
-      </div>
     );
   }
 }
@@ -178,4 +288,30 @@ UserProfile.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(userProfileStyles)(UserProfile);
+const mapStateToProps = state => {
+  return {
+    contact: state.user.contact,
+    email: state.user.email,
+    country: state.user.country,
+    postalCode: state.user.postalCode,
+    description: state.user.description,
+    text: state.user.text,
+    showToast: state.reg.showToast,
+    password: state.user.password,
+    interests: state.user.interests
+  }
+}
+
+export default connect(mapStateToProps, {
+  textChanged,
+  updateProfile,
+  contactChanged,
+  emailChanged,
+  postalCodeChanged,
+  descriptionChanged,
+  registerToast,
+  oraganizationChanged,
+  titleChanged,
+  nameChanged,
+  passwordChanged
+})(withStyles(userProfileStyles)(UserProfile));

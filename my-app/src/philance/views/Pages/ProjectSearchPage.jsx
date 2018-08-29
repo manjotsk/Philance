@@ -1,6 +1,7 @@
 import React from "react";
 import ReactTable from "react-table";
 //import Axios from "axios";
+import { connect } from 'react-redux'
 import PropTypes from "prop-types";
 
 // @material-ui/core components
@@ -70,8 +71,8 @@ class ProjectSearch extends React.Component {
     const id = filter.pivotId || filter.id;
     return row[id] !== undefined
       ? String(row[id])
-          .toLowerCase()
-          .includes(filter.value.toLowerCase())
+        .toLowerCase()
+        .includes(filter.value.toLowerCase())
       : true;
   }
 
@@ -96,12 +97,13 @@ class ProjectSearch extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <div className={classes.container}>
+      <GridContainer className={this.props.isLoggedIn?null:classes.container}>
+      {console.log(this.props.isLoggedIn,'***************************')}
         <GridContainer>
           <GridItem xs={12} sm={12}>
             <Card>
-              <CardHeader color="rose" icon>
-                <CardIcon color="rose">
+              <CardHeader color="info" icon>
+                <CardIcon color="info">
                   <Assignment />
                 </CardIcon>
                 <h4 className={classes.cardIconTitle}>Find Projects</h4>
@@ -466,7 +468,7 @@ class ProjectSearch extends React.Component {
                   <br />
                   <GridContainer>
                     <GridItem>
-                      <Button color="rose" onClick={() => this.findProjects()}>
+                      <Button color="info" onClick={() => this.findProjects()}>
                         Find
                       </Button>
                     </GridItem>
@@ -512,7 +514,8 @@ class ProjectSearch extends React.Component {
             </Card>
           </GridItem>
         </GridContainer>
-      </div>
+      </GridContainer>
+
     );
   }
 }
@@ -521,5 +524,11 @@ ProjectSearch.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
+const mapStateToProps = state => {
+  return {
+    isLoggedIn: state.auth.isLoggedIn,
+  }
+}
+
 const myObj = withStyles(extendedFormsStyle)(ProjectSearch);
-export default withStyles(projectSearchStyle)(myObj);
+export default connect(mapStateToProps)(withStyles(projectSearchStyle)(myObj));
