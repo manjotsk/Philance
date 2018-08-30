@@ -301,63 +301,34 @@ exports.getProjects = (req, res, next) => {
 }
 
 exports.createPasswordResetToken = (req, res, next) => {
-    //   User.remove({ _id: req.params.userId })
-    //     .exec()
-    //     .then(result => {
-    //       res.status(200).json({
-    //         message: "User deleted"
-    //       });
-    //     })
-    //     .catch(err => {
-    //       console.log(err);
-    //       res.status(500).json({
-    //         error: err
-    //       });
-    //     });
-    var token = req.body.token;
     var email = req.body.email;
-    jwt.verify(token, 'philance_secret' + req.params._userId, function (err, decoded) {
-        if (err) {
-            console.log(decoded + ' failed') // bar
-            res.status(401).send(err)
-        } else {
-            console.log(JSON.stringify(decoded) + ' Passes') // bar
-            if (req.params._userId == decoded.userId && req.body.email == decoded.email) {
-                console.log('User Verified')
-                //TODO: send email with link that expires in 1 hour
-                const token = jwt.sign(
-                    {
-                        email: req.body.email,
-                        userId: req.params._userId
-                    }, 'philance_secret',
-                    process.env.JWT_KEY,
-                    {
-                        expiresIn: "1h"
-                    }
-                );
-                var dev = config.development.unsecure;
-                //send email
-                userHelper.emailUsers({
-                    config:{
-                        from:'manjot.kalsi@simbaquartz.com',
-                        // to: req.body.email,                      //email to be requested from the database
-                        to: 'manjot.kalsi@simbaquartz.com',                      //email to be requested from the database
-                    },
-                    data:{
-                        url:dev.protocol + dev.host + dev.port + '/philance/users/passwordReset?token=' + token,
-                        subject:'Password Reset Mail, Team-Philance',
-                        text:'Hi Manjot\nPlease follow the below link to reset your email\n\n\t'+dev.protocol + dev.host + dev.port + '/philance/users/passwordReset?token=' + token+'\n This link is valid for 1 hour only. \n\n Thank you\nRegards\nPhilance Development Team'
-                    }})
-                res.status(200).send({
-                    url: dev.protocol + dev.host + dev.port + '/philance/users/passwordReset?token=' + token
-                })
-            } else {
-                console.log('User not Verified')
-                res.status(500).send("Invalid UserID or Email")
+        console.log('User Verified')
+        const token = jwt.sign(
+            {
+                email: req.body.email
+            }, 'philance_secret',
+            process.env.JWT_KEY,
+            {
+                expiresIn: "1h"
             }
-        }
+        );
+        var dev = config.development.unsecure;
+        //send email
+        userHelper.emailUsers({
+            config:{
+                from:'noreply@philance.org',
+                // to: req.body.email,                      //email to be requested from the database
+                to: 'manjot.kalsi@simbaquartz.com',                      //email to be requested from the database
+            },
+            data:{
+                url:dev.protocol + dev.host + dev.port + '/philance/users/passwordReset?token=' + token,
+                subject:'Password Reset Mail, Team-Philance',
+                text:'Hi Manjot\nPlease follow the below link to reset your email\n\n\t'+dev.protocol + dev.host + dev.port + '/philance/users/passwordReset?token=' + token+'\n This link is valid for 1 hour only. \n\n Thank you\nRegards\nPhilance Development Team'
+            }})
+        res.status(200).send({
+            url: dev.protocol + dev.host + dev.port + '/philance/users/passwordReset?token=' + token
+        })
 
-    });
 
     console.log("In user password reset Controller");
 };
@@ -367,22 +338,27 @@ exports.passwordReset = (req, res, next) => {
             console.log(decoded + ' failed')
             res.status(401).send(err)
         } else {
-            authutil.createPassword(req.body.password).then((response) => {
-                users.update({
-                    password: response.hash
-                }, {
-                        where: {
-                            userId: decoded.userId
-                        }
-                    }).then(() => {
-                        console.log('Successful')
-                        //send email
-                    })
-                res.status(200).send(response)
-
-            }).catch((error) => {
-                res.status(500).send(error)
-            })
+            if(parseInt(Date.now()/1000)-decoded.iat>3600){
+                res.status(401).send({error:"token Expired"})
+            }else{
+                authutil.createPassword(req.body.password).then((response) => {
+                    users.update({
+                        password: response.hash
+                    }, {
+                            where: {
+                                userId: decoded.userId
+                            }
+                        }).then(() => {
+                            console.log('Successful')
+                            //send email
+                        })
+                    res.status(200).send(response)
+    
+                }).catch((error) => {
+                    res.status(500).send(error)
+                })
+    
+            }
 
         }
 
