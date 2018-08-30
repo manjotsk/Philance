@@ -31,7 +31,7 @@ class InterestsDropdown extends React.Component {
                     value={this.state.value}
                     onChange={async (e, {value})=>{
                         await this.setState({value})
-                        this.onInterestsChange(this.state.value)
+                        this.onInterestsChange(this.state.value.toString())
                     }}
                     />
     )

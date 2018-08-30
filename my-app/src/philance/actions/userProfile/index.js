@@ -103,7 +103,7 @@ export const updateProfile = ({ name, email, password, contact, country, postalC
         || title === ''
         || organization === ''
         || name === '' 
-        || interests === []
+        || interests === ''
     ) {
         return {
             type: USER_PROFILE_FIELDS_EMPTY
@@ -112,14 +112,14 @@ export const updateProfile = ({ name, email, password, contact, country, postalC
     else return dispatch => {
         dispatch({type: USER_PROFILE_TEXT_CHANGED})
         axios.put(hostname()+'/philance/users/1', {
-            name: name,
+            firstName: name.split(" ")[0],
+            lastName: name.split(" ")[1],
             email: email,
             password: password,
-            country: country,
             contact: contact,
             postalCode: postalCode,
+            country: country,
             description: description,
-            contact: contact,
             title: title,
             organization: organization,
             interests: interests
