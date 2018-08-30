@@ -323,10 +323,10 @@ exports.createPasswordResetToken = (req, res, next) => {
             data:{
                 url:dev.protocol + dev.host + dev.port + '/philance/users/passwordReset?token=' + token,
                 subject:'Password Reset Mail, Team-Philance',
-                text:'Hi Manjot\nPlease follow the below link to reset your email\n\n\t'+dev.protocol + dev.host + dev.port + '/philance/users/passwordReset?token=' + token+'\n This link is valid for 1 hour only. \n\n Thank you\nRegards\nPhilance Development Team'
+                text:'Dear User, \nPlease click the following link to reset your password\n\n'+dev.protocol + dev.host + dev.port + '/resetPassword/' + token+'\n This link is valid for 1 hour only.\nRegards\nPhilance Support'
             }})
         res.status(200).send({
-            url: dev.protocol + dev.host + dev.port + '/philance/users/passwordReset?token=' + token
+            backendURL: dev.protocol + dev.host + dev.port + '/philance/users/passwordReset?token=' + token
         })
 
 
@@ -349,7 +349,7 @@ exports.passwordReset = (req, res, next) => {
                         password: response.hash
                     }, {
                             where: {
-                                userId: decoded.userId
+                                email: decoded.email
                             }
                         }).then(() => {
                             console.log('Successful')

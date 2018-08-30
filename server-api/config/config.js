@@ -3,7 +3,7 @@ var config={
         unsecure:{
             protocol:'http://',
             host:'localhost',
-            port:':3001'
+            port:':3000'
         }
     },
     testing:{
