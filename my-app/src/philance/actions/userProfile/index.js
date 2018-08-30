@@ -93,8 +93,18 @@ export const interestschanged = text => {
     }
 }
 
-export const updateProfile = ({ email, password, contact, country, postalCode, description }) => {
-    if(email === ''  || country === '' || password === ''  || postalCode === '' || description === '' || contact === '') {
+export const updateProfile = ({ name, email, password, contact, country, postalCode, description, organization, title, interests }) => {
+    if(email === ''
+        || country === '' 
+        || password === ''
+        || postalCode === ''
+        || description === ''
+        || contact === ''
+        || title === ''
+        || organization === ''
+        || name === '' 
+        || interests === []
+    ) {
         return {
             type: USER_PROFILE_FIELDS_EMPTY
         }
@@ -102,31 +112,17 @@ export const updateProfile = ({ email, password, contact, country, postalCode, d
     else return dispatch => {
         dispatch({type: USER_PROFILE_TEXT_CHANGED})
         axios.put(hostname()+'/philance/users/1', {
-            firstName : "Vijay Kumar",
-            lastName : "Gandra1",
-            email : "vijy.gandra@gmail.com",
-            location : "Nashua, NH",
-            interests : "CREATE|DEVELOP",
-            organization : "Philance",
-            rate : "60",
-            userSkills : [  
-               {  
-                 skillCode: "DATABASE",
-                 skillName: "Database Development",
-                 certified: "Yes",
-                 certificationLink: null,
-                 startDate: "2018-08-02T00:00:00.000Z",
-                 endDate: null
-               },
-               {  
-                 skillCode: "BUSINESS",
-                 skillName: "Project Management",
-                 certified: "Yes",
-                 certificationLink: null,
-                 startDate: "2018-08-02T00:00:00.000Z",
-                 endDate: null
-               }
-            ]
+            name: name,
+            email: email,
+            password: password,
+            country: country,
+            contact: contact,
+            postalCode: postalCode,
+            description: description,
+            contact: contact,
+            title: title,
+            organization: organization,
+            interests: interests
          })
             .then(response=>
                 console.log(response)

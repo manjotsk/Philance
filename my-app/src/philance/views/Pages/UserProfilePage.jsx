@@ -5,6 +5,7 @@ import {connect} from 'react-redux'
 
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
+import FormLabel from "@material-ui/core/FormLabel";
 
 import {CountryDropdown, InterestsDropdown} from '../../components/DoubleDropdown'
 // @material-ui/icons
@@ -107,9 +108,24 @@ class UserProfile extends React.Component {
       postalCode,
       country,
       password,
-      description
+      description,
+      name,
+      organization,
+      title,
+      interests
     } = this.props
-    this.props.updateProfile({email, password, contact, country, postalCode, description})
+    this.props.updateProfile({
+      name,
+      email,
+      password,
+      contact,
+      country,
+      postalCode,
+      description,
+      organization,
+      title,
+      interests
+    })
 }
 
   render() {
@@ -168,16 +184,27 @@ class UserProfile extends React.Component {
                   </GridItem>
                 </GridContainer>
                 <GridContainer>
+                  <GridItem xs={12} sm={6}>
+                      <FormLabel className={classes.labelHorizontal}>
+                        Country
+                      </FormLabel>
+                  </GridItem>
                   <GridItem xs={12} sm={12} md={12}>
-                    <br/>
                     <CountryDropdown/>
-                    <br/><br/>
+                    <br/>
+                  </GridItem>
+                  <GridItem xs={12} sm={6}>
+                      <FormLabel className={classes.labelHorizontal}>
+                        Impact Category Interests
+                      </FormLabel>
+                    </GridItem>
+                    <GridItem xs={12} sm={12} md={12}>
+                    
                     <InterestsDropdown/>
                   </GridItem>
-                  
                   <GridItem xs={12} sm={12} md={12}>
                     <CustomInput
-                      labelText="Postal Code"
+                      labelText="Your Zip Code"
                       id="postal-code"
                       formControlProps={{
                         fullWidth: true,
@@ -298,7 +325,11 @@ const mapStateToProps = state => {
     text: state.user.text,
     showToast: state.reg.showToast,
     password: state.user.password,
-    interests: state.user.interests
+    interests: state.user.interests,
+    name: state.user.name,
+    title: state.user.title,
+    organization: state.user.organization,
+
   }
 }
 

@@ -34,6 +34,19 @@ const userProfileStyles = {
   welcomeHeading: {
     ...cardTitle,
     color: "#4eed58"
+  },
+  labelHorizontal: {
+    color: "rgba(0, 0, 0, 0.35)",
+    cursor: "pointer",
+    display: "inline-flex",
+    fontSize: "14px",
+    lineHeight: "1.428571429",
+    fontWeight: "400",
+    marginLeft: "0",
+    paddingBottom: "20",
+    "@media (min-width: 992px)": {
+      float: "left"
+    }
   }
 };
 export default userProfileStyles;

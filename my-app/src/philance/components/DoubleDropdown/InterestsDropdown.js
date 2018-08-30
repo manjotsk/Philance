@@ -22,7 +22,7 @@ class InterestsDropdown extends React.Component {
     render () {
         return (
                 <Dropdown
-                    placeholder='Select Interests'
+                    placeholder='Impact Category Interests'
                     fluid
                     search
                     selection

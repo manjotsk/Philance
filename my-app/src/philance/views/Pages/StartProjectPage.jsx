@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Datetime from "react-datetime";
-import { connect } from 'react-redux'
 
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -28,7 +27,7 @@ import Check from "@material-ui/icons/Check";
 import LibraryBooks from "@material-ui/icons/LibraryBooks";
 import { geolocated } from 'react-geolocated';
 import startProjectPageStyle from "philance/views/PageStyles/StartProjectPageStyles";
-
+import {InterestsDropdown} from '../../components/DoubleDropdown'
 import store from '../../store/store'
 import { startProject } from "../../actions/startProject";
 
@@ -74,7 +73,8 @@ class StartProject extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-        <GridContainer className={this.props.isLoggedIn?null:classes.container} direction="row" justify="center">
+      <div className={classes.container}>
+        <GridContainer justify="center">
           <GridItem xs={12} sm={12} md={12}>
             <Card>
               <CardHeader color="info" text>
@@ -110,6 +110,22 @@ class StartProject extends React.Component {
                         }}
                         inputProps={{
                           placeholder: "Enter a Project Description",
+                          onChange: e => {
+                            this.setState({description: e.target.value})
+                          }
+                        }}
+                      />
+                    </GridItem>
+                  </GridContainer>
+                  <GridContainer>
+                    <GridItem xs={12} sm={10}>
+                      <CustomInput
+                        id="projectLocation"
+                        formControlProps={{
+                          fullWidth: true
+                        }}
+                        inputProps={{
+                          placeholder: "Enter a Project Location",
                           onChange: e => {
                             this.setState({description: e.target.value})
                           }
@@ -200,48 +216,10 @@ class StartProject extends React.Component {
                   </GridContainer>
 
                   <GridContainer>
-                    <GridItem xs={12} sm={10}>
-                      <div>
-                        <select
-                          multiple
-                          class="form-control selectpicker"
-                          data-style="btn btn-link"
-                          id="exampleFormControlSelect2"
-                          value = {this.state.skills}
-                          onChange = {(e)=>{this.setState({skills: e.target.value})}}
-                        >
-                          <option value = "Skill 1">Skill 1</option>
-                          <option value = "Skill 2">Skill 2</option>
-                          <option value = "Skill 3">Skill 3</option>
-                          <option value = "Skill 4">Skill 4</option>
-                          <option value = "Skill 5">Skill 5</option>
-                        </select>
-                      </div>
-                    </GridItem>
-                  </GridContainer>
-
-                  <GridContainer>
-                    <GridItem xs={12} sm={10}>
-                      <div>
-                        <select
-                          multiple
-                          class="form-control selectpicker"
-                          data-style="btn btn-link"
-                          id="exampleFormControlSelect2"
-                          value = {this.state.impact}
-                          onChange = {(e)=>{this.setState({impact: e.target.value})}}
-                        >
-                          <option value = "Impact Category 1" >Impact Category 1</option>
-                          <option value = "Impact Category 2" >Impact Category 2</option>
-                          <option value = "Impact Category 3" >Impact Category 3</option>
-                          <option value = "Impact Category 4" >Impact Category 4</option>
-                          <option value = "Impact Category 5" >Impact Category 5</option>
-                        </select>
-                      </div>
-                    </GridItem>
+                    <InterestsDropdown/>
                   </GridContainer>
                   <GridContainer>
-                    <GridItem xs={12} sm={7}>
+                    {/* <GridItem xs={12} sm={7}>
                       <CustomInput
                         id="projectLocation"
                         formControlProps={{
@@ -252,21 +230,21 @@ class StartProject extends React.Component {
                           placeholder: "Enter a Project Location"
                         }}
                       />
-                    </GridItem>
-                    <GridItem xs={12} sm={2}>
+                    </GridItem> */}
+                    {/* <GridItem xs={12} sm={2}>
                             <div>
                               <Button color = "info" className = "float-right" onClick={()=>this.getLocation()}>{this.state.error}</Button>
                             </div>
-                    </GridItem>
+                    </GridItem> */}
                   </GridContainer>
                   <GridContainer>
                     <GridItem xs={12} sm={12} md={4}>
                       <Card>
                         <CardHeader color="info" icon>
-                          <CardIcon color="info">
+                          {/* <CardIcon color="info">
                             <LibraryBooks />
-                          </CardIcon>
-                          <h4 className={classes.cardIconTitle}>Start Date</h4>
+                          </CardIcon> */}
+                          {/* <h4 className={classes.cardIconTitle}>Start Date</h4> */}
                         </CardHeader>
                         <CardBody>
                           <InputLabel className={classes.label}>
@@ -288,10 +266,10 @@ class StartProject extends React.Component {
                     <GridItem xs={12} sm={12} md={4}>
                       <Card>
                         <CardHeader color="info" icon>
-                          <CardIcon color="info">
+                          {/* <CardIcon color="info">
                             <LibraryBooks />
                           </CardIcon>
-                          <h4 className={classes.cardIconTitle}>End Date</h4>
+                          <h4 className={classes.cardIconTitle}>End Date</h4> */}
                         </CardHeader>
                         <CardBody>
                           <InputLabel className={classes.label}>
@@ -380,13 +358,8 @@ class StartProject extends React.Component {
             </Card>
           </GridItem>
         </GridContainer>
+      </div>
     );
-  }
-}
-
-const mapStateToProps = state => {
-  return {
-    isLoggedIn: state.auth.isLoggedIn,
   }
 }
 
@@ -394,9 +367,9 @@ StartProject.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default connect(mapStateToProps)(geolocated({
+export default geolocated({
   positionOptions: {
     enableHighAccuracy: false,
   },
   userDecisionTimeout: 5000,
-})(withStyles(startProjectPageStyle)(StartProject)));
+})(withStyles(startProjectPageStyle)(StartProject));
