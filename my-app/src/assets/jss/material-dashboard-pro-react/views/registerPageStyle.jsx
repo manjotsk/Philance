@@ -66,6 +66,9 @@ const registerPageStyle = {
   checkboxLabel: {
     marginLeft: "6px",
     color: "rgba(0, 0, 0, 0.26)"
+  },
+  justifyContentCenter:{
+    justifyContent:"center"
   }
 };
 

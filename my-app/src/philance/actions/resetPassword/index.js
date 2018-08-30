@@ -9,7 +9,10 @@ import {
     PASSWORD_EMPTY,
     EMAIL_EMPTY,
     FIELDS_EMPTY,
-    RESET_PASSWORD_NETWORK_ERROR
+    RESET_PASSWORD_NETWORK_ERROR,
+    RESET_PASSWORD_FINAL,
+    PASSWORD_CHANGED,
+    RESET_PASSWORD_SUCCESS
 } from '../types'
 
 import axios from 'axios'
@@ -39,7 +42,18 @@ export const textChanged = () => {
         type: LOGIN_USER
     }
 }
+/**
+ * The method recieves the text from password input field and updates the password key parameter in the redux store
+ * @param {*} param0 Input is received in the form of text
+ */
 
+export const passwordChanged = text => {
+    console.log(text)
+    return {
+        type: PASSWORD_CHANGED,
+        payload: text
+    }
+}
 /**
  * Logins the user based on input criteria.
  *  All the fields must be filled
@@ -70,3 +84,35 @@ export const resetPassword = ({email}) => {
         });
     }
 }
+
+
+/**
+ * Logins the user based on input criteria.
+ *  All the fields must be filled
+ * @param {*} param0 input object in the format { email, password }
+ */
+
+export const resetPasswordFinal = ({password,token}) => {
+    console.log('password is', password)
+    console.log('token is', token)
+    if(password === '')
+    return {
+        type: EMAIL_EMPTY
+    }
+    return dispatch => {
+        dispatch({type: RESET_PASSWORD_FINAL})
+        axios.post(hostname()+`/philance/users/passwordReset?token=${token}`, {       //TODO: Neglect User Id in posting
+            password: password
+        })
+        .then(response=>{
+            const status = response.status
+                dispatch({type: RESET_PASSWORD_SUCCESS})
+        })
+        .catch(error=>{
+            const status = error.response.status 
+                dispatch({type: RESET_PASSWORD_NETWORK_ERROR})
+        });
+    }
+}
+
+

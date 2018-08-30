@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { NavLink } from "react-router-dom";
 
 // @material-ui/icons
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -20,9 +21,9 @@ import { connect } from "react-redux";
 //import publicHomePageStyle from "./PublicHomePageStyle";
 import loginPageStyle from "assets/jss/material-dashboard-pro-react/views/loginPageStyle.jsx";
 
-import { emailChanged, resetPassword, textChanged } from "../../actions/resetPassword";
+import { emailChanged, resetPasswordFinal, passwordChanged, textChanged } from "../../actions/resetPassword";
 
-class ForgotPassword extends React.Component {
+class ResetPasswordPublic extends React.Component {
   constructor(props) {
     super(props);
     // we use this to make the card to appear after the page has been rendered
@@ -40,13 +41,14 @@ class ForgotPassword extends React.Component {
       700
     );
   }
-  onEmailChange(text) {
-    this.props.emailChanged(text)
+  onPasswordChange(text) {
+    this.props.passwordChanged(text)
     this.props.textChanged()
   }
-  onButtonPress() {
-    const { email } = this.props;
-    this.props.resetPassword({ email })
+  onButtonPress(token) {
+    const { password } = this.props;
+    console.log(password, "+++++++++++++++++++++++++++++++++")
+    this.props.resetPasswordFinal({ password, token })
   }
   render() {
     const { classes } = this.props;
@@ -62,40 +64,48 @@ class ForgotPassword extends React.Component {
                     className={`${classes.cardHeader} ${classes.textCenter}`}
                     color="info"
                   >
-                    <h4 className={classes.cardTitle}>Forgot Password?</h4>
+                    <h4 className={classes.cardTitle}>Reset Password</h4>
                   </CardHeader>
-                  {!this.props.emailSent?
-                  
-                  <CardBody>
-                    <CustomInput
-                      labelText="Enter your email"
-                      id="project-name"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      inputProps={{
-                        type: "text",
-                        name: "yourLocation",
-                        onChange: e => {
-                          this.onEmailChange(e.target.value)
-                        }
-                      }}
-                    />
-                    <GridContainer className={classes.justifyContentCenter}>
-                      <GridItem  >
-                        <Button color="info" onClick={() => this.onButtonPress()}>
-                          Send Me a Password Reset Email
-                      </Button>
-                      </GridItem>
-                    </GridContainer>
-                  </CardBody>
 
-                  :
-                  
-                  <CardBody>
-                  Email Sent!
-                  </CardBody>
+                  {!this.props.success ?
+                    <CardBody>
+                      <CustomInput
+                        labelText="Enter your new Password"
+                        id="project-name"
+                        formControlProps={{
+                          fullWidth: true
+                        }}
+                        inputProps={{
+                          type: "password",
+                          name: "yourLocation",
+                          onChange: e => {
+                            this.onPasswordChange(e.target.value)
+                          }
+                        }}
+                      />
+                      <GridContainer className={classes.justifyContentCenter}>
+                        <GridItem  >
+                          <Button color="info" onClick={() => this.onButtonPress(this.props.match.params.id)}>
+                            Reset My Password
+                      </Button>
+                        </GridItem>
+                      </GridContainer>
+                    </CardBody>
+
+                    :
+                        <CardBody>
+                    <GridContainer className={classes.justifyContentCenter} >
+                      <GridItem  className={classes.justifyContentCenter}>
+                          Password Changed Successfully
+                          <h4 className={classes.textCenter}><NavLink to='/login'>Login Here</NavLink></h4>
+
+                      </GridItem  >
+                    </GridContainer >
+                        </CardBody>
+
+
                   }
+
                   <CardFooter className={classes.justifyContentCenter}>
                     Don't have an account?
                   <Button color="info" simple size="small">
@@ -146,15 +156,16 @@ class ForgotPassword extends React.Component {
   }
 }
 
-ForgotPassword.propTypes = {
+ResetPasswordPublic.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => {
   return {
     email: state.resetpass.email,
-    emailSent: state.resetpass.emailSent
+    password: state.resetpass.password,
+    success: state.resetpass.success,
   }
 }
 
-export default connect(mapStateToProps, { emailChanged, resetPassword, textChanged })(withStyles(loginPageStyle)(ForgotPassword));
+export default connect(mapStateToProps, { emailChanged, passwordChanged, resetPasswordFinal, textChanged })(withStyles(loginPageStyle)(ResetPasswordPublic));
