@@ -70,8 +70,6 @@ export const loginUser = ({email, password}) => {
         }
     return dispatch => {
         dispatch({type: LOGIN_USER})
-        console.log('email is', email)
-        console.log('password is', password)
         axios.post(hostname()+'/philance/users/login/', {
             email: email,
             password: password

@@ -25,7 +25,6 @@ import hostname from '../../../config'
  */
 
 export const emailChanged = text => {
-    console.log(text)
     return {
         type: EMAIL_CHANGED,
         payload: text
@@ -48,7 +47,6 @@ export const textChanged = () => {
  */
 
 export const passwordChanged = text => {
-    console.log(text)
     return {
         type: PASSWORD_CHANGED,
         payload: text
@@ -61,7 +59,6 @@ export const passwordChanged = text => {
  */
 
 export const resetPassword = ({email}) => {
-    console.log('email is', email)
     if(email === '')
     return {
         type: EMAIL_EMPTY
@@ -69,7 +66,6 @@ export const resetPassword = ({email}) => {
     return dispatch => {
         dispatch({type: RESET_PASSWORD})
         var userId='1'
-        console.log('********'+hostname()+`/philance/users/passwordReset/create/${userId}`)
         axios.post(hostname()+`/philance/users/passwordReset/create/${userId}`, {       //TODO: Neglect User Id in posting
             token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZpankuZ2FuZHJhQGdtYWlsLmNvbSIsInVzZXJJZCI6MSwiaWF0IjoxNTM1NDAzMDI5fQ.KHCgfsrVKBahOPLdadS-FuPdEUw7WpAAhmDiE2o75SY",
             email: email
@@ -93,8 +89,6 @@ export const resetPassword = ({email}) => {
  */
 
 export const resetPasswordFinal = ({password,token}) => {
-    console.log('password is', password)
-    console.log('token is', token)
     if(password === '')
     return {
         type: EMAIL_EMPTY

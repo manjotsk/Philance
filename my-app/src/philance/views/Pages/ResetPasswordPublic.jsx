@@ -47,7 +47,6 @@ class ResetPasswordPublic extends React.Component {
   }
   onButtonPress(token) {
     const { password } = this.props;
-    console.log(password, "+++++++++++++++++++++++++++++++++")
     this.props.resetPasswordFinal({ password, token })
   }
   render() {
