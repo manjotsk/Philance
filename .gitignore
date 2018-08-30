@@ -6,3 +6,4 @@ server-api/server-api.log
 frontend-test/*.pyc
 frontend-test/test.html
 .vagrant/*
+server-api/config/credentials.js
