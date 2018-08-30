@@ -1,18 +1,13 @@
 import {
     EMAIL_CHANGED,
-    PASSWORD_CHANGED,
-    LOGIN_USER_SUCCESS,
-    LOGIN_USER,
-    PASSWORD_EMPTY,
     EMAIL_EMPTY,
-    FIELDS_EMPTY,
-    INVALID_CREDENTIALS,
-    LOGIN_NETWORK_ERROR,
-    RESET_PASSWORD_NETWORK_ERROR
+    RESET_PASSWORD_NETWORK_ERROR,
+    RESET_PASSWORD_EMAIL_SENT    
 } from '../actions/types'
 
 const INITIAL_STATE = {
-    email: ''
+    email: '',
+    emailSent:false
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -23,6 +18,8 @@ export default (state = INITIAL_STATE, action) => {
             return {...state, error: 'Email Field can\'t be empty'} 
         case RESET_PASSWORD_NETWORK_ERROR:
             return {...state, error: 'Invalid Credentials'}
+        case RESET_PASSWORD_EMAIL_SENT:
+            return {...state, emailSent: true}
         default:
         return state
     }

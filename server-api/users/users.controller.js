@@ -301,8 +301,8 @@ exports.getProjects = (req, res, next) => {
 }
 
 exports.createPasswordResetToken = (req, res, next) => {
+    console.log('+++++++',req.body.email)
     var email = req.body.email;
-        console.log('User Verified')
         const token = jwt.sign(
             {
                 email: req.body.email
@@ -318,7 +318,7 @@ exports.createPasswordResetToken = (req, res, next) => {
             config:{
                 from:'noreply@philance.org',
                 // to: req.body.email,                      //email to be requested from the database
-                to: 'manjot.kalsi@simbaquartz.com',                      //email to be requested from the database
+                to: req.body.email,                      //email to be requested from the database
             },
             data:{
                 url:dev.protocol + dev.host + dev.port + '/philance/users/passwordReset?token=' + token,
@@ -339,6 +339,9 @@ exports.passwordReset = (req, res, next) => {
             res.status(401).send(err)
         } else {
             if(parseInt(Date.now()/1000)-decoded.iat>3600){
+
+                //TODO: One time usage Implementation
+
                 res.status(401).send({error:"token Expired"})
             }else{
                 authutil.createPassword(req.body.password).then((response) => {

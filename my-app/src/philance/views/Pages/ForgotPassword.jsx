@@ -44,6 +44,17 @@ onButtonPress() {
               <CardHeader>
                 <h2 className={classes.cardTitle}>Reset Password</h2>
               </CardHeader>
+              {this.props.emailSent?
+              <CardBody>
+                <GridContainer >
+                  <GridItem xs={12} sm={12} md={12}  className={classes.container}>
+                    Email Has Been Sent!
+                  </GridItem>
+                </GridContainer>
+              </CardBody>
+              
+              :
+              
               <CardBody>
                 <CustomInput
                   labelText="Enter your email"
@@ -60,13 +71,15 @@ onButtonPress() {
                   }}
                 />
                 <GridContainer>
-                  <GridItem xs={12} sm={12} md={12}>
-                    <Button color="rose" onClick={()=>this.onButtonPress()}>
+                  <GridItem  className={classes.container} xs={12} sm={12} md={12}>
+                    <Button color="rose"  onClick={()=>this.onButtonPress()}>
                       Send Me a Password Reset Email
                       </Button>
                   </GridItem>
                 </GridContainer>
               </CardBody>
+              }
+
             </Card>
           </GridItem>
         </GridContainer>
@@ -82,6 +95,7 @@ ForgotPassword.propTypes = {
 const mapStateToProps = state => {
   return {
       email: state.resetpass.email,
+      emailSent: state.resetpass.emailSent
   }
 }
 
