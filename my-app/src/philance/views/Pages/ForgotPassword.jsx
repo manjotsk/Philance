@@ -15,15 +15,24 @@ import CardBody from "components/Card/CardBody.jsx";
 import NavPills from "components/NavPills/NavPills.jsx";
 import Button from "components/CustomButtons/Button.jsx";
 import CustomInput from "components/CustomInput/CustomInput.jsx";
-
+import { connect } from "react-redux";
 //import publicHomePageStyle from "./PublicHomePageStyle";
 import howItWorksPageStyle from "assets/jss/material-dashboard-pro-react/views/registerPageStyle";
+
+import { emailChanged,resetPassword,textChanged } from "../../actions/resetPassword";
 
 class ForgotPassword extends React.Component {
   constructor(props) {
     super(props);
   }
-
+  onEmailChange(text) {
+    this.props.emailChanged(text)
+    this.props.textChanged()
+}
+onButtonPress() {
+  const {email} = this.props;
+  this.props.resetPassword({email})
+}
   render() {
     const { classes } = this.props;
 
@@ -46,15 +55,14 @@ class ForgotPassword extends React.Component {
                     type: "text",
                     name: "yourLocation",
                     onChange: e => {
-                      this.setState({ [e.target.name]: e.target.value });
-                      console.log(this.state);
+                      this.onEmailChange(e.target.value)
                     }
                   }}
                 />
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={12}>
-                <Button color="rose" >
-                  Send Me a Password Reset Email
+                    <Button color="rose" onClick={()=>this.onButtonPress()}>
+                      Send Me a Password Reset Email
                       </Button>
                   </GridItem>
                 </GridContainer>
@@ -71,4 +79,10 @@ ForgotPassword.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(howItWorksPageStyle)(ForgotPassword);
+const mapStateToProps = state => {
+  return {
+      email: state.resetpass.email,
+  }
+}
+
+export default connect(mapStateToProps, {emailChanged, resetPassword, textChanged})(withStyles(howItWorksPageStyle)(ForgotPassword));
