@@ -33,7 +33,7 @@ const userProfileStyles = {
   },
   welcomeHeading: {
     ...cardTitle,
-    color: "#4eed58"
+    color: "#00acc1"
   },
   labelHorizontal: {
     color: "rgba(0, 0, 0, 0.35)",

@@ -136,9 +136,9 @@ class UserProfile extends React.Component {
         <GridContainer>
       <div>
         {this.props.showToast?
-          <h3 className={classes.welcomeHeading}>
+          <h4 className={classes.welcomeHeading}>
             Welcome to Philance! Please take a few moments to complete your User Profile and you can then post a project or join an existing project.
-          </h3>
+          </h4>
        :null
        }
        <br/>
