@@ -117,6 +117,7 @@ exports.search = (req, res, next) => {
     _sql = req.body.fname == null ? _sql : _sql + `users.fname LIKE '%${req.body.fname}%' AND `;
     _sql = req.body.lname == null ? _sql : _sql + `users.lname LIKE '%${req.body.lname}%' AND `;
     _sql = req.body.personLoc == null ? _sql : _sql + `users.location LIKE '%${req.body.personLoc}%' AND `;
+    _sql = req.body.email == null ? _sql : _sql + `users.email= '${req.body.email}' AND`;
     _sql = req.body.skill == null ? _sql : _sql + `user_skills.skill_name LIKE '%${req.body.skill}%' AND`;
 
     _sql = _sql.slice(0, -4)
