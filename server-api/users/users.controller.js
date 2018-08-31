@@ -166,7 +166,7 @@ exports.updateProfile = (req, res, next) => {
     },
         {
             where: {
-                userId: req.params.userId,
+                email: req.body.currentEmail,
             }
         }, {
             include: [{ model: userSkills, nested: true }]
