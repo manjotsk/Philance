@@ -112,7 +112,8 @@ class UserProfile extends React.Component {
       name,
       organization,
       title,
-      interests
+      interests,
+      currentEmail
     } = this.props
     this.props.updateProfile({
       name,
@@ -124,7 +125,8 @@ class UserProfile extends React.Component {
       description,
       organization,
       title,
-      interests
+      interests,
+      currentEmail
     })
 }
 
@@ -319,6 +321,7 @@ const mapStateToProps = state => {
   return {
     contact: state.user.contact,
     email: state.user.email,
+    currentEmail: state.auth.email,
     country: state.user.country,
     postalCode: state.user.postalCode,
     description: state.user.description,

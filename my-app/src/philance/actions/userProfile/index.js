@@ -93,7 +93,7 @@ export const interestschanged = text => {
     }
 }
 
-export const updateProfile = ({ name, email, password, contact, country, postalCode, description, organization, title, interests }) => {
+export const updateProfile = ({ name, email, password, contact, country, postalCode, description, organization, title, interests, currentEmail }) => {
     if(email === ''
         || country === '' 
         || password === ''
@@ -104,6 +104,7 @@ export const updateProfile = ({ name, email, password, contact, country, postalC
         || organization === ''
         || name === '' 
         || interests === ''
+        || currentEmail === ''
     ) {
         return {
             type: USER_PROFILE_FIELDS_EMPTY
@@ -122,7 +123,8 @@ export const updateProfile = ({ name, email, password, contact, country, postalC
             description: description,
             title: title,
             organization: organization,
-            interests: interests
+            interests: interests,
+            currentEmail: currentEmail
          })
             .then(response=>
                 console.log(response)
