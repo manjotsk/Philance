@@ -157,7 +157,7 @@ class StartProject extends React.Component {
                   <GridContainer>
                     <GridItem xs={12} sm={12}>
                       <CustomInput
-                      labelText ="Zip Code"
+                      labelText ="Project Zip Code"
                         id="projectLocation"
                         formControlProps={{
                           fullWidth: true
@@ -174,7 +174,7 @@ class StartProject extends React.Component {
                   <GridContainer>
                     <GridItem xs={12} sm={6}>
                         <InputLabel className={classes.label} style={{marginBottom: 5, marginTop: 10}}>
-                          Impact Category Interests
+                          Impact Category
                         </InputLabel>
                     </GridItem>
                   </GridContainer>
@@ -221,7 +221,7 @@ class StartProject extends React.Component {
                         }}
                         inputProps={{
                           disabled : this.state.volunteerStatus,
-                          placeholder: "Enter Number of Volunteers Needed",
+                          placeholder: "Enter Number of Volunteers",
                           onChange: e => {
                             this.onVolunteersChange(e.target.value)
                           }
@@ -260,7 +260,7 @@ class StartProject extends React.Component {
                         }}
                         inputProps={{
                           disabled : this.state.freeLanceStatus,
-                          placeholder: "Enter Number of Freelancers Needed",
+                          placeholder: "Enter Number of Freelancers",
                           onChange: e => {
                             this.onFreeLancersChange(e.target.value)
                           }
@@ -281,9 +281,6 @@ class StartProject extends React.Component {
                           <FormControl fullWidth>
                             <Datetime
                               timeFormat={false}
-                              inputProps={{
-                                placeholder: "Project Start Date"
-                              }}
                               onChange={date=>this.onStartDateChange(date._d)}
                             />
                           </FormControl>
@@ -302,10 +299,7 @@ class StartProject extends React.Component {
                           <FormControl fullWidth>
                             <Datetime
                               timeFormat={false}
-                              inputProps={{
-                                placeholder: "End Date",
-                            }}
-                            onChange={date=>this.onEndDateChange(date._d)}
+                              onChange={date=>this.onEndDateChange(date._d)}
                             />
                           </FormControl>
                         </CardBody>

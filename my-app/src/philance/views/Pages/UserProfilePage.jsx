@@ -7,6 +7,8 @@ import {connect} from 'react-redux'
 import withStyles from "@material-ui/core/styles/withStyles";
 import FormLabel from "@material-ui/core/FormLabel";
 
+import {Label} from 'semantic-ui-react';
+
 import {CountryDropdown, InterestsDropdown} from '../../components/DoubleDropdown'
 // @material-ui/icons
 import PermIdentity from "@material-ui/icons/PermIdentity";
@@ -246,9 +248,7 @@ class UserProfile extends React.Component {
           <GridItem xs={12} sm={12} md={4}>
             <Card profile>
               <CardAvatar profile>
-                <a href="#pablo" onClick={e => e.preventDefault()}>
-                  <img src={avatar} alt="..." />
-                </a>
+                <img src={avatar}/>
               </CardAvatar>
               <CardBody profile>
                 <GridContainer>
