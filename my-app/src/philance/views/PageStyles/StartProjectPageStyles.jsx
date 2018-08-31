@@ -86,7 +86,10 @@ const startProjectPageStyple = {
     paddingTop: "8px",
     paddingBottom: "8px",
     minHeight: "34px"
-  }
+  },
+  justifyContentCenter: {
+    justifyContent: "center"
+  },
 };
 
 export default startProjectPageStyple;
