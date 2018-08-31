@@ -22,6 +22,7 @@ import {connect} from 'react-redux'
 
 import image from "assets/img/sidebar-2.jpg";
 import logo from "../assets/logos/philancelogo.png";
+import logoText from "../assets/logos/Philance-logo-text.png";
 
 const switchRoutes =(isRegistered)=> (
   <Switch>
@@ -111,7 +112,7 @@ class Dashboard extends React.Component {
       <div className={classes.wrapper}>
         <Sidebar
           routes={pvtPagesRoutes}
-          logoText={"Philance"}
+          logoText={logoText}
           logo={logo}
           image={image}
           handleDrawerToggle={this.handleDrawerToggle}

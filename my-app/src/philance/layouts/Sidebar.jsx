@@ -18,7 +18,7 @@ import Collapse from "@material-ui/core/Collapse";
 // core components
 import HeaderLinks from "components/Header/HeaderLinks.jsx";
 
-import sidebarStyle from "assets/jss/material-dashboard-pro-react/components/sidebarStyle.jsx";
+import sidebarStyle from "../assets/styles/sidebarStyle.jsx";
 
 import avatar from "assets/img/faces/avatar.jpg";
 
@@ -419,7 +419,7 @@ class Sidebar extends React.Component {
               <img src={logo} alt="logo" className={classes.img} />
             </div>
             <div className={logoNormal}>
-              {logoText}
+              <img src={logoText} alt="logo" className={classes.txtimg} />
             </div>
           </div>
         </NavLink>

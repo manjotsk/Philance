@@ -88,25 +88,25 @@ class PublicPagesHeader extends React.Component {
           <Hidden smDown implementation="css">
             <div className={classes.flex}>
               <Typography variant="title" color="inherit">
-                {
+  
                   <img
-                    src={require("philance/assets/img/philance_color_logo_with_background.png")}
+                    src={require("philance/assets/logos/Philance-logo-text.png")}
                     alt="Philance"
                   />
-                }
+                
               </Typography>
             </div>
           </Hidden>
           <Hidden mdUp>
             <div className={classes.flex}>
-              <Typography variant="title" color="inherit">
+              {/* <Typography variant="title" color="inherit"> */}
                 {
                   <img
-                    src={require("philance/assets/img/philance_color_logo_with_background.png")}
+                    src={require("philance/assets/logos/Philance-logo-text.png")}
                     alt="Philance"
                   />
                 }
-              </Typography>
+              {/* </Typography> */}
             </div>
           </Hidden>
           <Hidden smDown implementation="css">

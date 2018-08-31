@@ -187,9 +187,10 @@ class UserProfile extends React.Component {
                     />
                   </GridItem>
                 </GridContainer>
+                <br/>
                 <GridContainer>
                   <GridItem xs={12} sm={6}>
-                      <FormLabel className={classes.labelHorizontal}>
+                      <FormLabel className={classes.labelHorizontal} style={{color:"#AAAAAA",marginBottom:'2vh'}}>
                         Country
                       </FormLabel>
                   </GridItem>
@@ -198,7 +199,7 @@ class UserProfile extends React.Component {
                     <br/>
                   </GridItem>
                   <GridItem xs={12} sm={6}>
-                      <FormLabel className={classes.labelHorizontal}>
+                      <FormLabel className={classes.labelHorizontal} style={{color:"#AAAAAA",marginBottom:'2vh'}}>
                         Impact Category Interests
                       </FormLabel>
                     </GridItem>
