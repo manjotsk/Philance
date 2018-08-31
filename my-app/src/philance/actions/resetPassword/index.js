@@ -12,7 +12,8 @@ import {
     RESET_PASSWORD_NETWORK_ERROR,
     RESET_PASSWORD_FINAL,
     PASSWORD_CHANGED,
-    RESET_PASSWORD_SUCCESS
+    RESET_PASSWORD_SUCCESS,
+    PASSWORD_CHANGED_SUCCESS
 } from '../types'
 
 import axios from 'axios'
@@ -100,7 +101,7 @@ export const resetPasswordFinal = ({password,token}) => {
         })
         .then(response=>{
             const status = response.status
-                dispatch({type: RESET_PASSWORD_SUCCESS})
+                dispatch({type: PASSWORD_CHANGED_SUCCESS})
         })
         .catch(error=>{
             const status = error.response.status 
