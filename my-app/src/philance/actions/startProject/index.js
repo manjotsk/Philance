@@ -9,6 +9,7 @@ import {
   START_PROJECT_START_DATE_CHANGED,
   START_PROJECT_VOLUNTEERS_CHANGED,
   START_PROJECT_ZIP_CODE_CHANGED,
+  START_PROJECT_NETWORK_ERROR
 } from '../types'
 
 import axios from 'axios'
@@ -100,7 +101,7 @@ export const startProject=({
     interests === '' ||
     startDate === '' ||
     endDate === '' ||
-    budget
+    budget === ''
    ) {
     return {
       type: START_PROJECT_FIELDS_EMPTY
@@ -111,18 +112,74 @@ export const startProject=({
       axios.post(hostname()+'/philance/projects/', {  
         projectName : name,
         description : description,
-        zipCode: zipCode,
-        interests: interests,
+        location: zipCode,
         volunteers:volunteers,
         freelancers:freelancers,
+        estimatedBudget:budget,
+        userUd: "1",
         startDate :startDate,
         endDate :endDate,
-        estimatedBudget:budget
+        "projectDetails":[  
+          {  
+            "detailType": "SKILLS",
+            "name": "Database Development",
+            "certificationReq": "NO",
+            "certificationLink": "",
+            "attribute1" : "",
+            "attribute2" : "",
+            "attribute3" : "",
+            "attribute4" : "",
+            "attribute5" : ""
+          },
+          {  
+            "detailType": "SKILLS",
+            "name": "Java Development",
+            "certificationReq": "NO",
+            "certificationLink": "",
+            "attribute1" : "",
+            "attribute2" : "",
+            "attribute3" : "",
+            "attribute4" : "",
+            "attribute5" : ""
+          },
+          {  
+            "detailType": "IMPACT_CATEGORY",
+            "name": "Elderly",
+            "certificationReq": "NO",
+            "certificationLink": "",
+            "attribute1" : "",
+            "attribute2" : "",
+            "attribute3" : "",
+            "attribute4" : "",
+            "attribute5" : ""
+          },
+          {  
+          "detailType": "IMPACT_CATEGORY",
+            "name": "Other",
+            "certificationReq": "NO",
+            "certificationLink": "",
+            "attribute1" : "",
+            "attribute2" : "",
+            "attribute3" : "",
+            "attribute4" : "",
+            "attribute5" : ""
+          }
+       ]
         }
 )
-      .then(response=>console.log(response))
+      .then(response=>{
+        console.log(response)
+        if(response.status !== 200) {
+          return {
+            type: START_PROJECT_NETWORK_ERROR
+          }
+        }
+      })
       .catch(error=>{
       console.log(error);
+      return {
+        type: START_PROJECT_NETWORK_ERROR
+      }
       });
   }
 }

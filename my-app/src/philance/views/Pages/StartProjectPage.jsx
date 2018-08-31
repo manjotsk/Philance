@@ -385,7 +385,7 @@ class StartProject extends React.Component {
                       }}
                       color="info"
                       >
-                      Create a Project
+                      {this.props.text}
                       </Button>
                     </GridItem>
                   </GridContainer>

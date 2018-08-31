@@ -9,6 +9,7 @@ import {
     START_PROJECT_START_DATE_CHANGED,
     START_PROJECT_VOLUNTEERS_CHANGED,
     START_PROJECT_ZIP_CODE_CHANGED,
+    START_PROJECT_NETWORK_ERROR
 } from '../actions/types'
 
 const INITIAL_STATE = {
@@ -46,7 +47,9 @@ export default (state = INITIAL_STATE, action) => {
         case START_PROJECT_BUDGET_CHANGED:
             return{...state, budget: action.payload}
         case START_PROJECT_FIELDS_EMPTY:
-            return{...state, text: 'ALL FIELDS REQUIRED'}  
+            return{...state, text: 'ALL FIELDS REQUIRED'}
+        case START_PROJECT_NETWORK_ERROR:
+            return{...state, text: 'NETWORK ERROR'}
         default:
         return state
     }
