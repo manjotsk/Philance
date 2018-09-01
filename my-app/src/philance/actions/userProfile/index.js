@@ -10,7 +10,9 @@ import {
     USER_PROFILE_PASSWORD_CHANGED,
     USER_PROFILE_POSTAL_CODE_CHANGED,
     USER_PROFILE_INTERESTS_CHANGED,
-    USER_PROFILE_CONTACT_CHANGED
+    USER_PROFILE_CONTACT_CHANGED,
+    USER_PROFILE_UPDATE_SUCCESS,
+    USER_PROFILE_UPDATE_UNMOUNT
 } from '../types'
 
 import axios from 'axios'
@@ -93,25 +95,26 @@ export const interestschanged = text => {
     }
 }
 
+export const updateUnmount = text => {
+    return {
+        type: USER_PROFILE_UPDATE_UNMOUNT
+    }
+}
+
+export const getUSerInfo =()=> {
+    
+}
+
 export const updateProfile = ({ name, email, password, contact, country, postalCode, description, organization, title, interests, currentEmail }) => {
     if(email === ''
-        || country === '' 
-        || password === ''
-        || postalCode === ''
-        || description === ''
-        || contact === ''
-        || title === ''
-        || organization === ''
         || name === '' 
-        || interests === ''
-        || currentEmail === ''
+
     ) {
         return {
             type: USER_PROFILE_FIELDS_EMPTY
         }
     }
-    else return dispatch => {
-        dispatch({type: USER_PROFILE_TEXT_CHANGED})
+    else {return dispatch => {
         axios.put(hostname()+'/philance/users/1', {
             firstName: name.split(" ")[0],
             lastName: name.split(" ")[1],
@@ -126,11 +129,13 @@ export const updateProfile = ({ name, email, password, contact, country, postalC
             interests: interests,
             currentEmail: currentEmail
          })
-            .then(response=>
+            .then(response=>{
                 console.log(response)
+                dispatch({type: USER_PROFILE_UPDATE_SUCCESS})
+            }
             )
             .catch(error=>{
                 console.log(error)
             });
-    }
+    }}
 }

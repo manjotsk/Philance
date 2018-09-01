@@ -115,6 +115,7 @@ onButtonPress() {
                           onChange: e => {
                             this.onFirstNameChange(e.target.value)
                           },
+                          defaultValue:"Manjot",
                           startAdornment: (
                             <InputAdornment
                               position="start"
@@ -135,6 +136,7 @@ onButtonPress() {
                           onChange: e => {
                             this.onLastNameChange(e.target.value)
                           },
+                          defaultValue:"Singh",
                           startAdornment: (
                             <InputAdornment
                               position="start"
@@ -155,6 +157,7 @@ onButtonPress() {
                           onChange: e => {
                             this.onEmailChange(e.target.value)
                           },
+                          defaultValue:"Manjot@test.org",
                           startAdornment: (
                             <InputAdornment
                               position="start"
@@ -176,6 +179,7 @@ onButtonPress() {
                             this.onPasswordChange(e.target.value)
                           },
                           type: 'password',
+                          defaultValue:"Manjot@test.org",
                           startAdornment: (
                             <InputAdornment
                               position="start"

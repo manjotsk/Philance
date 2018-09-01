@@ -7,8 +7,6 @@ import {connect} from 'react-redux'
 import withStyles from "@material-ui/core/styles/withStyles";
 import FormLabel from "@material-ui/core/FormLabel";
 
-import {Label} from 'semantic-ui-react';
-
 import {CountryDropdown, InterestsDropdown} from '../../components/DoubleDropdown'
 // @material-ui/icons
 import PermIdentity from "@material-ui/icons/PermIdentity";
@@ -30,6 +28,7 @@ import userProfileStyles from "philance/views/PageStyles/UserProfileStyles.jsx";
 import avatar from "assets/img/faces/marc.jpg";
 
 import {registerToast} from '../../actions/register'
+import {Redirect} from 'react-router-dom'
 
 import {
   textChanged,
@@ -41,7 +40,8 @@ import {
   oraganizationChanged,
   titleChanged,
   nameChanged,
-  passwordChanged
+  passwordChanged,
+  updateUnmount,
 } from '../../actions/userProfile'
 
 class UserProfile extends React.Component {
@@ -49,8 +49,24 @@ class UserProfile extends React.Component {
     super(props);
   }
 
+  componentDidMount() {
+    this.isEmpty()
+    this.props.emailChanged(this.props.currentEmail)
+    this.props.nameChanged(this.props.defaultName?this.props.defaultName:this.props.name)
+
+    //todo to call action to prepopulate user update from backend(if fields from current view are missing)
+  }
+
   componentWillUnmount() {
     this.props.registerToast()
+    this.props.updateUnmount()
+  }
+
+  isEmpty() {
+    if(!this.props.currentEmail || this.props.defaultName === ' ')
+      {
+        console.log("empty")
+      }
   }
 
   onEmailChange(text) {
@@ -104,7 +120,7 @@ class UserProfile extends React.Component {
   }
 
    onButtonPress() {
-    const {
+    var {
       contact,
       email,
       postalCode,
@@ -130,6 +146,7 @@ class UserProfile extends React.Component {
       interests,
       currentEmail
     })
+    this.props.registerToast()
 }
 
   render() {
@@ -142,7 +159,12 @@ class UserProfile extends React.Component {
             Welcome to Philance! Please take a few moments to complete your User Profile and you can then post a project or join an existing project.
           </h4>
        :null
-       }
+       }{this.props.update?
+        <h4 className={classes.welcomeHeading}>
+          Your changes have been saved
+        </h4>
+     :null
+     }
        <br/>
        </div>
           <GridItem xs={12} sm={12} md={8}>
@@ -158,16 +180,31 @@ class UserProfile extends React.Component {
               <CardBody>
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={12}>
-                    <CustomInput
+                  {this.props.currentEmail?
+                  <CustomInput                
                       labelText="Email address"
                       id="email-address"
-                      formControlProps={{
+                      inputProps={{
+                        defaultValue: this.props.currentEmail
+                      }}
+                      formControlProps={{  
                         fullWidth: true,
                         onChange: e => {
                           this.onEmailChange(e.target.value)
                         }
                       }}
                     />
+                    :
+                    <CustomInput                
+                      labelText="Email address"
+                      id="email-address"
+                      formControlProps={{  
+                        fullWidth: true,
+                        onChange: e => {
+                          this.onEmailChange(e.target.value)
+                        }
+                      }}
+                    />}
                   </GridItem>
                 </GridContainer>
                 <GridContainer>
@@ -211,6 +248,9 @@ class UserProfile extends React.Component {
                     <CustomInput
                       labelText="Your Zip Code"
                       id="postal-code"
+                      inputProps={{
+                        defaultValue: this.props.postalCode
+                      }}
                       formControlProps={{
                         fullWidth: true,
                         onChange: e => {
@@ -235,8 +275,8 @@ class UserProfile extends React.Component {
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={12}>
                     <Button color="info" onClick={()=>{
-                    this.onButtonPress()
-                    console.log(this.props)
+                      this.onButtonPress()
+                      console.log(this.props)
                     }}>
                     {this.props.text}
                   </Button>
@@ -254,9 +294,14 @@ class UserProfile extends React.Component {
               <CardBody profile>
                 <GridContainer>
                 <GridItem xs={12} sm={12} md={12}>
+
+                    {this.props.defaultName?
                     <CustomInput
                       labelText="Name"
                       id="name"
+                      inputProps={{
+                        defaultValue: this.props.defaultName
+                      }}
                       formControlProps={{
                         fullWidth: true,
                         onChange: e => {
@@ -264,8 +309,40 @@ class UserProfile extends React.Component {
                         }
                       }}
                     />
+                    :
+                    <CustomInput
+                    labelText="Name"
+                    id="name"
+                    inputProps={{
+                      defaultValue: this.props.name
+                    }}
+                    formControlProps={{
+                      fullWidth: true,
+                      onChange: e => {
+                        this.onNameChange(e.target.value)
+                      }
+                    }}
+                    />
+                    } 
+
                   </GridItem>
                   <GridItem xs={12} sm={12} md={12}>
+
+                    {this.props.title?
+                    <CustomInput
+                      labelText="Title"
+                      id="title"
+                      inputProps={{
+                        defaultValue: this.props.title
+                      }}
+                      formControlProps={{
+                        fullWidth: true,
+                        onChange: e => {
+                          this.onTitleChange(e.target.value)
+                        }
+                      }}
+                    />
+                    :
                     <CustomInput
                       labelText="Title"
                       id="title"
@@ -276,9 +353,28 @@ class UserProfile extends React.Component {
                         }
                       }}
                     />
+                  
+                  }
+
                   </GridItem>
                   <GridItem xs={12} sm={12} md={12}>
+
+                    {this.props.organization?
                     <CustomInput
+                      labelText="Organization"
+                      id="organization"
+                      inputProps={{
+                        defaultValue: this.props.organization
+                      }}
+                      formControlProps={{
+                        fullWidth: true,
+                        onChange: e => {
+                          this.onOrganizationChange(e.target.value)
+                        }
+                      }}
+                    />
+                      :
+                      <CustomInput
                       labelText="Organization"
                       id="organization"
                       formControlProps={{
@@ -288,8 +384,27 @@ class UserProfile extends React.Component {
                         }
                       }}
                     />
+                  }
+
                   </GridItem>
                   <GridItem xs={12} sm={12} md={12}>
+                  {this.props.description?
+                  <CustomInput
+                        labelText="Description about me"
+                        id="about-me"
+                        formControlProps={{
+                          fullWidth: true
+                        }}
+                        inputProps={{
+                          multiline: true,
+                          rows: 5,
+                          onChange: e => {
+                            this.onDescriptionChange(e.target.value)
+                          },
+                        defaultValue: this.props.description
+                        }}
+                      />
+                        :
                       <CustomInput
                         labelText="Description about me"
                         id="about-me"
@@ -303,7 +418,9 @@ class UserProfile extends React.Component {
                             this.onDescriptionChange(e.target.value)
                           }
                         }}
-                      />
+                      />}
+
+                      
                   </GridItem>
                 </GridContainer>
               </CardBody>
@@ -322,7 +439,7 @@ const mapStateToProps = state => {
   return {
     contact: state.user.contact,
     email: state.user.email,
-    currentEmail: state.auth.email,
+    currentEmail: state.auth.email===""?state.reg.email:state.auth.email,
     country: state.user.country,
     postalCode: state.user.postalCode,
     description: state.user.description,
@@ -333,6 +450,8 @@ const mapStateToProps = state => {
     name: state.user.name,
     title: state.user.title,
     organization: state.user.organization,
+    defaultName: state.reg.firstName + ' ' + state.reg.lastName,
+    update: state.user.update
 
   }
 }
@@ -348,5 +467,6 @@ export default connect(mapStateToProps, {
   oraganizationChanged,
   titleChanged,
   nameChanged,
-  passwordChanged
+  passwordChanged,
+  updateUnmount
 })(withStyles(userProfileStyles)(UserProfile));

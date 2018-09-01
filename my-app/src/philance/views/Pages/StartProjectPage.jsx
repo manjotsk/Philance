@@ -25,7 +25,7 @@ import Check from "@material-ui/icons/Check";
 import startProjectPageStyle from "philance/views/PageStyles/StartProjectPageStyles";
 import {InterestsDropdown} from '../../components/DoubleDropdown'
 import {connect} from 'react-redux'
-import { Button as Buttons, Label} from 'semantic-ui-react';
+import { Button as Buttons, Label, Icon} from 'semantic-ui-react';
 
 import {
   textChanged,
@@ -109,9 +109,8 @@ class StartProject extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <div className={classes.container}>
-        <GridContainer justify="center" >
-          <GridItem xs={12} sm={12} md={12}>
+      <GridContainer className={this.props.isLoggedIn?classes.justifyContentCenter:classes.container}>
+          <GridItem xs={12} sm={12} md={10}>
             <Card>
               <CardHeader color="info" text>
                 <CardText color="info">
@@ -271,18 +270,23 @@ class StartProject extends React.Component {
                   <GridContainer>
                     <GridItem xs={12} sm={12} md={4}>
                       <Card>
-                        <CardHeader color="info" icon>
-                        </CardHeader>
                         <CardBody>
                           <InputLabel className={classes.label}>
                             Project Start Date
                           </InputLabel>
                           <br />
                           <FormControl fullWidth>
-                            <Datetime
-                              timeFormat={false}
-                              onChange={date=>this.onStartDateChange(date._d)}
-                            />
+                          <GridContainer>
+                            <GridItem xs={9}>
+                              <Datetime
+                                  timeFormat={false}
+                                  onChange={date=>this.onStartDateChange(date._d)}
+                                />
+                            </GridItem>
+                            <GridItem xs={3}>
+                              <Icon bordered inverted color='teal' name='calendar alternate outline' onClick = {()=>{console.log('hello')}}/>
+                            </GridItem>
+                          </GridContainer>
                           </FormControl>
                         </CardBody>
                       </Card>
@@ -297,10 +301,17 @@ class StartProject extends React.Component {
                           </InputLabel>
                           <br />
                           <FormControl fullWidth>
-                            <Datetime
-                              timeFormat={false}
-                              onChange={date=>this.onEndDateChange(date._d)}
-                            />
+                          <GridContainer>
+                            <GridItem xs={9}>
+                              <Datetime
+                                  timeFormat={false}
+                                  onChange={date=>this.onEndDateChange(date._d)}
+                                />
+                              </GridItem>
+                            <GridItem xs={3}>
+                              <Icon bordered inverted color='teal' name='calendar alternate outline' onClick = {()=>{console.log('hello')}}/>
+                            </GridItem>
+                          </GridContainer>
                           </FormControl>
                         </CardBody>
                       </Card>
@@ -336,7 +347,7 @@ class StartProject extends React.Component {
                             icon="upload"
                             label={{
                                 basic: true,
-                                content: 'Browse file(s)'
+                                content: 'Upload Files'
                             }}
                             labelPosition="right"
                         />
@@ -388,7 +399,6 @@ class StartProject extends React.Component {
             </Card>
           </GridItem>
         </GridContainer>
-      </div>
     );
   }
 }
@@ -404,7 +414,8 @@ const mapStateToProps =state=> {
     endDate: state.start.endDate,
     budget: state.start.budget,
     text: state.start.text,
-    interests: state.user.interests
+    interests: state.user.interests,
+    isLoggedIn: state.auth.isLoggedIn
   }
 }
 

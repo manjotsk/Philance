@@ -10,7 +10,9 @@ import {
     USER_PROFILE_INTERESTS_CHANGED,
     USER_PROFILE_NAME_CHANGED,
     USER_PROFILE_ORGANIZATION_CHANGED,
-    USER_PROFILE_TITLE_CHANGED
+    USER_PROFILE_TITLE_CHANGED,
+    USER_PROFILE_UPDATE_SUCCESS,
+    USER_PROFILE_UPDATE_UNMOUNT
 } from '../actions/types'
 
 const INITIAL_STATE = {
@@ -24,7 +26,8 @@ const INITIAL_STATE = {
     postalCode: '',
     description: '',
     interests: '',
-    text: 'SAVE CHANGES'
+    text: 'SAVE CHANGES',
+    update: false
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -53,6 +56,10 @@ export default (state = INITIAL_STATE, action) => {
             return {...state, title: action.payload}
         case USER_PROFILE_ORGANIZATION_CHANGED:
             return {...state, organization: action.payload}
+        case USER_PROFILE_UPDATE_SUCCESS:
+            return {...state, update: true}
+        case USER_PROFILE_UPDATE_UNMOUNT:
+            return {...state, update: false}
         default:
             return state
     }
