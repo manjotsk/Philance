@@ -15,7 +15,7 @@ import PermIdentity from "@material-ui/icons/PermIdentity";
 import GridContainer from "components/Grid/GridContainer.jsx";
 import GridItem from "components/Grid/GridItem.jsx";
 import Button from "components/CustomButtons/Button.jsx";
-import CustomInput from "components/CustomInput/CustomInput.jsx";
+import CustomInput from "philance/components/CustomInput/CustomInput.jsx";
 import Clearfix from "components/Clearfix/Clearfix.jsx";
 import Card from "components/Card/Card.jsx";
 import CardBody from "components/Card/CardBody.jsx";
@@ -56,6 +56,7 @@ class UserProfile extends React.Component {
   componentWillUnmount() {
     this.props.registerToast()
     this.props.updateUnmount()
+    this.props.getUserInfo(this.props.currentEmail)
   }
 
   onEmailChange(text) {
@@ -143,7 +144,7 @@ class UserProfile extends React.Component {
     return (
         <GridContainer justify="center">
           
-        <Toaster display={this.props.update} message={'Your Changes have been Saves Successfully'}/>
+        <Toaster display={this.props.update} message={'Your Changes have been Saved Successfully'}/><br/>
         {this.props.showToast?
           <h4 className={classes.welcomeHeading}>
             Welcome to Philance! Please take a few moments to complete your User Profile and you can then post a project or join an existing project.
@@ -212,7 +213,7 @@ class UserProfile extends React.Component {
                 <br/>
                 <GridContainer>
                   <GridItem xs={12} sm={6}>
-                      <FormLabel className={classes.labelHorizontal} style={{color:"#AAAAAA",marginBottom:'2vh'}}>
+                      <FormLabel className={classes.labelHorizontal} style={{color:"#777777",marginBottom:'2vh'}}>
                         Country
                       </FormLabel>
                   </GridItem>
@@ -221,7 +222,7 @@ class UserProfile extends React.Component {
                     <br/>
                   </GridItem>
                   <GridItem xs={12} sm={6}>
-                      <FormLabel className={classes.labelHorizontal} style={{color:"#AAAAAA",marginBottom:'2vh'}}>
+                      <FormLabel className={classes.labelHorizontal} style={{color:"#777777",marginBottom:'2vh'}}>
                         Impact Category Interests
                       </FormLabel>
                     </GridItem>

@@ -10,7 +10,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 // core components
 import GridContainer from "components/Grid/GridContainer.jsx";
 import GridItem from "components/Grid/GridItem.jsx";
-import CustomInput from "components/CustomInput/CustomInput.jsx";
+import CustomInput from "philance/components/CustomInput/CustomInput.jsx";
 import Button from "components/CustomButtons/Button.jsx";
 import Card from "components/Card/Card.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
@@ -181,19 +181,19 @@ class StartProject extends React.Component {
                     </GridItem>
                   </GridContainer>
                   <GridContainer>
-                    <GridItem xs={12} sm={6}>
+                    <GridItem xs={12} sm={6}><br/>
                         <InputLabel className={classes.label} style={{marginBottom: 5, marginTop: 10}}>
                           Impact Category
                         </InputLabel>
                     </GridItem>
                   </GridContainer>
                   <GridContainer xs={12} sm={12} md={10}>
-                    <GridItem xs={12} sm={12} md={10}>
+                    <GridItem xs={12} sm={12} md={10}><br/>
                       <InterestsDropdown interestOptions={this.props.interestOptions}/>
                     </GridItem>
                   </GridContainer>
                   <GridContainer>
-                    <GridItem xs={12} sm={6}>
+                    <GridItem xs={12} sm={6}><br/><br/>
                         <InputLabel className={classes.label} style={{marginTop: 20}}>
                           Resources Needed
                         </InputLabel>
