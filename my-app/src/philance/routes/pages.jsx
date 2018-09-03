@@ -22,6 +22,7 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import MessageIcon from "@material-ui/icons/Message";
 import PersonIcon from "@material-ui/icons/Person";
 import FolderIcon from "@material-ui/icons/Folder";
+import ResetPasswordPublic from "../views/Pages/ResetPasswordPublic";
 
 export const pagesRoutes = [
   {
@@ -82,11 +83,78 @@ export const pagesRoutes = [
     
   },
   {
+    path: "/resetPassword/:id",
+    name: "Reset Password Page",
+    short: "Reset Password",
+    mini: "RP",
+    icon: PersonAddIcon,
+    component: ResetPasswordPublic
+    
+  },
+  {
     redirect: true,
     path: "/",
     pathTo: "/home",
     name: "Home Page"
-  }
+  },
+
+];
+export const headerRoutes = [
+  {
+    path: "/home",
+    name: "Home Page",
+    short: "Home",
+    mini: "PHP",
+    icon: HomeIcon,
+    component: PublicHomePage
+  },
+  {
+    path: "/start-project",
+    name: "Start Project Page",
+    short: "Start A Project",
+    mini: "SPP",
+    icon: LaunchIcon,
+    component: StartProjectPage
+  },
+  {
+    path: "/find-project",
+    name: "Find Project Page",
+    short: "Find A project",
+    mini: "FPP",
+    icon: SearchIcon,
+    component: ProjectSearch
+  },
+  {
+    path: "/how-it-works",
+    name: "How It Works Page",
+    short: "How It Works",
+    mini: "HIWP",
+    icon: HelpIcon,
+    component: HowItWorksPage
+  },
+  {
+    path: "/login",
+    name: "Login Page",
+    short: "Login",
+    mini: "LP",
+    icon: FingerprintIcon,
+    component: LoginPage
+  },
+  {
+    path: "/register",
+    name: "Register Page",
+    short: "Sign Up",
+    mini: "RP",
+    icon: PersonAddIcon,
+    component: RegisterPage
+  },
+  {
+    redirect: true,
+    path: "/",
+    pathTo: "/home",
+    name: "Home Page"
+  },
+
 ];
 
 export const pvtPagesRoutes = [

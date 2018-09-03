@@ -38,6 +38,7 @@
     "react-jvectormap": "0.0.3",
     "react-nouislider": "2.0.1",
     "react-player": "^1.6.4",
+    "react-popper": "0.10.4",
     "react-redux": "^5.0.7",
     "react-router-dom": "4.2.2",
     "react-scripts": "1.1.4",
