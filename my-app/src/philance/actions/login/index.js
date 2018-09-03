@@ -7,7 +7,8 @@ import {
     LOGIN_USER,
     PASSWORD_EMPTY,
     EMAIL_EMPTY,
-    FIELDS_EMPTY
+    FIELDS_EMPTY,
+    USER_PROFILE_GET_USER_INFO
 } from '../types'
 
 import axios from 'axios'
@@ -70,16 +71,28 @@ export const loginUser = ({email, password}) => {
         }
     return dispatch => {
         dispatch({type: LOGIN_USER})
-        console.log('email is', email)
-        console.log('password is', password)
         axios.post(hostname()+'/philance/users/login/', {
             email: email,
             password: password
         })
         .then(response=>{
             const status = response.status
-            status===200?
-                dispatch({type: LOGIN_USER_SUCCESS}):
+            if(status===200){
+                dispatch({type: LOGIN_USER_SUCCESS})
+                    axios.post(hostname()+'/philance/users/search', {
+                        email: email  
+                    })
+                    .then(response=>{
+                        console.log('rrr',response.data[0])
+                        dispatch({
+                            type: USER_PROFILE_GET_USER_INFO,
+                            payload: response.data[0]
+                        })
+                    })
+                    .catch(error=>
+                        console.log(error)
+                    )
+            }
                 dispatch({type: INVALID_CREDENTIALS})
         })
         .catch(error=>{
@@ -89,5 +102,5 @@ export const loginUser = ({email, password}) => {
             else 
                 dispatch({type: LOGIN_NETWORK_ERROR})
         });
-    }
+    }   
 }

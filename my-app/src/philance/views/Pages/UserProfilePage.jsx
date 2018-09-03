@@ -27,6 +27,8 @@ import userProfileStyles from "philance/views/PageStyles/UserProfileStyles.jsx";
 
 import avatar from "assets/img/faces/marc.jpg";
 
+import { Form,Message } from 'semantic-ui-react'
+
 import {registerToast} from '../../actions/register'
 import {Redirect} from 'react-router-dom'
 
@@ -42,31 +44,18 @@ import {
   nameChanged,
   passwordChanged,
   updateUnmount,
+  getUserInfo
 } from '../../actions/userProfile'
+import Toaster from "../../components/Toaster/Toaster";
 
 class UserProfile extends React.Component {
   constructor(props) {
     super(props);
   }
 
-  componentDidMount() {
-    this.isEmpty()
-    this.props.emailChanged(this.props.currentEmail)
-    this.props.nameChanged(this.props.defaultName?this.props.defaultName:this.props.name)
-
-    //todo to call action to prepopulate user update from backend(if fields from current view are missing)
-  }
-
   componentWillUnmount() {
     this.props.registerToast()
     this.props.updateUnmount()
-  }
-
-  isEmpty() {
-    if(!this.props.currentEmail || this.props.defaultName === ' ')
-      {
-        console.log("empty")
-      }
   }
 
   onEmailChange(text) {
@@ -152,22 +141,18 @@ class UserProfile extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-        <GridContainer>
-      <div>
+        <GridContainer justify="center">
+          
+        <Toaster display={this.props.update} message={'Your Changes have been Saves Successfully'}/>
         {this.props.showToast?
           <h4 className={classes.welcomeHeading}>
             Welcome to Philance! Please take a few moments to complete your User Profile and you can then post a project or join an existing project.
           </h4>
        :null
-       }{this.props.update?
-        <h4 className={classes.welcomeHeading}>
-          Your changes have been saved
-        </h4>
-     :null
-     }
+       }
        <br/>
-       </div>
-          <GridItem xs={12} sm={12} md={8}>
+        <GridContainer justify="center">
+          <GridItem xs={12} sm={12} md={7}>
             <Card>
               <CardHeader color="info" icon>
                 <CardIcon color="info">
@@ -232,7 +217,7 @@ class UserProfile extends React.Component {
                       </FormLabel>
                   </GridItem>
                   <GridItem xs={12} sm={12} md={12}>
-                    <CountryDropdown/>
+                    <CountryDropdown defaultValue={this.props.userCountry}/>
                     <br/>
                   </GridItem>
                   <GridItem xs={12} sm={6}>
@@ -242,7 +227,7 @@ class UserProfile extends React.Component {
                     </GridItem>
                     <GridItem xs={12} sm={12} md={12}>
                     
-                    <InterestsDropdown/>
+                    <InterestsDropdown interestOptions={this.props.interestOptions} defaultValue={this.props.interests?this.props.interests.split(','):null}/>
                   </GridItem>
                   <GridItem xs={12} sm={12} md={12}>
                     <CustomInput
@@ -263,6 +248,9 @@ class UserProfile extends React.Component {
                     <CustomInput
                       labelText="Phone"
                       id="contact"
+                      inputProps={{
+                        defaultValue: this.props.contact
+                      }}
                       formControlProps={{
                         fullWidth: true,
                         onChange: e => {
@@ -294,13 +282,11 @@ class UserProfile extends React.Component {
               <CardBody profile>
                 <GridContainer>
                 <GridItem xs={12} sm={12} md={12}>
-
-                    {this.props.defaultName?
                     <CustomInput
                       labelText="Name"
                       id="name"
                       inputProps={{
-                        defaultValue: this.props.defaultName
+                        defaultValue: !this.props.name?this.props.defaultName:this.props.name
                       }}
                       formControlProps={{
                         fullWidth: true,
@@ -309,22 +295,6 @@ class UserProfile extends React.Component {
                         }
                       }}
                     />
-                    :
-                    <CustomInput
-                    labelText="Name"
-                    id="name"
-                    inputProps={{
-                      defaultValue: this.props.name
-                    }}
-                    formControlProps={{
-                      fullWidth: true,
-                      onChange: e => {
-                        this.onNameChange(e.target.value)
-                      }
-                    }}
-                    />
-                    } 
-
                   </GridItem>
                   <GridItem xs={12} sm={12} md={12}>
 
@@ -427,6 +397,7 @@ class UserProfile extends React.Component {
             </Card>
           </GridItem>
         </GridContainer>
+        </GridContainer>
     );
   }
 }
@@ -451,7 +422,9 @@ const mapStateToProps = state => {
     title: state.user.title,
     organization: state.user.organization,
     defaultName: state.reg.firstName + ' ' + state.reg.lastName,
-    update: state.user.update
+    update: state.user.update,
+    interests: state.user.interests,
+    interestOptions: state.common.interestOptions
 
   }
 }
@@ -468,5 +441,6 @@ export default connect(mapStateToProps, {
   titleChanged,
   nameChanged,
   passwordChanged,
-  updateUnmount
+  updateUnmount,
+  getUserInfo
 })(withStyles(userProfileStyles)(UserProfile));

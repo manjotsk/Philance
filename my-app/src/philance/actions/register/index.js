@@ -11,7 +11,8 @@ import {
     REGISTER_USER,
     REGISTER_USER_SUCCESS,
     REMOVE_REGISTER_TOAST,
-    WEAK_PASSWORD
+    WEAK_PASSWORD,
+    USER_PROFILE_GET_USER_INFO
 } from '../types'
 
 import axios from 'axios'
@@ -136,7 +137,17 @@ export const registerUser = ({ firstName, lastName, email, password }) =>
                         }
                     )
                     .then(()=>
-                            dispatch({type: LOGIN_USER_SUCCESS})
+                            {
+                                dispatch({type: LOGIN_USER_SUCCESS})
+                                dispatch({
+                                    type: USER_PROFILE_GET_USER_INFO,
+                                    payload: {
+                                        fname:firstName,
+                                        lname:lastName,
+                                        email: email
+                                    }
+                                })
+                            }
                         )
                 }
                 

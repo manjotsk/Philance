@@ -9,7 +9,9 @@ import {
     START_PROJECT_START_DATE_CHANGED,
     START_PROJECT_VOLUNTEERS_CHANGED,
     START_PROJECT_ZIP_CODE_CHANGED,
-    START_PROJECT_NETWORK_ERROR
+    START_PROJECT_NETWORK_ERROR,
+    START_PROJECT_REQUEST_SUCCESS,
+    START_PROJECT_UNMOUNT
 } from '../actions/types'
 
 const INITIAL_STATE = {
@@ -21,6 +23,7 @@ const INITIAL_STATE = {
     startDate: '',
     endDate: '',
     budget: '',
+    requestCompleted: false,
     text: 'CREATE A PROJECT'
 }
 
@@ -50,6 +53,10 @@ export default (state = INITIAL_STATE, action) => {
             return{...state, text: 'ALL FIELDS REQUIRED'}
         case START_PROJECT_NETWORK_ERROR:
             return{...state, text: 'NETWORK ERROR'}
+            case START_PROJECT_REQUEST_SUCCESS:
+            return{...state, requestCompleted: true}
+        case START_PROJECT_UNMOUNT:
+            return{...state, requestCompleted: false}
         default:
         return state
     }

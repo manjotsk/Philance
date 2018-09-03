@@ -9,7 +9,9 @@ import {
   START_PROJECT_START_DATE_CHANGED,
   START_PROJECT_VOLUNTEERS_CHANGED,
   START_PROJECT_ZIP_CODE_CHANGED,
-  START_PROJECT_NETWORK_ERROR
+  START_PROJECT_NETWORK_ERROR,
+  START_PROJECT_REQUEST_SUCCESS,
+  START_PROJECT_UNMOUNT
 } from '../types'
 
 import axios from 'axios'
@@ -173,6 +175,10 @@ export const startProject=({
           return {
             type: START_PROJECT_NETWORK_ERROR
           }
+        }else{
+          dispatch({
+            type: START_PROJECT_REQUEST_SUCCESS
+          })
         }
       })
       .catch(error=>{
@@ -182,4 +188,9 @@ export const startProject=({
       }
       });
   }
+}
+export const startProjectUnmount=()=>{
+  return {
+    type: START_PROJECT_UNMOUNT
+}
 }

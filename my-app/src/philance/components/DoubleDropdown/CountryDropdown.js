@@ -22,6 +22,7 @@ export default class CountryDropdown extends React.Component {
                     fluid
                     search
                     selection
+                    defaultValue={this.props.defaultValue}
                     options={countryOptions}
                     value={this.state.value}
                     onChange={async (e, {value})=>{

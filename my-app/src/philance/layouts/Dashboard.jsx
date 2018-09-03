@@ -23,6 +23,7 @@ import {connect} from 'react-redux'
 import image from "assets/img/sidebar-2.jpg";
 import logo from "../assets/logos/philancelogo.png";
 import logoText from "../assets/logos/Philance-logo-text.png";
+import { getCommonInfo } from "../actions/common";
 
 const switchRoutes =(isRegistered)=> (
   <Switch>
@@ -81,6 +82,7 @@ class Dashboard extends React.Component {
       });
       document.body.style.overflow = "hidden";
     }
+    this.props.getCommonInfo()
   }
   componentWillUnmount() {
     if (navigator.platform.indexOf("Win") > -1) {
@@ -156,4 +158,4 @@ Dashboard.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default connect(mapStateToProps)(withStyles(appStyle)(Dashboard));
+export default connect(mapStateToProps,{getCommonInfo})(withStyles(appStyle)(Dashboard));

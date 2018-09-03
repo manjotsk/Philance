@@ -27,6 +27,8 @@ import {InterestsDropdown} from '../../components/DoubleDropdown'
 import {connect} from 'react-redux'
 import { Button as Buttons, Label, Icon} from 'semantic-ui-react';
 
+import { getCommonInfo } from "../../actions/common";
+
 import {
   textChanged,
   budgetChanged,
@@ -37,8 +39,10 @@ import {
   startDateChanged,
   volunteersChanged,
   zipCodeChanged,
-  startProject
+  startProject,
+  startProjectUnmount
 } from '../../actions/startProject'
+import Toaster from "../../components/Toaster/Toaster";
 
 
 
@@ -60,7 +64,12 @@ class StartProject extends React.Component {
       budget: null,
     };
   }
-
+  componentWillMount(){
+    this.props.getCommonInfo()
+  }
+  componentWillUnmount(){
+    this.props.startProjectUnmount()
+  }
   onProjectNameChange(text) {
     this.props.projectNameChanged(text)
     this.props.textChanged()
@@ -110,6 +119,7 @@ class StartProject extends React.Component {
     const { classes } = this.props;
     return (
       <GridContainer className={this.props.isLoggedIn?classes.justifyContentCenter:classes.container}>
+        <Toaster display={this.props.requestCompleted} message={'Project has been created'}/>
           <GridItem xs={12} sm={12} md={10}>
             <Card>
               <CardHeader color="info" text>
@@ -179,7 +189,7 @@ class StartProject extends React.Component {
                   </GridContainer>
                   <GridContainer xs={12} sm={12} md={10}>
                     <GridItem xs={12} sm={12} md={10}>
-                      <InterestsDropdown/>
+                      <InterestsDropdown interestOptions={this.props.interestOptions}/>
                     </GridItem>
                   </GridContainer>
                   <GridContainer>
@@ -415,7 +425,9 @@ const mapStateToProps =state=> {
     budget: state.start.budget,
     text: state.start.text,
     interests: state.user.interests,
-    isLoggedIn: state.auth.isLoggedIn
+    isLoggedIn: state.auth.isLoggedIn,
+    interestOptions: state.common.interestOptions,
+    requestCompleted: state.start.requestCompleted
   }
 }
 
@@ -433,5 +445,7 @@ export default connect(mapStateToProps, {
   startDateChanged,
   volunteersChanged,
   zipCodeChanged,
-  startProject
+  startProject,
+  getCommonInfo,
+  startProjectUnmount
 })(withStyles(startProjectPageStyle)(StartProject));

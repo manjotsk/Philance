@@ -12,7 +12,8 @@ import {
     USER_PROFILE_ORGANIZATION_CHANGED,
     USER_PROFILE_TITLE_CHANGED,
     USER_PROFILE_UPDATE_SUCCESS,
-    USER_PROFILE_UPDATE_UNMOUNT
+    USER_PROFILE_UPDATE_UNMOUNT,
+    USER_PROFILE_GET_USER_INFO,
 } from '../actions/types'
 
 const INITIAL_STATE = {
@@ -27,7 +28,8 @@ const INITIAL_STATE = {
     description: '',
     interests: '',
     text: 'SAVE CHANGES',
-    update: false
+    update: false,
+    interestsArrived:true
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -60,6 +62,8 @@ export default (state = INITIAL_STATE, action) => {
             return {...state, update: true}
         case USER_PROFILE_UPDATE_UNMOUNT:
             return {...state, update: false}
+        case USER_PROFILE_GET_USER_INFO:
+            return {...state, email: action.payload.email, name: action.payload.fname + ' ' + action.payload.lname,interests:action.payload.interests}
         default:
             return state
     }

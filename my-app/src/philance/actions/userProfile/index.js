@@ -12,7 +12,8 @@ import {
     USER_PROFILE_INTERESTS_CHANGED,
     USER_PROFILE_CONTACT_CHANGED,
     USER_PROFILE_UPDATE_SUCCESS,
-    USER_PROFILE_UPDATE_UNMOUNT
+    USER_PROFILE_UPDATE_UNMOUNT,
+    USER_PROFILE_GET_USER_INFO
 } from '../types'
 
 import axios from 'axios'
@@ -101,8 +102,22 @@ export const updateUnmount = text => {
     }
 }
 
-export const getUSerInfo =()=> {
-    
+export const getUserInfo =(email)=> {
+    console.log('email is',email )
+    return dispatch =>
+        axios.post(hostname()+'/philance/users/search', {
+            email: email  
+        })
+        .then(response=>{
+            console.log('rrr',response.data[0])
+            dispatch({
+                type: USER_PROFILE_GET_USER_INFO,
+                payload: response.data[0]
+            })
+        })
+        .catch(error=>
+            console.log(error)
+        )
 }
 
 export const updateProfile = ({ name, email, password, contact, country, postalCode, description, organization, title, interests, currentEmail }) => {

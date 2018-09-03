@@ -1,6 +1,5 @@
 import React from 'react' 
 import { Dropdown } from 'semantic-ui-react'
-import {getInterests, skillsOptions} from './common'
 
 import {interestschanged, textChanged} from  '../../actions/userProfile'
 import store from '../../store/store'
@@ -9,11 +8,6 @@ class InterestsDropdown extends React.Component {
     state = {
 
     }
-
-    componentDidMount() {
-        getInterests()
-     }
-
      onInterestsChange(text) {
         store.dispatch(interestschanged(text))
         store.dispatch(textChanged())
@@ -21,13 +15,14 @@ class InterestsDropdown extends React.Component {
 
     render () {
         return (
+            
                 <Dropdown
                     placeholder='Select Interests'
                     fluid
-                    search
                     selection
                     multiple
-                    options={skillsOptions}
+                    defaultValue={this.props.defaultValue}
+                    options={this.props.interestOptions}
                     value={this.state.value}
                     onChange={async (e, {value})=>{
                         await this.setState({value})
