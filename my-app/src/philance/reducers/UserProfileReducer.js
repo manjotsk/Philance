@@ -29,7 +29,8 @@ const INITIAL_STATE = {
     interests: '',
     text: 'SAVE CHANGES',
     update: false,
-    interestsArrived:true
+    interestsArrived:true,
+    userId:''
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -63,7 +64,14 @@ export default (state = INITIAL_STATE, action) => {
         case USER_PROFILE_UPDATE_UNMOUNT:
             return {...state, update: false}
         case USER_PROFILE_GET_USER_INFO:
-            return {...state, email: action.payload.email, name: action.payload.fname + ' ' + action.payload.lname,interests:action.payload.interests}
+            return {
+                ...state,
+                 email: action.payload.email,
+                name: action.payload.fname + ' ' + action.payload.lname,
+                interests:action.payload.interests,
+                userId:action.payload.user_id
+            
+            }
         default:
             return state
     }

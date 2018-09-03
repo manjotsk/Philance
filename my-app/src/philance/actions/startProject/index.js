@@ -89,7 +89,8 @@ export const startProject=({
   interests,
   startDate,
   endDate,
-  budget
+  budget,
+  userId
 })=>{
 
   if(
@@ -103,7 +104,8 @@ export const startProject=({
     interests === '' ||
     startDate === '' ||
     endDate === '' ||
-    budget === ''
+    budget === '' ||
+    userId === ''
    ) {
     return {
       type: START_PROJECT_FIELDS_EMPTY
@@ -118,9 +120,9 @@ export const startProject=({
         volunteers:volunteers,
         freelancers:freelancers,
         estimatedBudget:budget,
-        userUd: "1",
         startDate :startDate,
         endDate :endDate,
+        userId:userId,
         "projectDetails":[  
           {  
             "detailType": "SKILLS",

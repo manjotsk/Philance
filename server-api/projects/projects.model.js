@@ -25,7 +25,7 @@ const projects = sequelize.define('projects', {
         field: 'Project_name',
         allowNull: false
     },
-    decription: {
+    description: {
         type: Sequelize.BLOB,
         field: 'description'
     },

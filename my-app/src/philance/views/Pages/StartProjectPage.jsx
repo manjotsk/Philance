@@ -384,6 +384,7 @@ class StartProject extends React.Component {
                         startDate,
                         endDate,
                         budget,
+                        userId
                       } = this.props
                       console.log(this.props)
                       this.props.startProject({
@@ -395,7 +396,8 @@ class StartProject extends React.Component {
                         interests,
                         startDate,
                         endDate,
-                        budget
+                        budget,
+                        userId
                       })
                       }}
                       color="info"
@@ -427,7 +429,8 @@ const mapStateToProps =state=> {
     interests: state.user.interests,
     isLoggedIn: state.auth.isLoggedIn,
     interestOptions: state.common.interestOptions,
-    requestCompleted: state.start.requestCompleted
+    requestCompleted: state.start.requestCompleted,
+    userId:state.user.userId
   }
 }
 
