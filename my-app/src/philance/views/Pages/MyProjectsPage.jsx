@@ -18,12 +18,20 @@ import Card from "components/Card/Card.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import CtButton from "components/CustomButtons/Button.jsx";
 
+// redux
+import {connect} from 'react-redux'
+import {myProject} from '../../actions/myProject'
+
 //import publicHomePageStyle from "./PublicHomePageStyle";
 import myProjectsPageStyle from "assets/jss/material-dashboard-pro-react/views/registerPageStyle";
 
 class MyProjectsPage extends React.Component {
   constructor(props) {
     super(props);
+  }
+
+  componentDidMount() {
+    myProject()
   }
 
   render() {
@@ -50,8 +58,14 @@ class MyProjectsPage extends React.Component {
   }
 }
 
+const mapStateToProps =state=> {
+  return {
+
+  }
+}
+
 MyProjectsPage.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(myProjectsPageStyle)(MyProjectsPage);
+export default connect(mapStateToProps, {myProject})(withStyles(myProjectsPageStyle)(MyProjectsPage));
