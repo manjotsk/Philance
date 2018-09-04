@@ -98,7 +98,6 @@ class ProjectSearch extends React.Component {
     const { classes } = this.props;
     return (
       <GridContainer className={this.props.isLoggedIn?null:classes.container}>
-      {console.log(this.props.isLoggedIn,'***************************')}
         <GridContainer>
           <GridItem xs={12} sm={12}>
             <Card>

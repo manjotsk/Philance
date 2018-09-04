@@ -10,6 +10,9 @@ var projectDetails = require("../projects/project.details.model");
 var projectTeam = require("../projects/projects.team.model");
 const sequelize = require('../util/dbconnection');
 const Op = sequelize.Op;
+var config = require('../config/config')
+var authutil = require('../util/authutil')
+var userHelper=require('../helpers/user')
 
 exports.createProfile = (req, res, next) => {
 
@@ -78,7 +81,7 @@ exports.login = (req, res, next) => {
                     {
                         email: _user.email,
                         userId: _user.userId
-                    }, 'philance_secret',
+                    }, 'philance_secret' + _user.userId,
                     process.env.JWT_KEY,
                     {
                         expiresIn: "1h"
@@ -301,21 +304,70 @@ exports.getProjects = (req, res, next) => {
     )
 }
 
-exports.passwordReset = (req, res, next) => {
-    //   User.remove({ _id: req.params.userId })
-    //     .exec()
-    //     .then(result => {
-    //       res.status(200).json({
-    //         message: "User deleted"
-    //       });
-    //     })
-    //     .catch(err => {
-    //       console.log(err);
-    //       res.status(500).json({
-    //         error: err
-    //       });
-    //     });
+exports.createPasswordResetToken = (req, res, next) => {
+    console.log('+++++++',req.body.email)
+    var email = req.body.email;
+        const token = jwt.sign(
+            {
+                email: req.body.email
+            }, 'philance_secret',
+            process.env.JWT_KEY,
+            {
+                expiresIn: "1h"
+            }
+        );
+        var dev = config.development.unsecure;
+        //send email
+        userHelper.emailUsers({
+            config:{
+                from:'noreply@philance.org',
+                // to: req.body.email,                      //email to be requested from the database
+                to: req.body.email,                      //email to be requested from the database
+            },
+            data:{
+                url:dev.protocol + dev.host + dev.port + '/philance/users/passwordReset?token=' + token,
+                subject:'Password Reset Mail, Team-Philance',
+                text:'Dear User, \nPlease click the following link to reset your password\n\n'+dev.protocol + dev.host + dev.port + '/resetPassword/' + token+'\n This link is valid for 1 hour only.\nRegards\nPhilance Support'
+            }})
+        res.status(200).send({
+            backendURL: dev.protocol + dev.host + dev.port + '/philance/users/passwordReset?token=' + token
+        })
+
+
     console.log("In user password reset Controller");
 };
+exports.passwordReset = (req, res, next) => {
+    jwt.verify(req.query.token, 'philance_secret', function (err, decoded) {
+        if (err) {
+            console.log(decoded + ' failed')
+            res.status(401).send(err)
+        } else {
+            if(parseInt(Date.now()/1000)-decoded.iat>3600){
 
+                //TODO: One time usage Implementation
 
+                res.status(401).send({error:"token Expired"})
+            }else{
+                authutil.createPassword(req.body.password).then((response) => {
+                    users.update({
+                        password: response.hash
+                    }, {
+                            where: {
+                                email: decoded.email
+                            }
+                        }).then(() => {
+                            console.log('Successful')
+                            //send email
+                        })
+                    res.status(200).send(response)
+    
+                }).catch((error) => {
+                    res.status(500).send(error)
+                })
+    
+            }
+
+        }
+
+    });
+}
