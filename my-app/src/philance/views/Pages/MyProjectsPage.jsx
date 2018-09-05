@@ -48,11 +48,16 @@ class MyProjectsPage extends React.Component {
   }
 
   handlePaginationChange = (e, { activePage }) => this.setState({ activePage })
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name })
+  handleItemClick = async (e, { id }) => {
+    await this.setState({ activeItem: id })
+    this.renderProjects()
+  }
 
   renderProjects() {
 
-    let object = [], items = []
+    let object = [] 
+    const items = []
+    let isRetreived = false
     const { activeItem } = this.state;
 
     if(!this.props.response) {
@@ -63,15 +68,28 @@ class MyProjectsPage extends React.Component {
       )
   }
 
+  else if(isRetreived) {
+    const page = this.state.activePage*10
+    for(var i = page;i<page+10;++i) {
+      items.push(object[i])
+    }
+  }
+
   else {
     this.props.response.forEach(element => 
-      object.push(<Menu.Item name={element.project_name} active={activeItem === element.project_name} onClick={this.handleItemClick} />)
+      object.push(<Menu.Item name={element.project_name} id={element.project_id} active={activeItem === element.project_id} onClick={this.handleItemClick} />)
     )
+
+    for(var i = 0;i<10;++i) {
+      items.push(object[i])
+    }
+
+    isRetreived = true
 
       return(
           <Menu fluid vertical>
             {
-              object
+              items
             }
           </Menu>
       )
