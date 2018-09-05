@@ -7,6 +7,15 @@ import Timeline from "@material-ui/icons/Timeline";
 import Accessibility from "@material-ui/icons/Accessibility";
 import Group from "@material-ui/icons/Group";
 
+// scemetic-ui
+import {
+  Grid,
+  Pagination,
+  Menu,
+  Dimmer,
+  Loader
+} from 'semantic-ui-react'
+
 // @material-ui/core components
 
 // core components
@@ -26,19 +35,57 @@ import {myProject} from '../../actions/myProject'
 import myProjectsPageStyle from "assets/jss/material-dashboard-pro-react/views/registerPageStyle";
 
 class MyProjectsPage extends React.Component {
+
   constructor(props) {
     super(props);
+    this.state = {
+      activePage: 1
+    }
   }
 
   componentDidMount() {
-    myProject()
+    this.props.myProject()
+  }
+
+  handlePaginationChange = (e, { activePage }) => this.setState({ activePage })
+  handleItemClick = (e, { name }) => this.setState({ activeItem: name })
+
+  renderProjects() {
+
+    let object = [], items = []
+    const { activeItem } = this.state;
+
+    if(!this.props.response) {
+      return (
+              <Dimmer active inverted>
+                <Loader inverted content='Loading' />
+              </Dimmer>
+      )
+  }
+
+  else {
+    this.props.response.forEach(element => 
+      object.push(<Menu.Item name={element.project_name} active={activeItem === element.project_name} onClick={this.handleItemClick} />)
+    )
+
+      return(
+          <Menu fluid vertical>
+            {
+              object
+            }
+          </Menu>
+      )
+  }
   }
 
   render() {
+    
     const { classes } = this.props;
+    const { activePage } = this.state;
 
     return (
-        <GridContainer justify="center">
+        <GridContainer>
+          <GridContainer justify="center">
           <GridItem xs={12} sm={12} md={10} lg={10}>
             <Card className={classes.cardSignup}>
               <h2 className={classes.cardTitle}>My projects Page</h2>
@@ -51,8 +98,23 @@ class MyProjectsPage extends React.Component {
                   iconColor="rose"
                 />
               </CardBody>
+              {
+                this.renderProjects()
+              }
             </Card>
           </GridItem>
+          </GridContainer>
+          <GridContainer justify="center">
+            <Grid>
+            <Grid.Column>
+              <Pagination
+                activePage={activePage}
+                onPageChange={this.handlePaginationChange}
+                totalPages={this.props.length/10}
+              />
+            </Grid.Column>
+          </Grid>
+        </GridContainer>
         </GridContainer>
     );
   }
@@ -60,7 +122,8 @@ class MyProjectsPage extends React.Component {
 
 const mapStateToProps =state=> {
   return {
-
+    response: state.mypro.response,
+    length: state.mypro.length
   }
 }
 
