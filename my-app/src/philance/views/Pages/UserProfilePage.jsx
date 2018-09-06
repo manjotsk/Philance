@@ -44,8 +44,10 @@ import {
   nameChanged,
   passwordChanged,
   updateUnmount,
-  getUserInfo
+  getUserInfo,
 } from '../../actions/userProfile'
+
+import {myProject} from '../../actions/myProject'
 import Toaster from "../../components/Toaster/Toaster";
 
 class UserProfile extends React.Component {
@@ -53,6 +55,10 @@ class UserProfile extends React.Component {
     super(props);
   }
 
+  componentDidMount() {
+    this.props.myProject()
+  }
+  
   componentWillUnmount() {
     this.props.registerToast()
     this.props.updateUnmount()
@@ -443,5 +449,6 @@ export default connect(mapStateToProps, {
   nameChanged,
   passwordChanged,
   updateUnmount,
-  getUserInfo
+  getUserInfo,
+  myProject
 })(withStyles(userProfileStyles)(UserProfile));

@@ -1,14 +1,13 @@
 import axios from 'axios'
 
 import hostname from '../../../config'
-import {MY_PROJECT_GET_PROJECTS} from '../types'
+import {MY_PROJECT_GET_PROJECTS, MY_PROJECT_STORE_PROJECTS} from '../types'
 
 export const myProject =()=> {
     return dispatch=> {
         axios.get(hostname()+'/philance/users/1/projects/')
         .then(
             response=>{
-                console.log(response.data.Projects)
                 dispatch({
                     type: MY_PROJECT_GET_PROJECTS,
                     payload: response.data.Projects,
@@ -16,5 +15,15 @@ export const myProject =()=> {
                 })
             }
         )
+    }
+}
+
+export const storeList =(list)=> {
+    return dispatch=> {
+        dispatch({
+            type: MY_PROJECT_STORE_PROJECTS,
+            payload: list
+        })
+        console.log('list', list)
     }
 }

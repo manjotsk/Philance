@@ -13,7 +13,8 @@ import {
   Pagination,
   Menu,
   Dimmer,
-  Loader
+  Loader,
+  Table
 } from 'semantic-ui-react'
 
 // @material-ui/core components
@@ -29,7 +30,7 @@ import CtButton from "components/CustomButtons/Button.jsx";
 
 // redux
 import {connect} from 'react-redux'
-import {myProject} from '../../actions/myProject'
+import {myProject, storeList} from '../../actions/myProject'
 
 //import publicHomePageStyle from "./PublicHomePageStyle";
 import myProjectsPageStyle from "assets/jss/material-dashboard-pro-react/views/registerPageStyle";
@@ -44,7 +45,7 @@ class MyProjectsPage extends React.Component {
   }
 
   componentDidMount() {
-    this.props.myProject()
+    this.createList()
   }
 
   handlePaginationChange = (e, { activePage }) => this.setState({ activePage })
@@ -54,12 +55,6 @@ class MyProjectsPage extends React.Component {
   }
 
   renderProjects() {
-
-    let object = [] 
-    const items = []
-    let isRetreived = false
-    const { activeItem } = this.state;
-
     if(!this.props.response) {
       return (
               <Dimmer active inverted>
@@ -68,32 +63,28 @@ class MyProjectsPage extends React.Component {
       )
   }
 
-  else if(isRetreived) {
-    const page = this.state.activePage*10
-    for(var i = page;i<page+10;++i) {
-      items.push(object[i])
-    }
-  }
-
   else {
-    this.props.response.forEach(element => 
-      object.push(<Menu.Item name={element.project_name} id={element.project_id} active={activeItem === element.project_id} onClick={this.handleItemClick} />)
-    )
-
-    for(var i = 0;i<10;++i) {
-      items.push(object[i])
-    }
-
-    isRetreived = true
-
-      return(
-          <Menu fluid vertical>
-            {
-              items
-            }
-          </Menu>
-      )
+      return this.props.list
   }
+}
+
+  async createList() {
+    const { activeItem } = this.state
+    const object = []
+    await this.props.response.forEach(element => 
+      object.push(
+        <Table.Row>
+          <Table.Cell>{element.project_id}</Table.Cell>
+          <Table.Cell>{element.project_name}</Table.Cell>
+          <Table.Cell>{element.status}</Table.Cell>
+          <Table.Cell>{element.start_date}</Table.Cell>
+          <Table.Cell>{element.end_date}</Table.Cell>
+          <Table.Cell>close</Table.Cell>
+          <Table.Cell>percentage</Table.Cell>
+        </Table.Row>)
+    )
+    console.log('object', object)
+    this.props.storeList(object)
   }
 
   render() {
@@ -104,7 +95,7 @@ class MyProjectsPage extends React.Component {
     return (
         <GridContainer>
           <GridContainer justify="center">
-          <GridItem xs={12} sm={12} md={10} lg={10}>
+          <GridItem xs={12} sm={12} md={12} lg={10}>
             <Card className={classes.cardSignup}>
               <h2 className={classes.cardTitle}>My projects Page</h2>
               <CardBody>
@@ -116,9 +107,26 @@ class MyProjectsPage extends React.Component {
                   iconColor="rose"
                 />
               </CardBody>
-              {
+
+              <Table celled unstackable sortable verticalAlign="middle">
+                <Table.Header>
+                  <Table.Row>
+                    <Table.HeaderCell>ID</Table.HeaderCell>
+                    <Table.HeaderCell>Name</Table.HeaderCell>
+                    <Table.HeaderCell>Status</Table.HeaderCell>
+                    <Table.HeaderCell>Start</Table.HeaderCell>
+                    <Table.HeaderCell>Target End</Table.HeaderCell>
+                    <Table.HeaderCell>Close</Table.HeaderCell>
+                    <Table.HeaderCell>% Complete</Table.HeaderCell>
+                  </Table.Row>
+                </Table.Header>
+                  <Table.Body>
+                  {
                 this.renderProjects()
               }
+                  </Table.Body>
+              </Table>
+    
             </Card>
           </GridItem>
           </GridContainer>
@@ -131,6 +139,10 @@ class MyProjectsPage extends React.Component {
                 totalPages={this.props.length/10}
               />
             </Grid.Column>
+          {async ()=> {
+            await this.props.createList()
+            console.log('ss',this.props.list)
+          }}
           </Grid>
         </GridContainer>
         </GridContainer>
@@ -141,7 +153,8 @@ class MyProjectsPage extends React.Component {
 const mapStateToProps =state=> {
   return {
     response: state.mypro.response,
-    length: state.mypro.length
+    length: state.mypro.length,
+    list: state.mypro.list
   }
 }
 
@@ -149,4 +162,4 @@ MyProjectsPage.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default connect(mapStateToProps, {myProject})(withStyles(myProjectsPageStyle)(MyProjectsPage));
+export default connect(mapStateToProps, {myProject, storeList})(withStyles(myProjectsPageStyle)(MyProjectsPage));

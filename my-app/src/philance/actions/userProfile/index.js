@@ -103,7 +103,6 @@ export const updateUnmount = text => {
 }
 
 export const getUserInfo =(email)=> {
-    console.log('email is',email )
     return dispatch =>
         axios.post(hostname()+'/philance/users/search', {
             email: email  
