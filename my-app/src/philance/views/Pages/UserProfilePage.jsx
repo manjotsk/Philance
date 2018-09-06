@@ -55,10 +55,6 @@ class UserProfile extends React.Component {
     super(props);
   }
 
-  componentDidMount() {
-    this.props.myProject()
-  }
-  
   componentWillUnmount() {
     this.props.registerToast()
     this.props.updateUnmount()

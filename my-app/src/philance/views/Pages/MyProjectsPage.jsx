@@ -11,7 +11,6 @@ import Group from "@material-ui/icons/Group";
 import {
   Grid,
   Pagination,
-  Menu,
   Dimmer,
   Loader,
   Table
