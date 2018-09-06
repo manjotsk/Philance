@@ -11,7 +11,8 @@ import {
   START_PROJECT_ZIP_CODE_CHANGED,
   START_PROJECT_NETWORK_ERROR,
   START_PROJECT_REQUEST_SUCCESS,
-  START_PROJECT_UNMOUNT
+  START_PROJECT_UNMOUNT,
+  START_PROJECT_FILES_CHANGED
 } from '../types'
 
 import axios from 'axios'
@@ -27,6 +28,13 @@ export const textChanged = () => {
 export const budgetChanged = text => {
   return {
       type: START_PROJECT_BUDGET_CHANGED,
+      payload: text
+  }
+}
+
+export const filesChanged = text => {
+  return {
+      type: START_PROJECT_FILES_CHANGED,
       payload: text
   }
 }
@@ -90,22 +98,20 @@ export const startProject=({
   startDate,
   endDate,
   budget,
-  userId
+  userId,
+  files
 })=>{
-
+  
   if(
     name === '' ||
     description === '' ||
     volunteers === '' ||
     freelancers === '' ||
-    zipCode === '' ||
     interests === '' ||
     zipCode === '' ||
-    interests === '' ||
     startDate === '' ||
     endDate === '' ||
-    budget === '' ||
-    userId === ''
+    budget === ''
    ) {
     return {
       type: START_PROJECT_FIELDS_EMPTY
@@ -123,6 +129,7 @@ export const startProject=({
         startDate :startDate,
         endDate :endDate,
         userId:userId,
+        files:files,
         "projectDetails":[  
           {  
             "detailType": "SKILLS",

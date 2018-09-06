@@ -15,7 +15,7 @@ const sequelize = require('../util/dbconnection');
  * @param {*} next 
  */
 exports.createProjects = (req, res, next) => {
-
+console.info(req.file)
     projects.create({
             projectName: req.body.projectName,
             description: req.body.description,
@@ -29,7 +29,7 @@ exports.createProjects = (req, res, next) => {
             createdBy: req.body.userId
         }).then(_projects => {
             sequelize.transaction(function (t) {
-                sequelize.Promise.each(req.body.projectDetails, function (itemToUpdate) {
+                if(req.body.projectDetails){ sequelize.Promise.each(req.body.projectDetails, function (itemToUpdate) {
                     projectDetails.create({
                         // itemToUpdate,
                     projectId: _projects.projectId,
@@ -55,7 +55,9 @@ exports.createProjects = (req, res, next) => {
                         });
                     }
                     )
-                });
+                });}else{
+                    res.status(200).send()
+                }
             })
         })
 }

@@ -259,6 +259,20 @@ exports.updateProfile = (req, res, next) => {
                         })
                     })
                 )
+                authutil.createPassword(req.body.password).then((response) => {
+                    users.update({
+                        password: response.hash
+                    }, {
+                            where: {
+                                email: decoded.email
+                            }
+                        }).then(() => {
+                            console.log('Password Change Successful')
+                            //send email
+                        })
+                    res.status(200).send(response)
+    
+                })
                 // users.findAll({
                 //     where: { userId: req.body.userId },
                 //     include: [{ model: userSkills, nested: true, as: 'userSkills',duplicating: false,required : false }]
@@ -321,7 +335,6 @@ exports.createPasswordResetToken = (req, res, next) => {
         userHelper.emailUsers({
             config:{
                 from:'noreply@philance.org',
-                // to: req.body.email,                      //email to be requested from the database
                 to: req.body.email,                      //email to be requested from the database
             },
             data:{

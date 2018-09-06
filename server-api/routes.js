@@ -5,4 +5,5 @@ module.exports = function (app) {
     app.use('/philance/users', require('./users'));
     app.use('/philance/projects', require('./projects'));
     app.use('/philance/lookups', require('./lookups'));
+    app.use('/philance/files', require('./files'));
 };

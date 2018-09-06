@@ -24,6 +24,8 @@ import image from "assets/img/sidebar-2.jpg";
 import logo from "../assets/logos/philancelogo.png";
 import logoText from "../assets/logos/Philance-logo-text.png";
 import { getCommonInfo } from "../actions/common";
+import { getUserInfo } from "../actions/userProfile";
+
 
 const switchRoutes =(isRegistered)=> (
   <Switch>
@@ -83,6 +85,7 @@ class Dashboard extends React.Component {
       document.body.style.overflow = "hidden";
     }
     this.props.getCommonInfo()
+    this.props.getUserInfo(this.props.currentEmail)
   }
   componentWillUnmount() {
     if (navigator.platform.indexOf("Win") > -1) {
@@ -150,7 +153,8 @@ class Dashboard extends React.Component {
 const mapStateToProps =state=> {
   return {
     isLoggedIn: state.auth.isLoggedIn,
-    isRegistered: state.reg.registered
+    isRegistered: state.reg.registered,
+    currentEmail: state.auth.email===""?state.reg.email:state.auth.email,
   }
 }
 
@@ -158,4 +162,4 @@ Dashboard.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default connect(mapStateToProps,{getCommonInfo})(withStyles(appStyle)(Dashboard));
+export default connect(mapStateToProps,{getCommonInfo,getUserInfo})(withStyles(appStyle)(Dashboard));

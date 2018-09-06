@@ -121,7 +121,8 @@ class UserProfile extends React.Component {
       organization,
       title,
       interests,
-      currentEmail
+      currentEmail,
+      userId
     } = this.props
     this.props.updateProfile({
       name,
@@ -134,7 +135,8 @@ class UserProfile extends React.Component {
       organization,
       title,
       interests,
-      currentEmail
+      currentEmail,
+      userId
     })
     this.props.registerToast()
 }
@@ -425,7 +427,8 @@ const mapStateToProps = state => {
     defaultName: state.reg.firstName + ' ' + state.reg.lastName,
     update: state.user.update,
     interests: state.user.interests,
-    interestOptions: state.common.interestOptions
+    interestOptions: state.common.interestOptions,
+    userId:state.user.userId
 
   }
 }
