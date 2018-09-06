@@ -13,7 +13,8 @@ import {
   Pagination,
   Dimmer,
   Loader,
-  Table
+  Table,
+  Icon
 } from 'semantic-ui-react'
 
 // @material-ui/core components
@@ -70,17 +71,27 @@ class MyProjectsPage extends React.Component {
   async createList() {
     const { activeItem } = this.state
     const object = []
-    await this.props.response.forEach(element => 
+    const datePattern = /(\d{4})\-(\d{2})\-(\d{2})/;
+    await this.props.response.forEach(element => {
+      let startDate = new Date(element.start_date);
+      let endDate = new Date(element.end_date);
+      startDate = startDate.toDateString()
+      endDate = endDate.toDateString()
+      startDate = startDate.substr(startDate.indexOf(" ")+1)
+      endDate = endDate.substr(endDate.indexOf(" ")+1)
       object.push(
-        <Table.Row>
+        <Table.Row onClick={()=>console.log(element.project_id)}>
           <Table.Cell>{element.project_id}</Table.Cell>
           <Table.Cell>{element.project_name}</Table.Cell>
-          <Table.Cell>{element.status}</Table.Cell>
-          <Table.Cell>{element.start_date}</Table.Cell>
-          <Table.Cell>{element.end_date}</Table.Cell>
-          <Table.Cell>close</Table.Cell>
-          <Table.Cell>percentage</Table.Cell>
+          <Table.Cell textAlign="center">
+            <Icon color={element.status==='ACTIVE'?'green':'red'} name={element.status==='ACTIVE'?'checkmark':'close'} size='large' />
+          </Table.Cell>
+          <Table.Cell>{startDate}</Table.Cell>
+          <Table.Cell>{endDate}</Table.Cell>
+          <Table.Cell></Table.Cell>
+          <Table.Cell></Table.Cell>
         </Table.Row>)
+      }
     )
     console.log('object', object)
     this.props.storeList(object)
@@ -94,30 +105,28 @@ class MyProjectsPage extends React.Component {
     return (
         <GridContainer>
           <GridContainer justify="center">
-          <GridItem xs={12} sm={12} md={12} lg={10}>
+          <GridItem xs={12} sm={12} md={12} justify="center">
             <Card className={classes.cardSignup}>
               <CardBody>
-
-              <Table celled unstackable sortable verticalAlign="middle">
-                <Table.Header>
-                  <Table.Row>
-                    <Table.HeaderCell>ID</Table.HeaderCell>
-                    <Table.HeaderCell>Name</Table.HeaderCell>
-                    <Table.HeaderCell>Status</Table.HeaderCell>
-                    <Table.HeaderCell>Start</Table.HeaderCell>
-                    <Table.HeaderCell>Target End</Table.HeaderCell>
-                    <Table.HeaderCell>Close</Table.HeaderCell>
-                    <Table.HeaderCell>% Complete</Table.HeaderCell>
-                  </Table.Row>
-                </Table.Header>
-                  <Table.Body>
-                  {
-                this.renderProjects()
-              }
-                  </Table.Body>
-              </Table>
+                <Table celled sortable>
+                  <Table.Header>
+                    <Table.Row>
+                      <Table.HeaderCell>ID</Table.HeaderCell>
+                      <Table.HeaderCell>Name</Table.HeaderCell>
+                      <Table.HeaderCell>Status</Table.HeaderCell>
+                      <Table.HeaderCell>Start</Table.HeaderCell>
+                      <Table.HeaderCell>Target End</Table.HeaderCell>
+                      <Table.HeaderCell>Close</Table.HeaderCell>
+                      <Table.HeaderCell>% Complete</Table.HeaderCell>
+                    </Table.Row>
+                  </Table.Header>
+                    <Table.Body>
+                      {
+                       this.renderProjects() 
+                      }
+                    </Table.Body>
+                </Table>
               </CardBody>
-    
             </Card>
           </GridItem>
           </GridContainer>
