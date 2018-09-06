@@ -96,16 +96,7 @@ class MyProjectsPage extends React.Component {
           <GridContainer justify="center">
           <GridItem xs={12} sm={12} md={12} lg={10}>
             <Card className={classes.cardSignup}>
-              <h2 className={classes.cardTitle}>My projects Page</h2>
               <CardBody>
-                <InfoArea
-                  classes={classes}
-                  title="My projects"
-                  description="My projects"
-                  icon={Accessibility}
-                  iconColor="rose"
-                />
-              </CardBody>
 
               <Table celled unstackable sortable verticalAlign="middle">
                 <Table.Header>
@@ -125,6 +116,7 @@ class MyProjectsPage extends React.Component {
               }
                   </Table.Body>
               </Table>
+              </CardBody>
     
             </Card>
           </GridItem>
