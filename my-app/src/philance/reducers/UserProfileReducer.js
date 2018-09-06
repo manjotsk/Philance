@@ -14,6 +14,7 @@ import {
     USER_PROFILE_UPDATE_SUCCESS,
     USER_PROFILE_UPDATE_UNMOUNT,
     USER_PROFILE_GET_USER_INFO,
+    LOGOUT_USER,
 } from '../actions/types'
 
 const INITIAL_STATE = {
@@ -29,48 +30,67 @@ const INITIAL_STATE = {
     interests: '',
     text: 'SAVE CHANGES',
     update: false,
-    interestsArrived:true,
-    userId:''
+    interestsArrived: true,
+    userId: ''
 }
 
 export default (state = INITIAL_STATE, action) => {
-    switch(action.type) {
+    switch (action.type) {
         case USER_PROFILE_TEXT_CHANGED:
-            return {...state, text: 'SAVE CHANGES'}
+            return { ...state, text: 'SAVE CHANGES' }
         case USER_PROFILE_FIELDS_EMPTY:
-            return {...state, text: 'ALL FIELDS ARE REQUIRED'}
+            return { ...state, text: 'ALL FIELDS ARE REQUIRED' }
         case USER_PROFILE_PASSWORD_CHANGED:
-            return {...state, password: action.payload}
+            return { ...state, password: action.payload }
         case USER_PROFILE_COUNTRY_CHANGED:
-            return {...state, country: action.payload}
+            return { ...state, country: action.payload }
         case USER_PROFILE_INTERESTS_CHANGED:
-            return {...state, interests: action.payload}
+            return { ...state, interests: action.payload }
         case USER_PROFILE_DESCRIPTION_CHANGED:
-            return {...state, description: action.payload}
+            return { ...state, description: action.payload }
         case USER_PROFILE_EMAIL_CHANGED:
-            return {...state, email: action.payload}
+            return { ...state, email: action.payload }
         case USER_PROFILE_POSTAL_CODE_CHANGED:
-            return {...state, postalCode: action.payload}
+            return { ...state, postalCode: action.payload }
         case USER_PROFILE_CONTACT_CHANGED:
-            return {...state, contact: action.payload}
+            return { ...state, contact: action.payload }
         case USER_PROFILE_NAME_CHANGED:
-            return {...state, name: action.payload}
+            return { ...state, name: action.payload }
         case USER_PROFILE_TITLE_CHANGED:
-            return {...state, title: action.payload}
+            return { ...state, title: action.payload }
         case USER_PROFILE_ORGANIZATION_CHANGED:
-            return {...state, organization: action.payload}
+            return { ...state, organization: action.payload }
         case USER_PROFILE_UPDATE_SUCCESS:
-            return {...state, update: true}
+            return { ...state, update: true }
         case USER_PROFILE_UPDATE_UNMOUNT:
-            return {...state, update: false}
+            return { ...state, update: false }
         case USER_PROFILE_GET_USER_INFO:
             return {
                 ...state,
-                 email: action.payload.email,
+                email: action.payload.email,
                 name: action.payload.fname + ' ' + action.payload.lname,
-                interests:action.payload.interests,
-                userId:action.payload.user_id
-            
+                interests: action.payload.interests,
+                userId: action.payload.user_id
+
+            }
+        case LOGOUT_USER:
+            return {
+                ...state,
+                contact: '',
+                email: '',
+                name: '',
+                password: '',
+                title: '',
+                organization: '',
+                country: '',
+                postalCode: '',
+                description: '',
+                interests: '',
+                text: 'SAVE CHANGES',
+                update: false,
+                interestsArrived: true,
+                userId: ''
+
             }
         default:
             return state

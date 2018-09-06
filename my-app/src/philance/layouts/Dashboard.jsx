@@ -11,7 +11,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 
 // core components
 import Header from "../components/Header/Header/Header";
-import Footer from "components/Footer/Footer.jsx";
+import Footer from "philance/components/Footer/Footer.jsx";
 import Sidebar from "./Sidebar";
 
 import dashboardRoutes from "routes/dashboard.jsx";
@@ -25,6 +25,7 @@ import logo from "../assets/logos/philancelogo.png";
 import logoText from "../assets/logos/Philance-logo-text.png";
 import { getCommonInfo } from "../actions/common";
 import { getUserInfo } from "../actions/userProfile";
+import { logout } from "../actions/login";
 
 
 const switchRoutes =(isRegistered)=> (
@@ -125,6 +126,7 @@ class Dashboard extends React.Component {
           color="blue"
           bgColor="black"
           miniActive={this.state.miniActive}
+          onClickOnLogout={()=>this.props.logout()}
           {...rest}
         />
         <div className={mainPanel} ref="mainPanel">
@@ -162,4 +164,4 @@ Dashboard.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default connect(mapStateToProps,{getCommonInfo,getUserInfo})(withStyles(appStyle)(Dashboard));
+export default connect(mapStateToProps,{getCommonInfo,getUserInfo,logout})(withStyles(appStyle)(Dashboard));

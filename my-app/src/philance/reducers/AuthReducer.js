@@ -7,7 +7,8 @@ import {
     EMAIL_EMPTY,
     FIELDS_EMPTY,
     INVALID_CREDENTIALS,
-    LOGIN_NETWORK_ERROR
+    LOGIN_NETWORK_ERROR,
+    LOGOUT_USER
 } from '../actions/types'
 
 const INITIAL_STATE = {
@@ -38,6 +39,14 @@ export default (state = INITIAL_STATE, action) => {
             return {...state, error: 'Invalid Credentials'}
         case LOGIN_NETWORK_ERROR:
             return {...state, error: 'Invalid Credentials'}
+        case LOGOUT_USER:
+            return {...state,
+                email: '',
+                password: '',
+                token: null,
+                isLoggedIn: false,
+                error: 'LET\'s GO'
+            }
         default:
         return state
     }
