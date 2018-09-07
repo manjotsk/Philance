@@ -78,7 +78,7 @@ class MyProjectsPage extends React.Component {
       startDate = startDate.substr(startDate.indexOf(" ")+1)
       endDate = endDate.substr(endDate.indexOf(" ")+1)
       object.push(
-        <Table.Row onClick={()=>this.props.history.push(`project-details/${element.project_id}`)}>
+        <Table.Row style={{cursor: 'pointer'}} onClick={()=>this.props.history.push(`project-details/${element.project_id}`)}>
           <Table.Cell>{element.project_id}</Table.Cell>
           <Table.Cell>{element.project_name}</Table.Cell>
           <Table.Cell textAlign="center">
@@ -106,7 +106,7 @@ class MyProjectsPage extends React.Component {
           <GridItem xs={12} sm={12} md={12} justify="center">
             <Card className={classes.cardSignup}>
               <CardBody>
-                <Table celled sortable>
+                <Table celled>
                   <Table.Header>
                     <Table.Row>
                       <Table.HeaderCell>ID</Table.HeaderCell>
