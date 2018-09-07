@@ -47,8 +47,6 @@ import {
 } from '../../actions/startProject'
 import Toaster from "../../components/Toaster/Toaster";
 
-
-
 class ProjectDetails extends React.Component {
   constructor(props) {
     super(props);
@@ -230,27 +228,6 @@ class ProjectDetails extends React.Component {
                           </GridContainer>
                           </FormControl>
                     </GridItem>
-                    <GridItem xs={12} sm={12} md={6}>
-                      <InputLabel className={classes.label} style = {{marginTop: 37}}>
-                        % Complete
-                      </InputLabel>
-                      <CustomInput
-                        labelText ="% Complete"
-                        id="%complete"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          disabled : this.state.isDisabled,
-                          placeholder: "Enter Complete %",
-                          onChange: e => {
-                            this.onFreeLancersChange(e.target.value)
-                          }
-                        }}
-                      />
-                    </GridItem>
-                  </GridContainer>
-                  <GridContainer>
                     <GridItem xs={12} sm={12} md={6} style={{marginTop: 37}}>
                           <InputLabel className={classes.label}>
                             Project End Date
@@ -266,13 +243,31 @@ class ProjectDetails extends React.Component {
                                     disabled: this.state.isDisabled
                                   }}
                                 />
-                              </GridItem>
+                            </GridItem>
                             <GridItem xs={3}>
                               <Icon bordered inverted color='teal' name='calendar alternate outline' onClick = {()=>{console.log('hello')}}/>
                             </GridItem>
                           </GridContainer>
                           </FormControl>
                     </GridItem>
+                  </GridContainer>
+                  <GridContainer>
+                    <GridItem xs={12} sm={12} md={6}>
+                        <CustomInput
+                          labelText ="% Complete"
+                          id="%complete"
+                          formControlProps={{
+                            fullWidth: true
+                          }}
+                          inputProps={{
+                            disabled : this.state.isDisabled,
+                            placeholder: "Enter Complete %",
+                            onChange: e => {
+                              this.onFreeLancersChange(e.target.value)
+                            }
+                          }}
+                        />
+                      </GridItem>
                   </GridContainer>
                   <GridContainer>
                     <GridItem xs={12} sm={14}>
@@ -358,21 +353,6 @@ class ProjectDetails extends React.Component {
                     </GridItem>
                   </GridContainer>
                   <br/>
-                  <GridContainer>
-                  <Table celled>
-                    <Table.Header>
-                      <Table.Row>
-                        <Table.HeaderCell>Name</Table.HeaderCell>
-                        <Table.HeaderCell>Status</Table.HeaderCell>
-                        <Table.HeaderCell>Type</Table.HeaderCell>
-                        <Table.HeaderCell>Start Date</Table.HeaderCell>
-                      </Table.Row>
-                    </Table.Header>
-                    <Table.Body>
-
-                    </Table.Body>
-                    </Table>
-                  </GridContainer>
                 </form>
               </CardBody>
             </Card>
