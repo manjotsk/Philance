@@ -69,9 +69,7 @@ class MyProjectsPage extends React.Component {
 }
 
   async createList() {
-    const { activeItem } = this.state
     const object = []
-    const datePattern = /(\d{4})\-(\d{2})\-(\d{2})/;
     await this.props.response.forEach(element => {
       let startDate = new Date(element.start_date);
       let endDate = new Date(element.end_date);
@@ -80,7 +78,7 @@ class MyProjectsPage extends React.Component {
       startDate = startDate.substr(startDate.indexOf(" ")+1)
       endDate = endDate.substr(endDate.indexOf(" ")+1)
       object.push(
-        <Table.Row onClick={()=>console.log(element.project_id)}>
+        <Table.Row onClick={()=>this.props.history.push(`project-details/${element.project_id}`)}>
           <Table.Cell>{element.project_id}</Table.Cell>
           <Table.Cell>{element.project_name}</Table.Cell>
           <Table.Cell textAlign="center">

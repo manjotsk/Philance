@@ -10,6 +10,7 @@ import NotificationsPage from "philance/views/Pages/NotificationsPage.jsx";
 import MessagesPage from "philance/views/Pages/MessagesPage.jsx";
 import UserProfile from "philance/views/Pages/UserProfilePage.jsx";
 import ForgotPassword from "../views/Pages/ForgotPassword";
+import ProjectDetails from "../views/Pages/ProjectDetails"
 
 // @material-ui/icons
 import HomeIcon from "@material-ui/icons/Home";
@@ -157,6 +158,71 @@ export const headerRoutes = [
 
 ];
 
+export const pvtSidebarRoutes = [
+  {
+    path: "/home",
+    name: "Home Page",
+    short: "Home",
+    mini: "HP",
+    icon: HomeIcon,
+    component: PvtHomePage
+  },
+  {
+    path: "/start-project",
+    name: "Start Project Page",
+    short: "Start A Project",
+    mini: "SPP",
+    icon: LaunchIcon,
+    component: StartProjectPage
+  },
+  {
+    path: "/find-project",
+    name: "Find Project Page",
+    short: "Find A project",
+    mini: "FPP",
+    icon: SearchIcon,
+    component: ProjectSearch
+  },
+  {
+    path: "/my-projects",
+    name: "My Projects Page",
+    short: "My Projects",
+    mini: "MPP",
+    icon: FolderIcon,
+    component: MyProjectsPage
+  },
+  {
+    path: "/notifications",
+    name: "Notifications Page",
+    short: "Notifications",
+    mini: "NP",
+    icon: NotificationsIcon,
+    component: NotificationsPage
+  },
+  {
+    path: "/messages",
+    name: "Messages Page",
+    short: "Messages",
+    mini: "MP",
+    icon: MessageIcon,
+    component: MessagesPage
+  },
+  {
+    path: "/profile",
+    name: "User Profile Page",
+    short: "User Profile",
+    mini: "UP",
+    icon: PersonIcon,
+    component: UserProfile
+  },
+  {
+    redirect: true,
+    path: "/",
+    pathTo: "/home",
+    name: "Home Page"
+  }
+]
+
 export const pvtPagesRoutes = [
   {
     path: "/home",
@@ -213,6 +279,20 @@ export const pvtPagesRoutes = [
     mini: "UP",
     icon: PersonIcon,
     component: UserProfile
+  },
+  {
+    path: "/project-details/:id",
+    name: "Project Details",
+    short: "Details",
+    mini: "PD",
+    icon: FolderIcon,
+    component: ProjectDetails
+  },
+  {
+    redirect: true,
+    path: "/project-details",
+    pathTo: "/my-projects",
+    name: "Home Page"
   },
   {
     redirect: true,

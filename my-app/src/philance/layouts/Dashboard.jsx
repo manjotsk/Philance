@@ -15,7 +15,7 @@ import Footer from "components/Footer/Footer.jsx";
 import Sidebar from "./Sidebar";
 
 import dashboardRoutes from "routes/dashboard.jsx";
-import { pagesRoutes, pvtPagesRoutes } from "philance/routes/pages.jsx";
+import { pvtSidebarRoutes, pvtPagesRoutes } from "philance/routes/pages.jsx";
 import appStyle from "assets/jss/material-dashboard-pro-react/layouts/dashboardStyle.jsx";
 
 import {connect} from 'react-redux'
@@ -113,7 +113,7 @@ class Dashboard extends React.Component {
     return (
       <div className={classes.wrapper}>
         <Sidebar
-          routes={pvtPagesRoutes}
+          routes={pvtSidebarRoutes}
           logoText={logoText}
           logo={logo}
           image={image}
