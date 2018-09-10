@@ -123,7 +123,8 @@ class UserProfile extends React.Component {
       organization,
       title,
       interests,
-      currentEmail
+      currentEmail,
+      userId
     } = this.props
     this.props.updateProfile({
       name,
@@ -136,7 +137,8 @@ class UserProfile extends React.Component {
       organization,
       title,
       interests,
-      currentEmail
+      currentEmail,
+      userId
     })
     this.props.registerToast()
 }
@@ -212,25 +214,12 @@ class UserProfile extends React.Component {
                     />
                   </GridItem>
                 </GridContainer>
-                <br/>
                 <GridContainer>
-                  <GridItem xs={12} sm={6}>
-                      <FormLabel className={classes.labelHorizontal} style={{color:"#777777",marginBottom:'2vh'}}>
-                        Country
-                      </FormLabel>
-                  </GridItem>
                   <GridItem xs={12} sm={12} md={12}>
                     <CountryDropdown defaultValue={this.props.userCountry}/>
-                    <br/>
                   </GridItem>
-                  <GridItem xs={12} sm={6}>
-                      <FormLabel className={classes.labelHorizontal} style={{color:"#777777",marginBottom:'2vh'}}>
-                        Impact Category Interests
-                      </FormLabel>
-                    </GridItem>
                     <GridItem xs={12} sm={12} md={12}>
-                    
-                    <InterestsDropdown interestOptions={this.props.interestOptions} defaultValue={this.props.interests?this.props.interests.split(','):null}/>
+                    <InterestsDropdown interestOptions={this.props.interestOptions} defaultValue={this.props.interests?this.props.interests:null}/>
                   </GridItem>
                   <GridItem xs={12} sm={12} md={12}>
                     <CustomInput
@@ -427,7 +416,8 @@ const mapStateToProps = state => {
     defaultName: state.reg.firstName + ' ' + state.reg.lastName,
     update: state.user.update,
     interests: state.user.interests,
-    interestOptions: state.common.interestOptions
+    interestOptions: state.common.interestOptions,
+    userId:state.user.userId
 
   }
 }

@@ -183,9 +183,12 @@ class Sidebar extends React.Component {
                 </ListItem>
                 <ListItem className={classes.collapseItem}>
                   <NavLink
-                    to="#"
+                    to="/login"
                     className={
                       classes.itemLink + " " + classes.userCollapseLinks
+                    }
+                    onClick={
+                      this.props.onClickOnLogout
                     }
                   >
                     <span className={collapseItemMini}>

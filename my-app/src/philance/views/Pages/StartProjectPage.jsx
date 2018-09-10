@@ -27,7 +27,7 @@ import {InterestsDropdown} from '../../components/DoubleDropdown'
 import {connect} from 'react-redux'
 import { Button as Buttons, Label, Icon} from 'semantic-ui-react';
 
-import { getCommonInfo } from "../../actions/common";
+import { getCommonInfo, uploadFiles } from "../../actions/common";
 
 import {
   textChanged,
@@ -35,6 +35,7 @@ import {
   descriptionChanged,
   endDateChanged,
   freelancersChanged,
+  filesChanged,
   projectNameChanged,
   startDateChanged,
   volunteersChanged,
@@ -45,7 +46,7 @@ import {
 import Toaster from "../../components/Toaster/Toaster";
 
 
-
+const uid = Math.random().toString(36).substring(7);
 class StartProject extends React.Component {
   constructor(props) {
     super(props);
@@ -83,6 +84,11 @@ class StartProject extends React.Component {
   onBudgetChange(text) {
     this.props.budgetChanged(text)
     this.props.textChanged()
+  }
+  
+  onFilesChange(e){
+    this.props.filesChanged(e.target.files[0])
+    // this.props.textChanged()
   }
 
   onEndDateChange(text) {
@@ -350,25 +356,29 @@ class StartProject extends React.Component {
                       <Label
                         as="label"
                         basic
-                        htmlFor="upload"
-
+                        htmlFor={uid}
                         >
-                        <Buttons
+                        <Icon name='upload'/>Select Files{'\t\t\t'}
+                        <input type="file" id={uid}
+                          multiple
+                          style={{display: "none"}}
+                          name="files"
+                          onChange={(e)=>this.onFilesChange(e)}
+                        />
+                        <Button
                             icon="upload"
-                            label={{
-                                basic: true,
-                                content: 'Upload Files'
+                            onClick={()=>{
+                              //call upload Action
+                              this.props.uploadFiles('startProject',this.props.files)
                             }}
-                            labelPosition="right"
-                        />
-                        <input
-                            hidden
-                            id="upload"
-                            multiple
-                            type="file"
-                        />
+                        >Upload</Button>
                       </Label>
+
+                      {this.props.uploadStatus=='NOT_INITIATED'?null:
+                      <Toaster display={true} message={this.props.uploadStatus}/>}
+
                     </GridItem>
+                    {console.log('******45',this.props.files)}
                   </GridContainer>
                   <br/>
                   <GridContainer className={classes.justifyContentCenter}> 
@@ -384,7 +394,8 @@ class StartProject extends React.Component {
                         startDate,
                         endDate,
                         budget,
-                        userId
+                        userId,
+                        files
                       } = this.props
                       console.log(this.props)
                       this.props.startProject({
@@ -397,7 +408,8 @@ class StartProject extends React.Component {
                         startDate,
                         endDate,
                         budget,
-                        userId
+                        userId,
+                        files
                       })
                       }}
                       color="info"
@@ -430,7 +442,9 @@ const mapStateToProps =state=> {
     isLoggedIn: state.auth.isLoggedIn,
     interestOptions: state.common.interestOptions,
     requestCompleted: state.start.requestCompleted,
-    userId:state.user.userId
+    userId:state.user.userId,
+    files:state.start.files,
+    uploadStatus:state.common.uploadStatus
   }
 }
 
@@ -450,5 +464,7 @@ export default connect(mapStateToProps, {
   zipCodeChanged,
   startProject,
   getCommonInfo,
-  startProjectUnmount
+  startProjectUnmount,
+  filesChanged,
+  uploadFiles
 })(withStyles(startProjectPageStyle)(StartProject));

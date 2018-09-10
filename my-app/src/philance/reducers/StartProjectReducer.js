@@ -11,7 +11,8 @@ import {
     START_PROJECT_ZIP_CODE_CHANGED,
     START_PROJECT_NETWORK_ERROR,
     START_PROJECT_REQUEST_SUCCESS,
-    START_PROJECT_UNMOUNT
+    START_PROJECT_UNMOUNT,
+    START_PROJECT_FILES_CHANGED
 } from '../actions/types'
 
 const INITIAL_STATE = {
@@ -47,8 +48,8 @@ export default (state = INITIAL_STATE, action) => {
             return{...state, endDate: action.payload} 
         case START_PROJECT_BUDGET_CHANGED:
             return{...state, budget: action.payload}
-        case START_PROJECT_BUDGET_CHANGED:
-            return{...state, budget: action.payload}
+        case START_PROJECT_FILES_CHANGED:
+            return{...state, files: action.payload}
         case START_PROJECT_FIELDS_EMPTY:
             return{...state, text: 'ALL FIELDS REQUIRED'}
         case START_PROJECT_NETWORK_ERROR:

@@ -8,7 +8,8 @@ import {
     PASSWORD_EMPTY,
     EMAIL_EMPTY,
     FIELDS_EMPTY,
-    USER_PROFILE_GET_USER_INFO
+    USER_PROFILE_GET_USER_INFO,
+    LOGOUT_USER
 } from '../types'
 
 import axios from 'axios'
@@ -103,4 +104,9 @@ export const loginUser = ({email, password}) => {
                 dispatch({type: LOGIN_NETWORK_ERROR})
         });
     }   
+}
+export const logout=()=>{
+    return {
+        type: LOGOUT_USER
+    }
 }

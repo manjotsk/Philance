@@ -119,7 +119,7 @@ export const getUserInfo =(email)=> {
         )
 }
 
-export const updateProfile = ({ name, email, password, contact, country, postalCode, description, organization, title, interests, currentEmail }) => {
+export const updateProfile = ({ name, email, password, contact, country, postalCode, description, organization, title, interests, currentEmail, usedId }) => {
     if(email === ''
         || name === '' 
 
@@ -141,7 +141,8 @@ export const updateProfile = ({ name, email, password, contact, country, postalC
             title: title,
             organization: organization,
             interests: interests,
-            currentEmail: currentEmail
+            currentEmail: currentEmail,
+            usedId:usedId
          })
             .then(response=>{
                 console.log(response)
