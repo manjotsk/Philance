@@ -58,8 +58,6 @@ class InterestsDropdown extends React.Component {
         const names = this.props.interestOptions
         const { classes, theme } = this.props;
         return (
-            
-                <div>
                     <FormControl className={classes.formControl}>
                         <InputLabel htmlFor="select-multiple-chip">Impact Category</InputLabel>
                         <Select
@@ -92,7 +90,6 @@ class InterestsDropdown extends React.Component {
                         ))}
                     </Select>
                   </FormControl>
-                </div>
     )
     }
 
