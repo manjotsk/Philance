@@ -27,7 +27,7 @@ import {InterestsDropdown} from '../../components/DoubleDropdown'
 import {connect} from 'react-redux'
 import { Button as Buttons, Label, Icon} from 'semantic-ui-react';
 
-import { getCommonInfo, uploadFiles } from "../../actions/common";
+import { getCommonInfo } from "../../actions/common";
 
 import {
   textChanged,
@@ -41,7 +41,8 @@ import {
   volunteersChanged,
   zipCodeChanged,
   startProject,
-  startProjectUnmount
+  startProjectUnmount,
+  uploadFiles
 } from '../../actions/startProject'
 import Toaster from "../../components/Toaster/Toaster";
 
@@ -369,7 +370,15 @@ class StartProject extends React.Component {
                             icon="upload"
                             onClick={()=>{
                               //call upload Action
-                              this.props.uploadFiles('startProject',this.props.files)
+                              this.props.uploadFiles(
+                                {
+                                  uploadType:'startProjectFiles',
+                                  userInfo:{
+                                      userId:this.props.userId
+                                  }
+                                },
+                                this.props.files
+                              )
                             }}
                         >Upload</Button>
                       </Label>
@@ -444,7 +453,7 @@ const mapStateToProps =state=> {
     requestCompleted: state.start.requestCompleted,
     userId:state.user.userId,
     files:state.start.files,
-    uploadStatus:state.common.uploadStatus
+    uploadStatus:state.start.uploadStatus
   }
 }
 
@@ -466,5 +475,5 @@ export default connect(mapStateToProps, {
   getCommonInfo,
   startProjectUnmount,
   filesChanged,
-  uploadFiles
+  uploadFiles,
 })(withStyles(startProjectPageStyle)(StartProject));

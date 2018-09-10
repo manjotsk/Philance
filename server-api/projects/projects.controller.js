@@ -338,3 +338,10 @@ exports.resourceApproveOrReject = (req, res, next) => {
         });
     })
 }
+/**
+ * Update the database after the upload finishes regarding the user files
+ */
+
+exports.updateUserAttachments = (req, res, next) => {
+    
+}

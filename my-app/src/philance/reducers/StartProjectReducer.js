@@ -12,7 +12,9 @@ import {
     START_PROJECT_NETWORK_ERROR,
     START_PROJECT_REQUEST_SUCCESS,
     START_PROJECT_UNMOUNT,
-    START_PROJECT_FILES_CHANGED
+    START_PROJECT_FILES_CHANGED,
+    START_PROJECT_FILES_UPLOAD_SUCCESS,
+    START_PROJECT_FILES_UPLOAD_FAILED
 } from '../actions/types'
 
 const INITIAL_STATE = {
@@ -25,11 +27,16 @@ const INITIAL_STATE = {
     endDate: '',
     budget: '',
     requestCompleted: false,
-    text: 'CREATE A PROJECT'
+    text: 'CREATE A PROJECT',
+    uploadStatus:'NOT_INITIATED',
 }
 
 export default (state = INITIAL_STATE, action) => {
     switch(action.type) {
+        case START_PROJECT_FILES_UPLOAD_SUCCESS:
+            return {...state, uploadStatus: 'Files Uploaded. Please Click on Create Project now!'}
+        case START_PROJECT_FILES_UPLOAD_FAILED:
+            return {...state, uploadStatus: 'Upload Failed'}
         case START_PROJECT:
             return {...state, text: 'CREATE A PROJECT'}
         case START_PROJECT_NAME_CHANGED: 
@@ -54,10 +61,23 @@ export default (state = INITIAL_STATE, action) => {
             return{...state, text: 'ALL FIELDS REQUIRED'}
         case START_PROJECT_NETWORK_ERROR:
             return{...state, text: 'NETWORK ERROR'}
-            case START_PROJECT_REQUEST_SUCCESS:
+        case START_PROJECT_REQUEST_SUCCESS:
             return{...state, requestCompleted: true}
         case START_PROJECT_UNMOUNT:
-            return{...state, requestCompleted: false}
+            return{
+                ...state,
+                name: '',
+                description: '',
+                zipCode: '',
+                volunteers: '',
+                freelancers: '',
+                startDate: '',
+                endDate: '',
+                budget: '',
+                requestCompleted: false,
+                text: 'CREATE A PROJECT',
+                uploadStatus:'NOT_INITIATED',
+            }
         default:
         return state
     }

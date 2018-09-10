@@ -15,6 +15,11 @@ import {
     USER_PROFILE_UPDATE_UNMOUNT,
     USER_PROFILE_GET_USER_INFO,
     LOGOUT_USER,
+    USER_PROFILE_USER_IMAGE_CHANGED_FOR_PREVIEW,
+    USER_PROFILE_USER_IMAGE_CHANGED_AFTER_UPLOAD,
+    USER_PROFILE_USER_IMAGE_CHANGED_WAS_CHANGED,
+    UPLOAD_STARTED,
+    PROFILE_IMAGE_UPLOAD_SUCCESS
 } from '../actions/types'
 
 const INITIAL_STATE = {
@@ -31,11 +36,19 @@ const INITIAL_STATE = {
     text: 'SAVE CHANGES',
     update: false,
     interestsArrived: true,
-    userId: ''
+    userId: '',
+    displayImage:true,
+    imageRefresh:false
 }
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
+        case USER_PROFILE_USER_IMAGE_CHANGED_FOR_PREVIEW:
+            return { ...state, userImageFile: action.payload, userImage: URL.createObjectURL(action.payload) }
+        case USER_PROFILE_USER_IMAGE_CHANGED_AFTER_UPLOAD:
+            return { ...state, userImage: action.payload }
+        case USER_PROFILE_USER_IMAGE_CHANGED_WAS_CHANGED:
+            return { ...state, imageRefresh:true }
         case USER_PROFILE_TEXT_CHANGED:
             return { ...state, text: 'SAVE CHANGES' }
         case USER_PROFILE_FIELDS_EMPTY:
@@ -63,14 +76,21 @@ export default (state = INITIAL_STATE, action) => {
         case USER_PROFILE_UPDATE_SUCCESS:
             return { ...state, update: true }
         case USER_PROFILE_UPDATE_UNMOUNT:
-            return { ...state, update: false }
+            return { ...state, update: false}
+        case 'USER_PROFILE_IMAGE_REFRESH_NOT_REQUIRED':
+            return { ...state, imageRefresh:false}
+        case PROFILE_IMAGE_UPLOAD_SUCCESS:
+            return { ...state, displayImage: true }
+        case UPLOAD_STARTED:
+            return { ...state, displayImage: false }
         case USER_PROFILE_GET_USER_INFO:
             return {
                 ...state,
                 email: action.payload.email,
                 name: action.payload.fname + ' ' + action.payload.lname,
                 interests: action.payload.interests,
-                userId: action.payload.user_id
+                userId: action.payload.user_id,
+                userImage: action.payload.user_profile_image_url
 
             }
         case LOGOUT_USER:

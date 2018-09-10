@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import {connect} from 'react-redux'
-
+import axios from 'axios'
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 import FormLabel from "@material-ui/core/FormLabel";
@@ -10,6 +10,8 @@ import FormLabel from "@material-ui/core/FormLabel";
 import {CountryDropdown, InterestsDropdown} from '../../components/DoubleDropdown'
 // @material-ui/icons
 import PermIdentity from "@material-ui/icons/PermIdentity";
+
+import { Button as Buttons, Label, Icon} from 'semantic-ui-react';
 
 // core components
 import GridContainer from "components/Grid/GridContainer.jsx";
@@ -44,7 +46,10 @@ import {
   nameChanged,
   passwordChanged,
   updateUnmount,
-  getUserInfo
+  getUserInfo,
+  profileImageChange,
+  getUserProfileImage,
+  uploadFiles
 } from '../../actions/userProfile'
 import Toaster from "../../components/Toaster/Toaster";
 
@@ -58,7 +63,14 @@ class UserProfile extends React.Component {
     this.props.updateUnmount()
     this.props.getUserInfo(this.props.currentEmail)
   }
-
+  componentDidMount(){
+    console.log('i ran',this.props.imageRefresh)
+    
+    if(this.props.imageRefresh){
+      console.log('i ran')
+      this.props.getUserProfileImage(this.props.userId)
+    }
+  }
   onEmailChange(text) {
     this.props.emailChanged(text)
     this.props.textChanged()
@@ -108,7 +120,9 @@ class UserProfile extends React.Component {
     this.props.descriptionChanged(text)
     this.props.textChanged()
   }
-
+  onProfileImageChange(e){
+    this.props.profileImageChange(e.target.files[0])
+  }
    onButtonPress() {
     var {
       contact,
@@ -145,7 +159,7 @@ class UserProfile extends React.Component {
     const { classes } = this.props;
     return (
         <GridContainer justify="center">
-          
+          {console.log(this.props.imageRefresh,54564548)}
         <Toaster display={this.props.update} message={'Your Changes have been Saved Successfully'}/><br/>
         {this.props.showToast?
           <h4 className={classes.welcomeHeading}>
@@ -266,9 +280,44 @@ class UserProfile extends React.Component {
           </GridItem>
           <GridItem xs={12} sm={12} md={4}>
             <Card profile>
+              <Label
+                as="label"
+                basic
+                style={{cursor:'pointer'}}
+                >
               <CardAvatar profile>
-                <img src={avatar}/>
+                {console.log(this.props.userImage+'***************2595')}
+                
+                {
+                  this.props.displayImage?
+                  <img src={this.props.userImage?this.props.userImage:avatar} key={this.props.userImage.uri}/>
+                :
+                <img src={avatar} />              
+                }
+
               </CardAvatar>
+                <input type="file"
+                  multiple
+                  style={{display: "none"}}
+                  name="files"
+                  onChange={(e)=>this.onProfileImageChange(e)}
+                />
+              </Label>
+              {this.props.filesSelected?
+              <Button onClick={()=>{this.props.uploadFiles(
+                {
+                  uploadType:'userProfileImage',
+                  userInfo:{
+                      userId:this.props.userId
+                  }
+                },
+                this.props.userImageFile
+              )}} color='info'>
+                Press to Apply Profile Image
+              </Button>
+              :
+              null
+              }
               <CardBody profile>
                 <GridContainer>
                 <GridItem xs={12} sm={12} md={12}>
@@ -415,8 +464,13 @@ const mapStateToProps = state => {
     update: state.user.update,
     interests: state.user.interests,
     interestOptions: state.common.interestOptions,
-    userId:state.user.userId
-
+    userId:state.user.userId,
+    userImageURL:state.user.userImageURL,
+    userImage:state.user.userImage,
+    filesSelected:state.common.filesSelected,
+    userImageFile:state.user.userImageFile,
+    displayImage:state.user.displayImage,
+    imageRefresh:state.user.imageRefresh
   }
 }
 
@@ -433,5 +487,8 @@ export default connect(mapStateToProps, {
   nameChanged,
   passwordChanged,
   updateUnmount,
-  getUserInfo
+  getUserInfo,
+  profileImageChange,
+  uploadFiles,
+  getUserProfileImage
 })(withStyles(userProfileStyles)(UserProfile));

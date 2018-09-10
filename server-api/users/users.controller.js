@@ -13,6 +13,7 @@ const Op = sequelize.Op;
 var config = require('../config/config')
 var authutil = require('../util/authutil')
 var userHelper=require('../helpers/user')
+var {mediaHost}=require('../config')
 
 exports.createProfile = (req, res, next) => {
 
@@ -383,4 +384,37 @@ exports.passwordReset = (req, res, next) => {
         }
 
     });
+}
+
+exports.updateUserImage=(req,res,next)=>{
+    users.update({
+        userProfileImagePath: mediaHost()+req.file.filename,
+        userProfileImageUrl: `http://localhost:3001/philance/users/image/${JSON.parse(req.body.param).userInfo.userId}`,
+
+    },
+        {
+            where: {
+                userId: JSON.parse(req.body.param).userInfo.userId,
+            }
+        }
+    )
+    res.status(200).send(
+        {
+            user:{
+                userProfileUrl:JSON.parse(req.body.param).userInfo.userId
+            }
+        })
+
+}
+
+exports.getUserImage = (req, res, next) => {
+    console.log(req.params.userId)
+    users.findOne({
+        where:{
+            userId: req.params.userId
+        }
+    }).then((instance)=>{
+        console.log(instance.userProfileImagePath)
+        res.sendFile(instance.userProfileImagePath)
+    })
 }
