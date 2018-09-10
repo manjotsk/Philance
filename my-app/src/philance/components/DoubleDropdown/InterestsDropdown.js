@@ -19,7 +19,7 @@ import store from '../../store/store'
     },
     formControl: {
       margin: 0,
-      minWidth: 120,
+      minWidth: 250,
       maxWidth: 350,
     },
     chips: {

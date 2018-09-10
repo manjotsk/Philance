@@ -212,25 +212,12 @@ class UserProfile extends React.Component {
                     />
                   </GridItem>
                 </GridContainer>
-                <br/>
                 <GridContainer>
-                  <GridItem xs={12} sm={6}>
-                      <FormLabel className={classes.labelHorizontal} style={{color:"#777777",marginBottom:'2vh'}}>
-                        Country
-                      </FormLabel>
-                  </GridItem>
                   <GridItem xs={12} sm={12} md={12}>
                     <CountryDropdown defaultValue={this.props.userCountry}/>
-                    <br/>
                   </GridItem>
-                  <GridItem xs={12} sm={6}>
-                      <FormLabel className={classes.labelHorizontal} style={{color:"#777777",marginBottom:'2vh'}}>
-                        Impact Category Interests
-                      </FormLabel>
-                    </GridItem>
                     <GridItem xs={12} sm={12} md={12}>
-                    
-                    <InterestsDropdown interestOptions={this.props.interestOptions} defaultValue={this.props.interests?this.props.interests.split(','):null}/>
+                    <InterestsDropdown interestOptions={this.props.interestOptions} defaultValue={this.props.interests?this.props.interests:null}/>
                   </GridItem>
                   <GridItem xs={12} sm={12} md={12}>
                     <CustomInput
