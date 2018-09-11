@@ -14,7 +14,7 @@ import {
 
 import axios from 'axios'
 
-import hostname from '../../../config'
+import {hostname} from '../../../config'
 
 /**
  * The method recieves the text from password input field and updates the email key parameter in the redux store
@@ -84,7 +84,6 @@ export const loginUser = ({email, password}) => {
                         email: email  
                     })
                     .then(response=>{
-                        console.log('rrr',response.data[0])
                         dispatch({
                             type: USER_PROFILE_GET_USER_INFO,
                             payload: response.data[0]

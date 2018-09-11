@@ -21,6 +21,7 @@ import { connect } from "react-redux";
 import loginPageStyle from "assets/jss/material-dashboard-pro-react/views/loginPageStyle.jsx";
 
 import { emailChanged, resetPassword, textChanged } from "../../actions/resetPassword";
+import Toaster from "../../components/Toaster/Toaster";
 
 class ForgotPassword extends React.Component {
   constructor(props) {
@@ -82,8 +83,13 @@ class ForgotPassword extends React.Component {
                       }}
                     />
                     <GridContainer className={classes.justifyContentCenter}>
-                      <GridItem  >
-                        <Button color="info" onClick={() => this.onButtonPress()}>
+                      <GridItem >
+                        <Toaster md={11} display={this.props.errorMessage=='Invalid Credentials'} message={'No active user account with this email address. Please try again'}/>
+                      </GridItem>
+                    </GridContainer>
+                    <GridContainer className={classes.justifyContentCenter}>
+                      <GridItem >
+                        <Button className={classes.customButtonClass} color="info" onClick={() => this.onButtonPress()}>
                           Send Me a Password Reset Email
                       </Button>
                       </GridItem>
@@ -153,7 +159,8 @@ ForgotPassword.propTypes = {
 const mapStateToProps = state => {
   return {
     email: state.resetpass.email,
-    emailSent: state.resetpass.emailSent
+    emailSent: state.resetpass.emailSent,
+    errorMessage: state.resetpass.error
   }
 }
 

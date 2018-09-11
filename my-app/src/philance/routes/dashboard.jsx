@@ -26,7 +26,7 @@ import FolderIcon from "@material-ui/icons/Folder";
 export const dashboardRoutes = [
   // {
   //   path: "/home",
-  //   name: "Home Page",
+  //   name: "Home",
   //   short: "Home",
   //   mini: "PHP",
   //   icon: HomeIcon,
@@ -34,7 +34,7 @@ export const dashboardRoutes = [
   // },
   {
     path: "/start-project",
-    name: "Start Project Page",
+    name: "Start Project",
     short: "Start A Project",
     mini: "SPP",
     icon: LaunchIcon,
@@ -42,7 +42,7 @@ export const dashboardRoutes = [
   },
   {
     path: "/find-project",
-    name: "Find Project Page",
+    name: "Find Project",
     short: "Find A project",
     mini: "FPP",
     icon: SearchIcon,
@@ -50,7 +50,7 @@ export const dashboardRoutes = [
   },
   {
     path: "/how-it-works",
-    name: "How It Works Page",
+    name: "How It Works",
     short: "How It Works",
     mini: "HIWP",
     icon: HelpIcon,
@@ -58,7 +58,7 @@ export const dashboardRoutes = [
   },
   {
     path: "/login",
-    name: "Login Page",
+    name: "Login",
     short: "Login",
     mini: "LP",
     icon: FingerprintIcon,
@@ -66,7 +66,7 @@ export const dashboardRoutes = [
   },
   {
     path: "/register",
-    name: "Register Page",
+    name: "Register",
     short: "Sign Up",
     mini: "RP",
     icon: PersonAddIcon,
@@ -76,14 +76,14 @@ export const dashboardRoutes = [
     redirect: true,
     path: "/",
     pathTo: "/home",
-    name: "Home Page"
+    name: "Home"
   }
 ];
 
 export const pvtDashboardRoutes = [
   {
     path: "/home",
-    name: "Home Page",
+    name: "Home",
     short: "Home",
     mini: "HP",
     icon: HomeIcon,
@@ -91,7 +91,7 @@ export const pvtDashboardRoutes = [
   },
   {
     path: "/start-project",
-    name: "Start Project Page",
+    name: "Start Project",
     short: "Start A Project",
     mini: "SPP",
     icon: LaunchIcon,
@@ -99,7 +99,7 @@ export const pvtDashboardRoutes = [
   },
   {
     path: "/find-project",
-    name: "Find Project Page",
+    name: "Find Project",
     short: "Find A project",
     mini: "FPP",
     icon: SearchIcon,
@@ -107,7 +107,7 @@ export const pvtDashboardRoutes = [
   },
   {
     path: "/my-projects",
-    name: "My Projects Page",
+    name: "My Projects",
     short: "My Projects",
     mini: "MPP",
     icon: FolderIcon,
@@ -115,7 +115,7 @@ export const pvtDashboardRoutes = [
   },
   {
     path: "/notifications",
-    name: "Notifications Page",
+    name: "Notifications",
     short: "Notifications",
     mini: "NP",
     icon: NotificationsIcon,
@@ -123,7 +123,7 @@ export const pvtDashboardRoutes = [
   },
   {
     path: "/messages",
-    name: "Messages Page",
+    name: "Messages",
     short: "Messages",
     mini: "MP",
     icon: MessageIcon,
@@ -131,7 +131,7 @@ export const pvtDashboardRoutes = [
   },
   {
     path: "/profile",
-    name: "User Profile Page",
+    name: "User Profile",
     short: "User Profile",
     mini: "UP",
     icon: PersonIcon,
@@ -141,6 +141,6 @@ export const pvtDashboardRoutes = [
     redirect: true,
     path: "/",
     pathTo: "/home",
-    name: "Home Page"
+    name: "Home"
   }
 ];

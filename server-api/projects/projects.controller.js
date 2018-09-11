@@ -21,7 +21,7 @@ console.info(req.file)
             description: req.body.description,
             volunteers: req.body.volunteers,
             freelancers: req.body.freelancers,
-            location: req.body.location,
+            zipCode: req.body.zipCode,
             startDate: req.body.startDate,
             endDate: req.body.endDate,
             estimatedBudget: req.body.estimatedBudget,
@@ -337,4 +337,11 @@ exports.resourceApproveOrReject = (req, res, next) => {
             error: err.message
         });
     })
+}
+/**
+ * Update the database after the upload finishes regarding the user files
+ */
+
+exports.updateUserAttachments = (req, res, next) => {
+    
 }

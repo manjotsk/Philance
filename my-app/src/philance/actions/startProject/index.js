@@ -12,12 +12,14 @@ import {
   START_PROJECT_NETWORK_ERROR,
   START_PROJECT_REQUEST_SUCCESS,
   START_PROJECT_UNMOUNT,
-  START_PROJECT_FILES_CHANGED
+  START_PROJECT_FILES_CHANGED,
+  START_PROJECT_FILES_UPLOAD_FAILED,
+  START_PROJECT_FILES_UPLOAD_SUCCESS
 } from '../types'
 
 import axios from 'axios'
 
-import hostname from '../../../config'
+import {hostname} from '../../../config'
 
 export const textChanged = () => {
     return {
@@ -122,7 +124,7 @@ export const startProject=({
       axios.post(hostname()+'/philance/projects/', {  
         projectName : name,
         description : description,
-        location: zipCode,
+        zipCode: zipCode,
         volunteers:volunteers,
         freelancers:freelancers,
         estimatedBudget:budget,
@@ -199,7 +201,44 @@ export const startProject=({
   }
 }
 export const startProjectUnmount=()=>{
-  return {
-    type: START_PROJECT_UNMOUNT
+  return dispatch=> {
+    dispatch({
+      type: START_PROJECT_UNMOUNT
+    })
+  }
 }
+
+export const uploadFiles = (metadata, files) => {
+  if(!files){
+      return dispatch=>{
+          dispatch({
+              type:START_PROJECT_FILES_UPLOAD_FAILED
+          })
+      }
+  }else{
+      return dispatch => {
+          const url = hostname() + '/philance/files';
+          const formData = new FormData();
+          formData.append('file', files)
+          formData.append('param', JSON.stringify(metadata))          
+          const config = {
+              headers: {
+                  'content-type': 'multipart/form-data'
+              }
+          }
+          axios.post(url, formData, config)
+              .then(() => {
+                  dispatch({
+                      type: START_PROJECT_FILES_UPLOAD_SUCCESS
+                  })
+              })
+              .catch(() => {
+                  dispatch({
+                      type: START_PROJECT_FILES_UPLOAD_FAILED
+                  })
+  
+              })
+      }
+  }
+
 }

@@ -44,7 +44,6 @@ class ProjectSearch extends React.Component {
 
   // @todo populate UI with init data from the backend
   componentDidMount() {
-    console.log("mounted");
     /*
     Axios.get("/project/search/init", {
       baseURL: "http://localhost:3001"

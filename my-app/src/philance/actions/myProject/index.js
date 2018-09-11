@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import hostname from '../../../config'
+import {hostname} from '../../../config'
 import {MY_PROJECT_GET_PROJECTS, MY_PROJECT_STORE_PROJECTS} from '../types'
 
 export const myProject =()=> {

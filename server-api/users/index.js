@@ -5,9 +5,10 @@ const UserController = require('./users.controller');
 //const checkAuth = require('../util/check-auth');
 
 router.post("/", UserController.createProfile);
-router.put("/:userId", UserController.updateProfile);
+router.put("/1", UserController.updateProfile);
 // This is called for getting the user details
 router.get("/:userId", UserController.getProfile);
+router.get("/image/:userId", UserController.getUserImage);
 // This is called for User Login
 router.post("/login", UserController.login);
 router.post("/passwordReset/create/:_userId", UserController.createPasswordResetToken);

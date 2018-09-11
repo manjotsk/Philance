@@ -13,16 +13,30 @@ import {
     USER_PROFILE_CONTACT_CHANGED,
     USER_PROFILE_UPDATE_SUCCESS,
     USER_PROFILE_UPDATE_UNMOUNT,
-    USER_PROFILE_GET_USER_INFO
+    USER_PROFILE_GET_USER_INFO,
+    USER_PROFILE_USER_IMAGE_CHANGED_FOR_PREVIEW,
+    USER_PROFILE_USER_IMAGE_CHANGED_AFTER_UPLOAD,
+    USER_PROFILE_USER_IMAGE_CHANGED_WAS_CHANGED,
+    PROFILE_IMAGE_UPLOAD_SUCCESS,
+    UNSELECT_FILES,
+    USER_PROFILE_IMAGE_UPLOAD_FAILED
 } from '../types'
 
 import axios from 'axios'
 
-import hostname from '../../../config'
+import {hostname} from '../../../config'
 
-export const textChanged = () => {
+export const textChanged = (image) => {
     return {
-        type: USER_PROFILE_TEXT_CHANGED
+        type: USER_PROFILE_TEXT_CHANGED,
+        payload: image
+    }
+}
+
+export const profileImageChange = (file) => {
+    return {
+        type: USER_PROFILE_USER_IMAGE_CHANGED_FOR_PREVIEW,
+        payload: file
     }
 }
 
@@ -108,7 +122,6 @@ export const getUserInfo =(email)=> {
             email: email  
         })
         .then(response=>{
-            console.log('rrr',response.data[0])
             dispatch({
                 type: USER_PROFILE_GET_USER_INFO,
                 payload: response.data[0]
@@ -119,7 +132,7 @@ export const getUserInfo =(email)=> {
         )
 }
 
-export const updateProfile = ({ name, email, password, contact, country, postalCode, description, organization, title, interests, currentEmail, usedId }) => {
+export const updateProfile = ({ name, email, password, contact, country, postalCode, description, organization, title, interests, currentEmail, userId }) => {
     if(email === ''
         || name === '' 
 
@@ -142,7 +155,7 @@ export const updateProfile = ({ name, email, password, contact, country, postalC
             organization: organization,
             interests: interests,
             currentEmail: currentEmail,
-            usedId:usedId
+            userId:userId
          })
             .then(response=>{
                 console.log(response)
@@ -153,4 +166,70 @@ export const updateProfile = ({ name, email, password, contact, country, postalC
                 console.log(error)
             });
     }}
+}
+
+/**
+ * The following method is called to upload files to the server. Reference url is returned
+ * @param {*} param0 Tells what type of upload is this.
+ */
+
+export const uploadFiles = (metadata, files) => {
+    
+    if(!files){
+        return dispatch=>{
+            dispatch({
+                type:USER_PROFILE_IMAGE_UPLOAD_FAILED
+            })
+        }
+    }else{
+        return dispatch => {
+            dispatch({
+                type:'UPLOAD_STARTED'
+            })
+            const url = hostname() + '/philance/files';
+            const formData = new FormData();
+            formData.append('file', files)
+            formData.append('param', JSON.stringify(metadata))
+            const config = {
+                headers: {
+                    'content-type': 'multipart/form-data'
+                }
+            }
+            axios.post(url, formData, config)
+                .then((response) => {
+                    dispatch({
+                        type: PROFILE_IMAGE_UPLOAD_SUCCESS
+                    })
+                    dispatch({
+                        type: UNSELECT_FILES
+                    })
+                    dispatch({
+                        type: USER_PROFILE_USER_IMAGE_CHANGED_WAS_CHANGED
+                    })
+                })
+                .catch(() => {
+                    dispatch({
+                        type: USER_PROFILE_IMAGE_UPLOAD_FAILED
+                    })
+    
+                })
+        }
+    }
+
+}
+
+export const getUserProfileImage=(userId)=>{
+    return dispatch =>{
+        axios.get(`http://localhost:3001/philance/users/image/${userId}`).then((image)=>{
+            dispatch( {
+                type: USER_PROFILE_USER_IMAGE_CHANGED_AFTER_UPLOAD,
+                payload: `http://localhost:3001/philance/users/image/${userId}`
+            })
+            dispatch({
+                type: 'USER_PROFILE_IMAGE_REFRESH_NOT_REQUIRED',
+                
+            })
+        })
+    }
+
 }

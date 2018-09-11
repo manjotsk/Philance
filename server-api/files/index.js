@@ -2,19 +2,23 @@
 
 const express = require('express');
 var router = express.Router({mergeParams: true});
-
+var fs = require('fs');
 const controller = require('./files.controller');
-
+var {mediaHost}=require('../config')
 const multer = require('multer');
 const uuidv4 = require('uuid/v4');
 var filename=''
 const storage = multer.diskStorage({
-    destination: './uploads',
+    destination: mediaHost(),
     filename(req, file, cb) {
-        console.log('++++++++++++');
+    // console.log(req.body)
+    console.log('++++++++++++');
         console.log(file);
-        filename=file.originalname.split('.')[file.originalname.split('.').length-1]
-      cb(null, uuidv4()+'.'+filename);
+
+        var dir='/uploads/456'
+        
+        filename=`${dir}/`+uuidv4()+'.'+file.originalname.split('.')[file.originalname.split('.').length-1]
+      cb(null, filename);
     },
   });
   const upload = multer({ storage });
