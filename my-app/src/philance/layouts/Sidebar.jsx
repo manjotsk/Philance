@@ -134,7 +134,13 @@ class Sidebar extends React.Component {
     var user = (
       <div className={userWrapperClass}>
         <div className={photo}>
+
+          {this.props.displayImage?
+          <img src={this.props.userProfileAvatar?this.props.userProfileAvatar:avatar} className={classes.avatarImg} alt="..." />
+          :
           <img src={avatar} className={classes.avatarImg} alt="..." />
+          }
+        
         </div>
         <List className={classes.list}>
           <ListItem className={classes.item + " " + classes.userItem}>
@@ -144,7 +150,7 @@ class Sidebar extends React.Component {
               onClick={() => this.openCollapse("openAvatar")}
             >
               <ListItemText
-                primary={rtlActive ? "تانيا أندرو" : "Ajay Kapur"}
+                primary={rtlActive ? "تانيا أندرو" : this.props.displayName}
                 secondary={
                   <b
                     className={

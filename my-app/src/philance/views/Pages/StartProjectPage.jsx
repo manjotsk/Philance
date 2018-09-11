@@ -24,7 +24,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 // @material-ui/icons
 import Check from "@material-ui/icons/Check";
 import startProjectPageStyle from "philance/views/PageStyles/StartProjectPageStyles";
-import {InterestsDropdown} from '../../components/DoubleDropdown'
+import {InterestsDropdown, CountryDropdown} from '../../components/DoubleDropdown'
 import {connect} from 'react-redux'
 import { Button as Buttons, Label, Icon} from 'semantic-ui-react';
 
@@ -175,6 +175,7 @@ class StartProject extends React.Component {
                   </GridContainer>
                   <GridContainer>
                     <GridItem xs={12} sm={12}>
+                      <CountryDropdown/>
                       <CustomInput
                       labelText ="Project Zip Code"
                         id="projectLocation"

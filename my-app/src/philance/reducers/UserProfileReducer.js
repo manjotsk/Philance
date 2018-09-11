@@ -88,10 +88,14 @@ export default (state = INITIAL_STATE, action) => {
                 ...state,
                 email: action.payload.email,
                 name: action.payload.fname + ' ' + action.payload.lname,
+                title: action.payload.title,
+                organization: action.payload.organization,
+                description: action.payload.description,
                 interests: action.payload.interests,
                 userId: action.payload.user_id,
-                userImage: action.payload.user_profile_image_url
-
+                userImage: action.payload.user_profile_image_url,
+                contact: action.payload.ph_number,
+                postalCode: action.payload.zip_code
             }
         case LOGOUT_USER:
             return {

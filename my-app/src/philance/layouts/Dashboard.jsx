@@ -127,6 +127,8 @@ class Dashboard extends React.Component {
           bgColor="black"
           miniActive={this.state.miniActive}
           onClickOnLogout={()=>this.props.logout()}
+          userProfileAvatar={this.props.userProfileAvatar}
+          displayName={this.props.displayImage}
           {...rest}
         />
         <div className={mainPanel} ref="mainPanel">
@@ -157,6 +159,9 @@ const mapStateToProps =state=> {
     isLoggedIn: state.auth.isLoggedIn,
     isRegistered: state.reg.registered,
     currentEmail: state.auth.email===""?state.reg.email:state.auth.email,
+    userProfileAvatar: state.user.userImage,
+    displayImage:state.user.displayImage,
+    displayName:state.user.name,
   }
 }
 
