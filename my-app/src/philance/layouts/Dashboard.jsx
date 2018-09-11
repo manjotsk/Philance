@@ -15,7 +15,7 @@ import Footer from "philance/components/Footer/Footer.jsx";
 import Sidebar from "./Sidebar";
 
 import dashboardRoutes from "routes/dashboard.jsx";
-import { pagesRoutes, pvtPagesRoutes } from "philance/routes/pages.jsx";
+import { pvtSidebarRoutes, pvtPagesRoutes } from "philance/routes/pages.jsx";
 import appStyle from "assets/jss/material-dashboard-pro-react/layouts/dashboardStyle.jsx";
 
 import {connect} from 'react-redux'
@@ -117,7 +117,7 @@ class Dashboard extends React.Component {
     return (
       <div className={classes.wrapper}>
         <Sidebar
-          routes={pvtPagesRoutes}
+          routes={pvtSidebarRoutes}
           logoText={logoText}
           logo={logo}
           image={image}
@@ -127,6 +127,8 @@ class Dashboard extends React.Component {
           bgColor="black"
           miniActive={this.state.miniActive}
           onClickOnLogout={()=>this.props.logout()}
+          userProfileAvatar={this.props.userProfileAvatar}
+          displayName={this.props.displayImage}
           {...rest}
         />
         <div className={mainPanel} ref="mainPanel">
@@ -157,6 +159,9 @@ const mapStateToProps =state=> {
     isLoggedIn: state.auth.isLoggedIn,
     isRegistered: state.reg.registered,
     currentEmail: state.auth.email===""?state.reg.email:state.auth.email,
+    userProfileAvatar: state.user.userImage,
+    displayImage:state.user.displayImage,
+    displayName:state.user.name,
   }
 }
 

@@ -1,24 +1,18 @@
 import {
     EMAIL_CHANGED,
-    INVALID_CREDENTIALS,
-    LOGIN_NETWORK_ERROR,
     RESET_PASSWORD,
     RESET_PASSWORD_EMAIL_SENT,
-    LOGIN_USER_SUCCESS,
     LOGIN_USER,
-    PASSWORD_EMPTY,
     EMAIL_EMPTY,
-    FIELDS_EMPTY,
     RESET_PASSWORD_NETWORK_ERROR,
     RESET_PASSWORD_FINAL,
     PASSWORD_CHANGED,
-    RESET_PASSWORD_SUCCESS,
     PASSWORD_CHANGED_SUCCESS
 } from '../types'
 
 import axios from 'axios'
 
-import hostname from '../../../config'
+import {hostname} from '../../../config'
 
 /**
  * The method recieves the text from password input field and updates the email key parameter in the redux store

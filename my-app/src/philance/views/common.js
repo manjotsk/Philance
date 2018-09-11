@@ -1,5 +1,5 @@
 import axios from 'axios'
-import hostname from '../../config'
+import {hostname} from '../../config'
 
 var skills = []
 

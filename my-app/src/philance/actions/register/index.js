@@ -17,7 +17,7 @@ import {
 
 import axios from 'axios'
 
-import hostname from '../../../config'
+import {hostname} from '../../../config'
 
 /**
  * The method recieves the text from password input field and updates the first name key parameter in the redux store

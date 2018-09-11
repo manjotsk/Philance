@@ -10,9 +10,11 @@ var projectDetails = require("../projects/project.details.model");
 var projectTeam = require("../projects/projects.team.model");
 const sequelize = require('../util/dbconnection');
 const Op = sequelize.Op;
+const Sequelize = require('sequelize');
 var config = require('../config/config')
 var authutil = require('../util/authutil')
 var userHelper=require('../helpers/user')
+var {mediaHost}=require('../config')
 
 exports.createProfile = (req, res, next) => {
 
@@ -31,12 +33,26 @@ exports.createProfile = (req, res, next) => {
                         lastName: req.body.lastName,
                         email: req.body.email,
                         password: hash,
-                        location: req.body.location
+                        location: req.body.location,
+                        status:'ACTIVE',
+                        creationDate:new Date()
                     }).then((_user) => {
+//TODO: Change the logic if other user makes a created by
+                        users.findOne({where:{email:req.body.email}})
+                        .then((founduser)=>{
+                            users.update({
+                                createdBy:founduser.userId
+                            },{
+                                where:{
+                                    userId:founduser.userId
+                                }
+                            })
+                        })
                         res.status(200).json({
                             message: "User # " + req.body.firstName + " " + req.body.lastName + " Registered Successfully",
                             user: _user
                         });
+
                     }).catch(err => {
                         console.log(err);
                         res.status(500).json({
@@ -153,7 +169,6 @@ exports.getProfile = (req, res, next) => {
 exports.updateProfile = (req, res, next) => {
     var _count = 0;
     // users.belongsTo(userSkills, { as: 'userSkills', foreignKey: 'userId' });
-
     users.hasMany(userSkills, { foreignKey: 'userId' });
     users.hasOne(userNotifications, { foreignKey: 'userId' });
 
@@ -162,11 +177,16 @@ exports.updateProfile = (req, res, next) => {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
-        location:req.body.postalCode+', '+req.body.country,
+        zipCode:req.body.postalCode,
+        country:req.body.country,
         phoneNumber: req.body.contact,
         title:req.body.title,
-        interests: req.body.interests,
+        interests: req.body.interests?req.body.interests.toString():null,
         organization: req.body.organization,
+        description: req.body.description,
+        phoneNumber: req.body.contact,
+        lastUpdatedBy: req.body.userId,
+        lastUpdatedDate: new Date()
     },
         {
             where: {
@@ -177,6 +197,20 @@ exports.updateProfile = (req, res, next) => {
         }
     )
         .then(_user => {
+            if(req.body.password){
+                authutil.createPassword(req.body.password).then((response) => {
+                    users.update({
+                        password: response.hash
+                    }, {
+                            where: {
+                                userId:req.body.userId
+                            }
+                        }).then(() => {
+                            console.log('Successful')
+                            //send email
+                        })
+                })
+            }
             if (_user&&req.body.userSkills) {
                 userSkills.destroy({ where: { userId: req.params.userId }, truncate: true, force: true }).then(
                     sequelize.transaction(function (t) {
@@ -320,31 +354,43 @@ exports.getProjects = (req, res, next) => {
 
 exports.createPasswordResetToken = (req, res, next) => {
     console.log('+++++++',req.body.email)
-    var email = req.body.email;
-        const token = jwt.sign(
-            {
-                email: req.body.email
-            }, 'philance_secret',
-            process.env.JWT_KEY,
-            {
-                expiresIn: "1h"
-            }
-        );
-        var dev = config.development.unsecure;
-        //send email
-        userHelper.emailUsers({
-            config:{
-                from:'noreply@philance.org',
-                to: req.body.email,                      //email to be requested from the database
-            },
-            data:{
-                url:dev.protocol + dev.host + dev.port + '/philance/users/passwordReset?token=' + token,
-                subject:'Password Reset Mail, Team-Philance',
-                text:'Dear User, \nPlease click the following link to reset your password\n\n'+dev.protocol + dev.host + dev.port + '/resetPassword/' + token+'\n This link is valid for 1 hour only.\nRegards\nPhilance Support'
-            }})
-        res.status(200).send({
-            backendURL: dev.protocol + dev.host + dev.port + '/philance/users/passwordReset?token=' + token
-        })
+    users.findOne({
+        where:{
+            email:req.body.email
+        }
+    }).then((__user)=>{
+        if(__user){
+            var email = req.body.email;
+            const token = jwt.sign(
+                {
+                    email: req.body.email
+                }, 'philance_secret',
+                process.env.JWT_KEY,
+                {
+                    expiresIn: "1h"
+                }
+            );
+            var dev = config.development.unsecure;
+            //send email
+            userHelper.emailUsers({
+                config:{
+                    from:'noreply@philance.org',
+                    to: req.body.email,                      //email to be requested from the database
+                },
+                data:{
+                    url:dev.protocol + dev.host + dev.port + '/philance/users/passwordReset?token=' + token,
+                    subject:'Password Password Reset',
+                    text:'Dear User, \nPlease click the following link to reset your password\n\n'+dev.protocol + dev.host + dev.port + '/resetPassword/' + token+'\n This link is valid for 1 hour only.\nRegards\nPhilance Support'
+                }})
+            res.status(200).send({
+                backendURL: dev.protocol + dev.host + dev.port + '/philance/users/passwordReset?token=' + token
+            })    
+        }else{
+            res.status(409).send({
+                message:'Invalid Email'
+            })
+        }
+    })
 
 
     console.log("In user password reset Controller");
@@ -383,4 +429,37 @@ exports.passwordReset = (req, res, next) => {
         }
 
     });
+}
+
+exports.updateUserImage=(req,res,next)=>{
+    users.update({
+        userProfileImagePath: mediaHost()+req.file.filename,
+        userProfileImageUrl: `http://localhost:3001/philance/users/image/${JSON.parse(req.body.param).userInfo.userId}`,
+
+    },
+        {
+            where: {
+                userId: JSON.parse(req.body.param).userInfo.userId,
+            }
+        }
+    )
+    res.status(200).send(
+        {
+            user:{
+                userProfileUrl:JSON.parse(req.body.param).userInfo.userId
+            }
+        })
+
+}
+
+exports.getUserImage = (req, res, next) => {
+    console.log(req.params.userId)
+    users.findOne({
+        where:{
+            userId: req.params.userId
+        }
+    }).then((instance)=>{
+        console.log(instance.userProfileImagePath)
+        res.sendFile(instance.userProfileImagePath)
+    })
 }

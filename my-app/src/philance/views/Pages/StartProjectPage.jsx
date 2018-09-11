@@ -1,4 +1,5 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import Datetime from "react-datetime";
 
@@ -23,11 +24,11 @@ import InputLabel from "@material-ui/core/InputLabel";
 // @material-ui/icons
 import Check from "@material-ui/icons/Check";
 import startProjectPageStyle from "philance/views/PageStyles/StartProjectPageStyles";
-import {InterestsDropdown} from '../../components/DoubleDropdown'
+import {InterestsDropdown, CountryDropdown} from '../../components/DoubleDropdown'
 import {connect} from 'react-redux'
 import { Button as Buttons, Label, Icon} from 'semantic-ui-react';
 
-import { getCommonInfo, uploadFiles } from "../../actions/common";
+import { getCommonInfo } from "../../actions/common";
 
 import {
   textChanged,
@@ -41,7 +42,8 @@ import {
   volunteersChanged,
   zipCodeChanged,
   startProject,
-  startProjectUnmount
+  startProjectUnmount,
+  uploadFiles
 } from '../../actions/startProject'
 import Toaster from "../../components/Toaster/Toaster";
 
@@ -64,6 +66,7 @@ class StartProject extends React.Component {
       endDate: null,
       budget: null,
     };
+    this.myRef = React.createRef();
   }
   componentWillMount(){
     this.props.getCommonInfo()
@@ -71,6 +74,7 @@ class StartProject extends React.Component {
   componentWillUnmount(){
     this.props.startProjectUnmount()
   }
+  // componentDidUpdate = () => { ReactDOM.findDOMNode(this).scrollIntoView(); }
   onProjectNameChange(text) {
     this.props.projectNameChanged(text)
     this.props.textChanged()
@@ -136,6 +140,7 @@ class StartProject extends React.Component {
               <CardBody>
                 <form>
                   <GridContainer>
+                    <div ref={this.myRef}/>
                     <GridItem xs={12} sm={14}>
                       <CustomInput
                         labelText ="Project Name"
@@ -171,6 +176,7 @@ class StartProject extends React.Component {
                   </GridContainer>
                   <GridContainer>
                     <GridItem xs={12} sm={12}>
+                      <CountryDropdown/>
                       <CustomInput
                       labelText ="Project Zip Code"
                         id="projectLocation"
@@ -369,7 +375,15 @@ class StartProject extends React.Component {
                             icon="upload"
                             onClick={()=>{
                               //call upload Action
-                              this.props.uploadFiles('startProject',this.props.files)
+                              this.props.uploadFiles(
+                                {
+                                  uploadType:'startProjectFiles',
+                                  userInfo:{
+                                      userId:this.props.userId
+                                  }
+                                },
+                                this.props.files
+                              )
                             }}
                         >Upload</Button>
                       </Label>
@@ -411,6 +425,7 @@ class StartProject extends React.Component {
                         userId,
                         files
                       })
+                      window.scrollTo(0, this.myRef)
                       }}
                       color="info"
                       >
@@ -444,7 +459,7 @@ const mapStateToProps =state=> {
     requestCompleted: state.start.requestCompleted,
     userId:state.user.userId,
     files:state.start.files,
-    uploadStatus:state.common.uploadStatus
+    uploadStatus:state.start.uploadStatus
   }
 }
 
@@ -466,5 +481,5 @@ export default connect(mapStateToProps, {
   getCommonInfo,
   startProjectUnmount,
   filesChanged,
-  uploadFiles
+  uploadFiles,
 })(withStyles(startProjectPageStyle)(StartProject));
