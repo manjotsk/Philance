@@ -306,7 +306,7 @@ class StartProject extends React.Component {
                                 />
                             </GridItem>
                             <GridItem xs={3}>
-                              <Icon bordered inverted color='teal' name='calendar alternate outline' onClick = {()=>{console.log('hello')}}/>
+                              <Icon bordered inverted color='teal' name='calendar alternate outline'/>
                             </GridItem>
                           </GridContainer>
                           </FormControl>
@@ -331,7 +331,7 @@ class StartProject extends React.Component {
                                 />
                               </GridItem>
                             <GridItem xs={3}>
-                              <Icon bordered inverted color='teal' name='calendar alternate outline' onClick = {()=>{console.log('hello')}}/>
+                              <Icon bordered inverted color='teal' name='calendar alternate outline'/>
                             </GridItem>
                           </GridContainer>
                           </FormControl>
@@ -387,12 +387,10 @@ class StartProject extends React.Component {
                             }}
                         >Upload</Button>
                       </Label>
-
                       {this.props.uploadStatus=='NOT_INITIATED'?null:
                       <Toaster display={true} message={this.props.uploadStatus}/>}
 
                     </GridItem>
-                    {console.log('******45',this.props.files)}
                   </GridContainer>
                   <br/>
                   <GridContainer className={classes.justifyContentCenter}> 
@@ -411,7 +409,6 @@ class StartProject extends React.Component {
                         userId,
                         files
                       } = this.props
-                      console.log(this.props)
                       this.props.startProject({
                         name,
                         description,

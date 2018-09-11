@@ -65,10 +65,7 @@ class UserProfile extends React.Component {
     this.props.getUserInfo(this.props.currentEmail)
   }
   componentDidMount(){
-    console.log('i ran',this.props.imageRefresh)
-    
     if(this.props.imageRefresh){
-      console.log('i ran')
       this.props.getUserProfileImage(this.props.userId)
     }
   }

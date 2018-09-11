@@ -84,7 +84,6 @@ export const loginUser = ({email, password}) => {
                         email: email  
                     })
                     .then(response=>{
-                        console.log('rrr',response.data[0])
                         dispatch({
                             type: USER_PROFILE_GET_USER_INFO,
                             payload: response.data[0]
