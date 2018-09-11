@@ -43,6 +43,7 @@ import {
   startProject,
   startProjectUnmount
 } from '../../actions/startProject'
+import {myProject} from '../../actions/myProject'
 import Toaster from "../../components/Toaster/Toaster";
 
 
@@ -398,6 +399,7 @@ class StartProject extends React.Component {
                         files
                       } = this.props
                       console.log(this.props)
+                      this.props.myProject()
                       this.props.startProject({
                         name,
                         description,
@@ -466,5 +468,6 @@ export default connect(mapStateToProps, {
   getCommonInfo,
   startProjectUnmount,
   filesChanged,
-  uploadFiles
+  uploadFiles,
+  myProject
 })(withStyles(startProjectPageStyle)(StartProject));

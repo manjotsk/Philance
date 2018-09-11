@@ -1,39 +1,53 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from "react"
+import PropTypes from "prop-types"
 
 // @material-ui/icons
-import withStyles from "@material-ui/core/styles/withStyles";
-import Timeline from "@material-ui/icons/Timeline";
-import Accessibility from "@material-ui/icons/Accessibility";
-import Group from "@material-ui/icons/Group";
+import withStyles from "@material-ui/core/styles/withStyles"
 
-// scemetic-ui
-import {
-  Grid,
-  Pagination,
-  Dimmer,
-  Loader,
-  Table,
-  Icon
-} from 'semantic-ui-react'
+import Table from '@material-ui/core/Table';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Icon from '@material-ui/core/Icon';
 
 // @material-ui/core components
 
 // core components
-import GridContainer from "components/Grid/GridContainer.jsx";
-import GridItem from "components/Grid/GridItem.jsx";
-import CustomInput from "components/CustomInput/CustomInput.jsx";
-import InfoArea from "components/InfoArea/InfoArea.jsx";
-import Card from "components/Card/Card.jsx";
-import CardBody from "components/Card/CardBody.jsx";
-import CtButton from "components/CustomButtons/Button.jsx";
+import GridContainer from "components/Grid/GridContainer.jsx"
+import GridItem from "components/Grid/GridItem.jsx"
+import Card from "components/Card/Card.jsx"
+import CardBody from "components/Card/CardBody.jsx"
 
 // redux
 import {connect} from 'react-redux'
 import {myProject, storeList} from '../../actions/myProject'
 
 //import publicHomePageStyle from "./PublicHomePageStyle";
-import myProjectsPageStyle from "assets/jss/material-dashboard-pro-react/views/registerPageStyle";
+
+const CustomTableCell = withStyles(theme => ({
+  body: {
+    fontSize: 14,
+  },
+}))(TableCell);
+
+const styles = theme => ({
+  root: {
+    width: '100%',
+    marginTop: theme.spacing.unit * 3,
+    overflowX: 'auto',
+  },
+  table: {
+    minWidth: 700,
+  },
+  row: {
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.background.default,
+    },
+  },
+  progress: {
+    margin: theme.spacing.unit * 2,
+  }
+})
 
 class MyProjectsPage extends React.Component {
 
@@ -54,41 +68,48 @@ class MyProjectsPage extends React.Component {
     this.renderProjects()
   }
 
-  renderProjects() {
-    if(!this.props.response) {
-      return (
-              <Dimmer active inverted>
-                <Loader inverted content='Loading' />
-              </Dimmer>
-      )
-  }
-
-  else {
-      return this.props.list
-  }
+renderProjects() {
+  if(!this.props.response) {
+    return (
+     <div/>
+    )
 }
+
+else {
+    return this.props.list
+}
+}
+
+  color(i) {
+    if(i===1) return '#e1efd8'
+    if(i===3) return '#dbebf6'
+    if(i===5) return '#efdedd'
+    if(i===7) return '#fbf8e4'
+  }
 
   async createList() {
     const object = []
+    let i=0
     await this.props.response.forEach(element => {
+      console.log('element is', element)
       let startDate = new Date(element.start_date);
       let endDate = new Date(element.end_date);
       startDate = startDate.toDateString()
       endDate = endDate.toDateString()
       startDate = startDate.substr(startDate.indexOf(" ")+1)
       endDate = endDate.substr(endDate.indexOf(" ")+1)
+      i=i===7?1:i+1
       object.push(
-        <Table.Row style={{cursor: 'pointer'}} onClick={()=>this.props.history.push(`project-details/${element.project_id}`)}>
-          <Table.Cell>{element.project_id}</Table.Cell>
-          <Table.Cell>{element.project_name}</Table.Cell>
-          <Table.Cell textAlign="center">
-            <Icon color={element.status==='ACTIVE'?'green':'red'} name={element.status==='ACTIVE'?'checkmark':'close'} size='large' />
-          </Table.Cell>
-          <Table.Cell>{startDate}</Table.Cell>
-          <Table.Cell>{endDate}</Table.Cell>
-          <Table.Cell></Table.Cell>
-          <Table.Cell></Table.Cell>
-        </Table.Row>)
+                    <TableRow hover onClick={()=>this.props.history.push(`project-details/${element.project_id}`)} style={{cursor: 'pointer', backgroundColor: this.color(i)}}>
+                      <CustomTableCell>{element.project_id}</CustomTableCell>
+                      <CustomTableCell>{element.project_name}</CustomTableCell>
+                      <CustomTableCell><Icon style={{color: element.status==='ACTIVE'?'green':'red'}} >{element.status==='ACTIVE'?'done':'clear'}</Icon></CustomTableCell>
+                      <CustomTableCell>{startDate}</CustomTableCell>
+                      <CustomTableCell>{endDate}</CustomTableCell>
+                      <CustomTableCell></CustomTableCell>
+                      <CustomTableCell></CustomTableCell>
+                    </TableRow>
+        )
       }
     )
     console.log('object', object)
@@ -106,43 +127,28 @@ class MyProjectsPage extends React.Component {
           <GridItem xs={12} sm={12} md={12} justify="center">
             <Card className={classes.cardSignup}>
               <CardBody>
-                <Table celled>
-                  <Table.Header>
-                    <Table.Row>
-                      <Table.HeaderCell>ID</Table.HeaderCell>
-                      <Table.HeaderCell>Name</Table.HeaderCell>
-                      <Table.HeaderCell>Status</Table.HeaderCell>
-                      <Table.HeaderCell>Start</Table.HeaderCell>
-                      <Table.HeaderCell>Target End</Table.HeaderCell>
-                      <Table.HeaderCell>Close</Table.HeaderCell>
-                      <Table.HeaderCell>% Complete</Table.HeaderCell>
-                    </Table.Row>
-                  </Table.Header>
-                    <Table.Body>
+                  <Table className={classes.table}>
+                    <TableHead>
+                      <TableRow>
+                      <CustomTableCell>ID</CustomTableCell>
+                      <CustomTableCell>Name</CustomTableCell>
+                      <CustomTableCell>Status</CustomTableCell>
+                      <CustomTableCell>Start</CustomTableCell>
+                      <CustomTableCell>Target End</CustomTableCell>
+                      <CustomTableCell>Close</CustomTableCell>
+                      <CustomTableCell>% Complete</CustomTableCell>
+                      </TableRow>
+                    </TableHead>
                       {
                        this.renderProjects() 
                       }
-                    </Table.Body>
-                </Table>
+                  </Table>
               </CardBody>
             </Card>
           </GridItem>
           </GridContainer>
           <GridContainer justify="center">
-            <Grid>
-            <Grid.Column>
-              <Pagination
-                activePage={activePage}
-                onPageChange={this.handlePaginationChange}
-                totalPages={this.props.length/10}
-              />
-            </Grid.Column>
-          {async ()=> {
-            await this.props.createList()
-            console.log('ss',this.props.list)
-          }}
-          </Grid>
-        </GridContainer>
+          </GridContainer>
         </GridContainer>
     );
   }
@@ -160,4 +166,4 @@ MyProjectsPage.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default connect(mapStateToProps, {myProject, storeList})(withStyles(myProjectsPageStyle)(MyProjectsPage));
+export default connect(mapStateToProps, {myProject, storeList})(withStyles(styles)(MyProjectsPage));

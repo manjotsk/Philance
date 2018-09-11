@@ -1,12 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import Chip from '@material-ui/core/Chip';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
+import Input from '@material-ui/core/Input'
+import InputLabel from '@material-ui/core/InputLabel'
+import MenuItem from '@material-ui/core/MenuItem'
+import FormControl from '@material-ui/core/FormControl'
+import Select from '@material-ui/core/Select'
+import ListItemText from '@material-ui/core/ListItemText';
+import Checkbox from '@material-ui/core/Checkbox';
 import {connect} from 'react-redux'
 
 import {interestschanged, textChanged} from  '../../actions/userProfile'
@@ -40,7 +41,7 @@ import store from '../../store/store'
         width: 250,
       },
     },
-  };  
+  }
 
 class InterestsDropdown extends React.Component {
 
@@ -50,7 +51,7 @@ class InterestsDropdown extends React.Component {
     
        handleChange = async event => {
         await this.setState({ name: event.target.value })
-        store.dispatch(interestschanged(this.state.name))
+        store.dispatch(interestschanged(this.state.name.toString()))
         store.dispatch(textChanged())
       }
 
@@ -58,34 +59,40 @@ class InterestsDropdown extends React.Component {
         const names = this.props.interestOptions
         const { classes, theme } = this.props;
         return (
-                    <FormControl className={classes.formControl}>
-                        <InputLabel htmlFor="select-multiple-chip">Impact Category</InputLabel>
+                    <FormControl className={classes.selectFormControl} fullWidth>
+                        <InputLabel
+                        htmlFor="select-multiple-chip" 
+                        className={classes.selectLabel}
+                        >
+                        Impact Category
+                        </InputLabel>
                         <Select
+                        MenuProps={{
+                          className: classes.selectMenu
+                        }}
+                        classes={{
+                          select: classes.select
+                        }}
                         multiple
                         value={this.state.name}
                         onChange={this.handleChange}
                         input={<Input id="select-multiple-chip" />}
-                        renderValue={selected => (
-                            <div className={classes.chips}>
-                            {selected.map(value => (
-                                <Chip key={value} label={value} className={classes.chip} />
-                            ))}
-                            </div>
-                        )}
-                        MenuProps={MenuProps}
+                        renderValue={selected => selected.join(', ')}
+                        inputProps={{
+                          name: "multipleSelect",
+                          id: "multiple-select"
+                        }}
                         >
                         {names.map(name => (
                             <MenuItem
+                            classes={{
+                              root: classes.selectMenuItem,
+                            }}
                             key={name}
                             value={name}
-                            style={{
-                                fontWeight:
-                                this.state.name.indexOf(name) === -1
-                                    ? theme.typography.fontWeightRegular
-                                    : theme.typography.fontWeightMedium,
-                            }}
                             >
-                            {name}
+                            <ListItemText primary={name} />
+                            <Checkbox checked={this.state.name.indexOf(name) > -1}  style={{color: '#00acc1'}}/>
                             </MenuItem>
                         ))}
                     </Select>
@@ -104,7 +111,6 @@ const mapStateToProps=state=> {
 InterestsDropdown.propTypes = {
     classes: PropTypes.object.isRequired,
     theme: PropTypes.object.isRequired,
-  };
-  
+  }
 
 export default  connect(mapStateToProps)(withStyles(styles, { withTheme: true })(InterestsDropdown))
