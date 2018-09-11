@@ -1,4 +1,5 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 
 import {connect} from 'react-redux'
@@ -75,7 +76,7 @@ class UserProfile extends React.Component {
     this.props.emailChanged(text)
     this.props.textChanged()
   }
-
+  componentDidUpdate = () => { ReactDOM.findDOMNode(this).scrollIntoView(); }
   onPasswordChange(text) {
     this.props.passwordChanged(text)
     this.props.textChanged()
@@ -161,12 +162,10 @@ class UserProfile extends React.Component {
         <GridContainer justify="center">
           {console.log(this.props.imageRefresh,54564548)}
         <Toaster display={this.props.update} message={'Your Changes have been Saved Successfully'}/><br/>
-        {this.props.showToast?
           <h4 className={classes.welcomeHeading}>
-            Welcome to Philance! Please take a few moments to complete your User Profile and you can then post a project or join an existing project.
+          <Toaster display={this.props.showToast} header={'Welcome to Philance! Please take a few moments to complete your User Profile and you can then post a project or join an existing project.'}/><br/>
           </h4>
-       :null
-       }
+
        <br/>
         <GridContainer justify="center">
           <GridItem xs={12} sm={12} md={7}>
@@ -290,7 +289,7 @@ class UserProfile extends React.Component {
                 
                 {
                   this.props.displayImage?
-                  <img src={this.props.userImage?this.props.userImage:avatar} key={this.props.userImage.uri}/>
+                  <img src={this.props.userImage?this.props.userImage:avatar}/>
                 :
                 <img src={avatar} />              
                 }
@@ -456,7 +455,6 @@ const mapStateToProps = state => {
     text: state.user.text,
     showToast: state.reg.showToast,
     password: state.user.password,
-    interests: state.user.interests,
     name: state.user.name,
     title: state.user.title,
     organization: state.user.organization,

@@ -21,7 +21,7 @@ console.info(req.file)
             description: req.body.description,
             volunteers: req.body.volunteers,
             freelancers: req.body.freelancers,
-            location: req.body.location,
+            zipCode: req.body.zipCode,
             startDate: req.body.startDate,
             endDate: req.body.endDate,
             estimatedBudget: req.body.estimatedBudget,

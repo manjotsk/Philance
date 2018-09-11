@@ -51,7 +51,7 @@ class CountryDropdown extends React.Component {
               <Select
                 value={this.state.country}
                 onChange={this.handleChange}
-                input={<Input name="name" id="name-disabled" />}
+                input={<Input name="India" id="name-disabled" />}
               >
                 {
                   this.getCountries()

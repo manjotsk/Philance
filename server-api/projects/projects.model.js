@@ -41,8 +41,7 @@ const projects = sequelize.define('projects', {
     },
     location: {
         type: Sequelize.STRING,
-        field: 'location',
-        allowNull: false
+        field: 'location'
     },
     startDate: {
         type: Sequelize.DATE,
@@ -66,6 +65,15 @@ const projects = sequelize.define('projects', {
     createdBy: {
         type: Sequelize.INTEGER,
         field: 'created_by'
+    },
+    country: {
+        type: Sequelize.STRING,
+        field: 'country'
+    },
+    zipCode: {
+        type: Sequelize.STRING,
+        field: 'zip_code',
+        allowNull: false
     },
     lastUpdatedDate: {
         type: Sequelize.DATE,

@@ -109,7 +109,8 @@ export default (state = INITIAL_STATE, action) => {
                 text: 'SAVE CHANGES',
                 update: false,
                 interestsArrived: true,
-                userId: ''
+                userId: '',
+                userImage:null
 
             }
         default:

@@ -124,7 +124,7 @@ export const startProject=({
       axios.post(hostname()+'/philance/projects/', {  
         projectName : name,
         description : description,
-        location: zipCode,
+        zipCode: zipCode,
         volunteers:volunteers,
         freelancers:freelancers,
         estimatedBudget:budget,

@@ -27,7 +27,7 @@ import ResetPasswordPublic from "../views/Pages/ResetPasswordPublic";
 export const pagesRoutes = [
   {
     path: "/home",
-    name: "Home Page",
+    name: "Home",
     short: "Home",
     mini: "PHP",
     icon: HomeIcon,
@@ -35,7 +35,7 @@ export const pagesRoutes = [
   },
   {
     path: "/start-project",
-    name: "Start Project Page",
+    name: "Start Project",
     short: "Start A Project",
     mini: "SPP",
     icon: LaunchIcon,
@@ -43,7 +43,7 @@ export const pagesRoutes = [
   },
   {
     path: "/find-project",
-    name: "Find Project Page",
+    name: "Find Project",
     short: "Find A project",
     mini: "FPP",
     icon: SearchIcon,
@@ -51,7 +51,7 @@ export const pagesRoutes = [
   },
   {
     path: "/how-it-works",
-    name: "How It Works Page",
+    name: "How It Works",
     short: "How It Works",
     mini: "HIWP",
     icon: HelpIcon,
@@ -59,7 +59,7 @@ export const pagesRoutes = [
   },
   {
     path: "/login",
-    name: "Login Page",
+    name: "Login",
     short: "Login",
     mini: "LP",
     icon: FingerprintIcon,
@@ -67,7 +67,7 @@ export const pagesRoutes = [
   },
   {
     path: "/register",
-    name: "Register Page",
+    name: "Register",
     short: "Sign Up",
     mini: "RP",
     icon: PersonAddIcon,
@@ -75,7 +75,7 @@ export const pagesRoutes = [
   },
   {
     path: "/forgotPassword",
-    name: "Forgot Password Page",
+    name: "Forgot Password",
     short: "Forgot Password",
     mini: "FP",
     icon: PersonAddIcon,
@@ -84,7 +84,7 @@ export const pagesRoutes = [
   },
   {
     path: "/resetPassword/:id",
-    name: "Reset Password Page",
+    name: "Reset Password",
     short: "Reset Password",
     mini: "RP",
     icon: PersonAddIcon,
@@ -95,14 +95,14 @@ export const pagesRoutes = [
     redirect: true,
     path: "/",
     pathTo: "/home",
-    name: "Home Page"
+    name: "Home"
   },
 
 ];
 export const headerRoutes = [
   {
     path: "/home",
-    name: "Home Page",
+    name: "Home",
     short: "Home",
     mini: "PHP",
     icon: HomeIcon,
@@ -110,7 +110,7 @@ export const headerRoutes = [
   },
   {
     path: "/start-project",
-    name: "Start Project Page",
+    name: "Start Project",
     short: "Start A Project",
     mini: "SPP",
     icon: LaunchIcon,
@@ -118,7 +118,7 @@ export const headerRoutes = [
   },
   {
     path: "/find-project",
-    name: "Find Project Page",
+    name: "Find Project",
     short: "Find A project",
     mini: "FPP",
     icon: SearchIcon,
@@ -126,7 +126,7 @@ export const headerRoutes = [
   },
   {
     path: "/how-it-works",
-    name: "How It Works Page",
+    name: "How It Works",
     short: "How It Works",
     mini: "HIWP",
     icon: HelpIcon,
@@ -134,7 +134,7 @@ export const headerRoutes = [
   },
   {
     path: "/login",
-    name: "Login Page",
+    name: "Login",
     short: "Login",
     mini: "LP",
     icon: FingerprintIcon,
@@ -142,7 +142,7 @@ export const headerRoutes = [
   },
   {
     path: "/register",
-    name: "Register Page",
+    name: "Register",
     short: "Sign Up",
     mini: "RP",
     icon: PersonAddIcon,
@@ -152,7 +152,7 @@ export const headerRoutes = [
     redirect: true,
     path: "/",
     pathTo: "/home",
-    name: "Home Page"
+    name: "Home"
   },
 
 ];
@@ -160,7 +160,7 @@ export const headerRoutes = [
 export const pvtPagesRoutes = [
   {
     path: "/home",
-    name: "Home Page",
+    name: "Home",
     short: "Home",
     mini: "HP",
     icon: HomeIcon,
@@ -168,7 +168,7 @@ export const pvtPagesRoutes = [
   },
   {
     path: "/start-project",
-    name: "Start Project Page",
+    name: "Start Project",
     short: "Start A Project",
     mini: "SPP",
     icon: LaunchIcon,
@@ -176,7 +176,7 @@ export const pvtPagesRoutes = [
   },
   {
     path: "/find-project",
-    name: "Find Project Page",
+    name: "Find Project",
     short: "Find A project",
     mini: "FPP",
     icon: SearchIcon,
@@ -184,7 +184,7 @@ export const pvtPagesRoutes = [
   },
   {
     path: "/my-projects",
-    name: "My Projects Page",
+    name: "My Projects",
     short: "My Projects",
     mini: "MPP",
     icon: FolderIcon,
@@ -192,7 +192,7 @@ export const pvtPagesRoutes = [
   },
   {
     path: "/notifications",
-    name: "Notifications Page",
+    name: "Notifications",
     short: "Notifications",
     mini: "NP",
     icon: NotificationsIcon,
@@ -200,7 +200,7 @@ export const pvtPagesRoutes = [
   },
   {
     path: "/messages",
-    name: "Messages Page",
+    name: "Messages",
     short: "Messages",
     mini: "MP",
     icon: MessageIcon,
@@ -208,7 +208,7 @@ export const pvtPagesRoutes = [
   },
   {
     path: "/profile",
-    name: "User Profile Page",
+    name: "User Profile",
     short: "User Profile",
     mini: "UP",
     icon: PersonIcon,
@@ -218,6 +218,70 @@ export const pvtPagesRoutes = [
     redirect: true,
     path: "/",
     pathTo: "/home",
-    name: "Home Page"
+    name: "Home"
+  }
+];
+export const pvtSidebarRoutes = [
+  {
+    path: "/home",
+    name: "Home",
+    short: "Home",
+    mini: "HP",
+    icon: HomeIcon,
+    component: PvtHomePage
+  },
+  {
+    path: "/start-project",
+    name: "Start Project",
+    short: "Start A Project",
+    mini: "SPP",
+    icon: LaunchIcon,
+    component: StartProjectPage
+  },
+  {
+    path: "/find-project",
+    name: "Find Project",
+    short: "Find A project",
+    mini: "FPP",
+    icon: SearchIcon,
+    component: ProjectSearch
+  },
+  {
+    path: "/my-projects",
+    name: "My Projects",
+    short: "My Projects",
+    mini: "MPP",
+    icon: FolderIcon,
+    component: MyProjectsPage
+  },
+  {
+    path: "/notifications",
+    name: "Notifications",
+    short: "Notifications",
+    mini: "NP",
+    icon: NotificationsIcon,
+    component: NotificationsPage
+  },
+  {
+    path: "/messages",
+    name: "Messages",
+    short: "Messages",
+    mini: "MP",
+    icon: MessageIcon,
+    component: MessagesPage
+  },
+  // {
+  //   path: "/profile",
+  //   name: "User Profile",
+  //   short: "User Profile",
+  //   mini: "UP",
+  //   icon: PersonIcon,
+  //   component: UserProfile
+  // },
+  {
+    redirect: true,
+    path: "/",
+    pathTo: "/home",
+    name: "Home"
   }
 ];

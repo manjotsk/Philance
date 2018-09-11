@@ -1,4 +1,5 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import Datetime from "react-datetime";
 
@@ -65,6 +66,7 @@ class StartProject extends React.Component {
       endDate: null,
       budget: null,
     };
+    this.myRef = React.createRef();
   }
   componentWillMount(){
     this.props.getCommonInfo()
@@ -72,6 +74,7 @@ class StartProject extends React.Component {
   componentWillUnmount(){
     this.props.startProjectUnmount()
   }
+  // componentDidUpdate = () => { ReactDOM.findDOMNode(this).scrollIntoView(); }
   onProjectNameChange(text) {
     this.props.projectNameChanged(text)
     this.props.textChanged()
@@ -126,7 +129,7 @@ class StartProject extends React.Component {
     const { classes } = this.props;
     return (
       <GridContainer className={this.props.isLoggedIn?classes.justifyContentCenter:classes.container}>
-        <Toaster display={this.props.requestCompleted} message={'Project has been created'}/>
+        <Toaster ref={this.myRef} display={this.props.requestCompleted} message={'Project has been created'}/>
           <GridItem xs={12} sm={12} md={10}>
             <Card>
               <CardHeader color="info" text>
@@ -424,6 +427,7 @@ class StartProject extends React.Component {
                       color="info"
                       >
                       {this.props.text}
+                      {window.scrollTo(0, this.myRef)}
                       </Button>
                     </GridItem>
                   </GridContainer>
