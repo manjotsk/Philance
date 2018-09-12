@@ -26,7 +26,8 @@ console.info(req.file)
             endDate: req.body.endDate,
             estimatedBudget: req.body.estimatedBudget,
             lastUpdatedBy: req.body.userId,
-            createdBy: req.body.userId
+            createdBy: req.body.userId,
+            country: req.body.country
         }).then(_projects => {
             sequelize.transaction(function (t) {
                 if(req.body.projectDetails){ sequelize.Promise.each(req.body.projectDetails, function (itemToUpdate) {

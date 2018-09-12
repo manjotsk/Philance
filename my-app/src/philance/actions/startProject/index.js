@@ -14,7 +14,8 @@ import {
   START_PROJECT_UNMOUNT,
   START_PROJECT_FILES_CHANGED,
   START_PROJECT_FILES_UPLOAD_FAILED,
-  START_PROJECT_FILES_UPLOAD_SUCCESS
+  START_PROJECT_FILES_UPLOAD_SUCCESS,
+  START_PROJECT_COUNTRY_CHANGED
 } from '../types'
 
 import axios from 'axios'
@@ -65,6 +66,13 @@ export const freelancersChanged = text => {
 export const projectNameChanged = text => {
   return {
       type: START_PROJECT_NAME_CHANGED,
+      payload: text
+  }
+}
+
+export const countryChanged = text => {
+  return {
+      type: START_PROJECT_COUNTRY_CHANGED,
       payload: text
   }
 }

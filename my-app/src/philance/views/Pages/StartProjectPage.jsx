@@ -43,11 +43,12 @@ import {
   zipCodeChanged,
   startProject,
   startProjectUnmount,
-  uploadFiles
+  uploadFiles,
+  countryChanged
 } from '../../actions/startProject'
 import {myProject} from '../../actions/myProject'
 import Toaster from "../../components/Toaster/Toaster";
-
+import store from '../../store/store'
 
 const uid = Math.random().toString(36).substring(7);
 class StartProject extends React.Component {
@@ -125,7 +126,10 @@ class StartProject extends React.Component {
     this.props.zipCodeChanged(text)
     this.props.textChanged()
   }
-
+  onCountryChanged(text) {
+    store.dispatch(countryChanged(text))
+    store.dispatch(textChanged())
+  }
   render() {
     const { classes } = this.props;
     return (
@@ -175,9 +179,11 @@ class StartProject extends React.Component {
                       />
                     </GridItem>
                   </GridContainer>
-                  <GridContainer>
-                    <GridItem xs={12} sm={12}>
-                      <CountryDropdown/>
+                  <GridContainer spacing={12}>
+                    <GridItem  xs={6}>
+                      <CountryDropdown onCountryChanged={this.onCountryChanged} defaultValue={this.props.country}/>
+                    </GridItem>
+                    <GridItem xs={6}>
                       <CustomInput
                       labelText ="Project Zip Code"
                         id="projectLocation"
@@ -218,7 +224,12 @@ class StartProject extends React.Component {
                           control={
                             <Checkbox
                               tabIndex={-1}
-                              onClick={() => this.setState({volunteerStatus: !this.state.volunteerStatus})}
+                              onClick={
+                                async () => {
+                                  await this.setState({volunteerStatus: !this.state.volunteerStatus})
+                                  this.state.volunteerStatus?this.onVolunteersChange(''):null
+                                }
+                            }
                               checkedIcon={
                                 <Check className={classes.checkedIcon} />
                               }
@@ -235,13 +246,14 @@ class StartProject extends React.Component {
                         />
                         </GridItem>
                         <GridItem md ={6}>
-                        <CustomInput
+                      <CustomInput
                         id="volunteers"
                         labelText ="Volunteers"
                         formControlProps={{
                           fullWidth: true
                         }}
                         inputProps={{
+                          value: this.props.volunteers,
                           disabled : this.state.volunteerStatus,
                           placeholder: "Enter Number of Volunteers",
                           onChange: e => {
@@ -249,6 +261,7 @@ class StartProject extends React.Component {
                           }
                         }}
                       />
+
                         </GridItem>
                         </GridContainer>
                         <GridContainer>
@@ -257,7 +270,12 @@ class StartProject extends React.Component {
                           control={
                             <Checkbox
                               tabIndex={-1}
-                              onClick={() => this.setState({freeLanceStatus: !this.state.freeLanceStatus})}
+                              onClick={
+                                async () => {
+                                  await this.setState({freeLanceStatus: !this.state.freeLanceStatus})
+                                  this.state.freeLanceStatus?this.onFreeLancersChange(''):null
+                                }
+                            }
                               checkedIcon={
                                 <Check className={classes.checkedIcon} />
                               }
@@ -281,6 +299,7 @@ class StartProject extends React.Component {
                           fullWidth: true
                         }}
                         inputProps={{
+                          value: this.props.freelancers,
                           disabled : this.state.freeLanceStatus,
                           placeholder: "Enter Number of Freelancers",
                           onChange: e => {
@@ -423,14 +442,14 @@ class StartProject extends React.Component {
                         userId,
                         files
                       })
-                      window.scrollTo(0, this.myRef)
+                      window.scroll(0,0)
                       }}
                       color="info"
                       >
                       {this.props.text}
                       </Button>
                     </GridItem>
-                  </GridContainer>
+                  </GridContainer>{console.log(this.props.country)}
                 </form>
               </CardBody>
             </Card>
@@ -457,7 +476,8 @@ const mapStateToProps =state=> {
     requestCompleted: state.start.requestCompleted,
     userId:state.user.userId,
     files:state.start.files,
-    uploadStatus:state.start.uploadStatus
+    uploadStatus:state.start.uploadStatus,
+    country:state.start.country
   }
 }
 

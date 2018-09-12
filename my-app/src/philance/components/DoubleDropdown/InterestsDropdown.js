@@ -21,6 +21,7 @@ class InterestsDropdown extends React.Component {
                     fluid
                     selection
                     multiple
+                    disabled={this.props.disabled}
                     defaultValue={this.props.defaultValue}
                     options={this.props.interestOptions}
                     value={this.state.value}

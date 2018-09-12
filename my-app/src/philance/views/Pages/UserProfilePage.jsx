@@ -34,6 +34,7 @@ import { Form,Message } from 'semantic-ui-react'
 
 import {registerToast} from '../../actions/register'
 import {Redirect} from 'react-router-dom'
+import store from '../../store/store'
 
 import {
   textChanged,
@@ -50,7 +51,8 @@ import {
   getUserInfo,
   profileImageChange,
   getUserProfileImage,
-  uploadFiles
+  uploadFiles,
+  countryChanged
 } from '../../actions/userProfile'
 
 import {myProject} from '../../actions/myProject'
@@ -59,6 +61,11 @@ import Toaster from "../../components/Toaster/Toaster";
 class UserProfile extends React.Component {
   constructor(props) {
     super(props);
+  }
+
+  onCountryChanged(text) {
+    store.dispatch(countryChanged(text))
+    store.dispatch(textChanged())
   }
 
   componentWillUnmount() {
@@ -232,7 +239,7 @@ class UserProfile extends React.Component {
                       </FormLabel>
                   </GridItem>
                   <GridItem xs={12} sm={12} md={12}>
-                    <CountryDropdown defaultValue={this.props.country}/>
+                    <CountryDropdown onCountryChanged={this.onCountryChanged} defaultValue={this.props.country}/>
                     <br/>
                   </GridItem>
                   <GridItem xs={12} sm={6}>
