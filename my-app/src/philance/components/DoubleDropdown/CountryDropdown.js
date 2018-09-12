@@ -10,11 +10,6 @@ export default class CountryDropdown extends React.Component {
 
     }
 
-    onCountryChanged(text) {
-        store.dispatch(countryChanged(text))
-        store.dispatch(textChanged())
-    }
-
     render () {
         return (
                 <Dropdown
@@ -27,7 +22,7 @@ export default class CountryDropdown extends React.Component {
                     value={this.state.value}
                     onChange={async (e, {value})=>{
                         await this.setState({value})
-                        this.onCountryChanged(this.state.value)
+                        this.props.onCountryChanged(this.state.value)
                     }}
                     />
     )

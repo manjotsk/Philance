@@ -14,7 +14,8 @@ import {
     START_PROJECT_UNMOUNT,
     START_PROJECT_FILES_CHANGED,
     START_PROJECT_FILES_UPLOAD_SUCCESS,
-    START_PROJECT_FILES_UPLOAD_FAILED
+    START_PROJECT_FILES_UPLOAD_FAILED,
+    START_PROJECT_COUNTRY_CHANGED
 } from '../actions/types'
 
 const INITIAL_STATE = {
@@ -29,6 +30,7 @@ const INITIAL_STATE = {
     requestCompleted: false,
     text: 'CREATE A PROJECT',
     uploadStatus:'NOT_INITIATED',
+    country:''
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -55,6 +57,8 @@ export default (state = INITIAL_STATE, action) => {
             return{...state, endDate: action.payload} 
         case START_PROJECT_BUDGET_CHANGED:
             return{...state, budget: action.payload}
+        case START_PROJECT_COUNTRY_CHANGED:
+            return{...state, country: action.payload}
         case START_PROJECT_FILES_CHANGED:
             return{...state, files: action.payload}
         case START_PROJECT_FIELDS_EMPTY:
@@ -69,6 +73,7 @@ export default (state = INITIAL_STATE, action) => {
                 name: '',
                 description: '',
                 zipCode: '',
+                country:'',
                 volunteers: '',
                 freelancers: '',
                 startDate: '',

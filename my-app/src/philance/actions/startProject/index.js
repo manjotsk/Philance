@@ -14,7 +14,8 @@ import {
   START_PROJECT_UNMOUNT,
   START_PROJECT_FILES_CHANGED,
   START_PROJECT_FILES_UPLOAD_FAILED,
-  START_PROJECT_FILES_UPLOAD_SUCCESS
+  START_PROJECT_FILES_UPLOAD_SUCCESS,
+  START_PROJECT_COUNTRY_CHANGED
 } from '../types'
 
 import axios from 'axios'
@@ -69,6 +70,13 @@ export const projectNameChanged = text => {
   }
 }
 
+export const countryChanged = text => {
+  return {
+      type: START_PROJECT_COUNTRY_CHANGED,
+      payload: text
+  }
+}
+
 export const startDateChanged = text => {
   return {
       type: START_PROJECT_START_DATE_CHANGED,
@@ -96,6 +104,7 @@ export const startProject=({
   volunteers,
   freelancers,
   zipCode,
+  country,
   interests,
   startDate,
   endDate,
@@ -111,6 +120,7 @@ export const startProject=({
     freelancers === '' ||
     interests === '' ||
     zipCode === '' ||
+    country === '' ||
     startDate === '' ||
     endDate === '' ||
     budget === ''
@@ -125,6 +135,7 @@ export const startProject=({
         projectName : name,
         description : description,
         zipCode: zipCode,
+        country: country,
         volunteers:volunteers,
         freelancers:freelancers,
         estimatedBudget:budget,
