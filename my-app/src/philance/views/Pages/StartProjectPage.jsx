@@ -387,6 +387,8 @@ class StartProject extends React.Component {
                         basic
                         htmlFor={uid}
                         >
+                        <GridContainer className={classes.justifyContentCenter}>
+                        <GridItem justify='center'>
                           <input type="file" id={uid}
                             ref='fileInput'
                             multiple
@@ -397,6 +399,8 @@ class StartProject extends React.Component {
                           <Button color="info" onClick={() => this.handleClick()}>
                             <Icon name='upload'/>Select Files{'\t\t\t'}
                           </Button>
+                        </GridItem>
+                        <GridItem xs={12} justify='center'>
                         {
                           this.props.files?
                           <Card>
@@ -409,6 +413,8 @@ class StartProject extends React.Component {
                           </Card>
                           :null
                         }
+                        </GridItem>
+                        <GridItem justify='center'>
                         {this.props.files?<Button
                             color="info"
                             icon="upload"
@@ -424,7 +430,10 @@ class StartProject extends React.Component {
                                 this.props.files
                               )
                             }}
-                        >Upload</Button>:null}
+                            >Upload</Button>:null
+                          }
+                        </GridItem>
+                        </GridContainer>
                       </Label>
 
                       {this.props.uploadStatus=='NOT_INITIATED'?null:
