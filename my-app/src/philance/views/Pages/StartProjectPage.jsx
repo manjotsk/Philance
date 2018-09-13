@@ -188,7 +188,9 @@ class StartProject extends React.Component {
                     <GridItem  xs={6}>
                       <CountryDropdown onCountryChanged={this.onCountryChanged} defaultValue={this.props.country}/>
                     </GridItem>
-                    <GridItem xs={6} style={{marginTop: -30}}>
+                  </GridContainer>
+                  <GridContainer spacing={12}>
+                    <GridItem xs={6} style={{}}>
                       <CustomInput
                       labelText ="Project Zip Code"
                         id="projectLocation"

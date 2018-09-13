@@ -104,13 +104,18 @@ else {
                       <CustomTableCell>{element.status}</CustomTableCell>
                       <CustomTableCell>{startDate}</CustomTableCell>
                       <CustomTableCell>{endDate}</CustomTableCell>
-                      <CustomTableCell></CustomTableCell>
-                      <CustomTableCell></CustomTableCell>
+                      <CustomTableCell>-</CustomTableCell>
+                      <CustomTableCell>-</CustomTableCell>
                       <CustomTableCell><Button color="info" onClick={()=>{
                         this.props.getProjectById(element.project_id)
                         this.props.history.push(`project-details/${element.project_id}`)
                         this.props.idStored(element.project_id)
-                        }}>Details</Button></CustomTableCell>
+                        }}>Details</Button>
+                        <Button color="info" style={{marginLeft:"10px"}} onClick={()=>{
+                        this.props.getProjectById(element.project_id)
+                        this.props.history.push(`project-details/${element.project_id}`)
+                        this.props.idStored(element.project_id)
+                        }}>Review Candidates</Button></CustomTableCell>
                     </TableRow>
         )
       }
