@@ -69,6 +69,7 @@ class StartProject extends React.Component {
       budget: null,
     };
     this.myRef = React.createRef();
+    this.fileInput = React.createRef();
   }
   componentWillMount(){
     this.props.getCommonInfo()
@@ -130,7 +131,9 @@ class StartProject extends React.Component {
     store.dispatch(countryChanged(text))
     store.dispatch(textChanged())
   }
-
+  handleClick() {
+    this.refs.fileInput.click();
+  }
   render() {
     const { classes } = this.props;
     return (
@@ -384,14 +387,30 @@ class StartProject extends React.Component {
                         basic
                         htmlFor={uid}
                         >
-                        <Icon name='upload'/>Select Files{'\t\t\t'}
-                        <input type="file" id={uid}
-                          multiple
-                          style={{display: "none"}}
-                          name="files"
-                          onChange={(e)=>this.onFilesChange(e)}
-                        />
-                        <Button
+                          <input type="file" id={uid}
+                            ref='fileInput'
+                            multiple
+                            style={{display: "none"}}
+                            name="files"
+                            onChange={(e)=>this.onFilesChange(e)}
+                            />
+                          <Button color="info" onClick={() => this.handleClick()}>
+                            <Icon name='upload'/>Select Files{'\t\t\t'}
+                          </Button>
+                        {
+                          this.props.files?
+                          <Card>
+                            <CardHeader>
+                              {this.props.files.type.split('/')[0].charAt(0).toUpperCase() + this.props.files.type.split('/')[0].slice(1)+' File'}
+                            </CardHeader>
+                            <CardBody>
+                            <Icon name='file'/>{this.props.files.name}{'\t\t\t'}
+                            </CardBody>
+                          </Card>
+                          :null
+                        }
+                        {this.props.files?<Button
+                            color="info"
                             icon="upload"
                             onClick={()=>{
                               //call upload Action
@@ -405,7 +424,7 @@ class StartProject extends React.Component {
                                 this.props.files
                               )
                             }}
-                        >Upload</Button>
+                        >Upload</Button>:null}
                       </Label>
 
                       {this.props.uploadStatus=='NOT_INITIATED'?null:
