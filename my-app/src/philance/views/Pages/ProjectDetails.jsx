@@ -33,8 +33,12 @@ import {
   projectNameChanged,
   startDateChanged,
   volunteersChanged,
-  zipCodeChanged
+  zipCodeChanged,
+  statusChanged,
+  removeToaster,
+  updateProject
 } from '../../actions/projectDetails'
+
 import Toaster from "../../components/Toaster/Toaster";
 
 class ProjectDetails extends React.Component {
@@ -44,56 +48,56 @@ class ProjectDetails extends React.Component {
       isDisabled: true
     };
   }
+
+  componentWillUnmount() {
+    this.props.removeToaster()
+  }
+  
   onProjectNameChange(text) {
     this.props.projectNameChanged(text)
-    this.props.textChanged()
   }
 
   onDescriptionChange(text) {
     this.props.descriptionChanged(text)
-    this.props.textChanged()
   }
 
   onBudgetChange(text) {
     this.props.budgetChanged(text)
-    this.props.textChanged()
   }
 
   onEndDateChange(text) {
     this.props.endDateChanged(text)
-    this.props.textChanged()
   }
 
   onDescriptionChange(text) {
     this.props.descriptionChanged(text)
-    this.props.textChanged()
   }
 
   onFreeLancersChange(text) {
     this.props.freelancersChanged(text)
-    this.props.textChanged()
   }
 
   onStartDateChange(text) {
     this.props.startDateChanged(text)
-    this.props.textChanged()
   }
 
   onVolunteersChange(text) {
     this.props.volunteersChanged(text)
-    this.props.textChanged()
   }
 
   onZipCodeChange(text) {
     this.props.zipCodeChanged(text)
-    this.props.textChanged()
+  }
+
+  onStatusChange(text) {
+    this.props.statusChanged(text)
   }
 
   render() {
     const { classes } = this.props;
     return (
       <GridContainer className={classes.justifyContentCenter}>
-        <Toaster display={this.props.requestCompleted} message={'Project has been created'}/>
+        <Toaster display={this.props.toast} message={'Project has been updated'}/>
           <GridItem xs={12} sm={12} md={10}>
             <Card>
               <CardHeader color="info" text>
@@ -105,7 +109,39 @@ class ProjectDetails extends React.Component {
                 <form>
                   <GridContainer align="right" direction="column">
                     <GridItem>
-                      <Button onClick={()=>this.setState({isDisabled: false})} color="info">{this.state.isDisabled?'EDIT':'SAVE'}</Button>
+                      <Button onClick={async ()=>{
+                        const {
+                          name,
+                          description,
+                          volunteers,
+                          freelancers,
+                          budget,
+                          startDate,
+                          endDate,
+                          id
+                        } = this.props
+                        if(this.state.isDisabled) {
+                          this.setState({isDisabled: false})
+                          this.props.removeToaster()
+                        }
+                        else
+                        {
+                          this.setState({isDisabled: true})
+                          this.props.updateProject({
+                            name,
+                            description,
+                            volunteers,
+                            freelancers,
+                            budget,
+                            startDate,
+                            endDate,
+                            id
+                          })
+                        }
+                        }}
+                        color="info">
+                        {this.state.isDisabled?'EDIT':'SAVE'}
+                        </Button>
                     </GridItem>
                   </GridContainer>
                   <GridContainer>
@@ -137,7 +173,7 @@ class ProjectDetails extends React.Component {
                           value: this.props.status,
                           placeholder: "Enter Project Status",
                           onChange: e => {
-                            this.onProjectNameChange(e.target.value)
+                            this.onStatusChange(e.target.value)
                           },
                           disabled : this.state.isDisabled
                         }}
@@ -201,7 +237,7 @@ class ProjectDetails extends React.Component {
                                   timeFormat={false}
                                   onChange={date=>this.onStartDateChange(date._d)}
                                   inputProps={{
-                                    value: this.props.startDate,
+                                    value: new Date(this.props.startDate).toDateString(),
                                     disabled: this.state.isDisabled
                                   }}
                                 />
@@ -224,7 +260,7 @@ class ProjectDetails extends React.Component {
                                   timeFormat={false}
                                   onChange={date=>this.onEndDateChange(date._d)}
                                   inputProps={{
-                                    value: this.props.endDate,
+                                    value: new Date(this.props.endDate).toDateString(),
                                     disabled: this.state.isDisabled
                                   }}
                                 />
@@ -361,6 +397,8 @@ const mapStateToProps =state=> {
     status: state.proDetails.status,
     endDate: state.proDetails.endDate,
     budget: state.proDetails.budget,
+    toast: state.proDetails.toast,
+    id: state.proDetails.id,
     interests: state.proDetails.interests,
     isLoggedIn: state.auth.isLoggedIn,
     interestOptions: state.common.interestOptions,
@@ -377,5 +415,8 @@ export default connect(mapStateToProps, {
   projectNameChanged,
   startDateChanged,
   volunteersChanged,
-  zipCodeChanged
+  zipCodeChanged,
+  statusChanged,
+  removeToaster,
+  updateProject
 })(withStyles(startProjectPageStyle)(ProjectDetails));

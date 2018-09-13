@@ -21,7 +21,7 @@ import CardBody from "components/Card/CardBody.jsx"
 // redux
 import {connect} from 'react-redux'
 import {myProject, storeList} from '../../actions/myProject'
-import {getProjectById} from '../../actions/projectDetails'
+import {getProjectById, idStored} from '../../actions/projectDetails'
 
 //import publicHomePageStyle from "./PublicHomePageStyle";
 
@@ -109,6 +109,7 @@ else {
                       <CustomTableCell><Button color="info" onClick={()=>{
                         this.props.getProjectById(element.project_id)
                         this.props.history.push(`project-details/${element.project_id}`)
+                        this.props.idStored(element.project_id)
                         }}>Details</Button></CustomTableCell>
                     </TableRow>
         )
@@ -169,4 +170,4 @@ MyProjectsPage.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default connect(mapStateToProps, {myProject, storeList, getProjectById})(withStyles(styles)(MyProjectsPage));
+export default connect(mapStateToProps, {myProject, storeList, getProjectById, idStored})(withStyles(styles)(MyProjectsPage));

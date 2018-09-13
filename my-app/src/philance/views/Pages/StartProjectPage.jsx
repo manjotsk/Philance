@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import Datetime from "react-datetime";
 
@@ -46,7 +45,6 @@ import {
   uploadFiles,
   countryChanged
 } from '../../actions/startProject'
-import {myProject} from '../../actions/myProject'
 import Toaster from "../../components/Toaster/Toaster";
 import store from '../../store/store'
 
@@ -76,7 +74,7 @@ class StartProject extends React.Component {
   componentWillUnmount(){
     this.props.startProjectUnmount()
   }
-  // componentDidUpdate = () => { ReactDOM.findDOMNode(this).scrollIntoView(); }
+
   onProjectNameChange(text) {
     this.props.projectNameChanged(text)
     this.props.textChanged()
