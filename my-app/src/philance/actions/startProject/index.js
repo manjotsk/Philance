@@ -104,6 +104,7 @@ export const startProject=({
   volunteers,
   freelancers,
   zipCode,
+  country,
   interests,
   startDate,
   endDate,
@@ -119,6 +120,7 @@ export const startProject=({
     freelancers === '' ||
     interests === '' ||
     zipCode === '' ||
+    country === '' ||
     startDate === '' ||
     endDate === '' ||
     budget === ''
@@ -133,6 +135,7 @@ export const startProject=({
         projectName : name,
         description : description,
         zipCode: zipCode,
+        country: country,
         volunteers:volunteers,
         freelancers:freelancers,
         estimatedBudget:budget,

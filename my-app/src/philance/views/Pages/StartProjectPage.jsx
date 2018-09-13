@@ -179,11 +179,18 @@ class StartProject extends React.Component {
                       />
                     </GridItem>
                   </GridContainer>
+                  <GridContainer>
+                    <GridItem xs={12} sm={6}>
+                        <InputLabel className={classes.label} style={{marginBottom: 5, marginTop: 10}}>
+                          Country
+                        </InputLabel>
+                    </GridItem>
+                  </GridContainer>
                   <GridContainer spacing={12}>
                     <GridItem  xs={6}>
                       <CountryDropdown onCountryChanged={this.onCountryChanged} defaultValue={this.props.country}/>
                     </GridItem>
-                    <GridItem xs={6}>
+                    <GridItem xs={6} style={{marginTop: -30}}>
                       <CustomInput
                       labelText ="Project Zip Code"
                         id="projectLocation"
@@ -230,7 +237,7 @@ class StartProject extends React.Component {
                                   this.state.volunteerStatus?this.onVolunteersChange(''):null
                                 }
                             }
-                              checkedIcon={
+                                checkedIcon={
                                 <Check className={classes.checkedIcon} />
                               }
                               icon={<Check className={classes.uncheckedIcon} />}
@@ -422,6 +429,7 @@ class StartProject extends React.Component {
                         volunteers,
                         freelancers,
                         zipCode,
+                        country,
                         interests,
                         startDate,
                         endDate,
@@ -435,6 +443,7 @@ class StartProject extends React.Component {
                         volunteers,
                         freelancers,
                         zipCode,
+                        country,
                         interests,
                         startDate,
                         endDate,
@@ -442,7 +451,7 @@ class StartProject extends React.Component {
                         userId,
                         files
                       })
-                      window.scroll(0,0)
+                      window.scrollTo(0, 0)
                       }}
                       color="info"
                       >

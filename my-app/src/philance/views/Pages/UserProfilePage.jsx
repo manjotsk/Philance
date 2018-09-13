@@ -25,16 +25,13 @@ import CardBody from "components/Card/CardBody.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
 import CardIcon from "components/Card/CardIcon.jsx";
 import CardAvatar from "components/Card/CardAvatar.jsx";
+import store from '../../store/store'
 
 import userProfileStyles from "philance/views/PageStyles/UserProfileStyles.jsx";
 
 import avatar from "assets/img/faces/marc.jpg";
 
-import { Form,Message } from 'semantic-ui-react'
-
 import {registerToast} from '../../actions/register'
-import {Redirect} from 'react-router-dom'
-import store from '../../store/store'
 
 import {
   textChanged,
@@ -55,7 +52,6 @@ import {
   countryChanged
 } from '../../actions/userProfile'
 
-import {myProject} from '../../actions/myProject'
 import Toaster from "../../components/Toaster/Toaster";
 
 class UserProfile extends React.Component {

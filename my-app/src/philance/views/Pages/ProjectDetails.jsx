@@ -1,11 +1,8 @@
 import React from "react";
-import PropTypes from "prop-types";
 import Datetime from "react-datetime";
 
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 
 // core components
 import GridContainer from "components/Grid/GridContainer.jsx";
@@ -21,19 +18,14 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 
 // @material-ui/icons
-import Check from "@material-ui/icons/Check";
 import startProjectPageStyle from "philance/views/PageStyles/StartProjectPageStyles";
 import {InterestsDropdown, CountryDropdown} from '../../components/DoubleDropdown'
 import {connect} from 'react-redux'
 import {
-  Table,
   Icon
 } from 'semantic-ui-react';
 
-import { getCommonInfo } from "../../actions/common";
-
 import {
-  textChanged,
   budgetChanged,
   descriptionChanged,
   endDateChanged,
@@ -41,34 +33,16 @@ import {
   projectNameChanged,
   startDateChanged,
   volunteersChanged,
-  zipCodeChanged,
-  startProject,
-  startProjectUnmount
-} from '../../actions/startProject'
+  zipCodeChanged
+} from '../../actions/projectDetails'
 import Toaster from "../../components/Toaster/Toaster";
 
 class ProjectDetails extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      checked: '',
-      name: '',
-      description: '',
-      freelancers: '',
-      impact: '',
-      volunteers: null,
-      freeLancers: null,
-      startDate: null,
-      endDate: null,
-      budget: null,
       isDisabled: true
     };
-  }
-  componentWillMount(){
-    this.props.getCommonInfo()
-  }
-  componentWillUnmount(){
-    this.props.startProjectUnmount()
   }
   onProjectNameChange(text) {
     this.props.projectNameChanged(text)
@@ -118,7 +92,7 @@ class ProjectDetails extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <GridContainer className={this.props.isLoggedIn?classes.justifyContentCenter:classes.container}>
+      <GridContainer className={classes.justifyContentCenter}>
         <Toaster display={this.props.requestCompleted} message={'Project has been created'}/>
           <GridItem xs={12} sm={12} md={10}>
             <Card>
@@ -129,6 +103,11 @@ class ProjectDetails extends React.Component {
               </CardHeader>
               <CardBody>
                 <form>
+                  <GridContainer align="right" direction="column">
+                    <GridItem>
+                      <Button onClick={()=>this.setState({isDisabled: false})} color="info">{this.state.isDisabled?'EDIT':'SAVE'}</Button>
+                    </GridItem>
+                  </GridContainer>
                   <GridContainer>
                     <GridItem xs={12} sm={14} md={6}>
                       <CustomInput
@@ -138,6 +117,7 @@ class ProjectDetails extends React.Component {
                           fullWidth: true
                         }}
                         inputProps={{
+                          value: this.props.name,
                           placeholder: "Enter a Project Name",
                           onChange: e => {
                             this.onProjectNameChange(e.target.value)
@@ -154,6 +134,7 @@ class ProjectDetails extends React.Component {
                           fullWidth: true
                         }}
                         inputProps={{
+                          value: this.props.status,
                           placeholder: "Enter Project Status",
                           onChange: e => {
                             this.onProjectNameChange(e.target.value)
@@ -172,6 +153,7 @@ class ProjectDetails extends React.Component {
                           fullWidth: true
                         }}
                         inputProps={{
+                          value: this.props.description,
                           placeholder: "Enter a Project Description",
                           onChange: e => {
                             this.onDescriptionChange(e.target.value)
@@ -190,6 +172,7 @@ class ProjectDetails extends React.Component {
                           fullWidth: true
                         }}
                         inputProps={{
+                          value: this.props.zipCode,
                           placeholder: "Enter zip code of location where it took place",
                           onChange: e => {
                             this.onZipCodeChange(e.target.value)
@@ -218,12 +201,13 @@ class ProjectDetails extends React.Component {
                                   timeFormat={false}
                                   onChange={date=>this.onStartDateChange(date._d)}
                                   inputProps={{
+                                    value: this.props.startDate,
                                     disabled: this.state.isDisabled
                                   }}
                                 />
                             </GridItem>
                             <GridItem xs={3}>
-                              <Icon bordered inverted color='teal' name='calendar alternate outline' onClick = {()=>{console.log('hello')}}/>
+                              <Icon bordered inverted color='teal' name='calendar alternate outline'/>
                             </GridItem>
                           </GridContainer>
                           </FormControl>
@@ -240,6 +224,7 @@ class ProjectDetails extends React.Component {
                                   timeFormat={false}
                                   onChange={date=>this.onEndDateChange(date._d)}
                                   inputProps={{
+                                    value: this.props.endDate,
                                     disabled: this.state.isDisabled
                                   }}
                                 />
@@ -278,6 +263,7 @@ class ProjectDetails extends React.Component {
                           fullWidth: true
                         }}
                         inputProps={{
+                          value: this.props.budget,
                           placeholder: "Enter Estimated Budget (USD)",
                           onChange: e => {
                             this.onBudgetChange(e.target.value)
@@ -320,6 +306,7 @@ class ProjectDetails extends React.Component {
                           fullWidth: true
                         }}
                         inputProps={{
+                          value: this.props.volunteers,
                           disabled : this.state.isDisabled,
                           placeholder: "Enter Number of Volunteers",
                           onChange: e => {
@@ -343,6 +330,7 @@ class ProjectDetails extends React.Component {
                           fullWidth: true
                         }}
                         inputProps={{
+                          value: this.props.freelancers,
                           disabled : this.state.isDisabled,
                           placeholder: "Enter Number of Freelancers",
                           onChange: e => {
@@ -364,16 +352,16 @@ class ProjectDetails extends React.Component {
 
 const mapStateToProps =state=> {
   return {
-    name: state.start.name,
-    description: state.start.description,
-    zipCode: state.start.zipCode,
-    freelancers: state.start.freelancers,
-    volunteers: state.start.volunteers,
-    startDate: state.start.startDate,
-    endDate: state.start.endDate,
-    budget: state.start.budget,
-    text: state.start.text,
-    interests: state.user.interests,
+    name: state.proDetails.name,
+    description: state.proDetails.description,
+    zipCode: state.proDetails.zipCode,
+    freelancers: state.proDetails.freelancers,
+    volunteers: state.proDetails.volunteers,
+    startDate: state.proDetails.startDate,
+    status: state.proDetails.status,
+    endDate: state.proDetails.endDate,
+    budget: state.proDetails.budget,
+    interests: state.proDetails.interests,
     isLoggedIn: state.auth.isLoggedIn,
     interestOptions: state.common.interestOptions,
     requestCompleted: state.start.requestCompleted,
@@ -381,12 +369,7 @@ const mapStateToProps =state=> {
   }
 }
 
-// StartProject.propTypes = {
-//   classes: PropTypes.object.isRequired
-// };
-
 export default connect(mapStateToProps, {
-  textChanged,
   budgetChanged,
   descriptionChanged,
   endDateChanged,
@@ -394,8 +377,5 @@ export default connect(mapStateToProps, {
   projectNameChanged,
   startDateChanged,
   volunteersChanged,
-  zipCodeChanged,
-  startProject,
-  getCommonInfo,
-  startProjectUnmount
+  zipCodeChanged
 })(withStyles(startProjectPageStyle)(ProjectDetails));

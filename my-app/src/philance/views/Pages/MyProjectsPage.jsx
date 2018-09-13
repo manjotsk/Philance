@@ -8,7 +8,7 @@ import Table from '@material-ui/core/Table';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Icon from '@material-ui/core/Icon';
+import Button from "components/CustomButtons/Button.jsx";
 
 // @material-ui/core components
 
@@ -21,6 +21,7 @@ import CardBody from "components/Card/CardBody.jsx"
 // redux
 import {connect} from 'react-redux'
 import {myProject, storeList} from '../../actions/myProject'
+import {getProjectById} from '../../actions/projectDetails'
 
 //import publicHomePageStyle from "./PublicHomePageStyle";
 
@@ -81,10 +82,7 @@ else {
 }
 
   color(i) {
-    if(i===1) return '#e1efd8'
-    if(i===3) return '#dbebf6'
-    if(i===5) return '#efdedd'
-    if(i===7) return '#fbf8e4'
+    if(i===1) return '#dbebf6'
   }
 
   async createList() {
@@ -98,16 +96,20 @@ else {
       endDate = endDate.toDateString()
       startDate = startDate.substr(startDate.indexOf(" ")+1)
       endDate = endDate.substr(endDate.indexOf(" ")+1)
-      i=i===7?1:i+1
+      i=i===2?1:i+1
       object.push(
-                    <TableRow hover onClick={()=>this.props.history.push(`project-details/${element.project_id}`)} style={{cursor: 'pointer', backgroundColor: this.color(i)}}>
+                    <TableRow style={{backgroundColor: this.color(i)}}>
                       <CustomTableCell>{element.project_id}</CustomTableCell>
                       <CustomTableCell>{element.project_name}</CustomTableCell>
-                      <CustomTableCell><Icon style={{color: element.status==='ACTIVE'?'green':'red'}} >{element.status==='ACTIVE'?'done':'clear'}</Icon></CustomTableCell>
+                      <CustomTableCell>{element.status}</CustomTableCell>
                       <CustomTableCell>{startDate}</CustomTableCell>
                       <CustomTableCell>{endDate}</CustomTableCell>
                       <CustomTableCell></CustomTableCell>
                       <CustomTableCell></CustomTableCell>
+                      <CustomTableCell><Button color="info" onClick={()=>{
+                        this.props.getProjectById(element.project_id)
+                        this.props.history.push(`project-details/${element.project_id}`)
+                        }}>Details</Button></CustomTableCell>
                     </TableRow>
         )
       }
@@ -124,10 +126,10 @@ else {
     return (
         <GridContainer>
           <GridContainer justify="center">
-          <GridItem xs={12} sm={12} md={12} justify="center">
+          <GridItem xs={12} sm={12} md={10} justify="center">
             <Card className={classes.cardSignup}>
               <CardBody>
-                  <Table className={classes.table}>
+                  <Table className={classes.table} padding="checkbox">
                     <TableHead>
                       <TableRow>
                       <CustomTableCell>ID</CustomTableCell>
@@ -137,6 +139,7 @@ else {
                       <CustomTableCell>Target End</CustomTableCell>
                       <CustomTableCell>Close</CustomTableCell>
                       <CustomTableCell>% Complete</CustomTableCell>
+                      <CustomTableCell>Actions</CustomTableCell>                      
                       </TableRow>
                     </TableHead>
                       {
@@ -166,4 +169,4 @@ MyProjectsPage.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default connect(mapStateToProps, {myProject, storeList})(withStyles(styles)(MyProjectsPage));
+export default connect(mapStateToProps, {myProject, storeList, getProjectById})(withStyles(styles)(MyProjectsPage));

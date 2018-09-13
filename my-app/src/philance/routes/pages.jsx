@@ -161,7 +161,7 @@ export const headerRoutes = [
 export const pvtSidebarRoutes = [
   {
     path: "/home",
-    name: "Home Page",
+    name: "Home",
     short: "Home",
     mini: "HP",
     icon: HomeIcon,
@@ -169,7 +169,7 @@ export const pvtSidebarRoutes = [
   },
   {
     path: "/start-project",
-    name: "Start Project Page",
+    name: "Start Project",
     short: "Start A Project",
     mini: "SPP",
     icon: LaunchIcon,
@@ -177,7 +177,7 @@ export const pvtSidebarRoutes = [
   },
   {
     path: "/find-project",
-    name: "Find Project Page",
+    name: "Find Project",
     short: "Find A project",
     mini: "FPP",
     icon: SearchIcon,
@@ -185,7 +185,7 @@ export const pvtSidebarRoutes = [
   },
   {
     path: "/my-projects",
-    name: "My Projects Page",
+    name: "My Projects",
     short: "My Projects",
     mini: "MPP",
     icon: FolderIcon,
@@ -193,7 +193,7 @@ export const pvtSidebarRoutes = [
   },
   {
     path: "/notifications",
-    name: "Notifications Page",
+    name: "Notifications",
     short: "Notifications",
     mini: "NP",
     icon: NotificationsIcon,
@@ -201,27 +201,19 @@ export const pvtSidebarRoutes = [
   },
   {
     path: "/messages",
-    name: "Messages Page",
+    name: "Messages",
     short: "Messages",
     mini: "MP",
     icon: MessageIcon,
     component: MessagesPage
   },
   {
-    path: "/profile",
-    name: "User Profile Page",
-    short: "User Profile",
-    mini: "UP",
-    icon: PersonIcon,
-    component: UserProfile
-  },
-  {
     redirect: true,
     path: "/",
     pathTo: "/home",
-    name: "Home Page"
+    name: "Home"
   }
-]
+];
 
 export const pvtPagesRoutes = [
   {
