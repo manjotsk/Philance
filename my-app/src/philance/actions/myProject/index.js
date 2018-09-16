@@ -3,9 +3,9 @@ import axios from 'axios'
 import {hostname} from '../../../config'
 import {MY_PROJECT_GET_PROJECTS, MY_PROJECT_STORE_PROJECTS} from '../types'
 
-export const myProject =()=> {
+export const myProject =(id)=> {
     return dispatch=> {
-        axios.get(hostname()+'/philance/users/1/projects/')
+        axios.get(hostname()+`/philance/users/${id}/projects/`)
         .then(
             response=>{
                 dispatch({

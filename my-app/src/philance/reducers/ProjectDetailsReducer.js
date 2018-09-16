@@ -29,7 +29,7 @@ const INITIAL_STATE = {
     volunteers: '',
     freelancers: '',
     toast: false,
-    id: ''
+    id: '1'
 }
 
 export default (state = INITIAL_STATE, action) => {

@@ -11,6 +11,7 @@ import MessagesPage from "philance/views/Pages/MessagesPage.jsx";
 import UserProfile from "philance/views/Pages/UserProfilePage.jsx";
 import ForgotPassword from "../views/Pages/ForgotPassword";
 import ProjectDetails from "../views/Pages/ProjectDetails"
+import ApplicationPage from "philance/views/Pages/ApplicationPage.jsx"
 
 // @material-ui/icons
 import HomeIcon from "@material-ui/icons/Home";
@@ -279,6 +280,14 @@ export const pvtPagesRoutes = [
     mini: "PD",
     icon: FolderIcon,
     component: ProjectDetails
+  },
+  {
+    path: "/application-page/:id",
+    name: "Application Page",
+    short: "Application",
+    mini: "AP",
+    icon: FolderIcon,
+    component: ApplicationPage
   },
   {
     redirect: true,

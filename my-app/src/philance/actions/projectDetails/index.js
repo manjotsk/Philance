@@ -110,7 +110,7 @@ export const updateProject =({name, description, volunteers, freelancers, budget
             volunteers : volunteers,
             freelancers : freelancers,
             estimatedBudget : budget,
-            userId : "1",
+            userId : id,
             startDate : startDate,
             endDate : endDate,
             projectDetails:[  

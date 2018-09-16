@@ -74,7 +74,7 @@ class Pages extends React.Component {
           navigator.platform.indexOf("Win") > -1
       });
     if (this.props.isLoggedIn) {
-      this.props.myProject()
+      this.props.myProject(this.props.id)
       return (
         <Dashboard {...rest}/>
       )}
@@ -118,6 +118,7 @@ class Pages extends React.Component {
 const mapStateToProps = state => {
   return {
     isLoggedIn: state.auth.isLoggedIn,
+    id: state.auth.userId
   }
 }
 

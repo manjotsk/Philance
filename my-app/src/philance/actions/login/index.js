@@ -79,7 +79,12 @@ export const loginUser = ({email, password}) => {
         .then(response=>{
             const status = response.status
             if(status===200){
-                dispatch({type: LOGIN_USER_SUCCESS})
+                console.log('r',response)
+                dispatch({
+                    type: LOGIN_USER_SUCCESS,
+                    userId: response.data.userId,
+                    payload: response.data.token
+                })
                     axios.post(hostname()+'/philance/users/search', {
                         email: email  
                     })
