@@ -8,12 +8,14 @@ import ResetPasswordReducer from './ResetPasswordReducer';
 import MyProjectReducer from './MyProjectReducer' 
 import ProjectDetailsReducer from './ProjectDetailsReducer'
 import ApplyProjectReducer from './ApplyProjectReducer'
+import FindProjectReducer from './FindProjectReducer';
 
 export default combineReducers({
     auth: AuthReducer,
     reg: RegisterReducer,
     user: UserProfileReducer,
     start: StartProjectReducer,
+    findProject: FindProjectReducer,
     common: CommonReducer,
     resetpass: ResetPasswordReducer,
     mypro: MyProjectReducer,

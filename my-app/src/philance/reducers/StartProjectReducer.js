@@ -79,6 +79,7 @@ export default (state = INITIAL_STATE, action) => {
                 startDate: '',
                 endDate: '',
                 budget: '',
+                files:'',
                 requestCompleted: false,
                 text: 'CREATE A PROJECT',
                 uploadStatus:'NOT_INITIATED',

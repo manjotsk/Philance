@@ -371,7 +371,14 @@ exports.createPasswordResetToken = (req, res, next) => {
                     expiresIn: "1h"
                 }
             );
-            var dev = config.development.unsecure;
+            var dev
+            if (process.env.NODE_ENV === 'production'){
+                dev = config.production.secure;
+
+            }else{
+                dev = config.development.unsecure;
+
+            }
             //send email
             userHelper.emailUsers({
                 config:{
