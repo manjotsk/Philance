@@ -137,7 +137,7 @@ exports.updateProjects = (req, res, next) => {
  * GET - list of projects based on User Search Criteria. It may or may not be created or assigned to the user 
  */
 exports.getProjects = (req, res, next) => {
-// console.log(req.body)
+console.log(req.body,'here\n\n')
     var _country = req.body.country
     var _zipCode = req.body.zipCode
     var _volunteers = req.body.volunteers
@@ -169,8 +169,8 @@ exports.getProjects = (req, res, next) => {
     _sql = _impactCategories ? _sql + ' INNER JOIN philance.project_details as details ON projects.project_id=details.project_id ' : _sql;
     _sql=_sql+'where ';
     _sql = _country             ?   _sql + `projects.country = '${_country}' AND ` : _sql;
-    _sql = _volunteers          ?   _sql + `projects.volunteers = '${_volunteers}' AND ` : _sql;
-    _sql = _freelancers         ?   _sql + `projects.freelancers = '${_freelancers}' AND ` : _sql;
+    _sql = _volunteers          ?   _sql + `projects.volunteers > 0 AND ` : _sql;
+    _sql = _freelancers         ?   _sql + `projects.freelancers > 0 AND ` : _sql;
     _sql = _keywords            ?   _sql + `projects.description LIKE '%${_keywords}%' AND ` : _sql;
     _sql = _impactCategories    ?   _sql + `(${_impactCategoriesSql})` : _sql;
     _sql = _sql.slice(0, -4)
