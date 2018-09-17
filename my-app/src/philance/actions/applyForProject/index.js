@@ -6,6 +6,7 @@ import {
     APPLY_FOR_PROJECT_ROLE_CHANGED,
     APPLY_FOR_PROJECT_REMOVE_TOASTER,
     APPLY_FOR_PROJECT_UPDATE_SUCCESS,
+    APPLY_FOR_PROJECT_ALREADY_APPLIED,
 } from '../types'
 
 export const removeToaster =()=> {
@@ -39,12 +40,19 @@ export const applyForProject =({userId, projectId, message, role})=> {
         .then(
             response=> {
                 console.log(response, userId, projectId)
-                dispatch({type: APPLY_FOR_PROJECT_UPDATE_SUCCESS})
+                dispatch({
+                    type: APPLY_FOR_PROJECT_UPDATE_SUCCESS
+                })
             }
         )
         .catch(
             error=> {
-                console.log(error)
+                const status = error.response.status
+                if(status===409) {
+                    dispatch({
+                        type: APPLY_FOR_PROJECT_ALREADY_APPLIED
+                    })
+                }
             }
         )
     }

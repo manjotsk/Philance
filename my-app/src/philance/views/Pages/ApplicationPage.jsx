@@ -50,7 +50,7 @@ class ApplicationPage extends React.Component {
     const { classes } = this.props;
     return (
       <GridContainer className={classes.justifyContentCenter}>
-        <Toaster display={this.props.toast} message={'You have successfully applied for the Project'}/>
+        <Toaster display={this.props.toast} message={this.props.text}/>
           <GridItem xs={12} sm={12} md={10}>
             <Card>
               <CardHeader color="info" text>
@@ -119,6 +119,7 @@ class ApplicationPage extends React.Component {
                       onClick={()=>{
                         const {projectId, userId, message, role} = this.props
                         this.props.applyForProject({userId, projectId, message, role})
+                        console.log(this.props.text)
                       }}
                       >
                       Submit Application to Project Sponsor
@@ -141,7 +142,8 @@ const mapStateToProps =state=> {
     userId: state.auth.userId,
     message: state.applypro.message,
     role: state.applypro.role,
-    toast: state.applypro.toast
+    toast: state.applypro.toast,
+    text: state.applypro.text
   }
 }
 
