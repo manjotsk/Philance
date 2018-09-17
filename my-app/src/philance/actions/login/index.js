@@ -79,7 +79,6 @@ export const loginUser = ({email, password}) => {
         .then(response=>{
             const status = response.status
             if(status===200){
-                console.log('r',response)
                 dispatch({
                     type: LOGIN_USER_SUCCESS,
                     userId: response.data.userId,

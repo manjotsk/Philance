@@ -39,6 +39,8 @@ import {
   updateProject
 } from '../../actions/projectDetails'
 
+import {myProject} from '../../actions/myProject'
+
 import Toaster from "../../components/Toaster/Toaster";
 
 class ProjectDetails extends React.Component {
@@ -51,6 +53,7 @@ class ProjectDetails extends React.Component {
 
   componentWillUnmount() {
     this.props.removeToaster()
+    this.props.myProject(this.props.userId)
   }
   
   onProjectNameChange(text) {
@@ -418,5 +421,6 @@ export default connect(mapStateToProps, {
   zipCodeChanged,
   statusChanged,
   removeToaster,
-  updateProject
+  updateProject,
+  myProject
 })(withStyles(startProjectPageStyle)(ProjectDetails));

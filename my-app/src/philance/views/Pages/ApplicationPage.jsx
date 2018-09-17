@@ -1,8 +1,11 @@
 import React from "react";
-import Datetime from "react-datetime";
 
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
 
 // core components
 import GridContainer from "components/Grid/GridContainer.jsx";
@@ -14,23 +17,52 @@ import CardHeader from "components/Card/CardHeader.jsx";
 import CardText from "components/Card/CardText.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 
-import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormLabel from "@material-ui/core/FormLabel";
 
 // @material-ui/icons
 import startProjectPageStyle from "philance/views/PageStyles/StartProjectPageStyles";
 import {connect} from 'react-redux'
+import {removeToaster, roleChanged, messageChanged, applyForProject} from '../../actions/applyForProject'
 
 import Toaster from "../../components/Toaster/Toaster";
 
+const styles = theme => ({
+  root: {
+    display: 'flex',
+  },
+  formControl: {
+    margin: theme.spacing.unit * 3,
+  },
+  group: {
+    margin: `${theme.spacing.unit}px 0`,
+  },
+});
+
 class ApplicationPage extends React.Component {
+
+  state = {
+    value: '',
+  }
+
+  componentWillUnmount() {
+    this.props.removeToaster()
+  }
+
+  handleChange = async event => {
+    await this.setState({ value: event.target.value });
+    this.props.roleChanged(this.state.value)
+  }
+
+  onMessageChanged (text) {
+    this.props.messageChanged(text)
+  }
 
   render() {
     const { classes } = this.props;
     return (
       <GridContainer className={classes.justifyContentCenter}>
-        <Toaster display={this.props.toast} message={'Project has been updated'}/>
+        <Toaster display={this.props.toast} message={'You have successfully applied for the Project'}/>
           <GridItem xs={12} sm={12} md={10}>
             <Card>
               <CardHeader color="info" text>
@@ -40,30 +72,69 @@ class ApplicationPage extends React.Component {
               </CardHeader>
               <CardBody>
                 <form>
-                <h2 className={classes.cardTitle}>Application to work on a project</h2>
+                <h2 className={classes.cardTitle}>Application to work on a project</h2><br/>
                   <GridContainer>
                     <GridItem xs={12} sm={6}>
-                      <FormLabel className={classes.labelHorizontal} style={{color:"#777777",marginBottom:'2vh'}}>
-                        Project Id and Name
-                      </FormLabel>
+                      <InputLabel className={classes.label}>
+                        Project Id: {this.props.projectId}  Project Name: {this.props.name}
+                      </InputLabel>
                     </GridItem>
-                    <GridItem xs={12} sm={12} md={12}>
+                  </GridContainer>
+                  <GridContainer>
+                  <GridItem xs={12} sm={12} md={6} align="left">
                     <CustomInput
-                        labelText="Enter your comments herte explaining why you want 
-                        to work on this project and whatever other information you want 
-                        to the project sponsor"
-                        id="about-me"
+                        id="comments"
                         formControlProps={{
                         fullWidth: true
                         }}
                         inputProps={{
                         multiline: true,
-                        rows: 5,
+                        rows: 2,
+                        placeholder:"Enter your comments here explaining why you want to work on this project and whatever other information you want to the project sponsor",
                         onChange: e => {
-                            this.onDescriptionChange(e.target.value)
+                          this.onMessageChanged(e.target.value)
                         }
                         }}
                     />
+                    </GridItem>
+                  </GridContainer>
+                  <br/>
+                  <GridContainer>
+                    <GridItem xs={12} sm={12} md={6}>
+                    <FormControl component="fieldset" className={classes.formControl}>
+                    <FormLabel component="legend">Select Your Role</FormLabel>
+                    <RadioGroup
+                      aria-label="role"
+                      name="role"
+                      className={classes.group}
+                      value={this.state.value}
+                      onChange={this.handleChange}
+                    >
+                      <FormControlLabel
+                        value="volunteer"
+                        control={<Radio color="primary" />}
+                        label="Volunteer"
+                      />
+                      <FormControlLabel
+                        value="freelancer"
+                        control={<Radio color="primary" />}
+                        label="Freelancer"
+                      />
+                    </RadioGroup>
+                    </FormControl>
+                    </GridItem>
+                  </GridContainer>
+                  <GridContainer>
+                    <GridItem xs={12} sm={12} md={4}>
+                      <Button 
+                      color="info"
+                      onClick={()=>{
+                        const {projectId, userId, message, role} = this.props
+                        this.props.applyForProject({userId, projectId, message, role})
+                      }}
+                      >
+                      Submit Application to Project Sponsor
+                      </Button>
                     </GridItem>
                   </GridContainer>
                 </form>
@@ -77,23 +148,17 @@ class ApplicationPage extends React.Component {
 
 const mapStateToProps =state=> {
   return {
-    name: state.proDetails.name,
-    description: state.proDetails.description,
-    zipCode: state.proDetails.zipCode,
-    freelancers: state.proDetails.freelancers,
-    volunteers: state.proDetails.volunteers,
-    startDate: state.proDetails.startDate,
-    status: state.proDetails.status,
-    endDate: state.proDetails.endDate,
-    budget: state.proDetails.budget,
-    toast: state.proDetails.toast,
-    id: state.proDetails.id,
-    interests: state.proDetails.interests,
-    isLoggedIn: state.auth.isLoggedIn,
-    interestOptions: state.common.interestOptions,
-    requestCompleted: state.start.requestCompleted,
-    userId:state.user.userId
+    projectId: state.proDetails.id,
+    projectName: state.proDetails.name,
+    userId: state.auth.userId,
+    message: state.applypro.message,
+    role: state.applypro.role
   }
 }
 
-export default connect(mapStateToProps)(withStyles(startProjectPageStyle)(ApplicationPage));
+export default connect(mapStateToProps, {
+  removeToaster,
+  roleChanged,
+  messageChanged,
+  applyForProject
+})(withStyles(startProjectPageStyle)(ApplicationPage));

@@ -7,6 +7,7 @@ import CommonReducer from './CommonReducer';
 import ResetPasswordReducer from './ResetPasswordReducer';
 import MyProjectReducer from './MyProjectReducer' 
 import ProjectDetailsReducer from './ProjectDetailsReducer'
+import ApplyProjectReducer from './ApplyProjectReducer'
 
 export default combineReducers({
     auth: AuthReducer,
@@ -16,5 +17,6 @@ export default combineReducers({
     common: CommonReducer,
     resetpass: ResetPasswordReducer,
     mypro: MyProjectReducer,
-    proDetails: ProjectDetailsReducer
+    proDetails: ProjectDetailsReducer,
+    applypro: ApplyProjectReducer
 });
