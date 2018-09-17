@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import Datetime from "react-datetime";
 
@@ -47,7 +46,6 @@ import {
   countryChanged
 } from '../../actions/startProject'
 import Toaster from "../../components/Toaster/Toaster";
-
 import store from '../../store/store'
 
 const uid = Math.random().toString(36).substring(7);
@@ -77,7 +75,7 @@ class StartProject extends React.Component {
   componentWillUnmount(){
     this.props.startProjectUnmount()
   }
-  // componentDidUpdate = () => { ReactDOM.findDOMNode(this).scrollIntoView(); }
+
   onProjectNameChange(text) {
     this.props.projectNameChanged(text)
     this.props.textChanged()
@@ -183,11 +181,20 @@ class StartProject extends React.Component {
                       />
                     </GridItem>
                   </GridContainer>
+                  <GridContainer>
+                    <GridItem xs={12} sm={6}>
+                        <InputLabel className={classes.label} style={{marginBottom: 5, marginTop: 10}}>
+                          Country
+                        </InputLabel>
+                    </GridItem>
+                  </GridContainer>
                   <GridContainer spacing={12}>
                     <GridItem  xs={6}>
                       <CountryDropdown onCountryChanged={this.onCountryChanged} defaultValue={this.props.country}/>
                     </GridItem>
-                    <GridItem xs={6}>
+                  </GridContainer>
+                  <GridContainer spacing={12}>
+                    <GridItem xs={6} style={{}}>
                       <CustomInput
                       labelText ="Project Zip Code"
                         id="projectLocation"
@@ -250,7 +257,7 @@ class StartProject extends React.Component {
                         />
                         </GridItem>
                         <GridItem md ={6}>
-                        <CustomInput
+                      <CustomInput
                         id="volunteers"
                         labelText ="Volunteers"
                         formControlProps={{
@@ -265,6 +272,7 @@ class StartProject extends React.Component {
                           }
                         }}
                       />
+
                         </GridItem>
                         </GridContainer>
                         <GridContainer>
@@ -329,7 +337,7 @@ class StartProject extends React.Component {
                                 />
                             </GridItem>
                             <GridItem xs={3}>
-                              <Icon bordered inverted color='teal' name='calendar alternate outline' onClick = {()=>{console.log('hello')}}/>
+                              <Icon bordered inverted color='teal' name='calendar alternate outline'/>
                             </GridItem>
                           </GridContainer>
                           </FormControl>
@@ -354,7 +362,7 @@ class StartProject extends React.Component {
                                 />
                               </GridItem>
                             <GridItem xs={3}>
-                              <Icon bordered inverted color='teal' name='calendar alternate outline' onClick = {()=>{console.log('hello')}}/>
+                              <Icon bordered inverted color='teal' name='calendar alternate outline'/>
                             </GridItem>
                           </GridContainer>
                           </FormControl>
@@ -435,12 +443,10 @@ class StartProject extends React.Component {
                         </GridItem>
                         </GridContainer>
                       </Label>
-
                       {this.props.uploadStatus=='NOT_INITIATED'?null:
                       <Toaster display={true} message={this.props.uploadStatus}/>}
 
                     </GridItem>
-                    {console.log('******45',this.props.files)}
                   </GridContainer>
                   <br/>
                   <GridContainer className={classes.justifyContentCenter}> 
@@ -460,7 +466,6 @@ class StartProject extends React.Component {
                         userId,
                         files
                       } = this.props
-                      console.log(this.props)
                       this.props.startProject({
                         name,
                         description,
@@ -482,7 +487,7 @@ class StartProject extends React.Component {
                       {this.props.text}
                       </Button>
                     </GridItem>
-                  </GridContainer>
+                  </GridContainer>{console.log(this.props.country)}
                 </form>
               </CardBody>
             </Card>
@@ -510,9 +515,7 @@ const mapStateToProps =state=> {
     userId:state.user.userId,
     files:state.start.files,
     uploadStatus:state.start.uploadStatus,
-    uploadStatus:state.start.uploadStatus,
     country:state.start.country
-
   }
 }
 

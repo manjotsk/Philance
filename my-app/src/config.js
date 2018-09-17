@@ -1,5 +1,3 @@
-
-
 export const hostname = () => {
     if(window.location.hostname.includes('localhost') || window.location.hostname.includes('127.0.0.1'))
         return 'http://localhost:3001'

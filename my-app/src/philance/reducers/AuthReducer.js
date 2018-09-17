@@ -16,7 +16,8 @@ const INITIAL_STATE = {
     password: '',
     token: null,
     isLoggedIn: false,
-    error: 'LET\'s GO'
+    error: 'LET\'s GO',
+    userId: null
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -28,7 +29,7 @@ export default (state = INITIAL_STATE, action) => {
         case LOGIN_USER:
             return{...state, error: 'LET\'s GO'}
         case LOGIN_USER_SUCCESS:
-            return {...state, user: action.payload, isLoggedIn: true}
+            return {...state, token: action.payload, isLoggedIn: true, userId: action.userId}
         case  FIELDS_EMPTY:
             return {...state, error: 'Both fields must filled'}
         case PASSWORD_EMPTY:

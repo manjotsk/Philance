@@ -10,6 +10,8 @@ import NotificationsPage from "philance/views/Pages/NotificationsPage.jsx";
 import MessagesPage from "philance/views/Pages/MessagesPage.jsx";
 import UserProfile from "philance/views/Pages/UserProfilePage.jsx";
 import ForgotPassword from "../views/Pages/ForgotPassword";
+import ProjectDetails from "../views/Pages/ProjectDetails"
+import ApplicationPage from "philance/views/Pages/ApplicationPage.jsx"
 
 // @material-ui/icons
 import HomeIcon from "@material-ui/icons/Home";
@@ -157,6 +159,63 @@ export const headerRoutes = [
 
 ];
 
+export const pvtSidebarRoutes = [
+  {
+    path: "/home",
+    name: "Home",
+    short: "Home",
+    mini: "HP",
+    icon: HomeIcon,
+    component: PvtHomePage
+  },
+  {
+    path: "/start-project",
+    name: "Start Project",
+    short: "Start A Project",
+    mini: "SPP",
+    icon: LaunchIcon,
+    component: StartProjectPage
+  },
+  {
+    path: "/find-project",
+    name: "Find Project",
+    short: "Find A project",
+    mini: "FPP",
+    icon: SearchIcon,
+    component: ProjectSearch
+  },
+  {
+    path: "/my-projects",
+    name: "My Projects",
+    short: "My Projects",
+    mini: "MPP",
+    icon: FolderIcon,
+    component: MyProjectsPage
+  },
+  {
+    path: "/notifications",
+    name: "Notifications",
+    short: "Notifications",
+    mini: "NP",
+    icon: NotificationsIcon,
+    component: NotificationsPage
+  },
+  {
+    path: "/messages",
+    name: "Messages",
+    short: "Messages",
+    mini: "MP",
+    icon: MessageIcon,
+    component: MessagesPage
+  },
+  {
+    redirect: true,
+    path: "/",
+    pathTo: "/home",
+    name: "Home"
+  }
+];
+
 export const pvtPagesRoutes = [
   {
     path: "/home",
@@ -215,69 +274,27 @@ export const pvtPagesRoutes = [
     component: UserProfile
   },
   {
-    redirect: true,
-    path: "/",
-    pathTo: "/home",
-    name: "Home"
-  }
-];
-export const pvtSidebarRoutes = [
-  {
-    path: "/home",
-    name: "Home",
-    short: "Home",
-    mini: "HP",
-    icon: HomeIcon,
-    component: PvtHomePage
-  },
-  {
-    path: "/start-project",
-    name: "Start Project",
-    short: "Start A Project",
-    mini: "SPP",
-    icon: LaunchIcon,
-    component: StartProjectPage
-  },
-  {
-    path: "/find-project",
-    name: "Find Project",
-    short: "Find A project",
-    mini: "FPP",
-    icon: SearchIcon,
-    component: ProjectSearch
-  },
-  {
-    path: "/my-projects",
-    name: "My Projects",
-    short: "My Projects",
-    mini: "MPP",
+    path: "/project-details/:id",
+    name: "Project Details",
+    short: "Details",
+    mini: "PD",
     icon: FolderIcon,
-    component: MyProjectsPage
+    component: ProjectDetails
   },
   {
-    path: "/notifications",
-    name: "Notifications",
-    short: "Notifications",
-    mini: "NP",
-    icon: NotificationsIcon,
-    component: NotificationsPage
+    path: "/application-page/:id",
+    name: "Application Page",
+    short: "Application",
+    mini: "AP",
+    icon: FolderIcon,
+    component: ApplicationPage
   },
   {
-    path: "/messages",
-    name: "Messages",
-    short: "Messages",
-    mini: "MP",
-    icon: MessageIcon,
-    component: MessagesPage
+    redirect: true,
+    path: "/project-details",
+    pathTo: "/my-projects",
+    name: "Home Page"
   },
-  // {
-  //   path: "/profile",
-  //   name: "User Profile",
-  //   short: "User Profile",
-  //   mini: "UP",
-  //   icon: PersonIcon,
-  //   component: UserProfile
-  // },
   {
     redirect: true,
     path: "/",

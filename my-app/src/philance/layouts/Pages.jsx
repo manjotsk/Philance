@@ -19,6 +19,8 @@ import Dashboard from '../layouts/Dashboard'
 import bgImagePvt from "philance/assets/img/philance-bg2.jpg";
 import bgImagePub from "philance/assets/img/philance-bg3.jpeg";
 
+import {myProject} from '../actions/myProject'
+
 import Sidebar from "../../components/Sidebar/Sidebar"
 // var ps;
 
@@ -72,6 +74,7 @@ class Pages extends React.Component {
           navigator.platform.indexOf("Win") > -1
       });
     if (this.props.isLoggedIn) {
+      this.props.myProject(this.props.id)
       return (
         <Dashboard {...rest}/>
       )}
@@ -115,6 +118,7 @@ class Pages extends React.Component {
 const mapStateToProps = state => {
   return {
     isLoggedIn: state.auth.isLoggedIn,
+    id: state.auth.userId
   }
 }
 
@@ -122,4 +126,4 @@ Pages.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default connect(mapStateToProps)(withStyles(pagesStyle)(Pages));
+export default connect(mapStateToProps, {myProject})(withStyles(pagesStyle)(Pages));
