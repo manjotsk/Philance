@@ -27,18 +27,6 @@ import {removeToaster, roleChanged, messageChanged, applyForProject} from '../..
 
 import Toaster from "../../components/Toaster/Toaster";
 
-const styles = theme => ({
-  root: {
-    display: 'flex',
-  },
-  formControl: {
-    margin: theme.spacing.unit * 3,
-  },
-  group: {
-    margin: `${theme.spacing.unit}px 0`,
-  },
-});
-
 class ApplicationPage extends React.Component {
 
   state = {
@@ -76,7 +64,7 @@ class ApplicationPage extends React.Component {
                   <GridContainer>
                     <GridItem xs={12} sm={6}>
                       <InputLabel className={classes.label}>
-                        Project Id: {this.props.projectId}  Project Name: {this.props.name}
+                        Project Id: {this.props.projectId}, Project Name: {this.props.projectName}
                       </InputLabel>
                     </GridItem>
                   </GridContainer>
@@ -152,7 +140,8 @@ const mapStateToProps =state=> {
     projectName: state.proDetails.name,
     userId: state.auth.userId,
     message: state.applypro.message,
-    role: state.applypro.role
+    role: state.applypro.role,
+    toast: state.applypro.toast
   }
 }
 

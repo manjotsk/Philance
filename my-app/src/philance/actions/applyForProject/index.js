@@ -30,7 +30,7 @@ export const messageChanged = text => {
 
 export const applyForProject =({userId, projectId, message, role})=> {
     return dispatch => {
-        axios.put(hostname()+`/philance/projects/${projectId}/users`, {
+        axios.post(hostname()+`/philance/projects/${projectId}/users`, {
             userId : userId,
             applicationMessage : message,
             role : role,
