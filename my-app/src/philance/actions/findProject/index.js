@@ -60,14 +60,20 @@ export const keywordChanged = text => {
 }
 
 export const findProjects = ({
-  volunteers,
-  freelancers,
+  resourceType,
+  projectStatus,
   interests,
   zipCode,
   country,
   keyword
 }) => {
-
+console.log(
+  resourceType,
+  projectStatus,
+  interests,
+  zipCode,
+  country,
+  keyword,'refer here')
   // if (
   //   interests === ''
   // ) {
@@ -75,6 +81,20 @@ export const findProjects = ({
   //     type: 'FIND_PROJECTS_FIELDS_EMPTY'
   //   }
   // }
+  var volunteers=false;
+  var freelancers=false;
+  switch(resourceType){
+    case 'Volunteers':{
+      volunteers=true
+    }
+    case 'Freelancers':{
+      freelancers=true
+    }
+    case 'Both':{
+      volunteers=true
+      freelancers=true
+    }
+  }
   return dispatch => {
     dispatch({ type: 'START_PROJECT' })
     var interestsArray=null
@@ -85,8 +105,8 @@ export const findProjects = ({
     axios.post(hostname() + '/philance/projects/search', {
       zipCode: zipCode,
       country: country,
-      volunteers: volunteers,
-      freelancers: freelancers,
+      // volunteers: volunteers,
+      // freelancers: freelancers,
       interests:interestsArray,
       keywords:keyword
     })

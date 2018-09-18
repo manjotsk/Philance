@@ -87,20 +87,19 @@ class ProjectSearch extends React.Component {
 
   findProjects() {
     const {
-      volunteers,
-      freelancers,
+
       interests,
       yourLocation,
       country,
+      keyword
     }=this.props
     console.log('this.props',this.props)
     this.props.findProjects(
       {
-        volunteers,
-        freelancers,
         interests,
         yourLocation,
-        country
+        country,
+        keyword
       }
     )
   }
@@ -215,33 +214,21 @@ class ProjectSearch extends React.Component {
                           >
                             Choose Resource Type
                           </MenuItem>
-                          <MenuItem
-                            classes={{
-                              root: classes.selectMenuItem,
-                              selected: classes.selectMenuItemSelected
-                            }}
-                            value="0"
-                          >
-                            Any
-                          </MenuItem>
-                          <MenuItem
-                            classes={{
-                              root: classes.selectMenuItem,
-                              selected: classes.selectMenuItemSelected
-                            }}
-                            value="1"
-                          >
-                            Needs Volunteers
-                          </MenuItem>
-                          <MenuItem
-                            classes={{
-                              root: classes.selectMenuItem,
-                              selected: classes.selectMenuItemSelected
-                            }}
-                            value="2"
-                          >
-                            Needs Freelancers
-                          </MenuItem>
+                          {
+                            ['Volunteers','Freelancers','Both'].map((prop, key) => {
+                              return (
+                                <MenuItem
+                                classes={{
+                                  root: classes.selectMenuItem,
+                                  selected: classes.selectMenuItemSelected
+                                }}
+                                value={prop}
+                              >{console.log(key,'*here')}
+                                Needs {prop}
+                              </MenuItem>
+                              );
+                            })
+                          }
                         </Select>
                       </FormControl>
                     </GridItem>
@@ -274,42 +261,21 @@ class ProjectSearch extends React.Component {
                           >
                             Choose Project Status
                           </MenuItem>
-                          <MenuItem
-                            classes={{
-                              root: classes.selectMenuItem,
-                              selected: classes.selectMenuItemSelected
-                            }}
-                            value="0"
-                          >
-                            Any
-                          </MenuItem>
-                          <MenuItem
-                            classes={{
-                              root: classes.selectMenuItem,
-                              selected: classes.selectMenuItemSelected
-                            }}
-                            value="1"
-                          >
-                            Active
-                          </MenuItem>
-                          <MenuItem
-                            classes={{
-                              root: classes.selectMenuItem,
-                              selected: classes.selectMenuItemSelected
-                            }}
-                            value="2"
-                          >
-                            Closed
-                          </MenuItem>
-                          <MenuItem
-                            classes={{
-                              root: classes.selectMenuItem,
-                              selected: classes.selectMenuItemSelected
-                            }}
-                            value="3"
-                          >
-                            Future
-                          </MenuItem>
+                          {
+                            ['Active', 'Closed','Future','Any'].map((prop,key)=>{
+                              return(
+                                <MenuItem
+                                classes={{
+                                  root: classes.selectMenuItem,
+                                  selected: classes.selectMenuItemSelected
+                                }}
+                                value={prop}
+                              >
+                                {prop}
+                              </MenuItem>      
+                              )
+                            })
+                          }
                         </Select>
                       </FormControl>
                     </GridItem>
@@ -333,34 +299,62 @@ class ProjectSearch extends React.Component {
           <GridItem xs={12} sm={12}>
             <Card>
               <CardBody >
-                <ReactTable
-                  style={{marginerRight:'100px'}}
-                  data={this.props.tableData}
-                  columns={[
-                    {
-                      Header: "Name",
-                      accessor: "project_name",
-                      filterable: true,
-                      filterMethod: this.columnFilter
-                    },
-                    {
-                      Header: "Description",
-                      accessor: "description",
-                      filterable: true,
-                      filterMethod: this.columnFilter
-                    },
-                    {
-                      Header: "Location",
-                      accessor: "country",
-                      filterable: true,
-                      // filterMethod: this.columnFilter
-                    }
-                  ]}
-                  defaultPageSize={5}
-                  showPaginationTop
-                  showPaginationBottom={false}
-                  className="-striped -highlight"
-                />
+                <GridContainer>
+                  <GridItem xs={12} sm={12}>
+                    <ReactTable
+                    pageSize={10}
+                      data={this.props.tableData}
+                      columns={[
+                        {
+                          Header: "Name",
+                          accessor: "project_name",
+                          filterable: true,
+                          filterMethod: this.columnFilter
+                        },
+                        {
+                          Header: "Id",
+                          accessor: "project_id",
+                          filterable: true,
+                          filterMethod: this.columnFilter
+                        },
+                        {
+                          Header: "Status",
+                          accessor: "status",
+                          filterable: true,
+                          filterMethod: this.columnFilter
+                        },
+                        {
+                          Header: "Start",
+                          accessor: "start_date",
+                          filterable: true,
+                          filterMethod: this.columnFilter
+                        },
+                        {
+                          Header: "Target End",
+                          accessor: "end_date",
+                          filterable: true,
+                          filterMethod: this.columnFilter
+                        },
+                        {
+                          Header: "Description",
+                          accessor: "description",
+                          filterable: true,
+                          filterMethod: this.columnFilter
+                        },
+                        {
+                          Header: "Location",
+                          accessor: "country",
+                          filterable: true,
+                          filterMethod: this.columnFilter
+                        }
+                      ]}
+                      defaultPageSize={5}
+                      showPaginationTop
+                      showPaginationBottom={false}
+                      className="-striped -highlight"
+                    />
+                  </GridItem>
+                </GridContainer>
               </CardBody>
             </Card>
           </GridItem>{console.log('this.props.tableData',this.props.tableData)}
@@ -388,7 +382,8 @@ const mapStateToProps = state => {
     country: state.findProject.country,
     textChanged: state.findProject.textChanged,
     interestOptions: state.common.interestOptions,
-    interests:state.user.interests
+    interests:state.user.interests,
+    resourceTypeOptions: state.findProject.resourceTypeOptions
   }
 }
 
