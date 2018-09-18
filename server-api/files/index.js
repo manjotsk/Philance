@@ -11,11 +11,12 @@ var filename=''
 const storage = multer.diskStorage({
     destination: mediaHost(),
     filename(req, file, cb) {
-    // console.log(req.body)
-    console.log('++++++++++++');
         console.log(file);
-
-        var dir='/uploads/456'
+        var dir='/uploadssss'
+        if(!fs.existsSync(mediaHost()+dir)){
+          console.log('creatind dir')
+          fs.mkdirSync(mediaHost()+dir)
+        }
         
         filename=`${dir}/`+uuidv4()+'.'+file.originalname.split('.')[file.originalname.split('.').length-1]
       cb(null, filename);

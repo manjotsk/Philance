@@ -400,7 +400,7 @@ exports.createPasswordResetToken = (req, res, next) => {
                 },
                 data:{
                     url:dev.protocol + dev.host + dev.port + '/philance/users/passwordReset?token=' + token,
-                    subject:'Password Password Reset',
+                    subject:'Philance Password Reset',
                     text:'Dear User, \nPlease click the following link to reset your password\n\n'+dev.protocol + dev.host + dev.port + '/resetPassword/' + token+'\n This link is valid for 1 hour only.\nRegards\nPhilance Support'
                 }})
             res.status(200).send({

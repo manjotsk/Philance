@@ -16,7 +16,9 @@ import Card from "components/Card/Card.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
 import CardText from "components/Card/CardText.jsx";
 import CardBody from "components/Card/CardBody.jsx";
-
+import SweetAlert from "react-bootstrap-sweetalert";
+// styles for buttons on sweetalert
+import sweetAlertStyle from "assets/jss/material-dashboard-pro-react/views/sweetAlertStyle.jsx";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 
@@ -451,36 +453,42 @@ class StartProject extends React.Component {
                   <br/>
                   <GridContainer className={classes.justifyContentCenter}> 
                     <GridItem>
+                      {this.state.alert}
                       <Button onClick = {()=>{
-                        const {
-                        name,
-                        description,
-                        volunteers,
-                        freelancers,
-                        zipCode,
-                        country,
-                        interests,
-                        startDate,
-                        endDate,
-                        budget,
-                        userId,
-                        files
-                      } = this.props
-                      this.props.startProject({
-                        name,
-                        description,
-                        volunteers,
-                        freelancers,
-                        zipCode,
-                        country,
-                        interests,
-                        startDate,
-                        endDate,
-                        budget,
-                        userId,
-                        files
-                      })
-                      window.scrollTo(0, 0)
+                        if(!this.props.isLoggedIn){
+                          this.successAlert();
+                        }else{
+                          
+                          const {
+                          name,
+                          description,
+                          volunteers,
+                          freelancers,
+                          zipCode,
+                          country,
+                          interests,
+                          startDate,
+                          endDate,
+                          budget,
+                          userId,
+                          files
+                        } = this.props
+                        this.props.startProject({
+                          name,
+                          description,
+                          volunteers,
+                          freelancers,
+                          zipCode,
+                          country,
+                          interests,
+                          startDate,
+                          endDate,
+                          budget,
+                          userId,
+                          files
+                        })
+                        window.scrollTo(0, 0)
+                        }
                       }}
                       color="info"
                       >
@@ -494,6 +502,26 @@ class StartProject extends React.Component {
           </GridItem>
         </GridContainer>
     );
+  }
+  hideAlert() {
+    this.setState({
+      alert: null
+    });
+  }
+  successAlert() {
+    this.setState({
+      alert: (
+        <SweetAlert
+          success={false}
+          style={{ display: "block", marginTop: "-100px" }}
+          title="Hello User!"
+          onConfirm={() => this.props.history.push('/login')}
+          onCancel={() => this.hideAlert()}
+        >
+          You need to be logged in to Start a Project!
+        </SweetAlert>
+      )
+    });
   }
 }
 
@@ -515,7 +543,8 @@ const mapStateToProps =state=> {
     userId:state.user.userId,
     files:state.start.files,
     uploadStatus:state.start.uploadStatus,
-    country:state.start.country
+    country:state.start.country,
+    isLoggedIn:state.auth.isLoggedIn
   }
 }
 
