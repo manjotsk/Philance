@@ -15,7 +15,7 @@ const INITIAL_STATE = {
     email: '',
     password: '',
     token: null,
-    isLoggedIn: false,
+    isLoggedIn: !false,
     error: 'LET\'s GO'
 }
 

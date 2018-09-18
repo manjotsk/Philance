@@ -8,6 +8,7 @@ import LoginPage from "philance/views/Pages/LoginPage.jsx";
 import MyProjectsPage from "philance/views/Pages/MyProjectsPage.jsx";
 import NotificationsPage from "philance/views/Pages/NotificationsPage.jsx";
 import MessagesPage from "philance/views/Pages/MessagesPage.jsx";
+import CandidateReview from "philance/views/Pages/CandidateReview.jsx";
 import UserProfile from "philance/views/Pages/UserProfilePage.jsx";
 import ForgotPassword from "../views/Pages/ForgotPassword";
 
@@ -191,6 +192,14 @@ export const pvtPagesRoutes = [
     component: MyProjectsPage
   },
   {
+    path: "/projectCandidateReview",
+    name: "Project Candidate Review",
+    short: "Project Candidate Review",
+    mini: "PCR",
+    icon: MessageIcon,
+    component: CandidateReview
+  },
+  {
     path: "/notifications",
     name: "Notifications",
     short: "Notifications",
@@ -267,6 +276,14 @@ export const pvtSidebarRoutes = [
     name: "Messages",
     short: "Messages",
     mini: "MP",
+    icon: MessageIcon,
+    component: MessagesPage
+  },
+  {
+    path: "/projectCandidateReview",
+    name: "Project Candidate Review",
+    short: "Project Candidate Review",
+    mini: "PCR",
     icon: MessageIcon,
     component: MessagesPage
   },
