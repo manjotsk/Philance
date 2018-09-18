@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 
 import {connect} from 'react-redux'
@@ -78,7 +77,6 @@ class UserProfile extends React.Component {
     this.props.emailChanged(text)
     this.props.textChanged()
   }
-  componentDidUpdate = () => { ReactDOM.findDOMNode(this).scrollIntoView(); }
   onPasswordChange(text) {
     this.props.passwordChanged(text)
     this.props.textChanged()
@@ -163,7 +161,7 @@ class UserProfile extends React.Component {
     return (
         <GridContainer justify="center">
           {console.log(this.props.imageRefresh,54564548)}
-        <Toaster display={this.props.update} message={'Your Changes have been Saved Successfully'}/><br/>
+        {this.props.update?<Toaster display={this.props.update} message={'Your Changes have been Saved Successfully'}/>:null}<br/>
           <h4 className={classes.welcomeHeading}>
           <Toaster display={this.props.showToast} header={'Welcome to Philance! Please take a few moments to complete your User Profile and you can then post a project or join an existing project.'}/><br/>
           </h4>

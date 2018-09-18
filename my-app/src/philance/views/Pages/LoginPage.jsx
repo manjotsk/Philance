@@ -42,6 +42,7 @@ onPasswordChange(text) {
 onButtonPress() {
     const {email, password} = this.props;
     this.props.loginUser({email, password})
+    
 }
 
   constructor(props) {
@@ -132,6 +133,7 @@ onButtonPress() {
                       <Button round color="info" justify="center" onClick={()=>this.onButtonPress()}>
                         {this.props.error}
                       </Button>
+                      {this.props.isLoggedin?()=>{this.props.history.push("/home")}:null}
                     </CardActions>
                     <CardActions className={classes.justifyContentCenter}>
                     <NavLink to="/forgotPassword">
