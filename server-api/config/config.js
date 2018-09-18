@@ -10,24 +10,24 @@ var config={
         unsecure:{
             protocol:'http://',
             host:'philance.hopto.org',
-            port:':3001'
+            port:''
         },
         secure:{
             protocol:'https://',
             host:'philance.hopto.org',
-            port:':3001'
+            port:''
         },
     },
     production:{
         unsecure:{
             protocol:'http://',
             host:'philance.hopto.org',
-            port:':3001'
+            port:''
         },
         secure:{
             protocol:'https://',
             host:'philance.hopto.org',
-            port:':434'
+            port:''
         },
     },
 }
