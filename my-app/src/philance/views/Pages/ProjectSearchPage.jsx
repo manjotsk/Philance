@@ -302,11 +302,36 @@ class ProjectSearch extends React.Component {
                 <GridContainer>
                   <GridItem xs={12} sm={12}>
                     <ReactTable
+                    pageSize={10}
                       data={this.props.tableData}
                       columns={[
                         {
                           Header: "Name",
                           accessor: "project_name",
+                          filterable: true,
+                          filterMethod: this.columnFilter
+                        },
+                        {
+                          Header: "Id",
+                          accessor: "project_id",
+                          filterable: true,
+                          filterMethod: this.columnFilter
+                        },
+                        {
+                          Header: "Status",
+                          accessor: "status",
+                          filterable: true,
+                          filterMethod: this.columnFilter
+                        },
+                        {
+                          Header: "Start",
+                          accessor: "start_date",
+                          filterable: true,
+                          filterMethod: this.columnFilter
+                        },
+                        {
+                          Header: "Target End",
+                          accessor: "end_date",
                           filterable: true,
                           filterMethod: this.columnFilter
                         },
