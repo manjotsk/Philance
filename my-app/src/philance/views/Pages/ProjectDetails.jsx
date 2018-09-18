@@ -51,6 +51,10 @@ class ProjectDetails extends React.Component {
     };
   }
 
+  componentDidMount() {
+    console.log(this.props.history)
+  }
+
   componentWillUnmount() {
     this.props.removeToaster()
     this.props.myProject(this.props.userId)
@@ -145,6 +149,10 @@ class ProjectDetails extends React.Component {
                         color="info">
                         {this.state.isDisabled?'EDIT':'SAVE'}
                         </Button>
+                        <Button color="info" onClick={()=>{
+                          this.props.history.goBack()
+                          this.props.history.replace(`application-page/${this.props.id}`)
+                        }}>Apply</Button>
                     </GridItem>
                   </GridContainer>
                   <GridContainer>

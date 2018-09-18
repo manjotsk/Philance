@@ -8,7 +8,6 @@ import withStyles from "@material-ui/core/styles/withStyles";
 
 // core components
 import PublicPagesHeader from "philance/components/Header/PublicPagesHeader.jsx";
-import PvtPagesHeader from "philance/components/Header/PvtPagesHeader.jsx";
 import Footer from "philance/components/Footer/Footer.jsx";
 
 import { pagesRoutes, pvtPagesRoutes } from "philance/routes/pages.jsx";
@@ -16,12 +15,10 @@ import { pagesRoutes, pvtPagesRoutes } from "philance/routes/pages.jsx";
 import pagesStyle from "assets/jss/material-dashboard-pro-react/layouts/pagesStyle.jsx";
 
 import Dashboard from '../layouts/Dashboard'
-import bgImagePvt from "philance/assets/img/philance-bg2.jpg";
 import bgImagePub from "philance/assets/img/philance-bg3.jpeg";
 
 import {myProject} from '../actions/myProject'
 
-import Sidebar from "../../components/Sidebar/Sidebar"
 // var ps;
 
 const switchRoutes = (
