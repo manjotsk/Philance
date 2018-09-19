@@ -214,6 +214,14 @@ export const pvtSidebarRoutes = [
     path: "/",
     pathTo: "/home",
     name: "Home"
+  },
+  {
+    path: "/projectCandidateReview/:id",
+    name: "Project Candidate Review",
+    short: "Project Candidate Review",
+    mini: "PCR",
+    icon: MessageIcon,
+    component: CandidateReview
   }
 ];
 
