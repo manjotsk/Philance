@@ -116,8 +116,6 @@ export const startProject=({
   if(
     name === '' ||
     description === '' ||
-    volunteers === '' ||
-    freelancers === '' ||
     interests === '' ||
     zipCode === '' ||
     country === '' ||

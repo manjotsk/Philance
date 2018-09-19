@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import { Form, Message } from "semantic-ui-react";
+import ReactDOM from "react-dom";
 import GridContainer from "components/Grid/GridContainer.jsx";
 import GridItem from "components/Grid/GridItem.jsx";
 
 export default class Toaster extends Component {
+    componentDidMount = () => { ReactDOM.findDOMNode(this).scrollIntoView(); }
   render() {
     return (
         <GridContainer justify="center">

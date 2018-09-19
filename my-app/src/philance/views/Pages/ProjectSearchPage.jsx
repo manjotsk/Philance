@@ -108,8 +108,8 @@ class ProjectSearch extends React.Component {
     const { classes } = this.props;
     return (
       <GridContainer className={this.props.isLoggedIn?null:classes.container}>
-        <GridContainer>{console.log(this.props)}
-          <GridItem xs={12} sm={12}>
+        <GridContainer justify="center">
+          <GridItem xs={12} sm={12} md={10}>
             <Card>
               <CardHeader color="info" icon>
                 <CardIcon color="info">
@@ -120,23 +120,7 @@ class ProjectSearch extends React.Component {
               <CardBody>
                 <form>
                   <GridContainer>
-                    <GridItem xs={6} sm={4} md={3} lg={3}>
-                      <CustomInput
-                        labelText="Your Location"
-                        id="project-name"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          type: "text",
-                          name: "yourLocation",
-                          onChange: e => {
-                            this.onLocationChange(e.target.value)
-                          }
-                        }}
-                      />
-                    </GridItem>
-                    <GridItem xs={6} sm={4} md={3} lg={3}>
+                    <GridItem xs={12} sm={12} md={6}>
                       <CustomInput
                         labelText="Your Country"
                         id="project-name"
@@ -152,7 +136,7 @@ class ProjectSearch extends React.Component {
                         }}
                       />
                     </GridItem>
-                    <GridItem xs={8} sm={6} md={4} lg={4}>
+                    <GridItem xs={12} sm={12} md={6}>
                       <CustomInput
                         labelText="Keywords/Hashtags"
                         id="keywords"
@@ -171,7 +155,7 @@ class ProjectSearch extends React.Component {
                   </GridContainer>
                   <br />
                   <GridContainer>
-                    <GridItem xs={6} sm={4} md={3} lg={3}>
+                    <GridItem xs={12} sm={12} md={4}>
                       <FormControl
                         fullWidth
                         className={classes.selectFormControl}
@@ -185,7 +169,7 @@ class ProjectSearch extends React.Component {
                       </FormControl>
                       <InterestsDropdown interestOptions={this.props.interestOptions}/>
                     </GridItem>
-                    <GridItem xs={6} sm={4} md={3} lg={3}>
+                    <GridItem xs={12} sm={12} md={4}>
                       <FormControl
                         fullWidth
                         className={classes.selectFormControl}
@@ -232,7 +216,7 @@ class ProjectSearch extends React.Component {
                         </Select>
                       </FormControl>
                     </GridItem>
-                    <GridItem xs={6} sm={4} md={3} lg={3}>
+                    <GridItem xs={12} sm={12} md={4}>
                       <FormControl
                         fullWidth
                         className={classes.selectFormControl}
@@ -295,8 +279,8 @@ class ProjectSearch extends React.Component {
           </GridItem>
         </GridContainer>
 
-        <GridContainer>
-          <GridItem xs={12} sm={12}>
+        <GridContainer justify="center">
+          <GridItem xs={12} sm={12} md={10}>
             <Card>
               <CardBody >
                 <GridContainer>
@@ -308,48 +292,48 @@ class ProjectSearch extends React.Component {
                         {
                           Header: "Name",
                           accessor: "project_name",
-                          filterable: true,
+                          filterable: false,
                           filterMethod: this.columnFilter
                         },
                         {
                           Header: "Id",
                           accessor: "project_id",
-                          filterable: true,
+                          filterable: false,
                           filterMethod: this.columnFilter
                         },
                         {
                           Header: "Status",
                           accessor: "status",
-                          filterable: true,
+                          filterable: false,
                           filterMethod: this.columnFilter
                         },
                         {
                           Header: "Start",
                           accessor: "start_date",
-                          filterable: true,
+                          filterable: false,
                           filterMethod: this.columnFilter
                         },
                         {
                           Header: "Target End",
                           accessor: "end_date",
-                          filterable: true,
+                          filterable: false,
                           filterMethod: this.columnFilter
                         },
                         {
                           Header: "Description",
                           accessor: "description",
-                          filterable: true,
+                          filterable: false,
                           filterMethod: this.columnFilter
                         },
                         {
                           Header: "Location",
                           accessor: "country",
-                          filterable: true,
+                          filterable: false,
                           filterMethod: this.columnFilter
                         }
                       ]}
                       defaultPageSize={5}
-                      showPaginationTop
+                      showPaginationTop = {false}
                       showPaginationBottom={false}
                       className="-striped -highlight"
                     />

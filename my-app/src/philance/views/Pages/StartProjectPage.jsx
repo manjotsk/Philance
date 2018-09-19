@@ -138,7 +138,7 @@ class StartProject extends React.Component {
     const { classes } = this.props;
     return (
       <GridContainer className={this.props.isLoggedIn?classes.justifyContentCenter:classes.container}>
-        <Toaster display={this.props.requestCompleted} message={'Project has been created'}/>
+        {this.props.requestCompleted?<Toaster display={this.props.requestCompleted} message={'Project has been created'}/>:null}
           <GridItem xs={12} sm={12} md={10}>
             <Card>
               <CardHeader color="info" text>
@@ -487,7 +487,6 @@ class StartProject extends React.Component {
                           userId,
                           files
                         })
-                        window.scrollTo(0, 0)
                         }
                       }}
                       color="info"

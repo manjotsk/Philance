@@ -1,6 +1,6 @@
 const mediaHost=()=>{
     
-    return '/media/philance'
+    return '/opt/openproject/public/media/'
     // return './uploads'
 
 }

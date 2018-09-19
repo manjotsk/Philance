@@ -60,12 +60,19 @@ class ApplicationPage extends React.Component {
               </CardHeader>
               <CardBody>
                 <form>
-                <h2 className={classes.cardTitle}>Application to work on a project</h2><br/>
                   <GridContainer>
                     <GridItem xs={12} sm={6}>
-                      <InputLabel className={classes.label}>
-                        Project Id: {this.props.projectId}, Project Name: {this.props.projectName}
-                      </InputLabel>
+                      <FormLabel component="legend" style={{fontSize: 20, fontWeight: '500', color: '#777'}}>
+                        {this.props.projectName}:
+                      </FormLabel>
+                      <br/><br/>
+                    </GridItem>
+                  </GridContainer>
+                  <GridContainer>
+                    <GridItem xs={12} sm={6}>
+                      <FormLabel component="legend" style={{fontSize: 18, fontWeight: '400', color: '#777'}}>
+                        Description
+                      </FormLabel>
                     </GridItem>
                   </GridContainer>
                   <GridContainer>
@@ -86,11 +93,10 @@ class ApplicationPage extends React.Component {
                     />
                     </GridItem>
                   </GridContainer>
-                  <br/>
                   <GridContainer>
                     <GridItem xs={12} sm={12} md={6}>
                     <FormControl component="fieldset" className={classes.formControl}>
-                    <FormLabel component="legend">Select Your Role</FormLabel>
+                    <FormLabel component="legend" style={{fontSize: 18, fontWeight: '400', color: '#777'}}>Select Your Role</FormLabel>
                     <RadioGroup
                       aria-label="role"
                       name="role"
@@ -122,7 +128,7 @@ class ApplicationPage extends React.Component {
                         console.log(this.props.text)
                       }}
                       >
-                      Submit Application to Project Sponsor
+                      Submit Application to Project Details
                       </Button>
                     </GridItem>
                   </GridContainer>
