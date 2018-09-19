@@ -9,6 +9,7 @@ import MyProjectReducer from './MyProjectReducer'
 import ProjectDetailsReducer from './ProjectDetailsReducer'
 import ApplyProjectReducer from './ApplyProjectReducer'
 import FindProjectReducer from './FindProjectReducer';
+import CandidateReviewReducer from './CandidateReviewReducer';
 
 export default combineReducers({
     auth: AuthReducer,
@@ -16,6 +17,7 @@ export default combineReducers({
     user: UserProfileReducer,
     start: StartProjectReducer,
     findProject: FindProjectReducer,
+    candidateReview: CandidateReviewReducer,
     common: CommonReducer,
     resetpass: ResetPasswordReducer,
     mypro: MyProjectReducer,

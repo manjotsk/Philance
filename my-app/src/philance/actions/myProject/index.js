@@ -8,6 +8,7 @@ export const myProject =(id)=> {
         axios.get(hostname()+`/philance/users/${id}/projects/`)
         .then(
             response=>{
+                console.log(response.data)
                 dispatch({
                     type: MY_PROJECT_GET_PROJECTS,
                     payload: response.data.Projects,
