@@ -29,7 +29,8 @@ const INITIAL_STATE = {
     volunteers: '',
     freelancers: '',
     toast: false,
-    id: '1'
+    id: '1',
+    createdBy: '3'
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -86,7 +87,8 @@ export default (state = INITIAL_STATE, action) => {
                 endDate: action.payload.endDate,
                 budget: action.payload.estimatedBudget,
                 volunteers: action.payload.volunteers,
-                freelancers: action.payload.freelancers
+                freelancers: action.payload.freelancers,
+                createdBy: action.payload.createdBy
             }
 
         case PROJECT_DETAILS_CHANGED:

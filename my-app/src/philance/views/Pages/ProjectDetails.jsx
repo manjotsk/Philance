@@ -116,6 +116,7 @@ class ProjectDetails extends React.Component {
                 <form>
                   <GridContainer align="right" direction="column">
                     <GridItem>
+                      {this.props.userId===this.props.createdBy?
                       <Button onClick={async ()=>{
                         const {
                           name,
@@ -148,7 +149,7 @@ class ProjectDetails extends React.Component {
                         }}
                         color="info">
                         {this.state.isDisabled?'EDIT':'SAVE'}
-                        </Button>
+                        </Button>:null}
                         <Button color="info" onClick={()=>{
                           this.props.history.goBack()
                           this.props.history.replace(`application-page/${this.props.id}`)
@@ -414,7 +415,9 @@ const mapStateToProps =state=> {
     isLoggedIn: state.auth.isLoggedIn,
     interestOptions: state.common.interestOptions,
     requestCompleted: state.start.requestCompleted,
-    userId:state.user.userId
+    userId:state.user.userId,
+    createdBy: state.proDetails.createdBy,
+    userId: state.auth.userId
   }
 }
 

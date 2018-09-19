@@ -65,7 +65,7 @@ class ApplicationPage extends React.Component {
                       <FormLabel component="legend" style={{fontSize: 20, fontWeight: '500', color: '#777'}}>
                         {this.props.projectName}:
                       </FormLabel>
-                      <br/><br/>
+                      <br/>
                     </GridItem>
                   </GridContainer>
                   <GridContainer>
@@ -85,7 +85,7 @@ class ApplicationPage extends React.Component {
                         inputProps={{
                         multiline: true,
                         rows: 2,
-                        placeholder:"Enter your comments here explaining why you want to work on this project and whatever other information you want to the project sponsor",
+                        placeholder:"Enter your comments here explaining why you want to work on this project and whatever other information you want to the project owner",
                         onChange: e => {
                           this.onMessageChanged(e.target.value)
                         }
@@ -128,7 +128,7 @@ class ApplicationPage extends React.Component {
                         console.log(this.props.text)
                       }}
                       >
-                      Submit Application to Project Details
+                      Submit Application to Project Owner
                       </Button>
                     </GridItem>
                   </GridContainer>
