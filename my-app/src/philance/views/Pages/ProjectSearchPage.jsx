@@ -25,6 +25,7 @@ import CardIcon from "components/Card/CardIcon.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
 import CustomInput from "components/CustomInput/CustomInput.jsx";
 import InterestsDropdown from "../../components/DoubleDropdown/InterestsDropdown";
+import CountryDropdown from "../../components/DoubleDropdown/CountryDropdown";
 import projectSearchStyle from "philance/views/PageStyles/ProjectSearchStyles.jsx";
 import extendedFormsStyle from "assets/jss/material-dashboard-pro-react/views/extendedFormsStyle.jsx";
 import { 
@@ -121,20 +122,7 @@ class ProjectSearch extends React.Component {
                 <form>
                   <GridContainer>
                     <GridItem xs={12} sm={12} md={6}>
-                      <CustomInput
-                        labelText="Your Country"
-                        id="project-name"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          type: "text",
-                          name: "yourCountry",
-                          onChange: e => {
-                            this.onCountryChange(e.target.value)
-                          }
-                        }}
-                      />
+                       <CountryDropdown defaultValue={this.props.userCountry}/>
                     </GridItem>
                     <GridItem xs={12} sm={12} md={6}>
                       <CustomInput
