@@ -44,7 +44,7 @@ class CandidateReview extends React.Component {
 
         return (
             <GridContainer justify="center">
-                <GridItem xs={12} sm={12}>
+                <GridItem xs={12} sm={12} md={10}>
                     <Card>
                         <CardHeader color="info" text>
                             <CardText color="info">
