@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import Datetime from "react-datetime";
 
@@ -17,7 +16,9 @@ import Card from "components/Card/Card.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
 import CardText from "components/Card/CardText.jsx";
 import CardBody from "components/Card/CardBody.jsx";
-
+import SweetAlert from "react-bootstrap-sweetalert";
+// styles for buttons on sweetalert
+import sweetAlertStyle from "assets/jss/material-dashboard-pro-react/views/sweetAlertStyle.jsx";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 
@@ -47,7 +48,6 @@ import {
   countryChanged
 } from '../../actions/startProject'
 import Toaster from "../../components/Toaster/Toaster";
-
 import store from '../../store/store'
 
 const uid = Math.random().toString(36).substring(7);
@@ -77,7 +77,7 @@ class StartProject extends React.Component {
   componentWillUnmount(){
     this.props.startProjectUnmount()
   }
-  // componentDidUpdate = () => { ReactDOM.findDOMNode(this).scrollIntoView(); }
+
   onProjectNameChange(text) {
     this.props.projectNameChanged(text)
     this.props.textChanged()
@@ -183,11 +183,20 @@ class StartProject extends React.Component {
                       />
                     </GridItem>
                   </GridContainer>
+                  <GridContainer>
+                    <GridItem xs={12} sm={6}>
+                        <InputLabel className={classes.label} style={{marginBottom: 5, marginTop: 10}}>
+                          Country
+                        </InputLabel>
+                    </GridItem>
+                  </GridContainer>
                   <GridContainer spacing={12}>
                     <GridItem  xs={6}>
                       <CountryDropdown onCountryChanged={this.onCountryChanged} defaultValue={this.props.country}/>
                     </GridItem>
-                    <GridItem xs={6}>
+                  </GridContainer>
+                  <GridContainer spacing={12}>
+                    <GridItem xs={6} style={{}}>
                       <CustomInput
                       labelText ="Project Zip Code"
                         id="projectLocation"
@@ -250,7 +259,7 @@ class StartProject extends React.Component {
                         />
                         </GridItem>
                         <GridItem md ={6}>
-                        <CustomInput
+                      <CustomInput
                         id="volunteers"
                         labelText ="Volunteers"
                         formControlProps={{
@@ -265,6 +274,7 @@ class StartProject extends React.Component {
                           }
                         }}
                       />
+
                         </GridItem>
                         </GridContainer>
                         <GridContainer>
@@ -329,7 +339,7 @@ class StartProject extends React.Component {
                                 />
                             </GridItem>
                             <GridItem xs={3}>
-                              <Icon bordered inverted color='teal' name='calendar alternate outline' onClick = {()=>{console.log('hello')}}/>
+                              <Icon bordered inverted color='teal' name='calendar alternate outline'/>
                             </GridItem>
                           </GridContainer>
                           </FormControl>
@@ -354,7 +364,7 @@ class StartProject extends React.Component {
                                 />
                               </GridItem>
                             <GridItem xs={3}>
-                              <Icon bordered inverted color='teal' name='calendar alternate outline' onClick = {()=>{console.log('hello')}}/>
+                              <Icon bordered inverted color='teal' name='calendar alternate outline'/>
                             </GridItem>
                           </GridContainer>
                           </FormControl>
@@ -435,60 +445,83 @@ class StartProject extends React.Component {
                         </GridItem>
                         </GridContainer>
                       </Label>
-
                       {this.props.uploadStatus=='NOT_INITIATED'?null:
                       <Toaster display={true} message={this.props.uploadStatus}/>}
 
                     </GridItem>
-                    {console.log('******45',this.props.files)}
                   </GridContainer>
                   <br/>
                   <GridContainer className={classes.justifyContentCenter}> 
                     <GridItem>
+                      {this.state.alert}
                       <Button onClick = {()=>{
-                        const {
-                        name,
-                        description,
-                        volunteers,
-                        freelancers,
-                        zipCode,
-                        country,
-                        interests,
-                        startDate,
-                        endDate,
-                        budget,
-                        userId,
-                        files
-                      } = this.props
-                      console.log(this.props)
-                      this.props.startProject({
-                        name,
-                        description,
-                        volunteers,
-                        freelancers,
-                        zipCode,
-                        country,
-                        interests,
-                        startDate,
-                        endDate,
-                        budget,
-                        userId,
-                        files
-                      })
-                      window.scrollTo(0, 0)
+                        if(!this.props.isLoggedIn){
+                          this.successAlert();
+                        }else{
+                          
+                          const {
+                          name,
+                          description,
+                          volunteers,
+                          freelancers,
+                          zipCode,
+                          country,
+                          interests,
+                          startDate,
+                          endDate,
+                          budget,
+                          userId,
+                          files
+                        } = this.props
+                        this.props.startProject({
+                          name,
+                          description,
+                          volunteers,
+                          freelancers,
+                          zipCode,
+                          country,
+                          interests,
+                          startDate,
+                          endDate,
+                          budget,
+                          userId,
+                          files
+                        })
+                        window.scrollTo(0, 0)
+                        }
                       }}
                       color="info"
                       >
                       {this.props.text}
                       </Button>
                     </GridItem>
-                  </GridContainer>
+                  </GridContainer>{console.log(this.props.country)}
                 </form>
               </CardBody>
             </Card>
           </GridItem>
         </GridContainer>
     );
+  }
+  hideAlert() {
+    this.setState({
+      alert: null
+    });
+  }
+  successAlert() {
+    this.setState({
+      alert: (
+        <SweetAlert
+          success={false}
+          style={{ display: "block", marginTop: "-100px" }}
+          title="Hello User!"
+          onConfirm={() => this.props.history.push('/login')}
+          onCancel={() => this.hideAlert()}
+        >
+          You need to be logged in to Start a Project!
+        </SweetAlert>
+      )
+    });
   }
 }
 
@@ -510,9 +543,8 @@ const mapStateToProps =state=> {
     userId:state.user.userId,
     files:state.start.files,
     uploadStatus:state.start.uploadStatus,
-    uploadStatus:state.start.uploadStatus,
-    country:state.start.country
-
+    country:state.start.country,
+    isLoggedIn:state.auth.isLoggedIn
   }
 }
 

@@ -17,6 +17,9 @@ const styles = theme => ({
 });
 
 class ActionDropdown extends React.Component {
+    constructor(props){
+        super(props);
+    }
     state = {
         review: '',
         name: 'hai',

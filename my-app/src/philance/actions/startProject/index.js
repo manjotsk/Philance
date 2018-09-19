@@ -112,7 +112,7 @@ export const startProject=({
   userId,
   files
 })=>{
-  
+
   if(
     name === '' ||
     description === '' ||
@@ -128,6 +128,20 @@ export const startProject=({
     return {
       type: START_PROJECT_FIELDS_EMPTY
     }
+  }  var projectDetails=[]
+var interestsArray=interests.split(',')
+  for(var i=0;i<interestsArray.length;i++){
+    projectDetails.push({  
+      "detailType": "IMPACT_CATEGORY",
+      "name": interestsArray[i],
+      "certificationReq": "NO",
+      "certificationLink": "",
+      "attribute1" : "",
+      "attribute2" : "",
+      "attribute3" : "",
+      "attribute4" : "",
+      "attribute5" : ""
+    })
   }
   return dispatch => {
       dispatch({type: START_PROJECT})
@@ -143,52 +157,7 @@ export const startProject=({
         endDate :endDate,
         userId:userId,
         files:files,
-        "projectDetails":[  
-          {  
-            "detailType": "SKILLS",
-            "name": "Database Development",
-            "certificationReq": "NO",
-            "certificationLink": "",
-            "attribute1" : "",
-            "attribute2" : "",
-            "attribute3" : "",
-            "attribute4" : "",
-            "attribute5" : ""
-          },
-          {  
-            "detailType": "SKILLS",
-            "name": "Java Development",
-            "certificationReq": "NO",
-            "certificationLink": "",
-            "attribute1" : "",
-            "attribute2" : "",
-            "attribute3" : "",
-            "attribute4" : "",
-            "attribute5" : ""
-          },
-          {  
-            "detailType": "IMPACT_CATEGORY",
-            "name": "Elderly",
-            "certificationReq": "NO",
-            "certificationLink": "",
-            "attribute1" : "",
-            "attribute2" : "",
-            "attribute3" : "",
-            "attribute4" : "",
-            "attribute5" : ""
-          },
-          {  
-          "detailType": "IMPACT_CATEGORY",
-            "name": "Other",
-            "certificationReq": "NO",
-            "certificationLink": "",
-            "attribute1" : "",
-            "attribute2" : "",
-            "attribute3" : "",
-            "attribute4" : "",
-            "attribute5" : ""
-          }
-       ]
+        "projectDetails":projectDetails
         }
 )
       .then(response=>{

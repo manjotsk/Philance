@@ -105,7 +105,8 @@ exports.login = (req, res, next) => {
                 );
                 return res.status(200).json({
                     message: "authentication successful",
-                    token: token
+                    token: token,
+                    userId: _user.userId
                 });
             }
             res.status(409).json({
@@ -212,11 +213,11 @@ exports.updateProfile = (req, res, next) => {
                 })
             }
             if (_user&&req.body.userSkills) {
-                userSkills.destroy({ where: { userId: req.params.userId }, truncate: true, force: true }).then(
+                userSkills.destroy({ where: { userId: req.body.userId }, truncate: true, force: true }).then(
                     sequelize.transaction(function (t) {
                         sequelize.Promise.each(req.body.userSkills, function (itemToUpdate) {
                             userSkills.create({
-                                userId: req.params.userId,
+                                userId: req.body.userId,
                                 skillCode: itemToUpdate.skillCode,
                                 skillName: itemToUpdate.skillName,
                                 certified: itemToUpdate.certified,
@@ -230,7 +231,7 @@ exports.updateProfile = (req, res, next) => {
                                 if (_count === (req.body.userSkills).length) {
                                     // if (_createdRecords) {
                                     if (typeof req.body.userNotifications !== 'undefined' && req.body.userNotifications !== null) {
-                                        userNotifications.findOne({ where: { userId: req.params.userId } }).then(_userNotifications => {
+                                        userNotifications.findOne({ where: { userId: req.body.userId } }).then(_userNotifications => {
 
                                             if (_userNotifications) {
                                                 userNotifications.update({
@@ -238,10 +239,10 @@ exports.updateProfile = (req, res, next) => {
                                                     email: req.body.userNotifications.email,
                                                     text: req.body.userNotifications.text,
                                                     push: req.body.userNotifications.push,
-                                                    lastUpdatedBy: req.params.userId,
-                                                }, { where: { userId: req.params.userId } }).then(_updateCount => {
+                                                    lastUpdatedBy: req.body.userId,
+                                                }, { where: { userId: req.body.userId } }).then(_updateCount => {
                                                     users.findAll({
-                                                        where: { userId: req.params.userId },
+                                                        where: { userId: req.body.userId },
                                                         include: [{ model: userSkills, nested: true, duplicating: false, required: false },
                                                         { model: userNotifications, nested: true, duplicating: false, required: false }]
                                                     }).then((_user) => {
@@ -258,11 +259,11 @@ exports.updateProfile = (req, res, next) => {
                                                     email: req.body.userNotifications.email,
                                                     text: req.body.userNotifications.text,
                                                     push: req.body.userNotifications.push,
-                                                    lastUpdatedBy: req.params.userId,
-                                                    userId: req.params.userId
+                                                    lastUpdatedBy: req.body.userId,
+                                                    userId: req.body.userId
                                                 }).then(_userNotifications => {
                                                     users.findAll({
-                                                        where: { userId: req.params.userId },
+                                                        where: { userId: req.body.userId },
                                                         include: [{ model: userSkills, nested: true, duplicating: false, required: false },
                                                         { model: userNotifications, nested: true, duplicating: false, required: false }]
                                                     }).then((_user) => {
@@ -278,7 +279,7 @@ exports.updateProfile = (req, res, next) => {
                                         )
                                     } else {
                                         users.findAll({
-                                            where: { userId: req.params.userId },
+                                            where: { userId: req.body.userId },
                                             include: [{ model: userSkills, nested: true, duplicating: false, required: false },
                                             { model: userNotifications, nested: true, duplicating: false, required: false }]
                                         }).then((_user) => {
@@ -317,7 +318,20 @@ exports.updateProfile = (req, res, next) => {
                 // }
                 // )
             }else{
-                res.status(200).send(_user)
+                res.status(200).send({
+                    firstName: req.body.firstName,
+                    lastName: req.body.lastName,
+                    email: req.body.email,
+                    zipCode:req.body.postalCode,
+                    country:req.body.country,
+                    phoneNumber: req.body.contact,
+                    title:req.body.title,
+                    interests: req.body.interests?req.body.interests.toString():null,
+                    organization: req.body.organization,
+                    description: req.body.description,
+                    phoneNumber: req.body.contact,
+                    lastUpdatedBy: req.body.userId,
+                })
             }
         })
         .catch(err => {
@@ -386,7 +400,7 @@ exports.createPasswordResetToken = (req, res, next) => {
                 },
                 data:{
                     url:dev.protocol + dev.host + dev.port + '/philance/users/passwordReset?token=' + token,
-                    subject:'Password Password Reset',
+                    subject:'Philance Password Reset',
                     text:'Dear User, \nPlease click the following link to reset your password\n\n'+dev.protocol + dev.host + dev.port + '/resetPassword/' + token+'\n This link is valid for 1 hour only.\nRegards\nPhilance Support'
                 }})
             res.status(200).send({

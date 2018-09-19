@@ -117,13 +117,11 @@ export const updateUnmount = text => {
 }
 
 export const getUserInfo =(email)=> {
-    console.log('email is',email )
     return dispatch =>
         axios.post(hostname()+'/philance/users/search', {
             email: email  
         })
         .then(response=>{
-            console.log('rrr',response.data[0])
             dispatch({
                 type: USER_PROFILE_GET_USER_INFO,
                 payload: response.data[0]
@@ -205,7 +203,6 @@ export const uploadFiles = (metadata, files) => {
                     dispatch({
                         type: UNSELECT_FILES
                     })
-                    console.log('USER_PROFILE_USER_IMAGE_CHANGED_WAS_CHANGED')
                     dispatch({
                         type: USER_PROFILE_USER_IMAGE_CHANGED_WAS_CHANGED
                     })
@@ -224,7 +221,6 @@ export const uploadFiles = (metadata, files) => {
 export const getUserProfileImage=(userId)=>{
     return dispatch =>{
         axios.get(`http://localhost:3001/philance/users/image/${userId}`).then((image)=>{
-            console.log('*************',image)
             dispatch( {
                 type: USER_PROFILE_USER_IMAGE_CHANGED_AFTER_UPLOAD,
                 payload: `http://localhost:3001/philance/users/image/${userId}`

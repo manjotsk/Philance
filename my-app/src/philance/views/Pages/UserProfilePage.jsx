@@ -31,10 +31,7 @@ import userProfileStyles from "philance/views/PageStyles/UserProfileStyles.jsx";
 
 import avatar from "assets/img/faces/marc.jpg";
 
-import { Form,Message } from 'semantic-ui-react'
-
 import {registerToast} from '../../actions/register'
-import {Redirect} from 'react-router-dom'
 
 import {
   textChanged,
@@ -54,6 +51,7 @@ import {
   uploadFiles,
   countryChanged
 } from '../../actions/userProfile'
+
 import Toaster from "../../components/Toaster/Toaster";
 
 class UserProfile extends React.Component {
@@ -72,10 +70,7 @@ class UserProfile extends React.Component {
     this.props.getUserInfo(this.props.currentEmail)
   }
   componentDidMount(){
-    console.log('i ran',this.props.imageRefresh)
-    
     if(this.props.imageRefresh){
-      console.log('i ran')
       this.props.getUserProfileImage(this.props.userId)
     }
   }

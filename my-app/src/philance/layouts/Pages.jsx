@@ -8,7 +8,6 @@ import withStyles from "@material-ui/core/styles/withStyles";
 
 // core components
 import PublicPagesHeader from "philance/components/Header/PublicPagesHeader.jsx";
-import PvtPagesHeader from "philance/components/Header/PvtPagesHeader.jsx";
 import Footer from "philance/components/Footer/Footer.jsx";
 
 import { pagesRoutes, pvtPagesRoutes } from "philance/routes/pages.jsx";
@@ -16,10 +15,10 @@ import { pagesRoutes, pvtPagesRoutes } from "philance/routes/pages.jsx";
 import pagesStyle from "assets/jss/material-dashboard-pro-react/layouts/pagesStyle.jsx";
 
 import Dashboard from '../layouts/Dashboard'
-import bgImagePvt from "philance/assets/img/philance-bg2.jpg";
 import bgImagePub from "philance/assets/img/philance-bg3.jpeg";
 
-import Sidebar from "../../components/Sidebar/Sidebar"
+import {myProject} from '../actions/myProject'
+
 // var ps;
 
 const switchRoutes = (
@@ -72,6 +71,7 @@ class Pages extends React.Component {
           navigator.platform.indexOf("Win") > -1
       });
     if (this.props.isLoggedIn) {
+      this.props.myProject(this.props.id)
       return (
         <Dashboard {...rest}/>
       )}
@@ -115,6 +115,7 @@ class Pages extends React.Component {
 const mapStateToProps = state => {
   return {
     isLoggedIn: state.auth.isLoggedIn,
+    id: state.auth.userId
   }
 }
 
@@ -122,4 +123,4 @@ Pages.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default connect(mapStateToProps)(withStyles(pagesStyle)(Pages));
+export default connect(mapStateToProps, {myProject})(withStyles(pagesStyle)(Pages));

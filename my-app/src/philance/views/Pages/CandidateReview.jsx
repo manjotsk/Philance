@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 
 // @material-ui/icons
 import withStyles from "@material-ui/core/styles/withStyles";
-import ReactTable from "react-table";
 
 // core components
 import GridContainer from "components/Grid/GridContainer.jsx";
@@ -13,9 +12,22 @@ import CardBody from "components/Card/CardBody.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
 import CardText from "components/Card/CardText.jsx";
 
+import Table from '@material-ui/core/Table';
+import TableHead from '@material-ui/core/TableHead';
+import TableCell from '@material-ui/core/TableCell';
+import TableRow from '@material-ui/core/TableRow';
+
 //import publicHomePageStyle from "./PublicHomePageStyle";
 import ActionDropdown from '../../components/DoubleDropdown/ActionDropdown'
 import CandidatePageStyle from "assets/jss/material-dashboard-pro-react/views/registerPageStyle";
+import { getProjectCandidateReviewList, storeCandidateReview } from '../../actions/candidateReview'
+import { connect } from 'react-redux'
+
+const CustomTableCell = withStyles(theme => ({
+    body: {
+        fontSize: 14,
+    },
+}))(TableCell);
 
 class CandidateReview extends React.Component {
     constructor(props) {
@@ -25,16 +37,11 @@ class CandidateReview extends React.Component {
         };
     }
 
+
+
     render() {
-        const data = [{
-            "#": 1,
-            Name: 'Tanner Linsley',
-            Status: 'Any',
-            dateApplied: "17/9/2018",
-            Messages: 'Hey',
-            Action: <ActionDropdown />,
-        },
-        ]
+        const { classes } = this.props;
+
         return (
             <GridContainer justify="center">
                 <GridItem xs={12} sm={12}>
@@ -48,39 +55,38 @@ class CandidateReview extends React.Component {
                             <GridItem xs={12} sm={12}>
                                 <Card>
                                     <CardBody>
-                                        <ReactTable style={{ overflow: "none" }}
-                                            data={data}
-                                            columns={[
-                                                {
-                                                    Header: "#",
-                                                    accessor: "#",
-                                                },
-                                                {
-                                                    Header: "Name",
-                                                    accessor: "Name",
-                                                },
-                                                {
-                                                    Header: "Status",
-                                                    accessor: "Status",
-                                                },
-                                                {
-                                                    Header: "Date Applied",
-                                                    accessor: "dateApplied",
-                                                },
-                                                {
-                                                    Header: "Messages",
-                                                    accessor: "Messages",
-                                                },
-                                                {
-                                                    Header: "Action",
-                                                    accessor: "Action",
-                                                }
-                                            ]}
-                                            defaultPageSize={5}
-                                            showPaginationTop
-                                            showPaginationBottom={false}
-                                            className="-striped -highlight"
-                                        />
+                                        <Table className={classes.table} padding="checkbox">
+                                            <TableHead>
+                                                <TableRow>
+                                                    <CustomTableCell>#</CustomTableCell>
+                                                    <CustomTableCell>Name</CustomTableCell>
+                                                    <CustomTableCell>Status</CustomTableCell>
+                                                    <CustomTableCell>Date Applied</CustomTableCell>
+                                                    <CustomTableCell>Messages</CustomTableCell>
+                                                    <CustomTableCell>Action</CustomTableCell>
+                                                </TableRow>
+                                            </TableHead>
+                                            <TableRow style={{ backgroundColor: "#dbebf6" }}>
+                                                <CustomTableCell>123</CustomTableCell>
+                                                <CustomTableCell>New</CustomTableCell>
+                                                <CustomTableCell>Acive</CustomTableCell>
+                                                <CustomTableCell>27/8/18</CustomTableCell>
+                                                <CustomTableCell>New Candidate</CustomTableCell>
+                                                <CustomTableCell>
+                                                    <ActionDropdown />
+                                                </CustomTableCell>
+                                            </TableRow>
+                                            <TableRow>
+                                                <CustomTableCell>123</CustomTableCell>
+                                                <CustomTableCell>New</CustomTableCell>
+                                                <CustomTableCell>Acive</CustomTableCell>
+                                                <CustomTableCell>27/8/18</CustomTableCell>
+                                                <CustomTableCell>New Candidate</CustomTableCell>
+                                                <CustomTableCell>
+                                                    <ActionDropdown />
+                                                </CustomTableCell>
+                                            </TableRow>
+                                        </Table>
                                     </CardBody>
                                 </Card>
                             </GridItem>
@@ -95,5 +101,12 @@ class CandidateReview extends React.Component {
 CandidateReview.propTypes = {
     classes: PropTypes.object.isRequired
 };
+const mapStateToProps = state => {
+    return {
+        response: state.candidateReview.response,
+        length: state.candidateReview.length,
+        list: state.candidateReview.list
+    }
+}
 
-export default withStyles(CandidatePageStyle)(CandidateReview);
+export default connect(mapStateToProps, { getProjectCandidateReviewList, storeCandidateReview })(withStyles(CandidatePageStyle)(CandidateReview));

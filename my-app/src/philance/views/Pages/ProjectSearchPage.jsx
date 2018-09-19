@@ -24,16 +24,24 @@ import CardBody from "components/Card/CardBody.jsx";
 import CardIcon from "components/Card/CardIcon.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
 import CustomInput from "components/CustomInput/CustomInput.jsx";
-
+import InterestsDropdown from "../../components/DoubleDropdown/InterestsDropdown";
 import projectSearchStyle from "philance/views/PageStyles/ProjectSearchStyles.jsx";
 import extendedFormsStyle from "assets/jss/material-dashboard-pro-react/views/extendedFormsStyle.jsx";
+import { 
+  locationChanged,
+  resourceChanged,
+  projectStatusChanged,
+  impactCategoriesChanged,
+  countryChanged,
+  keywordChanged,
+  findProjects
+ } from "../../actions/findProject";
 
 class ProjectSearch extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       tableData: [],
-      skillsNeeded: [],
       impactCategory: [],
       yourLocation: "",
       resourceType: "0",
@@ -42,31 +50,32 @@ class ProjectSearch extends React.Component {
     };
   }
 
-  // @todo populate UI with init data from the backend
-  componentDidMount() {
-    console.log("mounted");
-    /*
-    Axios.get("/project/search/init", {
-      baseURL: "http://localhost:3001"
-    })
-      .then(response => {
-        // @todo UI init data from backend, use to populate Select boxes
-        console.log(response.data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-      */
+  onLocationChange=text=>{
+    this.props.locationChanged(text)
   }
 
-  handleSingle = event => {
-    this.setState({ [event.target.name]: event.target.value });
+  handleResourceType = event => {
+    this.props.resourceChanged(event.target.value)
   };
 
-  handleMultiple = event => {
-    this.setState({ [event.target.name]: event.target.value });
+  handleProjectStatus = event => {
+    this.props.projectStatusChanged(event.target.value)
+    
   };
+  
+  handleImpactCategory = event => {
+    this.props.impactCategoriesChanged(event.target.value)
+  };
+  
+  onCountryChange=text=>{
+    this.props.countryChanged(text)
+  }
 
+  onKeywordChange=text=>{
+    console.log(text)
+    this.props.keywordChanged(text)
+  }
+  
   columnFilter(filter, row, column) {
     const id = filter.pivotId || filter.id;
     return row[id] !== undefined
@@ -77,28 +86,29 @@ class ProjectSearch extends React.Component {
   }
 
   findProjects() {
-    let filterParams = this.state;
-    filterParams.tableData = [];
-    /*
-    Axios.get("/project", {
-      baseURL: "http://localhost:3001",
-      params: filterParams
-    })
-      .then(response => {
-        console.log(response);
-        this.setState({ tableData: response.data });
-      })
-      .catch(error => {
-        console.log(error);
-      });
-    */
+    const {
+
+      interests,
+      yourLocation,
+      country,
+      keyword
+    }=this.props
+    console.log('this.props',this.props)
+    this.props.findProjects(
+      {
+        interests,
+        yourLocation,
+        country,
+        keyword
+      }
+    )
   }
 
   render() {
     const { classes } = this.props;
     return (
       <GridContainer className={this.props.isLoggedIn?null:classes.container}>
-        <GridContainer>
+        <GridContainer>{console.log(this.props)}
           <GridItem xs={12} sm={12}>
             <Card>
               <CardHeader color="info" icon>
@@ -121,79 +131,26 @@ class ProjectSearch extends React.Component {
                           type: "text",
                           name: "yourLocation",
                           onChange: e => {
-                            this.setState({ [e.target.name]: e.target.value });
-                            console.log(this.state);
+                            this.onLocationChange(e.target.value)
                           }
                         }}
                       />
                     </GridItem>
                     <GridItem xs={6} sm={4} md={3} lg={3}>
-                      <FormControl
-                        fullWidth
-                        className={classes.selectFormControl}
-                      >
-                        <InputLabel
-                          htmlFor="distance-from-you"
-                          className={classes.selectLabel}
-                        >
-                          Distance From You
-                        </InputLabel>
-                        <Select
-                          value={this.state.distanceFromYou}
-                          onChange={this.handleSingle}
-                          MenuProps={{ className: classes.selectMenu }}
-                          classes={{ select: classes.select }}
-                          inputProps={{
-                            name: "distanceFromYou",
-                            id: "distance-from-you"
-                          }}
-                        >
-                          <MenuItem
-                            disabled
-                            classes={{
-                              root: classes.selectMenuItem
-                            }}
-                          >
-                            Choose Distance From You
-                          </MenuItem>
-                          <MenuItem
-                            classes={{
-                              root: classes.selectMenuItem,
-                              selected: classes.selectMenuItemSelected
-                            }}
-                            value="0"
-                          >
-                            Any
-                          </MenuItem>
-                          <MenuItem
-                            classes={{
-                              root: classes.selectMenuItem,
-                              selected: classes.selectMenuItemSelected
-                            }}
-                            value="1"
-                          >
-                            Within 5 miles
-                          </MenuItem>
-                          <MenuItem
-                            classes={{
-                              root: classes.selectMenuItem,
-                              selected: classes.selectMenuItemSelected
-                            }}
-                            value="2"
-                          >
-                            Within 10 miles
-                          </MenuItem>
-                          <MenuItem
-                            classes={{
-                              root: classes.selectMenuItem,
-                              selected: classes.selectMenuItemSelected
-                            }}
-                            value="3"
-                          >
-                            Within 25 miles
-                          </MenuItem>
-                        </Select>
-                      </FormControl>
+                      <CustomInput
+                        labelText="Your Country"
+                        id="project-name"
+                        formControlProps={{
+                          fullWidth: true
+                        }}
+                        inputProps={{
+                          type: "text",
+                          name: "yourCountry",
+                          onChange: e => {
+                            this.onCountryChange(e.target.value)
+                          }
+                        }}
+                      />
                     </GridItem>
                     <GridItem xs={8} sm={6} md={4} lg={4}>
                       <CustomInput
@@ -206,8 +163,7 @@ class ProjectSearch extends React.Component {
                           type: "text",
                           name: "keywordsHashtags",
                           onChange: e => {
-                            this.setState({ [e.target.name]: e.target.value });
-                            console.log(this.state);
+                            this.onKeywordChange(e.target.value)
                           }
                         }}
                       />
@@ -221,119 +177,13 @@ class ProjectSearch extends React.Component {
                         className={classes.selectFormControl}
                       >
                         <InputLabel
-                          htmlFor="skills-needed"
-                          className={classes.selectLabel}
-                        >
-                          Skills Needed
-                        </InputLabel>
-                        <Select
-                          multiple
-                          value={this.state.skillsNeeded}
-                          onChange={this.handleMultiple}
-                          MenuProps={{ className: classes.selectMenu }}
-                          classes={{ select: classes.select }}
-                          inputProps={{
-                            name: "skillsNeeded",
-                            id: "skills-needed"
-                          }}
-                        >
-                          <MenuItem
-                            disabled
-                            classes={{
-                              root: classes.selectMenuItem
-                            }}
-                          >
-                            Choose Skills Needed
-                          </MenuItem>
-                          <MenuItem
-                            classes={{
-                              root: classes.selectMenuItem,
-                              selected: classes.selectMenuItemSelected
-                            }}
-                            value="1"
-                          >
-                            IT
-                          </MenuItem>
-                          <MenuItem
-                            classes={{
-                              root: classes.selectMenuItem,
-                              selected: classes.selectMenuItemSelected
-                            }}
-                            value="2"
-                          >
-                            Communication
-                          </MenuItem>
-                          <MenuItem
-                            classes={{
-                              root: classes.selectMenuItem,
-                              selected: classes.selectMenuItemSelected
-                            }}
-                            value="3"
-                          >
-                            Accounting
-                          </MenuItem>
-                        </Select>
-                      </FormControl>
-                    </GridItem>
-                    <GridItem xs={6} sm={4} md={3} lg={3}>
-                      <FormControl
-                        fullWidth
-                        className={classes.selectFormControl}
-                      >
-                        <InputLabel
                           htmlFor="impact-category"
                           className={classes.selectLabel}
                         >
                           Impact Category
                         </InputLabel>
-                        <Select
-                          multiple
-                          value={this.state.impactCategory}
-                          onChange={this.handleMultiple}
-                          MenuProps={{ className: classes.selectMenu }}
-                          classes={{ select: classes.select }}
-                          inputProps={{
-                            name: "impactCategory",
-                            id: "impact-category"
-                          }}
-                        >
-                          <MenuItem
-                            disabled
-                            classes={{
-                              root: classes.selectMenuItem
-                            }}
-                          >
-                            Choose Impact Category
-                          </MenuItem>
-                          <MenuItem
-                            classes={{
-                              root: classes.selectMenuItem,
-                              selected: classes.selectMenuItemSelected
-                            }}
-                            value="1"
-                          >
-                            Community
-                          </MenuItem>
-                          <MenuItem
-                            classes={{
-                              root: classes.selectMenuItem,
-                              selected: classes.selectMenuItemSelected
-                            }}
-                            value="2"
-                          >
-                            Elderly
-                          </MenuItem>
-                          <MenuItem
-                            classes={{
-                              root: classes.selectMenuItem,
-                              selected: classes.selectMenuItemSelected
-                            }}
-                            value="3"
-                          >
-                            Homeless
-                          </MenuItem>
-                        </Select>
                       </FormControl>
+                      <InterestsDropdown interestOptions={this.props.interestOptions}/>
                     </GridItem>
                     <GridItem xs={6} sm={4} md={3} lg={3}>
                       <FormControl
@@ -347,8 +197,8 @@ class ProjectSearch extends React.Component {
                           Resource Type
                         </InputLabel>
                         <Select
-                          value={this.state.resourceType}
-                          onChange={this.handleSingle}
+                          value={this.props.resourceType}
+                          onChange={this.handleResourceType}
                           MenuProps={{ className: classes.selectMenu }}
                           classes={{ select: classes.select }}
                           inputProps={{
@@ -364,33 +214,21 @@ class ProjectSearch extends React.Component {
                           >
                             Choose Resource Type
                           </MenuItem>
-                          <MenuItem
-                            classes={{
-                              root: classes.selectMenuItem,
-                              selected: classes.selectMenuItemSelected
-                            }}
-                            value="0"
-                          >
-                            Any
-                          </MenuItem>
-                          <MenuItem
-                            classes={{
-                              root: classes.selectMenuItem,
-                              selected: classes.selectMenuItemSelected
-                            }}
-                            value="1"
-                          >
-                            Needs Volunteers
-                          </MenuItem>
-                          <MenuItem
-                            classes={{
-                              root: classes.selectMenuItem,
-                              selected: classes.selectMenuItemSelected
-                            }}
-                            value="2"
-                          >
-                            Needs Freelancers
-                          </MenuItem>
+                          {
+                            ['Volunteers','Freelancers','Both'].map((prop, key) => {
+                              return (
+                                <MenuItem
+                                classes={{
+                                  root: classes.selectMenuItem,
+                                  selected: classes.selectMenuItemSelected
+                                }}
+                                value={prop}
+                              >{console.log(key,'*here')}
+                                Needs {prop}
+                              </MenuItem>
+                              );
+                            })
+                          }
                         </Select>
                       </FormControl>
                     </GridItem>
@@ -406,8 +244,8 @@ class ProjectSearch extends React.Component {
                           Project Status
                         </InputLabel>
                         <Select
-                          value={this.state.projectStatus}
-                          onChange={this.handleSingle}
+                          value={this.props.projectStatus}
+                          onChange={this.handleProjectStatus}
                           MenuProps={{ className: classes.selectMenu }}
                           classes={{ select: classes.select }}
                           inputProps={{
@@ -423,42 +261,21 @@ class ProjectSearch extends React.Component {
                           >
                             Choose Project Status
                           </MenuItem>
-                          <MenuItem
-                            classes={{
-                              root: classes.selectMenuItem,
-                              selected: classes.selectMenuItemSelected
-                            }}
-                            value="0"
-                          >
-                            Any
-                          </MenuItem>
-                          <MenuItem
-                            classes={{
-                              root: classes.selectMenuItem,
-                              selected: classes.selectMenuItemSelected
-                            }}
-                            value="1"
-                          >
-                            Active
-                          </MenuItem>
-                          <MenuItem
-                            classes={{
-                              root: classes.selectMenuItem,
-                              selected: classes.selectMenuItemSelected
-                            }}
-                            value="2"
-                          >
-                            Closed
-                          </MenuItem>
-                          <MenuItem
-                            classes={{
-                              root: classes.selectMenuItem,
-                              selected: classes.selectMenuItemSelected
-                            }}
-                            value="3"
-                          >
-                            Future
-                          </MenuItem>
+                          {
+                            ['Active', 'Closed','Future','Any'].map((prop,key)=>{
+                              return(
+                                <MenuItem
+                                classes={{
+                                  root: classes.selectMenuItem,
+                                  selected: classes.selectMenuItemSelected
+                                }}
+                                value={prop}
+                              >
+                                {prop}
+                              </MenuItem>      
+                              )
+                            })
+                          }
                         </Select>
                       </FormControl>
                     </GridItem>
@@ -481,37 +298,66 @@ class ProjectSearch extends React.Component {
         <GridContainer>
           <GridItem xs={12} sm={12}>
             <Card>
-              <CardBody>
-                <ReactTable
-                  data={this.state.tableData}
-                  columns={[
-                    {
-                      Header: "Name",
-                      accessor: "name",
-                      filterable: true,
-                      filterMethod: this.columnFilter
-                    },
-                    {
-                      Header: "Description",
-                      accessor: "description",
-                      filterable: true,
-                      filterMethod: this.columnFilter
-                    },
-                    {
-                      Header: "Location",
-                      accessor: "location",
-                      filterable: true,
-                      filterMethod: this.columnFilter
-                    }
-                  ]}
-                  defaultPageSize={5}
-                  showPaginationTop
-                  showPaginationBottom={false}
-                  className="-striped -highlight"
-                />
+              <CardBody >
+                <GridContainer>
+                  <GridItem xs={12} sm={12}>
+                    <ReactTable
+                    pageSize={10}
+                      data={this.props.tableData}
+                      columns={[
+                        {
+                          Header: "Name",
+                          accessor: "project_name",
+                          filterable: true,
+                          filterMethod: this.columnFilter
+                        },
+                        {
+                          Header: "Id",
+                          accessor: "project_id",
+                          filterable: true,
+                          filterMethod: this.columnFilter
+                        },
+                        {
+                          Header: "Status",
+                          accessor: "status",
+                          filterable: true,
+                          filterMethod: this.columnFilter
+                        },
+                        {
+                          Header: "Start",
+                          accessor: "start_date",
+                          filterable: true,
+                          filterMethod: this.columnFilter
+                        },
+                        {
+                          Header: "Target End",
+                          accessor: "end_date",
+                          filterable: true,
+                          filterMethod: this.columnFilter
+                        },
+                        {
+                          Header: "Description",
+                          accessor: "description",
+                          filterable: true,
+                          filterMethod: this.columnFilter
+                        },
+                        {
+                          Header: "Location",
+                          accessor: "country",
+                          filterable: true,
+                          filterMethod: this.columnFilter
+                        }
+                      ]}
+                      defaultPageSize={5}
+                      showPaginationTop
+                      showPaginationBottom={false}
+                      className="-striped -highlight"
+                    />
+                  </GridItem>
+                </GridContainer>
               </CardBody>
             </Card>
-          </GridItem>
+          </GridItem>{console.log('this.props.tableData',this.props.tableData)}
         </GridContainer>
       </GridContainer>
 
@@ -526,8 +372,28 @@ ProjectSearch.propTypes = {
 const mapStateToProps = state => {
   return {
     isLoggedIn: state.auth.isLoggedIn,
+    tableData: state.findProject.tableData,
+    impactCategories: state.findProject.impactCategories,
+    yourLocation: state.findProject.yourLocation,
+    resourceType: state.findProject.resourceType,
+    projectStatus: state.findProject.projectStatus,
+    distanceFromYou: state.findProject.distanceFromYou,
+    keyword: state.findProject.keyword,
+    country: state.findProject.country,
+    textChanged: state.findProject.textChanged,
+    interestOptions: state.common.interestOptions,
+    interests:state.user.interests,
+    resourceTypeOptions: state.findProject.resourceTypeOptions
   }
 }
 
-const myObj = withStyles(extendedFormsStyle)(ProjectSearch);
-export default connect(mapStateToProps)(withStyles(projectSearchStyle)(myObj));
+
+export default connect(mapStateToProps, {
+  locationChanged,
+  resourceChanged,
+  projectStatusChanged,
+  impactCategoriesChanged,
+  countryChanged,
+  keywordChanged,
+  findProjects
+})(withStyles(projectSearchStyle)(ProjectSearch));
