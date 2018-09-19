@@ -121,7 +121,7 @@ class ProjectSearch extends React.Component {
               <CardBody>
                 <form>
                   <GridContainer>
-                    <GridItem xs={12} sm={12} md={6}>
+                    <GridItem xs={12} sm={12} md={6} style={{marginTop: 30}}>
                        <CountryDropdown defaultValue={this.props.userCountry}/>
                     </GridItem>
                     <GridItem xs={12} sm={12} md={6}>

@@ -63,15 +63,14 @@ class ApplicationPage extends React.Component {
                   <GridContainer>
                     <GridItem xs={12} sm={6}>
                       <FormLabel component="legend" style={{fontSize: 20, fontWeight: '500', color: '#777'}}>
-                        {this.props.projectName}:
+                        {this.props.projectName}
                       </FormLabel>
-                      <br/>
                     </GridItem>
                   </GridContainer>
                   <GridContainer>
                     <GridItem xs={12} sm={6}>
-                      <FormLabel component="legend" style={{fontSize: 18, fontWeight: '400', color: '#777'}}>
-                        Description
+                      <FormLabel component="legend" style={{fontSize: 15, fontWeight: '400', color: '#777', marginTop: -15}}>
+                        {this.props.description}
                       </FormLabel>
                     </GridItem>
                   </GridContainer>
@@ -96,7 +95,7 @@ class ApplicationPage extends React.Component {
                   <GridContainer>
                     <GridItem xs={12} sm={12} md={6}>
                     <FormControl component="fieldset" className={classes.formControl}>
-                    <FormLabel component="legend" style={{fontSize: 18, fontWeight: '400', color: '#777'}}>Select Your Role</FormLabel>
+                    <FormLabel component="legend" style={{fontSize: 15, fontWeight: '400', color: '#777'}}>Select Your Role</FormLabel>
                     <RadioGroup
                       aria-label="role"
                       name="role"
@@ -149,7 +148,8 @@ const mapStateToProps =state=> {
     message: state.applypro.message,
     role: state.applypro.role,
     toast: state.applypro.toast,
-    text: state.applypro.text
+    text: state.applypro.text,
+    description: state.proDetails.description
   }
 }
 
