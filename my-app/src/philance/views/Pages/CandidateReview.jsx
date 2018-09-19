@@ -67,9 +67,9 @@ class CandidateReview extends React.Component {
                                                 </TableRow>
                                             </TableHead>
                                             <TableRow style={{ backgroundColor: "#dbebf6" }}>
-                                                <CustomTableCell>123</CustomTableCell>
+                                                <CustomTableCell>1</CustomTableCell>
                                                 <CustomTableCell>New</CustomTableCell>
-                                                <CustomTableCell>Acive</CustomTableCell>
+                                                <CustomTableCell>Active</CustomTableCell>
                                                 <CustomTableCell>27/8/18</CustomTableCell>
                                                 <CustomTableCell>New Candidate</CustomTableCell>
                                                 <CustomTableCell>
@@ -77,9 +77,9 @@ class CandidateReview extends React.Component {
                                                 </CustomTableCell>
                                             </TableRow>
                                             <TableRow>
-                                                <CustomTableCell>123</CustomTableCell>
+                                                <CustomTableCell>2</CustomTableCell>
                                                 <CustomTableCell>New</CustomTableCell>
-                                                <CustomTableCell>Acive</CustomTableCell>
+                                                <CustomTableCell>Offline</CustomTableCell>
                                                 <CustomTableCell>27/8/18</CustomTableCell>
                                                 <CustomTableCell>New Candidate</CustomTableCell>
                                                 <CustomTableCell>
