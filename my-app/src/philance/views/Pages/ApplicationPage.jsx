@@ -75,9 +75,9 @@ class ApplicationPage extends React.Component {
                       }}
                       style={{cursor: 'pointer', color: "blue", fontSize: 15, marginLeft: 20}}
                       >
-                        <i class="fa fa-angle-left"></i>
+                        <i class="fa fa-angle-left" style={{}}></i>
                         Go back to project details
-                      </a>c
+                      </a>
                     </GridItem>
                   </GridContainer>
                   <GridContainer>

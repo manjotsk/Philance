@@ -72,30 +72,27 @@ class CandidateReview extends React.Component {
                                         <Table className={classes.table} padding="checkbox">
                                             <TableHead>
                                                 <TableRow>
-                                                    <CustomTableCell>#</CustomTableCell>
-                                                    <CustomTableCell>Name</CustomTableCell>
-                                                    <CustomTableCell>Status</CustomTableCell>
+                                                    <CustomTableCell>Project Name</CustomTableCell>
+                                                    <CustomTableCell>Candidate Name</CustomTableCell>
                                                     <CustomTableCell>Date Applied</CustomTableCell>
-                                                    <CustomTableCell>Messages</CustomTableCell>
+                                                    <CustomTableCell>Candidate Status</CustomTableCell>
                                                     <CustomTableCell>Action</CustomTableCell>
                                                 </TableRow>
                                             </TableHead>
                                             <TableRow style={{ backgroundColor: "#dbebf6" }}>
-                                                <CustomTableCell>1</CustomTableCell>
-                                                <CustomTableCell>New</CustomTableCell>
-                                                <CustomTableCell>Active</CustomTableCell>
+                                                <CustomTableCell>New Project1</CustomTableCell>
+                                                <CustomTableCell>Demo User</CustomTableCell>
                                                 <CustomTableCell>27/8/18</CustomTableCell>
-                                                <CustomTableCell>New Candidate</CustomTableCell>
+                                                <CustomTableCell>Approved</CustomTableCell>
                                                 <CustomTableCell>
                                                     <ActionDropdown />
                                                 </CustomTableCell>
                                             </TableRow>
                                             <TableRow>
-                                                <CustomTableCell>2</CustomTableCell>
-                                                <CustomTableCell>New</CustomTableCell>
-                                                <CustomTableCell>Offline</CustomTableCell>
+                                                <CustomTableCell>New Project2</CustomTableCell>
+                                                <CustomTableCell>Demo User</CustomTableCell>
                                                 <CustomTableCell>27/8/18</CustomTableCell>
-                                                <CustomTableCell>New Candidate</CustomTableCell>
+                                                <CustomTableCell>Pending</CustomTableCell>
                                                 <CustomTableCell>
                                                     <ActionDropdown />
                                                 </CustomTableCell>
