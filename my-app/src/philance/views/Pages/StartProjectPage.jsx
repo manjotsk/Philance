@@ -25,9 +25,9 @@ import InputLabel from "@material-ui/core/InputLabel";
 // @material-ui/icons
 import Check from "@material-ui/icons/Check";
 import startProjectPageStyle from "philance/views/PageStyles/StartProjectPageStyles";
-import {InterestsDropdown, CountryDropdown} from '../../components/DoubleDropdown'
-import {connect} from 'react-redux'
-import { Button as Buttons, Label, Icon} from 'semantic-ui-react';
+import { InterestsDropdown, CountryDropdown } from '../../components/DoubleDropdown'
+import { connect } from 'react-redux'
+import { Button as Buttons, Label, Icon } from 'semantic-ui-react';
 
 import { getCommonInfo } from "../../actions/common";
 
@@ -67,399 +67,491 @@ class StartProject extends React.Component {
       startDate: null,
       endDate: null,
       budget: null,
+      validName: false,
+      validDescription: false,
+      validBudget: false,
+      validDropdown: false,
+      validCountry: false,
+      validStartDate: false,
+      validEndDate: false
     };
     this.myRef = React.createRef();
     this.fileInput = React.createRef();
   }
-  componentWillMount(){
+  componentWillMount() {
     this.props.getCommonInfo()
   }
-  componentWillUnmount(){
+  componentWillUnmount() {
     this.props.startProjectUnmount()
   }
 
-  onProjectNameChange(text) {
-    this.props.projectNameChanged(text)
-    this.props.textChanged()
+  validate = async (value) => {
+    if (value === "ProjectName") {
+      await this.setState({
+        validName: true
+      })
+    }
+    if (value === "Description") {
+      await this.setState({
+        validDescription: true
+      })
+    }
+    if (value === "Budget") {
+      await this.setState({
+        validBudget: true
+      })
+    }
+    if (value === "ZipCode") {
+      await this.setState({
+        validZipCode: true
+      })
+    }
+    if (value === "startDate") {
+      await this.setState({
+        validStartDate: true
+      })
+    }
+    if (value === "endDate") {
+      await this.setState({
+        validEndDate: true
+      })
+    }
   }
 
-  onDescriptionChange(text) {
-    this.props.descriptionChanged(text)
-    this.props.textChanged()
+  onProjectNameChange = async (text) => {
+    if (text === "") {
+      this.validate("ProjectName")
+    }
+    else {
+      await this.setState({ validName: false })
+      this.props.projectNameChanged(text)
+      this.props.textChanged()
+    }
   }
 
-  onBudgetChange(text) {
-    this.props.budgetChanged(text)
-    this.props.textChanged()
+
+  onDescriptionChange = async (text) => {
+    if (text === "") {
+      this.validate("Description")
+    }
+    else {
+      await this.setState({ validDescription: false })
+      this.props.descriptionChanged(text)
+      this.props.textChanged()
+    }
   }
-  
-  onFilesChange(e){
+
+  onBudgetChange = async (text) => {
+    if (text === "") {
+      this.validate("Budget")
+    }
+    else {
+      await this.setState({ validBudget: false })
+      this.props.budgetChanged(text)
+      this.props.textChanged()
+    }
+  }
+
+  onFilesChange(e) {
     this.props.filesChanged(e.target.files[0])
     // this.props.textChanged()
   }
 
-  onEndDateChange(text) {
+  onEndDateChange=async(text)=> {
+    if (text === undefined) {
+      this.validate("endDate")
+    }
+    else {
+      await this.setState({ validEndDate: false })
     this.props.endDateChanged(text)
     this.props.textChanged()
   }
-
-  onDescriptionChange(text) {
-    this.props.descriptionChanged(text)
-    this.props.textChanged()
   }
-
   onFreeLancersChange(text) {
     this.props.freelancersChanged(text)
     this.props.textChanged()
   }
 
-  onStartDateChange(text) {
+
+  onStartDateChange= async(text)=> {
+    if (text === undefined) {
+      this.validate("startDate")
+    }
+    else {
+      await this.setState({ validStartDate: false })
     this.props.startDateChanged(text)
     this.props.textChanged()
   }
-
+  }
   onVolunteersChange(text) {
     this.props.volunteersChanged(text)
     this.props.textChanged()
   }
-
-  onZipCodeChange(text) {
-    this.props.zipCodeChanged(text)
-    this.props.textChanged()
+  onZipCodeChange = async (text) => {
+    if (text === "") {
+      this.validate("ZipCode")
+    }
+    else {
+      await this.setState({ validZipCode: false })
+      this.props.zipCodeChanged(text)
+      this.props.textChanged()
+    }
   }
-  onCountryChanged(text) {
+  onCountryChanged=async(text)=> {
+    if (text === "") {
+      this.validate("Country")
+    }
+    else {
+      await this.setState({ validCountry: false })
     store.dispatch(countryChanged(text))
     store.dispatch(textChanged())
   }
+}
   handleClick() {
     this.refs.fileInput.click();
   }
   render() {
     const { classes } = this.props;
     return (
-      <GridContainer className={this.props.isLoggedIn?classes.justifyContentCenter:classes.container}>
-        {this.props.requestCompleted?<Toaster display={this.props.requestCompleted} message={'Project has been created'}/>:null}
-          <GridItem xs={12} sm={12} md={10}>
-            <Card>
-              <CardHeader color="info" text>
-                <CardText color="info">
-                  <h4>Start a project to help others OR ask for help</h4>
-                </CardText>
-              </CardHeader>
-              <CardBody>
-                <form>
-                  <GridContainer>
-                    <div ref={this.myRef}/>
-                    <GridItem xs={12} sm={14}>
-                      <CustomInput
-                        labelText ="Project Name"
-                        id="projectName"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          placeholder: "Enter a Project Name",
-                          onChange: e => {
-                            this.onProjectNameChange(e.target.value)
-                          }
-                        }}
-                      />
-                    </GridItem>
-                  </GridContainer>
-                  <GridContainer>
-                    <GridItem xs={12} sm={14}>
-                      <CustomInput
-                      labelText ="Project Description"
-                        id="projectDescription"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          placeholder: "Enter a Project Description",
-                          onChange: e => {
-                            this.onDescriptionChange(e.target.value)
-                          }
-                        }}
-                      />
-                    </GridItem>
-                  </GridContainer>
-                  <GridContainer>
-                    <GridItem xs={12} sm={6}>
-                        <InputLabel className={classes.label} style={{marginBottom: 5, marginTop: 10}}>
-                          Country
+      <GridContainer className={this.props.isLoggedIn ? classes.justifyContentCenter : classes.container}>
+        {this.props.requestCompleted ? <Toaster display={this.props.requestCompleted} message={'Project has been created'} /> : null}
+        <GridItem xs={12} sm={12} md={10}>
+          <Card>
+            <CardHeader color="info" text>
+              <CardText color="info">
+                <h4>Start a project to help others OR ask for help</h4>
+              </CardText>
+            </CardHeader>
+            <CardBody>
+              <form>
+                <GridContainer>
+                  <div ref={this.myRef} />
+                  <GridItem xs={12} sm={14}>
+                    <CustomInput
+                      labelText="Project Name"
+                      id="projectName"
+                      error={this.state.validName}
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      inputProps={{
+                        placeholder: "Enter a Project Name",
+                        onChange: e => {
+                          this.onProjectNameChange(e.target.value)
+                        }
+                      }}
+                    />
+                  </GridItem>
+                </GridContainer>
+                <GridContainer>
+                  <GridItem xs={12} sm={14}>
+                    <CustomInput
+                      labelText="Project Description"
+                      id="projectDescription"
+                      error={this.state.validDescription}
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      inputProps={{
+                        placeholder: "Enter a Project Description",
+                        onChange: e => {
+                          this.onDescriptionChange(e.target.value)
+                        }
+                      }}
+                    />
+                  </GridItem>
+                </GridContainer>
+                <GridContainer>
+                  <GridItem xs={12} sm={6}>
+                    <InputLabel className={classes.label} style={{ marginBottom: 5, marginTop: 10 }}>
+                      Country
                         </InputLabel>
-                    </GridItem>
-                  </GridContainer>
-                  <GridContainer spacing={12}>
-                    <GridItem  xs={6}>
-                      <CountryDropdown onCountryChanged={this.onCountryChanged} defaultValue={this.props.country}/>
-                    </GridItem>
-                  </GridContainer>
-                  <GridContainer spacing={12}>
-                    <GridItem xs={6} style={{}}>
-                      <CustomInput
-                      labelText ="Project Zip Code"
-                        id="projectLocation"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          placeholder: "Enter zip code of location where it took place",
-                          onChange: e => {
-                            this.onZipCodeChange(e.target.value)
-                          }
-                        }}
-                      />
-                    </GridItem>
-                  </GridContainer>
-                  <GridContainer>
-                    <GridItem xs={12} sm={6}><br/>
-                        <InputLabel className={classes.label} style={{marginBottom: 5, marginTop: 10}}>
-                          Impact Category
+                  </GridItem>
+                </GridContainer>
+                <GridContainer spacing={12}>
+                  <GridItem xs={6}>
+                    <CountryDropdown onCountryChanged={this.onCountryChanged} action ={this.state.validCountry} defaultValue={this.props.country} />
+                  </GridItem>
+                </GridContainer>
+                <GridContainer spacing={12}>
+                  <GridItem xs={6} style={{}}>
+                    <CustomInput
+                      labelText="Project Zip Code"
+                      id="projectLocation"
+                      error={this.state.validZipCode}
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      inputProps={{
+                        placeholder: "Enter zip code of location where it took place",
+                        onChange: e => {
+                          this.onZipCodeChange(e.target.value)
+                        }
+                      }}
+                    />
+                  </GridItem>
+                </GridContainer>
+                <GridContainer>
+                  <GridItem xs={12} sm={6}><br />
+                    <InputLabel className={classes.label} style={{ marginBottom: 5, marginTop: 10 }}>
+                      Impact Category
                         </InputLabel>
-                    </GridItem>
-                  </GridContainer>
-                  <GridContainer xs={12} sm={12} md={10}>
-                    <GridItem xs={12} sm={12} md={10}><br/>
-                      <InterestsDropdown interestOptions={this.props.interestOptions}/>
-                    </GridItem>
-                  </GridContainer>
-                  <GridContainer>
-                    <GridItem xs={12} sm={6}><br/><br/>
-                        <InputLabel className={classes.label} style={{marginTop: 20}}>
-                          Resources Needed
+                  </GridItem>
+                </GridContainer>
+                <GridContainer xs={12} sm={12} md={10}>
+                  <GridItem xs={12} sm={12} md={10}><br />
+                    <InterestsDropdown interestOptions={this.props.interestOptions} action={this.state.validDropdown} defaultValue={this.props.interestOptions} />
+                  </GridItem>
+                </GridContainer>
+                <GridContainer>
+                  <GridItem xs={12} sm={6}><br /><br />
+                    <InputLabel className={classes.label} style={{ marginTop: 20 }}>
+                      Resources Needed
                         </InputLabel>
-                    </GridItem>
-                  </GridContainer>
-                  <GridContainer>
-                    <GridItem style = {{marginTop: 23}}>
-                        <FormControlLabel
-                          control={
-                            <Checkbox
-                              tabIndex={-1}
-                              onClick={
-                                async () => {
-                                  await this.setState({volunteerStatus: !this.state.volunteerStatus})
-                                  this.state.volunteerStatus?this.onVolunteersChange(''):null
-                                }
+                  </GridItem>
+                </GridContainer>
+                <GridContainer>
+                  <GridItem style={{ marginTop: 23 }}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          tabIndex={-1}
+                          onClick={
+                            async () => {
+                              await this.setState({ volunteerStatus: !this.state.volunteerStatus })
+                              this.state.volunteerStatus ? this.onVolunteersChange('') : null
                             }
-                                checkedIcon={
-                                <Check className={classes.checkedIcon} />
-                              }
-                              icon={<Check className={classes.uncheckedIcon} />}
-                              classes={{
-                                checked: classes.checked
-                              }}
-                            />
                           }
+                          checkedIcon={
+                            <Check className={classes.checkedIcon} />
+                          }
+                          icon={<Check className={classes.uncheckedIcon} />}
                           classes={{
-                            label: classes.label
+                            checked: classes.checked
                           }}
-                          label="Volunteers"
                         />
-                        </GridItem>
-                        <GridItem md ={6}>
-                      <CustomInput
-                        id="volunteers"
-                        labelText ="Volunteers"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          value: this.props.volunteers,
-                          disabled : this.state.volunteerStatus,
-                          placeholder: "Enter Number of Volunteers",
-                          onChange: e => {
-                            this.onVolunteersChange(e.target.value)
-                          }
-                        }}
-                      />
+                      }
+                      classes={{
+                        label: classes.label
+                      }}
+                      label="Volunteers"
+                    />
+                  </GridItem>
+                  <GridItem md={6}>
+                    <CustomInput
+                      id="volunteers"
+                      labelText="Volunteers"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      inputProps={{
+                        value: this.props.volunteers,
+                        disabled: this.state.volunteerStatus,
+                        placeholder: "Enter Number of Volunteers",
+                        onChange: e => {
+                          this.onVolunteersChange(e.target.value)
+                        }
+                      }}
+                    />
 
-                        </GridItem>
-                        </GridContainer>
-                        <GridContainer>
-                        <GridItem style = {{marginTop: 23}}>
-                        <FormControlLabel
-                          control={
-                            <Checkbox
-                              tabIndex={-1}
-                              onClick={
-                                async () => {
-                                  await this.setState({freeLanceStatus: !this.state.freeLanceStatus})
-                                  this.state.freeLanceStatus?this.onFreeLancersChange(''):null
-                                }
+                  </GridItem>
+                </GridContainer>
+                <GridContainer>
+                  <GridItem style={{ marginTop: 23 }}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          tabIndex={-1}
+                          onClick={
+                            async () => {
+                              await this.setState({ freeLanceStatus: !this.state.freeLanceStatus })
+                              this.state.freeLanceStatus ? this.onFreeLancersChange('') : null
                             }
-                              checkedIcon={
-                                <Check className={classes.checkedIcon} />
-                              }
-                              icon={<Check className={classes.uncheckedIcon} />}
-                              classes={{
-                                checked: classes.checked
-                              }}
-                            />
                           }
+                          checkedIcon={
+                            <Check className={classes.checkedIcon} />
+                          }
+                          icon={<Check className={classes.uncheckedIcon} />}
                           classes={{
-                            label: classes.label
+                            checked: classes.checked
                           }}
-                          label="Freelancers"
                         />
-                        </GridItem>
-                        <GridItem md ={6}>
-                        <CustomInput
-                        labelText ="Freelancers"
-                        id="projectDescription"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          value: this.props.freelancers,
-                          disabled : this.state.freeLanceStatus,
-                          placeholder: "Enter Number of Freelancers",
-                          onChange: e => {
-                            this.onFreeLancersChange(e.target.value)
-                          }
-                        }}
-                      />
-                    </GridItem>
-                  </GridContainer>
-                  <GridContainer>
-                    <GridItem xs={12} sm={12} md={4}>
-                      <Card>
-                        <CardBody>
-                          <InputLabel className={classes.label}>
-                            Project Start Date
+                      }
+                      classes={{
+                        label: classes.label
+                      }}
+                      label="Freelancers"
+                    />
+                  </GridItem>
+                  <GridItem md={6}>
+                    <CustomInput
+                      labelText="Freelancers"
+                      id="projectDescription"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      inputProps={{
+                        value: this.props.freelancers,
+                        disabled: this.state.freeLanceStatus,
+                        placeholder: "Enter Number of Freelancers",
+                        onChange: e => {
+                          this.onFreeLancersChange(e.target.value)
+                        }
+                      }}
+                    />
+                  </GridItem>
+                </GridContainer>
+                <GridContainer>
+                  <GridItem xs={12} sm={12} md={4}>
+                    <Card>
+                      <CardBody>
+                        {this.state.validStartDate?
+                        <InputLabel className={classes.label}>
+                          <span style={{color: "red"}}>Project Start Date</span>
                           </InputLabel>
-                          <br />
-                          <FormControl fullWidth>
+                        :
+                        <InputLabel className={classes.label}>
+                          Project Start Date
+                          </InputLabel>
+                        }
+                        <br />
+                        <FormControl fullWidth required="true">
                           <GridContainer>
                             <GridItem xs={9}>
                               <Datetime
-                                  timeFormat={false}
-                                  onChange={date=>this.onStartDateChange(date._d)}
-                                />
+                                timeFormat={false}
+                                onChange={date => this.onStartDateChange(date._d)}
+                              />
                             </GridItem>
                             <GridItem xs={3}>
-                              <Icon bordered inverted color='teal' name='calendar alternate outline'/>
+                              <Icon bordered inverted color='teal' name='calendar alternate outline' />
                             </GridItem>
                           </GridContainer>
-                          </FormControl>
-                        </CardBody>
-                      </Card>
-                    </GridItem>
-                    <GridItem xs={12} sm={12} md={4}>
-                      <Card>
-                        <CardHeader color="info" icon>
-                        </CardHeader>
-                        <CardBody>
-                          <InputLabel className={classes.label}>
-                            Project End Date
+                        </FormControl>
+                      </CardBody>
+                    </Card>
+                  </GridItem>
+                  <GridItem xs={12} sm={12} md={4}>
+                    <Card>
+                      <CardHeader color="info" icon>
+                      </CardHeader>
+                      <CardBody>
+                      {this.state.validEndDate?
+                        <InputLabel className={classes.label}>
+                          <span style={{color: "red"}}>Project End Date</span>
                           </InputLabel>
-                          <br />
-                          <FormControl fullWidth>
+                        :
+                        <InputLabel className={classes.label}>
+                          Project End Date
+                          </InputLabel>
+                        }
+                        <br />
+                        <FormControl fullWidth>
                           <GridContainer>
                             <GridItem xs={9}>
                               <Datetime
-                                  timeFormat={false}
-                                  onChange={date=>this.onEndDateChange(date._d)}
-                                />
-                              </GridItem>
+                                timeFormat={false}
+                                onChange={date => this.onEndDateChange(date._d)}
+                              />
+                            </GridItem>
                             <GridItem xs={3}>
-                              <Icon bordered inverted color='teal' name='calendar alternate outline'/>
+                              <Icon bordered inverted color='teal' name='calendar alternate outline' />
                             </GridItem>
                           </GridContainer>
-                          </FormControl>
-                        </CardBody>
-                      </Card>
-                    </GridItem>
-                  </GridContainer>
-                  <GridContainer>
-                    <GridItem xs={12} sm={14}>
-                      <CustomInput
-                        labelText ="Budget"
-                        id="projectDescription"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          placeholder: "Enter Estimated Budget (USD)",
-                          onChange: e => {
-                            this.onBudgetChange(e.target.value)
-                            console.log(this.state.budget)
-                          }
-                        }}
-                      />
-                    </GridItem>
-                  </GridContainer>
-                  <GridContainer>
-                    <GridItem xs={12} sm={14} >
-                      <Label
-                        as="label"
-                        basic
-                        htmlFor={uid}
-                        >
-                        <GridContainer className={classes.justifyContentCenter}>
+                        </FormControl>
+                      </CardBody>
+                    </Card>
+                  </GridItem>
+                </GridContainer>
+                <GridContainer>
+                  <GridItem xs={12} sm={14}>
+                    <CustomInput
+                      labelText="Budget"
+                      id="projectDescription"
+                      error={this.state.validBudget}
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      inputProps={{
+                        placeholder: "Enter Estimated Budget (USD)",
+                        onChange: e => {
+                          this.onBudgetChange(e.target.value)
+                          console.log(this.state.budget)
+                        }
+                      }}
+                    />
+                  </GridItem>
+                </GridContainer>
+                <GridContainer>
+                  <GridItem xs={12} sm={14} >
+                    <Label
+                      as="label"
+                      basic
+                      htmlFor={uid}
+                    >
+                      <GridContainer className={classes.justifyContentCenter}>
                         <GridItem justify='center'>
                           <input type="file" id={uid}
                             ref='fileInput'
                             multiple
-                            style={{display: "none"}}
+                            style={{ display: "none" }}
                             name="files"
-                            onChange={(e)=>this.onFilesChange(e)}
-                            />
+                            onChange={(e) => this.onFilesChange(e)}
+                          />
                           <Button color="info" onClick={() => this.handleClick()}>
-                            <Icon name='upload'/>Select Files{'\t\t\t'}
+                            <Icon name='upload' />Select Files{'\t\t\t'}
                           </Button>
                         </GridItem>
                         <GridItem xs={12} justify='center'>
-                        {
-                          this.props.files?
-                          <Card>
-                            <CardHeader>
-                              {this.props.files.type.split('/')[0].charAt(0).toUpperCase() + this.props.files.type.split('/')[0].slice(1)+' File'}
-                            </CardHeader>
-                            <CardBody>
-                            <Icon name='file'/>{this.props.files.name}{'\t\t\t'}
-                            </CardBody>
-                          </Card>
-                          :null
-                        }
+                          {
+                            this.props.files ?
+                              <Card>
+                                <CardHeader>
+                                  {this.props.files.type.split('/')[0].charAt(0).toUpperCase() + this.props.files.type.split('/')[0].slice(1) + ' File'}
+                                </CardHeader>
+                                <CardBody>
+                                  <Icon name='file' />{this.props.files.name}{'\t\t\t'}
+                                </CardBody>
+                              </Card>
+                              : null
+                          }
                         </GridItem>
                         <GridItem justify='center'>
-                        {this.props.files?<Button
+                          {this.props.files ? <Button
                             color="info"
                             icon="upload"
-                            onClick={()=>{
+                            onClick={() => {
                               //call upload Action
                               this.props.uploadFiles(
                                 {
-                                  uploadType:'startProjectFiles',
-                                  userInfo:{
-                                      userId:this.props.userId
+                                  uploadType: 'startProjectFiles',
+                                  userInfo: {
+                                    userId: this.props.userId
                                   }
                                 },
                                 this.props.files
                               )
                             }}
-                            >Upload</Button>:null
+                          >Upload</Button> : null
                           }
                         </GridItem>
-                        </GridContainer>
-                      </Label>
-                      {this.props.uploadStatus=='NOT_INITIATED'?null:
-                      <Toaster display={true} message={this.props.uploadStatus}/>}
+                      </GridContainer>
+                    </Label>
+                    {this.props.uploadStatus == 'NOT_INITIATED' ? null :
+                      <Toaster display={true} message={this.props.uploadStatus} />}
 
-                    </GridItem>
-                  </GridContainer>
-                  <br/>
-                  <GridContainer className={classes.justifyContentCenter}> 
-                    <GridItem>
-                      {this.state.alert}
-                      <Button onClick = {()=>{
-                        if(!this.props.isLoggedIn){
-                          this.successAlert();
-                        }else{
-                          
-                          const {
+                  </GridItem>
+                </GridContainer>
+                <br />
+                <GridContainer className={classes.justifyContentCenter}>
+                  <GridItem>
+                    {this.state.alert}
+                    <Button onClick={() => {
+                      if (!this.props.isLoggedIn) {
+                        this.successAlert();
+                      } else {
+
+                        const {
                           name,
                           description,
                           volunteers,
@@ -487,19 +579,49 @@ class StartProject extends React.Component {
                           userId,
                           files
                         })
+                         console.log(this.props)
+                        if (this.props.name === "") {
+                          this.setState({ validName: true })
                         }
-                      }}
+                        if (this.props.description === "") {
+                          this.setState({ validDescription: true })
+                        }
+                        if (this.props.budget === "") {
+                          this.setState({ validBudget: true })
+                        }
+                        if (this.props.zipCode === "") {
+                          this.setState({ validZipCode: true })
+                        }
+                        if (this.props.interests === "") {
+                          this.setState({ validDropdown: true })
+                        }
+                        if (this.props.country === "") {
+                          this.setState({ validCountry: true })
+                        }
+                        if (this.props.country !== "") {
+                          this.setState({ validCountry: false })
+                        }
+                        if( this.props.startDate === "")
+                        {
+                          this.setState({validStartDate: true})
+                        }
+                        if( this.props.endDate === "")
+                        {
+                          this.setState({validEndDate: true})
+                        }
+                      }
+                    }}
                       color="info"
-                      >
+                    >
                       {this.props.text}
-                      </Button>
-                    </GridItem>
-                  </GridContainer>{console.log(this.props.country)}
-                </form>
-              </CardBody>
-            </Card>
-          </GridItem>
-        </GridContainer>
+                    </Button>
+                  </GridItem>
+                </GridContainer>
+              </form>
+            </CardBody>
+          </Card>
+        </GridItem>
+      </GridContainer>
     );
   }
   hideAlert() {
@@ -524,7 +646,7 @@ class StartProject extends React.Component {
   }
 }
 
-const mapStateToProps =state=> {
+const mapStateToProps = state => {
   return {
     name: state.start.name,
     description: state.start.description,
@@ -539,11 +661,11 @@ const mapStateToProps =state=> {
     isLoggedIn: state.auth.isLoggedIn,
     interestOptions: state.common.interestOptions,
     requestCompleted: state.start.requestCompleted,
-    userId:state.user.userId,
-    files:state.start.files,
-    uploadStatus:state.start.uploadStatus,
-    country:state.start.country,
-    isLoggedIn:state.auth.isLoggedIn
+    userId: state.user.userId,
+    files: state.start.files,
+    uploadStatus: state.start.uploadStatus,
+    country: state.start.country,
+    isLoggedIn: state.auth.isLoggedIn
   }
 }
 
