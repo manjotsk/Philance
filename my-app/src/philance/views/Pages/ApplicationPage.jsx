@@ -97,7 +97,7 @@ class ApplicationPage extends React.Component {
                           inputProps={{
                           multiline: true,
                           rows: 2,
-                          placeholder:"Enter your comments here explaining why you want to work on this project and whatever other information you want to the project owner",
+                          placeholder:"Enter your comments here explaining why you want to work on this project",
                           onChange: e => {
                             this.onMessageChanged(e.target.value)
                           }
