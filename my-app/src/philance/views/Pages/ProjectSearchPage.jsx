@@ -27,7 +27,6 @@ import CustomInput from "components/CustomInput/CustomInput.jsx";
 import InterestsDropdown from "../../components/DoubleDropdown/InterestsDropdown";
 import CountryDropdown from "../../components/DoubleDropdown/CountryDropdown";
 import projectSearchStyle from "philance/views/PageStyles/ProjectSearchStyles.jsx";
-import extendedFormsStyle from "assets/jss/material-dashboard-pro-react/views/extendedFormsStyle.jsx";
 import { 
   locationChanged,
   resourceChanged,
@@ -124,40 +123,13 @@ class ProjectSearch extends React.Component {
                     <GridItem xs={12} sm={12} md={6} style={{marginTop: 30}}>
                        <CountryDropdown defaultValue={this.props.userCountry}/>
                     </GridItem>
-                    <GridItem xs={12} sm={12} md={6}>
-                      <CustomInput
-                        labelText="Keywords/Hashtags"
-                        id="keywords"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          type: "text",
-                          name: "keywordsHashtags",
-                          onChange: e => {
-                            this.onKeywordChange(e.target.value)
-                          }
-                        }}
-                      />
+                    <GridItem xs={12} sm={12} md={6} style={{marginTop: 30}}>
+                      <InterestsDropdown interestOptions={this.props.interestOptions}/>
                     </GridItem>
                   </GridContainer>
                   <br />
                   <GridContainer>
-                    <GridItem xs={12} sm={12} md={4}>
-                      <FormControl
-                        fullWidth
-                        className={classes.selectFormControl}
-                      >
-                        <InputLabel
-                          htmlFor="impact-category"
-                          className={classes.selectLabel}
-                        >
-                          Impact Category
-                        </InputLabel>
-                      </FormControl>
-                      <InterestsDropdown interestOptions={this.props.interestOptions}/>
-                    </GridItem>
-                    <GridItem xs={12} sm={12} md={4}>
+                    <GridItem xs={12} sm={12} md={6}>
                       <FormControl
                         fullWidth
                         className={classes.selectFormControl}
@@ -187,7 +159,7 @@ class ProjectSearch extends React.Component {
                             Choose Resource Type
                           </MenuItem>
                           {
-                            ['Volunteers','Freelancers','Both'].map((prop, key) => {
+                            ['Needs Volunteers','Needs Freelancers','Both'].map((prop, key) => {
                               return (
                                 <MenuItem
                                 classes={{
@@ -196,7 +168,7 @@ class ProjectSearch extends React.Component {
                                 }}
                                 value={prop}
                               >{console.log(key,'*here')}
-                                Needs {prop}
+                               {prop}
                               </MenuItem>
                               );
                             })
@@ -204,7 +176,7 @@ class ProjectSearch extends React.Component {
                         </Select>
                       </FormControl>
                     </GridItem>
-                    <GridItem xs={12} sm={12} md={4}>
+                    <GridItem xs={12} sm={12} md={6}>
                       <FormControl
                         fullWidth
                         className={classes.selectFormControl}
@@ -234,7 +206,7 @@ class ProjectSearch extends React.Component {
                             Choose Project Status
                           </MenuItem>
                           {
-                            ['Active', 'Closed','Future','Any'].map((prop,key)=>{
+                            ['Active', 'Closed', 'Any'].map((prop,key)=>{
                               return(
                                 <MenuItem
                                 classes={{
@@ -250,6 +222,24 @@ class ProjectSearch extends React.Component {
                           }
                         </Select>
                       </FormControl>
+                    </GridItem>
+                  </GridContainer>
+                  <GridContainer>
+                    <GridItem xs={12} sm={12} md={12}>
+                      <CustomInput
+                        labelText="Keywords/Hashtags"
+                        id="keywords"
+                        formControlProps={{
+                          fullWidth: true
+                        }}
+                        inputProps={{
+                          type: "text",
+                          name: "keywordsHashtags",
+                          onChange: e => {
+                            this.onKeywordChange(e.target.value)
+                          }
+                        }}
+                      />
                     </GridItem>
                   </GridContainer>
                   <br />
@@ -284,12 +274,6 @@ class ProjectSearch extends React.Component {
                           filterMethod: this.columnFilter
                         },
                         {
-                          Header: "Id",
-                          accessor: "project_id",
-                          filterable: false,
-                          filterMethod: this.columnFilter
-                        },
-                        {
                           Header: "Status",
                           accessor: "status",
                           filterable: false,
@@ -298,18 +282,6 @@ class ProjectSearch extends React.Component {
                         {
                           Header: "Start",
                           accessor: "start_date",
-                          filterable: false,
-                          filterMethod: this.columnFilter
-                        },
-                        {
-                          Header: "Target End",
-                          accessor: "end_date",
-                          filterable: false,
-                          filterMethod: this.columnFilter
-                        },
-                        {
-                          Header: "Description",
-                          accessor: "description",
                           filterable: false,
                           filterMethod: this.columnFilter
                         },

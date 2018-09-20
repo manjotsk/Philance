@@ -51,6 +51,20 @@ class CandidateReview extends React.Component {
                                 <h3>Review Candidates</h3>
                             </CardText>
                         </CardHeader>
+                        <GridContainer align="right" direction="column">
+                            <GridItem style={{marginRight: 45}}>
+                                <a onClick={
+                                    ()=>{
+                                    this.props.history.push('../..')
+                                    this.props.history.push(`my-projects/`)
+                                }}
+                                style={{cursor: 'pointer', color: "blue", fontSize: 15}}
+                                >
+                                    <i class="fa fa-angle-left"></i>
+                                    Go back to my projects
+                                </a>
+                            </GridItem>
+                        </GridContainer>
                         <GridContainer>
                             <GridItem xs={12} sm={12}>
                                 <Card>
@@ -103,6 +117,7 @@ CandidateReview.propTypes = {
 };
 const mapStateToProps = state => {
     return {
+        projectId: state.proDetails.id,
         response: state.candidateReview.response,
         length: state.candidateReview.length,
         list: state.candidateReview.list

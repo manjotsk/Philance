@@ -6,6 +6,7 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
+import Icon from '@material-ui/core/Icon';
 
 // core components
 import GridContainer from "components/Grid/GridContainer.jsx";
@@ -61,10 +62,22 @@ class ApplicationPage extends React.Component {
               <CardBody>
                 <form>
                   <GridContainer>
-                    <GridItem xs={12} sm={6}>
+                    <GridItem xs={6} sm={8} md={9}>
                       <FormLabel component="legend" style={{fontSize: 20, fontWeight: '500', color: '#777'}}>
                         {this.props.projectName}
                       </FormLabel>
+                    </GridItem>
+                    <GridItem xs={6} sm={4} md={3}>
+                      <a onClick={
+                        ()=>{
+                        this.props.history.push('..')
+                        this.props.history.push(`project-details/${this.props.projectId}`)
+                      }}
+                      style={{cursor: 'pointer', color: "blue", fontSize: 15, marginLeft: 20}}
+                      >
+                        <i class="fa fa-angle-left"></i>
+                        Go back to project details
+                      </a>c
                     </GridItem>
                   </GridContainer>
                   <GridContainer>
@@ -75,21 +88,21 @@ class ApplicationPage extends React.Component {
                     </GridItem>
                   </GridContainer>
                   <GridContainer>
-                  <GridItem xs={12} sm={12} md={6} align="left">
-                    <CustomInput
-                        id="comments"
-                        formControlProps={{
-                        fullWidth: true
-                        }}
-                        inputProps={{
-                        multiline: true,
-                        rows: 2,
-                        placeholder:"Enter your comments here explaining why you want to work on this project and whatever other information you want to the project owner",
-                        onChange: e => {
-                          this.onMessageChanged(e.target.value)
-                        }
-                        }}
-                    />
+                    <GridItem xs={12} sm={12} md={6} align="left">
+                      <CustomInput
+                          id="comments"
+                          formControlProps={{
+                          fullWidth: true
+                          }}
+                          inputProps={{
+                          multiline: true,
+                          rows: 2,
+                          placeholder:"Enter your comments here explaining why you want to work on this project and whatever other information you want to the project owner",
+                          onChange: e => {
+                            this.onMessageChanged(e.target.value)
+                          }
+                          }}
+                      />
                     </GridItem>
                   </GridContainer>
                   <GridContainer>
