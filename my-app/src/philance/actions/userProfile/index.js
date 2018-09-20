@@ -220,10 +220,10 @@ export const uploadFiles = (metadata, files) => {
 
 export const getUserProfileImage=(userId)=>{
     return dispatch =>{
-        axios.get(`http://localhost:3001/philance/users/image/${userId}`).then((image)=>{
+        axios.get(`${hostname()}/philance/users/image/${userId}`).then((image)=>{
             dispatch( {
                 type: USER_PROFILE_USER_IMAGE_CHANGED_AFTER_UPLOAD,
-                payload: `http://localhost:3001/philance/users/image/${userId}`
+                payload: `${hostname()}/philance/users/image/${userId}`
             })
             dispatch({
                 type: 'USER_PROFILE_IMAGE_REFRESH_NOT_REQUIRED',
