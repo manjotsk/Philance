@@ -19,10 +19,10 @@ import Card from "components/Card/Card.jsx"
 import CardBody from "components/Card/CardBody.jsx"
 
 // redux
-import {connect} from 'react-redux'
-import {myProject, storeList} from '../../actions/myProject'
-import {getProjectById, idStored} from '../../actions/projectDetails'
-import {getProjectCandidateReviewList} from '../../actions/candidateReview'
+import { connect } from 'react-redux'
+import { myProject, storeList } from '../../actions/myProject'
+import { getProjectById, idStored } from '../../actions/projectDetails'
+import { getProjectCandidateReviewList } from '../../actions/candidateReview'
 
 //import publicHomePageStyle from "./PublicHomePageStyle";
 
@@ -56,12 +56,13 @@ class MyProjectsPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activePage: 1
+      activePage: 1,
+      loading: false
     }
   }
 
   componentDidMount() {
-    this.createList()
+    this.props.myProject(this.props.id)
   }
 
   handlePaginationChange = (e, { activePage }) => this.setState({ activePage })
@@ -70,79 +71,26 @@ class MyProjectsPage extends React.Component {
     this.renderProjects()
   }
 
-renderProjects() {
-  if(!this.props.response) {
-    return (
-     <div/>
-    )
-}
-
-else {
-    return this.props.list
-}
-}
-
   color(i) {
-    if(i===1) return '#dbebf6'
+    if (i === 1) return '#dbebf6'
   }
 
-  async createList() {
-    const object = []
-    let i=0
-    await this.props.response.forEach(element => {
-      console.log('element is', element)
-      let startDate = new Date(element.start_date);
-      let endDate = new Date(element.end_date);
-      startDate = startDate.toDateString()
-      endDate = endDate.toDateString()
-      startDate = startDate.substr(startDate.indexOf(" ")+1)
-      endDate = endDate.substr(endDate.indexOf(" ")+1)
-      i=i===2?1:i+1
-      object.push(
-                    <TableRow style={{backgroundColor: this.color(i)}}>
-                      <CustomTableCell>{element.project_id}</CustomTableCell>
-                      <CustomTableCell>{element.project_name}</CustomTableCell>
-                      <CustomTableCell>{element.status}</CustomTableCell>
-                      <CustomTableCell>{startDate}</CustomTableCell>
-                      <CustomTableCell>{endDate}</CustomTableCell>
-                      <CustomTableCell></CustomTableCell>
-                      <CustomTableCell></CustomTableCell>
-                      <CustomTableCell>
-                        {console.log(this.props.response)}
-                        <Button color="info" onClick={()=>{
-                        this.props.getProjectById(element.project_id)
-                        this.props.history.push(`../project-details/${element.project_id}`)
-                        this.props.idStored(element.project_id)
-                        }}>Details</Button>
-                        <Button color="info" onClick={()=>{
-                        this.props.getProjectCandidateReviewList(element.project_id)
-                        this.props.history.push(`projectCandidateReview/${element.project_id}/`)
-                        this.props.idStored(element.project_id)
-                        }}>Review</Button>
-                      </CustomTableCell>
-                    </TableRow>
-        )
-      }
-    )
-    console.log('object', object)
-    this.props.storeList(object)
-  }
 
   render() {
     console.log(this.props)
-    
+
     const { classes } = this.props;
     const { activePage } = this.state;
 
     return (
-        <GridContainer>
-          <GridContainer justify="center">
+      <GridContainer>
+        <GridContainer justify="center">
           <GridItem xs={12} sm={12} md={10} justify="center">
             <Card className={classes.cardSignup}>
               <CardBody>
-                  <Table className={classes.table} padding="checkbox">
-                    <TableHead>
-                      <TableRow>
+                <Table className={classes.table} padding="checkbox">
+                  <TableHead>
+                    <TableRow>
                       <CustomTableCell>ID</CustomTableCell>
                       <CustomTableCell>Name</CustomTableCell>
                       <CustomTableCell>Status</CustomTableCell>
@@ -150,29 +98,63 @@ else {
                       <CustomTableCell>Target End</CustomTableCell>
                       <CustomTableCell>Close</CustomTableCell>
                       <CustomTableCell>% Complete</CustomTableCell>
-                      <CustomTableCell>Actions</CustomTableCell>                      
-                      </TableRow>
-                    </TableHead>
-                      {
-                       this.renderProjects() 
-                      }
-                  </Table>
+                      <CustomTableCell>Actions</CustomTableCell>
+                    </TableRow>
+                  </TableHead>
+                  {console.log(this.state.loading, 'ststs')}
+                  {
+
+                    this.props.response ?
+                      this.props.response.map((element) => {
+                        let i = 0
+                        let startDate = new Date(element.start_date);
+                        let endDate = new Date(element.end_date);
+                        startDate = startDate.toDateString()
+                        endDate = endDate.toDateString()
+                        return (
+                          <TableRow style={{ backgroundColor: this.color(i) }}>
+                            <CustomTableCell>{element.project_id}</CustomTableCell>
+                            <CustomTableCell>{element.project_name}</CustomTableCell>
+                            <CustomTableCell>{element.status}</CustomTableCell>
+                            <CustomTableCell>{startDate}</CustomTableCell>
+                            <CustomTableCell>{endDate}</CustomTableCell>
+                            <CustomTableCell></CustomTableCell>
+                            <CustomTableCell></CustomTableCell>
+                            <CustomTableCell>
+                              {console.log(this.props.response)}
+                              <Button color="info" onClick={() => {
+                                this.props.getProjectById(element.project_id)
+                                this.props.history.push(`../project-details/${element.project_id}`)
+                                this.props.idStored(element.project_id)
+                              }}>Details</Button>
+                              <Button color="info" onClick={() => {
+                                this.props.getProjectCandidateReviewList(element.project_id)
+                                this.props.history.push(`projectCandidateReview/${element.project_id}/`)
+                                this.props.idStored(element.project_id)
+                              }}>Review</Button>
+                            </CustomTableCell>
+                          </TableRow>
+                        )
+                      }) : null
+                  }
+                </Table>
               </CardBody>
             </Card>
           </GridItem>
-          </GridContainer>
-          <GridContainer justify="center">
-          </GridContainer>
         </GridContainer>
+        <GridContainer justify="center">
+        </GridContainer>
+      </GridContainer>
     );
   }
 }
 
-const mapStateToProps =state=> {
+const mapStateToProps = state => {
   return {
     response: state.mypro.response,
     length: state.mypro.length,
-    list: state.mypro.list
+    list: state.mypro.list,
+    id: state.auth.userId
   }
 }
 
@@ -180,4 +162,4 @@ MyProjectsPage.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default connect(mapStateToProps, {getProjectCandidateReviewList, storeList, getProjectById, idStored})(withStyles(styles)(MyProjectsPage));
+export default connect(mapStateToProps, { getProjectCandidateReviewList, storeList, getProjectById, idStored, myProject })(withStyles(styles)(MyProjectsPage));
