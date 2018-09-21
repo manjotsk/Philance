@@ -29,7 +29,7 @@ const INITIAL_STATE = {
     volunteers: '',
     freelancers: '',
     toast: false,
-    id: '1',
+    id: '2',
     createdBy: '3'
 }
 

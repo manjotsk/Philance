@@ -11,8 +11,7 @@ export const myProject =(id)=> {
                 console.log(response.data)
                 dispatch({
                     type: MY_PROJECT_GET_PROJECTS,
-                    payload: response.data.Projects,
-                    length: response.data.Projects.length
+                    payload: response.data,
                 })
             }
         )

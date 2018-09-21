@@ -75,9 +75,9 @@ class ApplicationPage extends React.Component {
                       }}
                       style={{cursor: 'pointer', color: "blue", fontSize: 15, marginLeft: 20}}
                       >
-                        <i class="fa fa-angle-left"></i>
+                        <i class="fa fa-angle-left" style={{}}></i>
                         Go back to project details
-                      </a>c
+                      </a>
                     </GridItem>
                   </GridContainer>
                   <GridContainer>
@@ -97,7 +97,7 @@ class ApplicationPage extends React.Component {
                           inputProps={{
                           multiline: true,
                           rows: 2,
-                          placeholder:"Enter your comments here explaining why you want to work on this project and whatever other information you want to the project owner",
+                          placeholder:"Enter your comments here explaining why you want to work on this project",
                           onChange: e => {
                             this.onMessageChanged(e.target.value)
                           }

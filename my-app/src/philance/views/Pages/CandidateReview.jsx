@@ -23,14 +23,11 @@ import CandidatePageStyle from "assets/jss/material-dashboard-pro-react/views/re
 import { getProjectCandidateReviewList, storeCandidateReview } from '../../actions/candidateReview'
 import { connect } from 'react-redux'
 
-
 const CustomTableCell = withStyles(theme => ({
     body: {
         fontSize: 14,
     },
 }))(TableCell);
-
-var eleme ;
 
 class CandidateReview extends React.Component {
     constructor(props) {
@@ -41,73 +38,17 @@ class CandidateReview extends React.Component {
     }
 
     componentDidMount() {
-        this.createList()
+        this.props.getProjectCandidateReviewList(this.props.projectId);
       }
     
-    renderProjects() {
-      if(!this.props.response) {
-        return (
-         <div/>
-        )
-    }   
-    else {
-        return this.props.list
+    color(i) {
+        if (i === 1) return '#dbebf6'
     }
-    }
-    
-      color(i) {
-        if(i===1) return '#dbebf6'
-      }
-    
-      async createList() {
-          console.log(this.props);
-          eleme=this.props;
-        const object = []
-        let i=0
-        console.log(eleme)
-        // await eleme.response.forEach(element => {
-        //   console.log('element is', element)
-        //   let startDate = new Date(element.start_date);
-        //   let endDate = new Date(element.end_date);
-        //   startDate = startDate.toDateString()
-        //   endDate = endDate.toDateString()
-        //   startDate = startDate.substr(startDate.indexOf(" ")+1)
-        //   endDate = endDate.substr(endDate.indexOf(" ")+1)
-        //   i=i===2?1:i+1
-        //   object.push(
-        //                 <TableRow style={{backgroundColor: this.color(i)}}>
-        //                   <CustomTableCell>{element.project_id}</CustomTableCell>
-        //                   <CustomTableCell>{element.project_name}</CustomTableCell>
-        //                   <CustomTableCell>{element.status}</CustomTableCell>
-        //                   <CustomTableCell>{startDate}</CustomTableCell>
-        //                   <CustomTableCell>{endDate}</CustomTableCell>
-        //                   <CustomTableCell></CustomTableCell>
-        //                   <CustomTableCell></CustomTableCell>
-        //                   <CustomTableCell>
-        //                     {console.log(this.props.response)}
-        //                     <Button color="info" onClick={()=>{
-        //                     this.props.getProjectById(element.project_id)
-        //                     this.props.history.push(`../project-details/${element.project_id}`)
-        //                     this.props.idStored(element.project_id)
-        //                     }}>Details</Button>
-        //                     <Button color="info" onClick={()=>{
-        //                     this.props.getProjectCandidateReviewList(element.project_id)
-        //                     this.props.history.push(`projectCandidateReview/${element.project_id}/`)
-        //                     this.props.idStored(element.project_id)
-        //                     }}>Review</Button>
-        //                   </CustomTableCell>
-        //                 </TableRow>
-        //     )
-        //   }
-        // )
-        // console.log('object', object)
-        // this.props.storeList(object)
-      }
 
     render() {
+
         const { classes } = this.props;
-        // const elements = this.props;
-        // console.log(elements);
+
         return (
             <GridContainer justify="center">
                 <GridItem xs={12} sm={12} md={10}>
@@ -118,14 +59,15 @@ class CandidateReview extends React.Component {
                             </CardText>
                         </CardHeader>
                         <GridContainer align="right" direction="column">
-                            <GridItem style={{marginRight: 45}}>
+                            <GridItem style={{ marginRight: 45 }}>
                                 <a onClick={
-                                    ()=>{
-                                    this.props.history.push('../..')
-                                    this.props.history.push(`my-projects/`)
-                                }}
-                                style={{cursor: 'pointer', color: "blue", fontSize: 15}}
-                                >
+                                    () => {
+                                        {console.log(this.props.history)}
+                                        this.props.history.push('../..')
+                                        this.props.history.push(`my-projects/`)
+                                    }}
+                                    style={{ cursor: 'pointer', color: "blue", fontSize: 15 }}
+                                    >
                                     <i class="fa fa-angle-left"></i>
                                     Go back to my projects
                                 </a>
@@ -138,37 +80,28 @@ class CandidateReview extends React.Component {
                                         <Table className={classes.table} padding="checkbox">
                                             <TableHead>
                                                 <TableRow>
-                                                    <CustomTableCell>#</CustomTableCell>
-                                                    <CustomTableCell>Name</CustomTableCell>
-                                                    <CustomTableCell>Status</CustomTableCell>
+                                                    <CustomTableCell>Project Name</CustomTableCell>
+                                                    <CustomTableCell>Candidate Name</CustomTableCell>
                                                     <CustomTableCell>Date Applied</CustomTableCell>
-                                                    <CustomTableCell>Messages</CustomTableCell>
+                                                    <CustomTableCell>Candidate Status</CustomTableCell>
                                                     <CustomTableCell>Action</CustomTableCell>
                                                 </TableRow>
                                             </TableHead>
-                                            {/* <TableRow style={{ backgroundColor: "#dbebf6" }}>
-                                                <CustomTableCell>1</CustomTableCell>
-                                                <CustomTableCell>New</CustomTableCell>
-                                                <CustomTableCell>Active</CustomTableCell>
-                                                <CustomTableCell>27/8/18</CustomTableCell>
-                                                <CustomTableCell>New Candidate</CustomTableCell>
-                                                <CustomTableCell>
-                                                    <ActionDropdown />
-                                                </CustomTableCell>
-                                            </TableRow>
-                                            <TableRow>
-                                                <CustomTableCell>2</CustomTableCell>
-                                                <CustomTableCell>New</CustomTableCell>
-                                                <CustomTableCell>Offline</CustomTableCell>
-                                                <CustomTableCell>27/8/18</CustomTableCell>
-                                                <CustomTableCell>New Candidate</CustomTableCell>
-                                                <CustomTableCell>
-                                                    <ActionDropdown />
-                                                </CustomTableCell>
-                                            </TableRow> */}
                                             {
-                       this.renderProjects() 
-                      }
+                                                this.props.response ?
+                                                    this.props.response.map((element) => {
+                                                        let i = 0
+                                                        return (
+                                                            <TableRow style={{ backgroundColor: this.color(i) }}>
+                                                                <CustomTableCell>New Project1</CustomTableCell>
+                                                                <CustomTableCell>abc</CustomTableCell>
+                                                                <CustomTableCell>{element.appliedDate}</CustomTableCell>
+                                                                <CustomTableCell>{element.status}</CustomTableCell>
+                                                                <CustomTableCell><ActionDropdown/></CustomTableCell>
+                                                            </TableRow>
+                                                        )
+                                                    }) : null
+                                            }
                                         </Table>
                                     </CardBody>
                                 </Card>
@@ -189,7 +122,7 @@ const mapStateToProps = state => {
         projectId: state.proDetails.id,
         response: state.candidateReview.response,
         length: state.candidateReview.length,
-        list: state.candidateReview.list
+        list: state.candidateReview.list,
     }
 }
 
