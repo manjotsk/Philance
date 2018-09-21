@@ -68,16 +68,12 @@ class ApplicationPage extends React.Component {
                       </FormLabel>
                     </GridItem>
                     <GridItem xs={6} sm={4} md={3}>
-                      <a onClick={
-                        ()=>{
+                    <Button color="info" round className={classes.marginRight} onClick={() => {
                         this.props.history.push('..')
-                        this.props.history.push(`project-details/${this.props.projectId}`)
-                      }}
-                      style={{cursor: 'pointer', color: "blue", fontSize: 15, marginLeft: 20}}
-                      >
-                        <i class="fa fa-angle-left" style={{}}></i>
-                        Go back to project details
-                      </a>
+                        this.props.history.push(`project-details/${this.props.projectId}`) }}>
+                        <i class="fa fa-angle-left"></i> Back to project details
+                    </Button>
+                    
                     </GridItem>
                   </GridContainer>
                   <GridContainer>

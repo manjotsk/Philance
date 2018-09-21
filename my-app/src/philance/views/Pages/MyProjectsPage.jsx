@@ -91,7 +91,6 @@ class MyProjectsPage extends React.Component {
                 <Table className={classes.table} padding="checkbox">
                   <TableHead>
                     <TableRow>
-                      <CustomTableCell>ID</CustomTableCell>
                       <CustomTableCell>Name</CustomTableCell>
                       <CustomTableCell>Status</CustomTableCell>
                       <CustomTableCell>Start</CustomTableCell>
@@ -113,7 +112,6 @@ class MyProjectsPage extends React.Component {
                         endDate = endDate.toDateString()
                         return (
                           <TableRow style={{ backgroundColor: this.color(i) }}>
-                            <CustomTableCell>{element.project_id}</CustomTableCell>
                             <CustomTableCell>{element.project_name}</CustomTableCell>
                             <CustomTableCell>{element.status}</CustomTableCell>
                             <CustomTableCell>{startDate}</CustomTableCell>
