@@ -85,6 +85,7 @@ export default (state = INITIAL_STATE, action) => {
         case UPLOAD_STARTED:
             return { ...state, displayImage: false }
         case USER_PROFILE_GET_USER_INFO:
+            const a=hostname();
             return {
                 ...state,
                 email: action.payload.email,
@@ -94,7 +95,7 @@ export default (state = INITIAL_STATE, action) => {
                 description: action.payload.description,
                 interests: action.payload.interests,
                 userId: action.payload.user_id,
-                userImageUrl:'https://philance.hopto.org:434'+action.payload.user_profile_image_url,
+                userImageUrl:action.payload.user_profile_image_url?a+ action.payload.user_profile_image_url:null,
                 contact: action.payload.ph_number,
                 postalCode: action.payload.zip_code,
                 country: action.payload.country
