@@ -160,7 +160,6 @@ class UserProfile extends React.Component {
     const { classes } = this.props;
     return (
         <GridContainer justify="center">
-          {console.log(this.props.imageRefresh,54564548)}
         {this.props.update?<Toaster display={this.props.update} message={'Your Changes have been Saved Successfully'}/>:null}<br/>
           <h4 className={classes.welcomeHeading}>
           <Toaster display={this.props.showToast} header={'Welcome to Philance! Please take a few moments to complete your User Profile and you can then post a project or join an existing project.'}/><br/>
@@ -280,7 +279,6 @@ class UserProfile extends React.Component {
                   <GridItem xs={12} sm={12} md={12}>
                     <Button color="info" onClick={()=>{
                       this.onButtonPress()
-                      console.log(this.props)
                     }}>
                     {this.props.text}
                   </Button>
@@ -298,7 +296,6 @@ class UserProfile extends React.Component {
                 style={{cursor:'pointer'}}
                 >
               <CardAvatar profile>
-                {console.log(this.props.userImage+'***************2595')}
                 
                 {
                   this.props.displayImage?

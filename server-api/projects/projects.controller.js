@@ -77,7 +77,6 @@ exports.createProjects = (req, res, next) => {
 
 exports.updateProjects = (req, res, next) => {
     var _count = 0;
-    console.log('In update projects');
     projects.hasMany(projectDetails, { foreignKey: 'projectId' });
 
     sequelize.transaction(function (t) {
@@ -147,7 +146,6 @@ exports.updateProjects = (req, res, next) => {
  * GET - list of projects based on User Search Criteria. It may or may not be created or assigned to the user 
  */
 exports.getProjects = (req, res, next) => {
-console.log(req.body,'here\n\n')
     var _country = req.body.country
     var _zipCode = req.body.zipCode
     var _volunteers = req.body.volunteers
@@ -157,16 +155,6 @@ console.log(req.body,'here\n\n')
     var _projectStatus = req.body.projectStatus
     var _impactCategories = req.body.impactCategories
 
-     console.log({
-        _country,
-        _zipCode,
-        _volunteers,
-        _freelancers,
-        _keywords,
-        _resourceType,
-        _projectStatus,
-        _impactCategories
-     })
     var _impactCategoriesSql='';
     if(_impactCategories){
         for(var i=0;i<_impactCategories.length;i++){
@@ -187,7 +175,6 @@ console.log(req.body,'here\n\n')
     _sql = _impactCategories    ?   _sql + `)` : _sql;
 
     sequelize.query(_sql, { type: sequelize.QueryTypes.SELECT }).then((projects) => {
-        console.log(projects,'\n\n\n\n\n',projects.length,'\n\n\n\n\n')
         var respProjects={}
         var keys=[]
         for(var i=0;i<projects.length;i++){
@@ -200,7 +187,6 @@ console.log(req.body,'here\n\n')
             }
             keys.push(projects[i].project_id)
         }
-        // console.log(Object.values(respProjects))
         
         res.status(200).send({
              respProjects:Object.values(respProjects)
@@ -259,11 +245,8 @@ exports.getProjectById = (req, res, next) => {
 
 
 exports.resourceApplyForProject = (req, res, next) => {
-    console.log(req.params.projectId);
-
+    
     projectTeam.findAll({ where: { projectId: req.params.projectId, userId: req.body.userId } }).then(_projectTeam => {
-        console.log('_projectTeam : ' + _projectTeam);
-        console.log('_projectTeam Length : ' + _projectTeam.length);
         if (_projectTeam === null || _projectTeam.length === 0) {
             projectTeam.create({
                 projectId: req.params.projectId,

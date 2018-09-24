@@ -106,29 +106,11 @@ class ProjectSearch extends React.Component {
   }
 
   onKeywordChange = text => {
-    console.log(text)
     this.props.keywordChanged(text)
   }
   color(i) {
     if (i === 1) return '#dbebf6'
   }
-
-  // findProjects() {
-  //   let filterParams = this.state;
-  //   filterParams.tableData = [];
-  //   Axios.get("/project", {
-  //     baseURL: "http://localhost:3001",
-  //     params: filterParams
-  //   })
-  //     .then(response => {
-  //       console.log(response);
-  //       this.setState({ tableData: response.data });
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //     });
-
-  // }
   findProjects() {
     const {
       interests,
@@ -136,7 +118,6 @@ class ProjectSearch extends React.Component {
       country,
       keyword
     } = this.props
-    console.log('this.props', this.props)
     this.props.findProjects(
       {
         interests,
@@ -216,7 +197,7 @@ class ProjectSearch extends React.Component {
                                     selected: classes.selectMenuItemSelected
                                   }}
                                   value={prop}
-                                >{console.log(key, '*here')}
+                                >
                                   {prop}
                                 </MenuItem>
                               );
@@ -338,7 +319,7 @@ class ProjectSearch extends React.Component {
                 </Table>
               </CardBody>
             </Card>
-          </GridItem>{console.log('this.props.tableData', this.props.tableData)}
+          </GridItem>
         </GridContainer>
       </GridContainer>
 

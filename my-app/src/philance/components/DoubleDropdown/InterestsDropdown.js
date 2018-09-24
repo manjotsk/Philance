@@ -37,7 +37,7 @@ class InterestsDropdown extends React.Component {
                     disabled={this.props.disabled}
                     defaultValue={this.props.defaultValue}
                     options={this.props.interestOptions}
-                    value={this.state.value}
+                    value={this.props.defaultValue}
                     onChange={async (e, {value})=>{
                         await this.setState({value:value})
                         this.onInterestsChange(this.state.value.toString())

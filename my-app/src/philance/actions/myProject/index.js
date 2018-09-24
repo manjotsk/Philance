@@ -24,6 +24,5 @@ export const storeList =(list)=> {
             type: MY_PROJECT_STORE_PROJECTS,
             payload: list
         })
-        console.log('list', list)
     }
 }

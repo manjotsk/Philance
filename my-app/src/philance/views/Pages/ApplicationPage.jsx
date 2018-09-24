@@ -133,7 +133,6 @@ class ApplicationPage extends React.Component {
                       onClick={()=>{
                         const {projectId, userId, message, role} = this.props
                         this.props.applyForProject({userId, projectId, message, role})
-                        console.log(this.props.text)
                       }}
                       >
                       Submit Application to Project Owner

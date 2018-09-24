@@ -509,7 +509,6 @@ class StartProject extends React.Component {
                   <GridItem>
                     {this.state.alert}
                     <Button onClick={() => {
-                      console.log(this.props.interests)
                       if (!this.props.isLoggedIn) {
                         this.successAlert();
                       } else {
@@ -553,7 +552,6 @@ class StartProject extends React.Component {
                             this.props.files
                           )
                         })
-                        console.log(this.props)
                         if (this.props.name === "") {
                           this.setState({ validName: true })
                         }
@@ -584,7 +582,6 @@ class StartProject extends React.Component {
                           this.setState({validEndDate: true})
                         }
                       }
-                      console.log(this.props)
                     }}
                     
                       color="info"

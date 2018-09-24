@@ -47,7 +47,6 @@ export const impactCategoriesChanged = text => {
 }
 
 export const countryChanged = text => {
-  console.log('countryChanged',text)
   return {
       type: FIND_PROJECT_COUNTRY_CHANGED,
       payload: text
@@ -69,20 +68,6 @@ export const findProjects = ({
   country,
   keyword
 }) => {
-console.log(
-  resourceType,
-  projectStatus,
-  interests,
-  zipCode,
-  country,
-  keyword,'refer here')
-  // if (
-  //   interests === ''
-  // ) {
-  //   return {
-  //     type: 'FIND_PROJECTS_FIELDS_EMPTY'
-  //   }
-  // }
   var volunteers=false;
   var freelancers=false;
   switch(resourceType){
@@ -103,7 +88,6 @@ console.log(
     if(interests!=''){
       interestsArray=interests.split(',')
     }
-    console.log('***5545',interests,'***5545',interestsArray)
     axios.post(hostname() + '/philance/projects/search', {
       zipCode: zipCode,
       country: country,
@@ -113,7 +97,6 @@ console.log(
       keywords:keyword
     })
       .then(response => {
-        console.log('response in find project : -',response)
         if (response.status !== 200) {
           return {
             type: 'FIND_PROJECTS_NETWORK_ERROR'

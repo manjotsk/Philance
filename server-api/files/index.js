@@ -11,7 +11,6 @@ var filename=''
 const storage = multer.diskStorage({
     destination: mediaHost(),
     filename(req, file, cb) {
-        console.log(file);
         var dir='/uploads'
         filename=`${dir}/`+uuidv4()+'.'+file.originalname.split('.')[file.originalname.split('.').length-1]
       cb(null, filename);

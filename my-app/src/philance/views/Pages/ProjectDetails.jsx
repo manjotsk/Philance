@@ -237,7 +237,6 @@ class ProjectDetails extends React.Component {
                     <InputLabel className={classes.label} style={{ marginBottom: 5, marginTop: 10 }}>
                       Project Country
                       </InputLabel>
-                    {console.log(this.props,'project details')}
                     {this.props.country?
                       <CountryDropdown onCountryChanged={this.onCountryChanged} defaultValue={this.props.country} disabled={this.state.isDisabled} />
                       :
@@ -347,7 +346,7 @@ class ProjectDetails extends React.Component {
                     })}
                     {
                       this.props.interests!=[]?
-                      <InterestsDropdown interestOptions={this.props.interestOptions} defaultValue={this.props.interests.toString()} disabled={this.state.isDisabled} />
+                      <InterestsDropdown interestOptions={this.props.interestOptions} defaultValue={this.props.interests} disabled={this.state.isDisabled} />
                       :
                       <InterestsDropdown interestOptions={this.props.interestOptions} disabled={this.state.isDisabled} />
                     }

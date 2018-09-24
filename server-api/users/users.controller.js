@@ -19,7 +19,6 @@ var {mediaHost}=require('../config')
 exports.createProfile = (req, res, next) => {
 
     users.findOne({ where: { email: req.body.email } }).then(_user => {
-        console.log('_user : ' + _user);
         if (_user == null) {
             console.log('Not Registered');
             bcrypt.hash(req.body.password, 10, (err, hash) => {
@@ -74,12 +73,9 @@ exports.createProfile = (req, res, next) => {
 }
 
 exports.login = (req, res, next) => {
-    console.log('Login : ' + req.body.email + ' Passowrd : ' + req.body.password);
-
     users.findOne({
         where: { email: req.body.email }
     }).then(_user => {
-        console.log('************************' + _user)
         if (_user == null) {
             return res.status(409).json({
                 message: "User not Found"
@@ -367,7 +363,6 @@ exports.getProjects = (req, res, next) => {
 }
 
 exports.createPasswordResetToken = (req, res, next) => {
-    console.log('+++++++',req.body.email)
     users.findOne({
         where:{
             email:req.body.email
@@ -474,13 +469,11 @@ exports.updateUserImage=(req,res,next)=>{
 }
 
 exports.getUserImage = (req, res, next) => {
-    console.log(req.params.userId)
     users.findOne({
         where:{
             userId: req.params.userId
         }
     }).then((instance)=>{
-        console.log(instance.userProfileImagePath)
         res.sendFile(instance.userProfileImagePath)
     })
 }

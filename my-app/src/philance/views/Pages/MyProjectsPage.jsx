@@ -128,7 +128,6 @@ class MyProjectsPage extends React.Component {
                               <Button color="info" onClick={() => {
                                 this.props.getProjectCandidateReviewList(element.project_id)
                                 this.props.history.push(`../projectCandidateReview/${element.project_id}/`)
-                                console.log(this.props.history)
                                 this.props.idStored(element.project_id)
                               }}>Review</Button>
                             </CustomTableCell>

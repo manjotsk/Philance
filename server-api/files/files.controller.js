@@ -9,8 +9,6 @@ const sequelize = require('../util/dbconnection');
 const moment = require('moment');
 
 exports.filesUpload = (req, res, next) => {
-    console.log(JSON.parse(req.body.param),'************************')
-    console.log((req),'************************')
 
     switch(JSON.parse(req.body.param).uploadType){
 

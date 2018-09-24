@@ -66,7 +66,6 @@ class CandidateReview extends React.Component {
                         <GridContainer align="right" direction="column">
                             <GridItem style={{ marginRight: 45 }}>
                             <Button color="info" round className={classes.marginRight} onClick={() => {
-                                {console.log(this.props.history)}
                                 this.props.history.push('../..')
                                 this.props.history.push(`my-projects/`)
                                                                     }}>

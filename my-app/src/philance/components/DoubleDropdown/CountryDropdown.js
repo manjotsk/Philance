@@ -15,7 +15,6 @@ export default class CountryDropdown extends React.Component {
    
     render() {
         var check = this.props.action
-        // console.log(this.state.defaultValue)
         return (
             <Dropdown
                 placeholder='Select Country'
@@ -28,7 +27,6 @@ export default class CountryDropdown extends React.Component {
                 value={this.props.defaultValue}
                 onChange={async (e, { value }) => {
                         this.setState({ value })
-                        console.log('this country',this.state)
                         this.props.onCountryChanged(value)
                     }
                 }
