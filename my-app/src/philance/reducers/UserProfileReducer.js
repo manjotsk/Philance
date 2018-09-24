@@ -21,6 +21,7 @@ import {
     UPLOAD_STARTED,
     PROFILE_IMAGE_UPLOAD_SUCCESS
 } from '../actions/types'
+import { hostname } from '../../config';
 
 const INITIAL_STATE = {
     contact: '',
@@ -44,9 +45,9 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case USER_PROFILE_USER_IMAGE_CHANGED_FOR_PREVIEW:
-            return { ...state, userImageFile: action.payload, userImage: URL.createObjectURL(action.payload) }
+            return { ...state, userImageFile: action.payload, userImageUrl: 'blob'+URL.createObjectURL(action.payload).toString().split('blob')[1] }
         case USER_PROFILE_USER_IMAGE_CHANGED_AFTER_UPLOAD:
-            return { ...state, userImage: action.payload }
+            return { ...state, userImageUrl: action.payload }
         case USER_PROFILE_USER_IMAGE_CHANGED_WAS_CHANGED:
             return { ...state, imageRefresh:true }
         case USER_PROFILE_TEXT_CHANGED:
@@ -93,7 +94,7 @@ export default (state = INITIAL_STATE, action) => {
                 description: action.payload.description,
                 interests: action.payload.interests,
                 userId: action.payload.user_id,
-                userImage: action.payload.user_profile_image_url,
+                userImageUrl:hostname()+action.payload.user_profile_image_url,
                 contact: action.payload.ph_number,
                 postalCode: action.payload.zip_code,
                 country: action.payload.country
@@ -115,7 +116,7 @@ export default (state = INITIAL_STATE, action) => {
                 update: false,
                 interestsArrived: true,
                 userId: '',
-                userImage:null
+                userImageUrl:null
 
             }
         default:

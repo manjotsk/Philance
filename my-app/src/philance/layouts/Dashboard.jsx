@@ -26,6 +26,7 @@ import logoText from "../assets/logos/Philance-logo-text.png";
 import { getCommonInfo } from "../actions/common";
 import { getUserInfo } from "../actions/userProfile";
 import { logout } from "../actions/login";
+import { hostname } from "../../config";
 
 
 const switchRoutes =(isRegistered)=> (
@@ -159,7 +160,7 @@ const mapStateToProps =state=> {
     isLoggedIn: state.auth.isLoggedIn,
     isRegistered: state.reg.registered,
     currentEmail: state.auth.email===""?state.reg.email:state.auth.email,
-    userProfileAvatar: state.user.userImage,
+    userProfileAvatar: state.user.userImageUrl,
     displayImage:state.user.displayImage,
     displayName:state.user.name,
   }

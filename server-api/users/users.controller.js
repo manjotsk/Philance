@@ -450,7 +450,7 @@ exports.passwordReset = (req, res, next) => {
 exports.updateUserImage=(req,res,next)=>{
     users.update({
         userProfileImagePath: mediaHost()+req.file.filename,
-        userProfileImageUrl: `http://localhost:3001/philance/users/image/${JSON.parse(req.body.param).userInfo.userId}`,
+        userProfileImageUrl: `/philance/users/image/${JSON.parse(req.body.param).userInfo.userId}${req.file.filename}`,
 
     },
         {
@@ -471,9 +471,14 @@ exports.updateUserImage=(req,res,next)=>{
 exports.getUserImage = (req, res, next) => {
     users.findOne({
         where:{
-            userId: req.params.userId
+            [Op.and]:{
+                userId:req.params.userId,
+                userProfileImageUrl: `/philance/users/image/${req.params.userId}/uploads/${req.params.filename}`,
+            }
         }
     }).then((instance)=>{
         res.sendFile(instance.userProfileImagePath)
+    }).catch((err)=>{
+        res.status(404).send(err)
     })
 }

@@ -21,6 +21,7 @@ import HeaderLinks from "components/Header/HeaderLinks.jsx";
 import sidebarStyle from "../assets/styles/sidebarStyle.jsx";
 
 import avatar from "assets/img/faces/avatar.jpg";
+import { hostname } from "../../config";
 
 var ps;
 

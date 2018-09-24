@@ -8,7 +8,7 @@ router.post("/", UserController.createProfile);
 router.put("/1", UserController.updateProfile);
 // This is called for getting the user details
 router.get("/:userId", UserController.getProfile);
-router.get("/image/:userId", UserController.getUserImage);
+router.get("/image/:userId/uploads/:filename", UserController.getUserImage);
 // This is called for User Login
 router.post("/login", UserController.login);
 router.post("/passwordReset/create/:_userId", UserController.createPasswordResetToken);

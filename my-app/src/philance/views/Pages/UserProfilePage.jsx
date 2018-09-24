@@ -52,6 +52,7 @@ import {
 } from '../../actions/userProfile'
 
 import Toaster from "../../components/Toaster/Toaster";
+import { hostname } from "../../../config";
 
 class UserProfile extends React.Component {
   constructor(props) {
@@ -299,7 +300,7 @@ class UserProfile extends React.Component {
                 
                 {
                   this.props.displayImage?
-                  <img src={this.props.userImage?this.props.userImage:avatar}/>
+                  <img src={this.props.userImageUrl?this.props.userImageUrl:avatar}/>
                 :
                 <img src={avatar} />              
                 }
@@ -472,7 +473,7 @@ const mapStateToProps = state => {
     interestOptions: state.common.interestOptions,
     userId:state.user.userId,
     userImageURL:state.user.userImageURL,
-    userImage:state.user.userImage,
+    userImageUrl:state.user.userImageUrl,
     filesSelected:state.common.filesSelected,
     userImageFile:state.user.userImageFile,
     displayImage:state.user.displayImage,
