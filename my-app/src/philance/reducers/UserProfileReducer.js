@@ -94,7 +94,7 @@ export default (state = INITIAL_STATE, action) => {
                 description: action.payload.description,
                 interests: action.payload.interests,
                 userId: action.payload.user_id,
-                userImageUrl:window.location.hostname.includes('philance.hopto.org')?'https://philance.hopto.org:434':'http://localhost:3001'+action.payload.user_profile_image_url,
+                userImageUrl:'https://philance.hopto.org:434'+action.payload.user_profile_image_url,
                 contact: action.payload.ph_number,
                 postalCode: action.payload.zip_code,
                 country: action.payload.country
