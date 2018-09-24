@@ -24,6 +24,7 @@ const INITIAL_STATE = {
     zipCode: '',
     volunteers: '',
     freelancers: '',
+    interests: '',
     startDate: '',
     endDate: '',
     budget: '',
@@ -36,7 +37,7 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
     switch(action.type) {
         case START_PROJECT_FILES_UPLOAD_SUCCESS:
-            return {...state, uploadStatus: 'Files Uploaded. Please Click on Create Project now!'}
+            return {...state, uploadStatus: 'Files Uploaded and Project has been created!'}
         case START_PROJECT_FILES_UPLOAD_FAILED:
             return {...state, uploadStatus: 'Upload Failed'}
         case START_PROJECT:
@@ -75,6 +76,7 @@ export default (state = INITIAL_STATE, action) => {
                 zipCode: '',
                 country:'',
                 volunteers: '',
+                interests: '',
                 freelancers: '',
                 startDate: '',
                 endDate: '',

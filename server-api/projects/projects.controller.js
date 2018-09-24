@@ -30,6 +30,16 @@ exports.createProjects = (req, res, next) => {
         country: req.body.country
     }).then(_projects => {
         sequelize.transaction(function (t) {
+            projectTeam.create({
+                projectId:_projects.projectId,
+                userId:req.body.userId,
+                role:'OWNER',
+                startDate:new Date(),
+                creationDate:new Date(),
+                lastUpdatedDate:new Date(),
+                createdBy:req.body.userId,
+                lastUpdatedBy:req.body.userId,
+            })
             if (req.body.projectDetails) {
                 sequelize.Promise.each(req.body.projectDetails, function (itemToUpdate) {
                     projectDetails.create({
@@ -145,7 +155,7 @@ console.log(req.body,'here\n\n')
     var _keywords = req.body.keywords
     var _resourceType = req.body.resourceType
     var _projectStatus = req.body.projectStatus
-    var _impactCategories = req.body.interests
+    var _impactCategories = req.body.impactCategories
 
      console.log({
         _country,
@@ -157,7 +167,7 @@ console.log(req.body,'here\n\n')
         _projectStatus,
         _impactCategories
      })
-    var _impactCategoriesSql=''
+    var _impactCategoriesSql='';
     if(_impactCategories){
         for(var i=0;i<_impactCategories.length;i++){
             _impactCategoriesSql=_impactCategoriesSql+`details.name= '${_impactCategories[i]}'  OR `
@@ -190,7 +200,7 @@ console.log(req.body,'here\n\n')
             }
             keys.push(projects[i].project_id)
         }
-        console.log(Object.values(respProjects))
+        // console.log(Object.values(respProjects))
         
         res.status(200).send({
              respProjects:Object.values(respProjects)
@@ -227,7 +237,6 @@ exports.getProjectById = (req, res, next) => {
     projectTeam.belongsTo(users, { foreignKey: 'userId' });
 
     projects.findAll({
-        raw: true,
         where: { projectId: req.params.projectId },
         include: [{ model: projectDetails, nested: true, duplicating: false, required: false },
         {
@@ -303,11 +312,12 @@ exports.resourceListForReview = (req, res, next) => {
     projects.hasMany(projectTeam, { foreignKey: 'projectId' });
     users.hasMany(projectTeam, { foreignKey: 'userId' });
     projectTeam.belongsTo(users, { foreignKey: 'userId' });
+    projectTeam.belongsTo(projects, { foreignKey: 'projectId' });
 
     projectTeam.findAll({
-        raw: true,
+        // raw: true,
         where: { projectId: req.params.projectId },
-        include: [{ model: users, nested: false, duplicating: false, attributes: ['userId', 'firstName', 'lastName', 'email'] }]
+        include: [{ model: users, nested: false, duplicating: false, attributes: ['userId', 'firstName', 'lastName', 'email'] },{ model: projects, nested: false, duplicating: false, attributes: ['projectName'] }]
     }).then((_projectTeam) => {
         res.status(200).json({
             Candidates: _projectTeam

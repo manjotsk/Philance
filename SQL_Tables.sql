@@ -152,7 +152,7 @@ CREATE TABLE philance.project_details (
 CREATE TABLE philance.project_attachments (
     project_id INT,
     name VARCHAR(500),
-    attachment BLOB,
+    attachment VARCHAR(3072),
     creation_date DATETIME,
     created_by INT,
     last_updated_date DATETIME,

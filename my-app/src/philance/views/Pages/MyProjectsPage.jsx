@@ -48,7 +48,7 @@ const styles = theme => ({
   },
   progress: {
     margin: theme.spacing.unit * 2,
-  }
+  },
 })
 
 class MyProjectsPage extends React.Component {
@@ -77,10 +77,13 @@ class MyProjectsPage extends React.Component {
 
 
   render() {
-    console.log(this.props)
 
+    let i = 0;
+    let headings = {
+      fontSize: "15px",
+      color: "black"
+    }
     const { classes } = this.props;
-    const { activePage } = this.state;
 
     return (
       <GridContainer>
@@ -91,22 +94,20 @@ class MyProjectsPage extends React.Component {
                 <Table className={classes.table} padding="checkbox">
                   <TableHead>
                     <TableRow>
-                      <CustomTableCell>ID</CustomTableCell>
-                      <CustomTableCell>Name</CustomTableCell>
-                      <CustomTableCell>Status</CustomTableCell>
-                      <CustomTableCell>Start</CustomTableCell>
-                      <CustomTableCell>Target End</CustomTableCell>
-                      <CustomTableCell>Close</CustomTableCell>
-                      <CustomTableCell>% Complete</CustomTableCell>
-                      <CustomTableCell>Actions</CustomTableCell>
+                      <CustomTableCell style={headings}>ID</CustomTableCell>
+                      <CustomTableCell style={headings}>Name</CustomTableCell>
+                      <CustomTableCell style={headings}>Status</CustomTableCell>
+                      <CustomTableCell style={headings}>Start</CustomTableCell>
+                      <CustomTableCell style={headings}>Target End</CustomTableCell>
+                      <CustomTableCell style={headings}>Close</CustomTableCell>
+                      <CustomTableCell style={headings}>% Complete</CustomTableCell>
+                      <CustomTableCell style={headings}>Actions</CustomTableCell>
                     </TableRow>
                   </TableHead>
-                  {console.log(this.state.loading, 'ststs')}
                   {
-
                     this.props.response ?
                       this.props.response.map((element) => {
-                        let i = 0
+                        i = i === 2 ? 1 : i + 1
                         let startDate = new Date(element.start_date);
                         let endDate = new Date(element.end_date);
                         startDate = startDate.toDateString()

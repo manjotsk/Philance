@@ -39,13 +39,18 @@ class CandidateReview extends React.Component {
 
     componentDidMount() {
         this.props.getProjectCandidateReviewList(this.props.projectId);
-      }
-    
+    }
+
     color(i) {
         if (i === 1) return '#dbebf6'
     }
 
     render() {
+        let i = 0;
+        let headings = {
+            fontSize: "15px",
+            color: "black",
+        }
 
         const { classes } = this.props;
 
@@ -62,12 +67,12 @@ class CandidateReview extends React.Component {
                             <GridItem style={{ marginRight: 45 }}>
                                 <a onClick={
                                     () => {
-                                        {console.log(this.props.history)}
+                                        { console.log(this.props.history) }
                                         this.props.history.push('../..')
                                         this.props.history.push(`my-projects/`)
                                     }}
                                     style={{ cursor: 'pointer', color: "blue", fontSize: 15 }}
-                                    >
+                                >
                                     <i class="fa fa-angle-left"></i>
                                     Go back to my projects
                                 </a>
@@ -80,24 +85,24 @@ class CandidateReview extends React.Component {
                                         <Table className={classes.table} padding="checkbox">
                                             <TableHead>
                                                 <TableRow>
-                                                    <CustomTableCell>Project Name</CustomTableCell>
-                                                    <CustomTableCell>Candidate Name</CustomTableCell>
-                                                    <CustomTableCell>Date Applied</CustomTableCell>
-                                                    <CustomTableCell>Candidate Status</CustomTableCell>
-                                                    <CustomTableCell>Action</CustomTableCell>
+                                                    <CustomTableCell style={headings}>Project Name</CustomTableCell>
+                                                    <CustomTableCell style={headings}>Candidate Name</CustomTableCell>
+                                                    <CustomTableCell style={headings}>Date Applied</CustomTableCell>
+                                                    <CustomTableCell style={headings}>Candidate Status</CustomTableCell>
+                                                    <CustomTableCell style={headings}>Action</CustomTableCell>
                                                 </TableRow>
                                             </TableHead>
                                             {
                                                 this.props.response ?
                                                     this.props.response.map((element) => {
-                                                        let i = 0
+                                                        i = i === 2 ? 1 : i + 1
                                                         return (
                                                             <TableRow style={{ backgroundColor: this.color(i) }}>
-                                                                <CustomTableCell>New Project1</CustomTableCell>
-                                                                <CustomTableCell>abc</CustomTableCell>
+                                                                <CustomTableCell>{element.project.projectName}</CustomTableCell>
+                                                                <CustomTableCell>{element.user.firstName + " " + element.user.lastName}</CustomTableCell>
                                                                 <CustomTableCell>{element.appliedDate}</CustomTableCell>
                                                                 <CustomTableCell>{element.status}</CustomTableCell>
-                                                                <CustomTableCell><ActionDropdown/></CustomTableCell>
+                                                                <CustomTableCell><ActionDropdown /></CustomTableCell>
                                                             </TableRow>
                                                         )
                                                     }) : null

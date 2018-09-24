@@ -5,7 +5,8 @@ import {
   FIND_PROJECT_PROJECT_STATUS_CHANGED,
   FIND_PROJECT_IMPACT_CATEGORIES_CHANGED,
   FIND_PROJECT_COUNTRY_CHANGED,
-  FIND_PROJECT_KEYWORD_CHANGED
+  FIND_PROJECT_KEYWORD_CHANGED,
+  FIND_PROJECT_UNMOUNT
 } from '../types'
 import axios from 'axios'
 
@@ -131,6 +132,16 @@ console.log(
       });
   }
 }
+
+export const findProjectUnmount=()=>{
+  return dispatch=> {
+    dispatch({
+      type: FIND_PROJECT_UNMOUNT
+    })
+  }
+}
+
+  
 export const findProjectsUnmount = () => {
   return dispatch => {
     dispatch({

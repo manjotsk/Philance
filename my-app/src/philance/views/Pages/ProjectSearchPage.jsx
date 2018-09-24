@@ -1,6 +1,5 @@
 import React from "react";
-import ReactTable from "react-table";
-//import Axios from "axios";
+import Axios from "axios";
 import { connect } from 'react-redux'
 import PropTypes from "prop-types";
 
@@ -11,6 +10,10 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
+import Table from '@material-ui/core/Table';
+import TableHead from '@material-ui/core/TableHead';
+import TableCell from '@material-ui/core/TableCell';
+import TableRow from '@material-ui/core/TableRow';
 
 // @material-ui/icons
 import Assignment from "@material-ui/icons/Assignment";
@@ -27,15 +30,28 @@ import CustomInput from "components/CustomInput/CustomInput.jsx";
 import InterestsDropdown from "../../components/DoubleDropdown/InterestsDropdown";
 import CountryDropdown from "../../components/DoubleDropdown/CountryDropdown";
 import projectSearchStyle from "philance/views/PageStyles/ProjectSearchStyles.jsx";
-import { 
+import {
   locationChanged,
   resourceChanged,
   projectStatusChanged,
   impactCategoriesChanged,
   countryChanged,
   keywordChanged,
+  findProjectUnmount,
   findProjects
- } from "../../actions/findProject";
+} from "../../actions/findProject";
+import store from "../../store/store";
+
+const CustomTableCell = withStyles(theme => ({
+  body: {
+    fontSize: 14,
+  },
+}))(TableCell);
+
+let EmptyTableRow = {
+  fontSize: "15px",
+  color: "black",
+}
 
 class ProjectSearch extends React.Component {
   constructor(props) {
@@ -50,8 +66,26 @@ class ProjectSearch extends React.Component {
     };
   }
 
-  onLocationChange=text=>{
+  componentWillUnmount() {
+    this.props.findProjectUnmount()
+  }
+
+  onLocationChange = text => {
     this.props.locationChanged(text)
+  }
+
+  onCountryChanged = (text) => {
+    store.dispatch(countryChanged(text))
+  }
+
+  emptyTable = () => {
+    return (
+      <TableRow >
+        <CustomTableCell></CustomTableCell>
+        <CustomTableCell></CustomTableCell>
+        <CustomTableCell style={EmptyTableRow}>No Rows Found</CustomTableCell>
+        <CustomTableCell></CustomTableCell>
+      </TableRow>);
   }
 
   handleResourceType = event => {
@@ -60,40 +94,49 @@ class ProjectSearch extends React.Component {
 
   handleProjectStatus = event => {
     this.props.projectStatusChanged(event.target.value)
-    
+
   };
-  
+
   handleImpactCategory = event => {
     this.props.impactCategoriesChanged(event.target.value)
   };
-  
-  onCountryChange=text=>{
+
+  onCountryChange = text => {
     this.props.countryChanged(text)
   }
 
-  onKeywordChange=text=>{
+  onKeywordChange = text => {
     console.log(text)
     this.props.keywordChanged(text)
   }
-  
-  columnFilter(filter, row, column) {
-    const id = filter.pivotId || filter.id;
-    return row[id] !== undefined
-      ? String(row[id])
-        .toLowerCase()
-        .includes(filter.value.toLowerCase())
-      : true;
+  color(i) {
+    if (i === 1) return '#dbebf6'
   }
 
+  // findProjects() {
+  //   let filterParams = this.state;
+  //   filterParams.tableData = [];
+  //   Axios.get("/project", {
+  //     baseURL: "http://localhost:3001",
+  //     params: filterParams
+  //   })
+  //     .then(response => {
+  //       console.log(response);
+  //       this.setState({ tableData: response.data });
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //     });
+
+  // }
   findProjects() {
     const {
-
       interests,
       yourLocation,
       country,
       keyword
-    }=this.props
-    console.log('this.props',this.props)
+    } = this.props
+    console.log('this.props', this.props)
     this.props.findProjects(
       {
         interests,
@@ -105,9 +148,15 @@ class ProjectSearch extends React.Component {
   }
 
   render() {
+    let i = 0;
+    let headings = {
+      fontSize: "15px",
+      color: "black",
+    }
     const { classes } = this.props;
+
     return (
-      <GridContainer className={this.props.isLoggedIn?null:classes.container}>
+      <GridContainer className={this.props.isLoggedIn ? null : classes.container}>
         <GridContainer justify="center">
           <GridItem xs={12} sm={12} md={10}>
             <Card>
@@ -120,11 +169,11 @@ class ProjectSearch extends React.Component {
               <CardBody>
                 <form>
                   <GridContainer>
-                    <GridItem xs={12} sm={12} md={6} style={{marginTop: 30}}>
-                       <CountryDropdown defaultValue={this.props.userCountry}/>
+                    <GridItem xs={12} sm={12} md={6} style={{ marginTop: 30 }}>
+                      <CountryDropdown onCountryChanged={this.onCountryChanged} defaultValue={this.props.userCountry} />
                     </GridItem>
-                    <GridItem xs={12} sm={12} md={6} style={{marginTop: 30}}>
-                      <InterestsDropdown interestOptions={this.props.interestOptions}/>
+                    <GridItem xs={12} sm={12} md={6} style={{ marginTop: 30 }}>
+                      <InterestsDropdown interestOptions={this.props.interestOptions} />
                     </GridItem>
                   </GridContainer>
                   <br />
@@ -159,17 +208,17 @@ class ProjectSearch extends React.Component {
                             Choose Resource Type
                           </MenuItem>
                           {
-                            ['Needs Volunteers','Needs Freelancers','Both'].map((prop, key) => {
+                            ['Needs Volunteers', 'Needs Freelancers', 'Any'].map((prop, key) => {
                               return (
                                 <MenuItem
-                                classes={{
-                                  root: classes.selectMenuItem,
-                                  selected: classes.selectMenuItemSelected
-                                }}
-                                value={prop}
-                              >{console.log(key,'*here')}
-                               {prop}
-                              </MenuItem>
+                                  classes={{
+                                    root: classes.selectMenuItem,
+                                    selected: classes.selectMenuItemSelected
+                                  }}
+                                  value={prop}
+                                >{console.log(key, '*here')}
+                                  {prop}
+                                </MenuItem>
                               );
                             })
                           }
@@ -206,17 +255,17 @@ class ProjectSearch extends React.Component {
                             Choose Project Status
                           </MenuItem>
                           {
-                            ['Active', 'Closed', 'Any'].map((prop,key)=>{
-                              return(
+                            ['Active', 'Closed', 'Any'].map((prop, key) => {
+                              return (
                                 <MenuItem
-                                classes={{
-                                  root: classes.selectMenuItem,
-                                  selected: classes.selectMenuItemSelected
-                                }}
-                                value={prop}
-                              >
-                                {prop}
-                              </MenuItem>      
+                                  classes={{
+                                    root: classes.selectMenuItem,
+                                    selected: classes.selectMenuItemSelected
+                                  }}
+                                  value={prop}
+                                >
+                                  {prop}
+                                </MenuItem>
                               )
                             })
                           }
@@ -261,47 +310,35 @@ class ProjectSearch extends React.Component {
           <GridItem xs={12} sm={12} md={10}>
             <Card>
               <CardBody >
-                <GridContainer>
-                  <GridItem xs={12} sm={12}>
-                    <ReactTable
-                    pageSize={10}
-                      data={this.props.tableData}
-                      columns={[
-                        {
-                          Header: "Name",
-                          accessor: "project_name",
-                          filterable: false,
-                          filterMethod: this.columnFilter
-                        },
-                        {
-                          Header: "Status",
-                          accessor: "status",
-                          filterable: false,
-                          filterMethod: this.columnFilter
-                        },
-                        {
-                          Header: "Start",
-                          accessor: "start_date",
-                          filterable: false,
-                          filterMethod: this.columnFilter
-                        },
-                        {
-                          Header: "Location",
-                          accessor: "country",
-                          filterable: false,
-                          filterMethod: this.columnFilter
-                        }
-                      ]}
-                      defaultPageSize={5}
-                      showPaginationTop = {false}
-                      showPaginationBottom={false}
-                      className="-striped -highlight"
-                    />
-                  </GridItem>
-                </GridContainer>
+                <Table className={classes.table} padding="checkbox">
+                  <TableHead>
+                    <TableRow>
+                      <CustomTableCell style={headings}>Name</CustomTableCell>
+                      <CustomTableCell style={headings}>Status</CustomTableCell>
+                      <CustomTableCell style={headings}>Start</CustomTableCell>
+                      <CustomTableCell style={headings}>Location</CustomTableCell>
+                    </TableRow>
+                  </TableHead>
+                  {
+                    this.props.tableData.length === 0 ?
+                      this.emptyTable()
+                      :
+                      this.props.tableData.map((element) => {
+                        i = i === 2 ? 1 : i + 1
+                        return (
+                          <TableRow style={{ backgroundColor: this.color(i) }}>
+                            <CustomTableCell>{element.project_name}</CustomTableCell>
+                            <CustomTableCell>{element.status}</CustomTableCell>
+                            <CustomTableCell>{element.start_date}</CustomTableCell>
+                            <CustomTableCell>{element.country}</CustomTableCell>
+                          </TableRow>
+                        )
+                      })
+                  }
+                </Table>
               </CardBody>
             </Card>
-          </GridItem>{console.log('this.props.tableData',this.props.tableData)}
+          </GridItem>{console.log('this.props.tableData', this.props.tableData)}
         </GridContainer>
       </GridContainer>
 
@@ -326,7 +363,7 @@ const mapStateToProps = state => {
     country: state.findProject.country,
     textChanged: state.findProject.textChanged,
     interestOptions: state.common.interestOptions,
-    interests:state.user.interests,
+    interests: state.user.interests,
     resourceTypeOptions: state.findProject.resourceTypeOptions
   }
 }
@@ -338,6 +375,7 @@ export default connect(mapStateToProps, {
   projectStatusChanged,
   impactCategoriesChanged,
   countryChanged,
+  findProjectUnmount,
   keywordChanged,
   findProjects
 })(withStyles(projectSearchStyle)(ProjectSearch));

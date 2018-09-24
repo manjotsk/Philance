@@ -4,9 +4,13 @@ var users = require('../users/users.model')
 var {mediaHost}=require('../config')
 const UserController = require('../users/users.controller');
 const ProjectsController = require('../projects/projects.controller');
+const Sequelize = require('sequelize');
+const sequelize = require('../util/dbconnection');
+const moment = require('moment');
 
 exports.filesUpload = (req, res, next) => {
-    console.log(JSON.parse(req.body.param).uploadType,'************************')
+    console.log(JSON.parse(req.body.param),'************************')
+    console.log((req),'************************')
 
     switch(JSON.parse(req.body.param).uploadType){
 
@@ -15,8 +19,17 @@ exports.filesUpload = (req, res, next) => {
         }
         break;
         case 'startProjectFiles':{
-            res.status(200).send({
-                filepath:mediaHost()+req.file.filename
+            sequelize.query(`INSERT INTO philance.project_attachments (project_id,name,attachment,creation_date,created_by,last_updated_date,last_updated_by) VALUES (${JSON.parse(req.body.param).userInfo.projectId},'name','${req.file.path}','${new Date()}',${JSON.parse(req.body.param).userInfo.userId},'${new Date()}',${JSON.parse(req.body.param).userInfo.userId})`)
+            .then(()=>{
+                res.status(200).send({
+                    filepath:mediaHost()+req.file.filename
+                })
+            })
+            .catch((err)=>{
+                console.log(err)
+                res.status(500).send({
+                    error:err
+                })
             })
         }
         break;

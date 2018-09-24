@@ -69,11 +69,9 @@ class StartProject extends React.Component {
       budget: null,
       validName: false,
       validDescription: false,
-      validBudget: false,
       validDropdown: false,
       validCountry: false,
       validStartDate: false,
-      validEndDate: false
     };
     this.myRef = React.createRef();
     this.fileInput = React.createRef();
@@ -96,11 +94,6 @@ class StartProject extends React.Component {
         validDescription: true
       })
     }
-    if (value === "Budget") {
-      await this.setState({
-        validBudget: true
-      })
-    }
     if (value === "ZipCode") {
       await this.setState({
         validZipCode: true
@@ -109,11 +102,6 @@ class StartProject extends React.Component {
     if (value === "startDate") {
       await this.setState({
         validStartDate: true
-      })
-    }
-    if (value === "endDate") {
-      await this.setState({
-        validEndDate: true
       })
     }
   }
@@ -129,7 +117,6 @@ class StartProject extends React.Component {
     }
   }
 
-
   onDescriptionChange = async (text) => {
     if (text === "") {
       this.validate("Description")
@@ -141,15 +128,9 @@ class StartProject extends React.Component {
     }
   }
 
-  onBudgetChange = async (text) => {
-    if (text === "") {
-      this.validate("Budget")
-    }
-    else {
-      await this.setState({ validBudget: false })
-      this.props.budgetChanged(text)
-      this.props.textChanged()
-    }
+  onBudgetChange(text) {
+    this.props.budgetChanged(text)
+    this.props.textChanged()
   }
 
   onFilesChange(e) {
@@ -157,36 +138,37 @@ class StartProject extends React.Component {
     // this.props.textChanged()
   }
 
-  onEndDateChange=async(text)=> {
-    if (text === undefined) {
-      this.validate("endDate")
-    }
-    else {
-      await this.setState({ validEndDate: false })
+  onEndDateChange(text) {
     this.props.endDateChanged(text)
     this.props.textChanged()
   }
+
+  onDescriptionChange(text) {
+    this.props.descriptionChanged(text)
+    this.props.textChanged()
   }
+
   onFreeLancersChange(text) {
     this.props.freelancersChanged(text)
     this.props.textChanged()
   }
 
-
-  onStartDateChange= async(text)=> {
+  onStartDateChange = async (text) => {
     if (text === undefined) {
       this.validate("startDate")
     }
     else {
       await this.setState({ validStartDate: false })
-    this.props.startDateChanged(text)
-    this.props.textChanged()
+      this.props.startDateChanged(text)
+      this.props.textChanged()
+    }
   }
-  }
+
   onVolunteersChange(text) {
     this.props.volunteersChanged(text)
     this.props.textChanged()
   }
+
   onZipCodeChange = async (text) => {
     if (text === "") {
       this.validate("ZipCode")
@@ -197,16 +179,18 @@ class StartProject extends React.Component {
       this.props.textChanged()
     }
   }
-  onCountryChanged=async(text)=> {
+
+  onCountryChanged = async (text) => {
     if (text === "") {
       this.validate("Country")
     }
     else {
       await this.setState({ validCountry: false })
-    store.dispatch(countryChanged(text))
-    store.dispatch(textChanged())
+      store.dispatch(countryChanged(text))
+      store.dispatch(textChanged())
+    }
   }
-}
+
   handleClick() {
     this.refs.fileInput.click();
   }
@@ -270,7 +254,7 @@ class StartProject extends React.Component {
                 </GridContainer>
                 <GridContainer spacing={12}>
                   <GridItem xs={6}>
-                    <CountryDropdown onCountryChanged={this.onCountryChanged} action ={this.state.validCountry} defaultValue={this.props.country} />
+                    <CountryDropdown onCountryChanged={this.onCountryChanged} defaultValue={this.props.country} action ={this.state.validCountry} />
                   </GridItem>
                 </GridContainer>
                 <GridContainer spacing={12}>
@@ -300,7 +284,7 @@ class StartProject extends React.Component {
                 </GridContainer>
                 <GridContainer xs={12} sm={12} md={10}>
                   <GridItem xs={12} sm={12} md={10}><br />
-                    <InterestsDropdown interestOptions={this.props.interestOptions} action={this.state.validDropdown} defaultValue={this.props.interestOptions} />
+                    <InterestsDropdown interestOptions={this.props.interestOptions} action={this.state.validDropdown} defaultValue={this.props.interests ? this.props.interests.split(',') : null} />
                   </GridItem>
                 </GridContainer>
                 <GridContainer>
@@ -405,7 +389,7 @@ class StartProject extends React.Component {
                   <GridItem xs={12} sm={12} md={4}>
                     <Card>
                       <CardBody>
-                        {this.state.validStartDate?
+                      {this.state.validStartDate?
                         <InputLabel className={classes.label}>
                           <span style={{color: "red"}}>Project Start Date</span>
                           </InputLabel>
@@ -415,7 +399,7 @@ class StartProject extends React.Component {
                           </InputLabel>
                         }
                         <br />
-                        <FormControl fullWidth required="true">
+                        <FormControl fullWidth>
                           <GridContainer>
                             <GridItem xs={9}>
                               <Datetime
@@ -436,15 +420,9 @@ class StartProject extends React.Component {
                       <CardHeader color="info" icon>
                       </CardHeader>
                       <CardBody>
-                      {this.state.validEndDate?
-                        <InputLabel className={classes.label}>
-                          <span style={{color: "red"}}>Project End Date</span>
-                          </InputLabel>
-                        :
                         <InputLabel className={classes.label}>
                           Project End Date
                           </InputLabel>
-                        }
                         <br />
                         <FormControl fullWidth>
                           <GridContainer>
@@ -468,7 +446,6 @@ class StartProject extends React.Component {
                     <CustomInput
                       labelText="Budget"
                       id="projectDescription"
-                      error={this.state.validBudget}
                       formControlProps={{
                         fullWidth: true
                       }}
@@ -476,7 +453,6 @@ class StartProject extends React.Component {
                         placeholder: "Enter Estimated Budget (USD)",
                         onChange: e => {
                           this.onBudgetChange(e.target.value)
-                          console.log(this.state.budget)
                         }
                       }}
                     />
@@ -517,23 +493,6 @@ class StartProject extends React.Component {
                           }
                         </GridItem>
                         <GridItem justify='center'>
-                          {this.props.files ? <Button
-                            color="info"
-                            icon="upload"
-                            onClick={() => {
-                              //call upload Action
-                              this.props.uploadFiles(
-                                {
-                                  uploadType: 'startProjectFiles',
-                                  userInfo: {
-                                    userId: this.props.userId
-                                  }
-                                },
-                                this.props.files
-                              )
-                            }}
-                          >Upload</Button> : null
-                          }
                         </GridItem>
                       </GridContainer>
                     </Label>
@@ -547,6 +506,7 @@ class StartProject extends React.Component {
                   <GridItem>
                     {this.state.alert}
                     <Button onClick={() => {
+                      console.log(this.props.interests)
                       if (!this.props.isLoggedIn) {
                         this.successAlert();
                       } else {
@@ -578,8 +538,19 @@ class StartProject extends React.Component {
                           budget,
                           userId,
                           files
+                        }, (projectId) => {
+                          this.props.uploadFiles(
+                            {
+                              uploadType: 'startProjectFiles',
+                              userInfo: {
+                                userId: this.props.userId,
+                                projectId: projectId
+                              }
+                            },
+                            this.props.files
+                          )
                         })
-                         console.log(this.props)
+                        console.log(this.props)
                         if (this.props.name === "") {
                           this.setState({ validName: true })
                         }
@@ -610,7 +581,9 @@ class StartProject extends React.Component {
                           this.setState({validEndDate: true})
                         }
                       }
+                      console.log(this.props)
                     }}
+                    
                       color="info"
                     >
                       {this.props.text}
@@ -658,8 +631,8 @@ const mapStateToProps = state => {
     budget: state.start.budget,
     text: state.start.text,
     interests: state.user.interests,
-    isLoggedIn: state.auth.isLoggedIn,
     interestOptions: state.common.interestOptions,
+    isLoggedIn: state.auth.isLoggedIn,
     requestCompleted: state.start.requestCompleted,
     userId: state.user.userId,
     files: state.start.files,
@@ -687,5 +660,5 @@ export default connect(mapStateToProps, {
   getCommonInfo,
   startProjectUnmount,
   filesChanged,
-  uploadFiles,
+  uploadFiles
 })(withStyles(startProjectPageStyle)(StartProject));

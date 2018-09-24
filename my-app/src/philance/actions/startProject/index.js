@@ -111,7 +111,7 @@ export const startProject=({
   budget,
   userId,
   files
-})=>{
+},uploadCallback)=>{
 
   if(
     name === '' ||
@@ -152,6 +152,7 @@ var interestsArray=interests.split(',')
         freelancers:freelancers,
         estimatedBudget:budget,
         startDate :startDate,
+        interests :interests,
         endDate :endDate,
         userId:userId,
         files:files,
@@ -168,6 +169,7 @@ var interestsArray=interests.split(',')
           dispatch({
             type: START_PROJECT_REQUEST_SUCCESS
           })
+          uploadCallback(response.data.project[0].projectId);
         }
       })
       .catch(error=>{

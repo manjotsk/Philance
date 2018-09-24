@@ -154,12 +154,24 @@ export const updateProject =({name, description, volunteers, freelancers, budget
 
 export const getProjectById =(id)=> {
     return dispatch=> {
+        let arr = [], interests = [];
         axios.get(hostname()+`/philance/projects/${id}`)
         .then(response=>{
             console.log(response)
+            console.log(response.data.project[0].project_details)
+            arr = response.data.project[0].project_details;
+            for (let index = 0; index < arr.length; index++) {
+                const element = arr[index];
+                console.log(element.name)
+                interests.push(element.name)
+            }
+            // response.data.projec[0].project_details.forEach(element => {
+            //  console.log(element)   
+            // });
             dispatch({
                 type: PROJECT_DETAILS_GET_DETAILS,
-                payload: response.data.project[0]
+                payload: response.data.project[0],
+                interests:interests
             })
         })
         .catch(err=>console.log(err))

@@ -25,6 +25,8 @@ class InterestsDropdown extends React.Component {
       }
     }
     render () {
+        // var value = this.props.defaultValue
+        // value.toString()
         return (
                 <Dropdown
                     placeholder='Select Interests'
