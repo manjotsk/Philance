@@ -423,14 +423,6 @@ class StartProject extends React.Component {
                       <CardHeader color="info" icon>
                       </CardHeader>
                       <CardBody>
-<<<<<<< HEAD
-=======
-                      {this.state.validEndDate?
-                        <InputLabel className={classes.label}>
-                          <span style={{color: "red"}}>Project End Date </span>
-                          </InputLabel>
-                        :
->>>>>>> 141a4fd1cedf55d6d0fe14580f51e8a95a4508b1
                         <InputLabel className={classes.label}>
                           Project End Date (Estimated)
                           </InputLabel>

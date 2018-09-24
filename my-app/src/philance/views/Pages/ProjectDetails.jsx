@@ -106,7 +106,6 @@ class ProjectDetails extends React.Component {
   render() {
     let interests=[];
     let interestValues = this.props.interests;
-    let countryValue = this.props.country;
     const { classes } = this.props;
     return (
       <GridContainer className={classes.justifyContentCenter}>
@@ -238,9 +237,12 @@ class ProjectDetails extends React.Component {
                     <InputLabel className={classes.label} style={{ marginBottom: 5, marginTop: 10 }}>
                       Project Country
                       </InputLabel>
-                    {console.log(this.props)}
-                    {console.log(countryValue)}
-                    <CountryDropdown onCountryChanged={this.onCountryChanged} defaultValue={countryValue} disabled={this.state.isDisabled} />
+                    {console.log(this.props,'project details')}
+                    {this.props.country?
+                      <CountryDropdown onCountryChanged={this.onCountryChanged} defaultValue={this.props.country} disabled={this.state.isDisabled} />
+                      :
+                      <CountryDropdown onCountryChanged={this.onCountryChanged} disabled={this.state.isDisabled} />
+                     }
                   </GridItem>
                 </GridContainer>
                 <GridContainer>
@@ -343,7 +345,12 @@ class ProjectDetails extends React.Component {
                       console.log(element);
                       interests.push(element)
                     })}
-                    <InterestsDropdown interestOptions={this.props.interestOptions} defaultValue={interestValues} disabled={this.state.isDisabled} />
+                    {
+                      this.props.interests!=[]?
+                      <InterestsDropdown interestOptions={this.props.interestOptions} defaultValue={this.props.interests.toString()} disabled={this.state.isDisabled} />
+                      :
+                      <InterestsDropdown interestOptions={this.props.interestOptions} disabled={this.state.isDisabled} />
+                    }
                   </GridItem>
                 </GridContainer>
                 <GridContainer>

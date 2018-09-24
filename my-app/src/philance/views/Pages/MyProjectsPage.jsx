@@ -120,7 +120,6 @@ class MyProjectsPage extends React.Component {
                             <CustomTableCell></CustomTableCell>
                             <CustomTableCell></CustomTableCell>
                             <CustomTableCell>
-                              {console.log(this.props.response)}
                               <Button color="info" onClick={() => {
                                 this.props.getProjectById(element.project_id)
                                 this.props.history.push(`../project-details/${element.project_id}`)

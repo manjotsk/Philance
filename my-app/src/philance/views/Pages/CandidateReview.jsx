@@ -91,7 +91,6 @@ class CandidateReview extends React.Component {
                                             {
                                                 this.props.response ?
                                                     this.props.response.map((element) => {
-<<<<<<< HEAD
                                                         i = i === 2 ? 1 : i + 1
                                                         return (
                                                             <TableRow style={{ backgroundColor: this.color(i) }}>
@@ -100,23 +99,6 @@ class CandidateReview extends React.Component {
                                                                 <CustomTableCell>{element.appliedDate}</CustomTableCell>
                                                                 <CustomTableCell>{element.status}</CustomTableCell>
                                                                 <CustomTableCell><ActionDropdown /></CustomTableCell>
-=======
-                                                        let i = 0
-                                                        let appliedDate = new Date(element.appliedDate);
-                                                        appliedDate = appliedDate.toDateString()
-                                                        return (
-                                                            <TableRow style={{ backgroundColor: this.color(i) }}>
-                                                                <CustomTableCell>New Project1</CustomTableCell>
-                                                                <CustomTableCell>abc</CustomTableCell>
-                                                                <CustomTableCell>{appliedDate}</CustomTableCell>
-                                                                <CustomTableCell>{element.status}</CustomTableCell>
-                                                                <CustomTableCell>
-                                                                    <Button color="info" onClick={() => {
-                                                                    }}>Accept</Button>
-                                                                    <Button color="info" onClick={() => {
-                                                                    }}>Reject</Button>
-                                                                </CustomTableCell>
->>>>>>> 141a4fd1cedf55d6d0fe14580f51e8a95a4508b1
                                                             </TableRow>
                                                         )
                                                     }) : null

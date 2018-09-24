@@ -47,6 +47,7 @@ export const impactCategoriesChanged = text => {
 }
 
 export const countryChanged = text => {
+  console.log('countryChanged',text)
   return {
       type: FIND_PROJECT_COUNTRY_CHANGED,
       payload: text

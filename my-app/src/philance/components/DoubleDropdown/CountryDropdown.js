@@ -10,12 +10,12 @@ export default class CountryDropdown extends React.Component {
         super(props);
     }
     state={
-
+        value:this.props.defaultValue
     }
    
     render() {
         var check = this.props.action
-        console.log(this.props.defaultValue)
+        console.log(this.state.defaultValue)
         return (
             <Dropdown
                 placeholder='Select Country'
@@ -24,12 +24,12 @@ export default class CountryDropdown extends React.Component {
                 search
                 selection
                 disabled={this.props.disabled}
-                defaultValue={"India"}
                 options={countryOptions}
-                value={this.state.value}
+                value={this.props.defaultValue}
                 onChange={async (e, { value }) => {
                         this.setState({ value })
-                        this.props.onCountryChanged(this.state.value)
+                        console.log('this country',this.state)
+                        this.props.onCountryChanged(value)
                     }
                 }
             />
