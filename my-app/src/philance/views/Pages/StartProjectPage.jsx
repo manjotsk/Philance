@@ -77,6 +77,9 @@ class StartProject extends React.Component {
     this.fileInput = React.createRef();
   }
   componentWillMount() {
+    if (!this.props.isLoggedIn) {
+      this.successAlert();
+    }
     this.props.getCommonInfo()
   }
   componentWillUnmount() {
@@ -318,20 +321,20 @@ class StartProject extends React.Component {
                       classes={{
                         label: classes.label
                       }}
-                      label="Volunteers"
+                      label="Volunteers (Unpaid)"
                     />
                   </GridItem>
                   <GridItem md={6}>
                     <CustomInput
                       id="volunteers"
-                      labelText="Volunteers"
+                      labelText="Enter Number of Volunteers"
                       formControlProps={{
                         fullWidth: true
                       }}
                       inputProps={{
                         value: this.props.volunteers,
                         disabled: this.state.volunteerStatus,
-                        placeholder: "Enter Number of Volunteers",
+                        placeholder: "",
                         onChange: e => {
                           this.onVolunteersChange(e.target.value)
                         }
@@ -364,12 +367,12 @@ class StartProject extends React.Component {
                       classes={{
                         label: classes.label
                       }}
-                      label="Freelancers"
+                      label="Freelancers (Paid)"
                     />
                   </GridItem>
                   <GridItem md={6}>
                     <CustomInput
-                      labelText="Freelancers"
+                      labelText="Enter Number of Freelancers"
                       id="projectDescription"
                       formControlProps={{
                         fullWidth: true
@@ -377,7 +380,7 @@ class StartProject extends React.Component {
                       inputProps={{
                         value: this.props.freelancers,
                         disabled: this.state.freeLanceStatus,
-                        placeholder: "Enter Number of Freelancers",
+                        placeholder:"",
                         onChange: e => {
                           this.onFreeLancersChange(e.target.value)
                         }
@@ -420,8 +423,16 @@ class StartProject extends React.Component {
                       <CardHeader color="info" icon>
                       </CardHeader>
                       <CardBody>
+<<<<<<< HEAD
+=======
+                      {this.state.validEndDate?
                         <InputLabel className={classes.label}>
-                          Project End Date
+                          <span style={{color: "red"}}>Project End Date </span>
+                          </InputLabel>
+                        :
+>>>>>>> 141a4fd1cedf55d6d0fe14580f51e8a95a4508b1
+                        <InputLabel className={classes.label}>
+                          Project End Date (Estimated)
                           </InputLabel>
                         <br />
                         <FormControl fullWidth>
@@ -603,14 +614,17 @@ class StartProject extends React.Component {
     });
   }
   successAlert() {
+    const { classes } = this.props;
+
     this.setState({
       alert: (
         <SweetAlert
           success={false}
           style={{ display: "block", marginTop: "-100px" }}
-          title="Hello User!"
+          title=""
           onConfirm={() => this.props.history.push('/login')}
           onCancel={() => this.hideAlert()}
+      
         >
           You need to be logged in to Start a Project!
         </SweetAlert>

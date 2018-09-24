@@ -94,14 +94,13 @@ class MyProjectsPage extends React.Component {
                 <Table className={classes.table} padding="checkbox">
                   <TableHead>
                     <TableRow>
-                      <CustomTableCell style={headings}>ID</CustomTableCell>
-                      <CustomTableCell style={headings}>Name</CustomTableCell>
-                      <CustomTableCell style={headings}>Status</CustomTableCell>
-                      <CustomTableCell style={headings}>Start</CustomTableCell>
-                      <CustomTableCell style={headings}>Target End</CustomTableCell>
-                      <CustomTableCell style={headings}>Close</CustomTableCell>
-                      <CustomTableCell style={headings}>% Complete</CustomTableCell>
-                      <CustomTableCell style={headings}>Actions</CustomTableCell>
+                      <CustomTableCell>Name</CustomTableCell>
+                      <CustomTableCell>Status</CustomTableCell>
+                      <CustomTableCell>Start</CustomTableCell>
+                      <CustomTableCell>Target End</CustomTableCell>
+                      <CustomTableCell>Close</CustomTableCell>
+                      <CustomTableCell>% Complete</CustomTableCell>
+                      <CustomTableCell>Actions</CustomTableCell>
                     </TableRow>
                   </TableHead>
                   {
@@ -114,7 +113,6 @@ class MyProjectsPage extends React.Component {
                         endDate = endDate.toDateString()
                         return (
                           <TableRow style={{ backgroundColor: this.color(i) }}>
-                            <CustomTableCell>{element.project_id}</CustomTableCell>
                             <CustomTableCell>{element.project_name}</CustomTableCell>
                             <CustomTableCell>{element.status}</CustomTableCell>
                             <CustomTableCell>{startDate}</CustomTableCell>

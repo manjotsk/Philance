@@ -16,7 +16,7 @@ import Table from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
-
+import Button from "components/CustomButtons/Button.jsx";
 //import publicHomePageStyle from "./PublicHomePageStyle";
 import ActionDropdown from '../../components/DoubleDropdown/ActionDropdown'
 import CandidatePageStyle from "assets/jss/material-dashboard-pro-react/views/registerPageStyle";
@@ -65,17 +65,13 @@ class CandidateReview extends React.Component {
                         </CardHeader>
                         <GridContainer align="right" direction="column">
                             <GridItem style={{ marginRight: 45 }}>
-                                <a onClick={
-                                    () => {
-                                        { console.log(this.props.history) }
-                                        this.props.history.push('../..')
-                                        this.props.history.push(`my-projects/`)
-                                    }}
-                                    style={{ cursor: 'pointer', color: "blue", fontSize: 15 }}
-                                >
-                                    <i class="fa fa-angle-left"></i>
-                                    Go back to my projects
-                                </a>
+                            <Button color="info" round className={classes.marginRight} onClick={() => {
+                                {console.log(this.props.history)}
+                                this.props.history.push('../..')
+                                this.props.history.push(`my-projects/`)
+                                                                    }}>
+                                <i class="fa fa-angle-left"></i> Back to my projects
+                            </Button>
                             </GridItem>
                         </GridContainer>
                         <GridContainer>
@@ -95,6 +91,7 @@ class CandidateReview extends React.Component {
                                             {
                                                 this.props.response ?
                                                     this.props.response.map((element) => {
+<<<<<<< HEAD
                                                         i = i === 2 ? 1 : i + 1
                                                         return (
                                                             <TableRow style={{ backgroundColor: this.color(i) }}>
@@ -103,6 +100,23 @@ class CandidateReview extends React.Component {
                                                                 <CustomTableCell>{element.appliedDate}</CustomTableCell>
                                                                 <CustomTableCell>{element.status}</CustomTableCell>
                                                                 <CustomTableCell><ActionDropdown /></CustomTableCell>
+=======
+                                                        let i = 0
+                                                        let appliedDate = new Date(element.appliedDate);
+                                                        appliedDate = appliedDate.toDateString()
+                                                        return (
+                                                            <TableRow style={{ backgroundColor: this.color(i) }}>
+                                                                <CustomTableCell>New Project1</CustomTableCell>
+                                                                <CustomTableCell>abc</CustomTableCell>
+                                                                <CustomTableCell>{appliedDate}</CustomTableCell>
+                                                                <CustomTableCell>{element.status}</CustomTableCell>
+                                                                <CustomTableCell>
+                                                                    <Button color="info" onClick={() => {
+                                                                    }}>Accept</Button>
+                                                                    <Button color="info" onClick={() => {
+                                                                    }}>Reject</Button>
+                                                                </CustomTableCell>
+>>>>>>> 141a4fd1cedf55d6d0fe14580f51e8a95a4508b1
                                                             </TableRow>
                                                         )
                                                     }) : null
