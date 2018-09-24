@@ -136,12 +136,12 @@ export const registerUser = ({ firstName, lastName, email, password }) =>
                             password: password
                         }
                     )
-                    .then(()=>
+                    .then((loginResponse)=>
                             {
                                 dispatch({
                                     type: LOGIN_USER_SUCCESS,
-                                    userId: response.data.userId,
-                                    payload: response.data.token
+                                    userId: loginResponse.data.userId,
+                                    payload: loginResponse.data.token
                                 })
                                 dispatch({
                                     type: USER_PROFILE_GET_USER_INFO,

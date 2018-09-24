@@ -15,7 +15,7 @@ export default class CountryDropdown extends React.Component {
    
     render() {
         var check = this.props.action
-        console.log(this.state.defaultValue)
+        // console.log(this.state.defaultValue)
         return (
             <Dropdown
                 placeholder='Select Country'
