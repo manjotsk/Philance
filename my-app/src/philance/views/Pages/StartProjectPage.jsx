@@ -6,6 +6,11 @@ import Datetime from "react-datetime";
 import withStyles from "@material-ui/core/styles/withStyles";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
+import Dialog from "@material-ui/core/Dialog";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogActions from "@material-ui/core/DialogActions";
+import Slide from "@material-ui/core/Slide";
 
 // core components
 import GridContainer from "components/Grid/GridContainer.jsx";
@@ -17,10 +22,13 @@ import CardHeader from "components/Card/CardHeader.jsx";
 import CardText from "components/Card/CardText.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import SweetAlert from "react-bootstrap-sweetalert";
+
 // styles for buttons on sweetalert
 import sweetAlertStyle from "assets/jss/material-dashboard-pro-react/views/sweetAlertStyle.jsx";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
+// import notificationsStyle from "../../../assets/jss/";
+import notificationsStyle from "../../../assets/jss/material-dashboard-pro-react/views/notificationsStyle.jsx";
 
 // @material-ui/icons
 import Check from "@material-ui/icons/Check";
@@ -28,6 +36,7 @@ import startProjectPageStyle from "philance/views/PageStyles/StartProjectPageSty
 import { InterestsDropdown, CountryDropdown } from '../../components/DoubleDropdown'
 import { connect } from 'react-redux'
 import { Button as Buttons, Label, Icon } from 'semantic-ui-react';
+import Close from "@material-ui/icons/Close";
 
 import { getCommonInfo } from "../../actions/common";
 
@@ -51,6 +60,10 @@ import Toaster from "../../components/Toaster/Toaster";
 import store from '../../store/store'
 
 const uid = Math.random().toString(36).substring(7);
+
+function Transition(props) {
+  return <Slide direction="down" {...props} />;
+}
 class StartProject extends React.Component {
   constructor(props) {
     super(props);
@@ -82,6 +95,7 @@ class StartProject extends React.Component {
     }
     this.props.getCommonInfo()
   }
+
   componentWillUnmount() {
     this.props.startProjectUnmount()
   }
@@ -168,8 +182,8 @@ class StartProject extends React.Component {
   }
 
   onZipCodeChange(text) {
-      this.props.zipCodeChanged(text)
-      this.props.textChanged()
+    this.props.zipCodeChanged(text)
+    this.props.textChanged()
   }
 
   onCountryChanged = async (text) => {
@@ -246,7 +260,7 @@ class StartProject extends React.Component {
                 </GridContainer>
                 <GridContainer spacing={12}>
                   <GridItem xs={6}>
-                    <CountryDropdown onCountryChanged={this.onCountryChanged} defaultValue={this.props.country} action ={this.state.validCountry} />
+                    <CountryDropdown onCountryChanged={this.onCountryChanged} defaultValue={this.props.country} action={this.state.validCountry} />
                   </GridItem>
                 </GridContainer>
                 <GridContainer spacing={12}>
@@ -368,7 +382,7 @@ class StartProject extends React.Component {
                       inputProps={{
                         value: this.props.freelancers,
                         disabled: this.state.freeLanceStatus,
-                        placeholder:"",
+                        placeholder: "",
                         onChange: e => {
                           this.onFreeLancersChange(e.target.value)
                         }
@@ -380,13 +394,13 @@ class StartProject extends React.Component {
                   <GridItem xs={12} sm={12} md={4}>
                     <Card>
                       <CardBody>
-                      {this.state.validStartDate?
-                        <InputLabel className={classes.label}>
-                          <span style={{color: "red"}}>Project Start Date</span>
+                        {this.state.validStartDate ?
+                          <InputLabel className={classes.label}>
+                            <span style={{ color: "red" }}>Project Start Date</span>
                           </InputLabel>
-                        :
-                        <InputLabel className={classes.label}>
-                          Project Start Date
+                          :
+                          <InputLabel className={classes.label}>
+                            Project Start Date
                           </InputLabel>
                         }
                         <br />
@@ -555,13 +569,12 @@ class StartProject extends React.Component {
                         if (this.props.country !== "") {
                           this.setState({ validCountry: false })
                         }
-                        if( this.props.startDate === "")
-                        {
-                          this.setState({validStartDate: true})
+                        if (this.props.startDate === "") {
+                          this.setState({ validStartDate: true })
                         }
                       }
                     }}
-                    
+
                       color="info"
                     >
                       {this.props.text}
@@ -582,23 +595,75 @@ class StartProject extends React.Component {
   }
   successAlert() {
     const { classes } = this.props;
-
+console.log(this.props)
     this.setState({
       alert: (
-        <SweetAlert
-          success={false}
-          style={{ display: "block", marginTop: "-100px" }}
-          title=""
-          onConfirm={() => this.props.history.push('/login')}
-          onCancel={() => this.hideAlert()}
-      
+        <Dialog
+          classes={{
+            root: classes.center + " " + classes.modalRoot,
+            paper: classes.modal
+          }}
+          open={this.state.classicModal}
+          TransitionComponent={Transition}
+          keepMounted
+          onClose={() => this.handleClose("classicModal")}
+          aria-labelledby="classic-modal-slide-title"
+          aria-describedby="classic-modal-slide-description"
         >
-          You need to be logged in to Start a Project!
-        </SweetAlert>
+          <DialogTitle
+            id="classic-modal-slide-title"
+            disableTypography
+            className={classes.modalHeader}
+          >
+            <Button
+              justIcon
+              className={classes.modalCloseButton}
+              key="close"
+              aria-label="Close"
+              color="transparent"
+              onClick={() => this.handleClose("classicModal")}
+            >
+              <Close className={classes.modalClose} />
+            </Button>
+            <h4 className={classes.modalTitle}>Modal title</h4>
+          </DialogTitle>
+          <DialogContent
+            id="classic-modal-slide-description"
+            className={classes.modalBody}
+          >
+            <p>
+              Far far away, behind the word mountains, far from
+              the countries Vokalia and Consonantia, there live
+              the blind texts. Separated they live in
+              Bookmarksgrove right at the coast of the Semant
+                          </p>
+          </DialogContent>
+          <DialogActions className={classes.modalFooter}>
+            <Button color="transparent">Nice Button</Button>
+            <Button
+              onClick={() => this.handleClose("classicModal")}
+              color="danger"
+              simple
+            >
+              Close
+                          </Button>
+          </DialogActions>
+        </Dialog>
+
       )
     });
   }
 }
+// <SweetAlert
+//   success={false}
+//   style={{ display: "block", marginTop: "-100px" }}
+//   title=""
+//   onConfirm={() => this.props.history.push('/login')}
+//   onCancel={() => this.hideAlert()}
+
+// >
+//   You need to be logged in to Start a Project!
+// </SweetAlert>
 
 const mapStateToProps = state => {
   return {
@@ -642,4 +707,4 @@ export default connect(mapStateToProps, {
   startProjectUnmount,
   filesChanged,
   uploadFiles
-})(withStyles(startProjectPageStyle)(StartProject));
+})(withStyles(startProjectPageStyle,notificationsStyle)(StartProject));
