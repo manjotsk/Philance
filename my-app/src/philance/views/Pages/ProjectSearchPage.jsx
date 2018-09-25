@@ -2,6 +2,7 @@ import React from "react";
 import Axios from "axios";
 import { connect } from 'react-redux'
 import PropTypes from "prop-types";
+import ReactTable from "react-table";
 
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -10,10 +11,6 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
-import Table from '@material-ui/core/Table';
-import TableHead from '@material-ui/core/TableHead';
-import TableCell from '@material-ui/core/TableCell';
-import TableRow from '@material-ui/core/TableRow';
 
 // @material-ui/icons
 import Assignment from "@material-ui/icons/Assignment";
@@ -42,16 +39,6 @@ import {
 } from "../../actions/findProject";
 import store from "../../store/store";
 
-const CustomTableCell = withStyles(theme => ({
-  body: {
-    fontSize: 14,
-  },
-}))(TableCell);
-
-let EmptyTableRow = {
-  fontSize: "15px",
-  color: "black",
-}
 
 class ProjectSearch extends React.Component {
   constructor(props) {
@@ -76,16 +63,6 @@ class ProjectSearch extends React.Component {
 
   onCountryChanged = (text) => {
     store.dispatch(countryChanged(text))
-  }
-
-  emptyTable = () => {
-    return (
-      <TableRow >
-        <CustomTableCell></CustomTableCell>
-        <CustomTableCell></CustomTableCell>
-        <CustomTableCell style={EmptyTableRow}>No Rows Found</CustomTableCell>
-        <CustomTableCell></CustomTableCell>
-      </TableRow>);
   }
 
   handleResourceType = event => {
@@ -130,10 +107,7 @@ class ProjectSearch extends React.Component {
 
   render() {
     let i = 0;
-    let headings = {
-      fontSize: "15px",
-      color: "black",
-    }
+    
     const { classes } = this.props;
 
     return (
@@ -291,32 +265,46 @@ class ProjectSearch extends React.Component {
           <GridItem xs={12} sm={12} md={10}>
             <Card>
               <CardBody >
-                <Table className={classes.table} padding="checkbox">
-                  <TableHead>
-                    <TableRow>
-                      <CustomTableCell style={headings}>Name</CustomTableCell>
-                      <CustomTableCell style={headings}>Status</CustomTableCell>
-                      <CustomTableCell style={headings}>Start</CustomTableCell>
-                      <CustomTableCell style={headings}>Location</CustomTableCell>
-                    </TableRow>
-                  </TableHead>
-                  {
-                    this.props.tableData.length === 0 ?
-                      this.emptyTable()
-                      :
-                      this.props.tableData.map((element) => {
-                        i = i === 2 ? 1 : i + 1
-                        return (
-                          <TableRow style={{ backgroundColor: this.color(i) }}>
-                            <CustomTableCell>{element.project_name}</CustomTableCell>
-                            <CustomTableCell>{element.status}</CustomTableCell>
-                            <CustomTableCell>{element.start_date}</CustomTableCell>
-                            <CustomTableCell>{element.country}</CustomTableCell>
-                          </TableRow>
-                        )
-                      })
-                  }
-                </Table>
+                <GridContainer>
+                  <GridItem xs={12} sm={12}> 
+                  {console.log(this.props)}
+                  {console.log(this.props.tableData)}
+                <ReactTable
+                    pageSize={10}
+                      data={this.props.tableData}
+                      columns={[
+                        {
+                          Header: "Name",
+                          accessor: "project_name",
+                          filterable: true,
+                          filterMethod: this.columnFilter
+                        },
+                        {
+                          Header: "Status",
+                          accessor: "status",
+                          filterable: true,
+                          filterMethod: this.columnFilter
+                        },
+                        {
+                          Header: "Start",
+                          accessor: "start_date",
+                          filterable: true,
+                          filterMethod: this.columnFilter
+                        },
+                        {
+                          Header: "Location",
+                          accessor: "country",
+                          filterable: true,
+                          filterMethod: this.columnFilter
+                        }
+                      ]}
+                      defaultPageSize={5}
+                      showPaginationTop = {false}
+                      showPaginationBottom={false}
+                      className="-striped -highlight"
+                    />
+                </GridItem>
+                </GridContainer>
               </CardBody>
             </Card>
           </GridItem>

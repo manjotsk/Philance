@@ -59,7 +59,7 @@ class StartProject extends React.Component {
       name: '',
       description: '',
       freelancers: '',
-      impact: '',
+      interests: '',
       volunteerStatus: true,
       freeLanceStatus: true,
       volunteers: null,
@@ -95,11 +95,6 @@ class StartProject extends React.Component {
     if (value === "Description") {
       await this.setState({
         validDescription: true
-      })
-    }
-    if (value === "ZipCode") {
-      await this.setState({
-        validZipCode: true
       })
     }
     if (value === "startDate") {
@@ -172,15 +167,9 @@ class StartProject extends React.Component {
     this.props.textChanged()
   }
 
-  onZipCodeChange = async (text) => {
-    if (text === "") {
-      this.validate("ZipCode")
-    }
-    else {
-      await this.setState({ validZipCode: false })
+  onZipCodeChange(text) {
       this.props.zipCodeChanged(text)
       this.props.textChanged()
-    }
   }
 
   onCountryChanged = async (text) => {
@@ -265,7 +254,6 @@ class StartProject extends React.Component {
                     <CustomInput
                       labelText="Project Zip Code"
                       id="projectLocation"
-                      error={this.state.validZipCode}
                       formControlProps={{
                         fullWidth: true
                       }}
@@ -558,12 +546,6 @@ class StartProject extends React.Component {
                         if (this.props.description === "") {
                           this.setState({ validDescription: true })
                         }
-                        if (this.props.budget === "") {
-                          this.setState({ validBudget: true })
-                        }
-                        if (this.props.zipCode === "") {
-                          this.setState({ validZipCode: true })
-                        }
                         if (this.props.interests === "") {
                           this.setState({ validDropdown: true })
                         }
@@ -576,10 +558,6 @@ class StartProject extends React.Component {
                         if( this.props.startDate === "")
                         {
                           this.setState({validStartDate: true})
-                        }
-                        if( this.props.endDate === "")
-                        {
-                          this.setState({validEndDate: true})
                         }
                       }
                     }}

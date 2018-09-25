@@ -1,16 +1,12 @@
 import React from "react"
 import PropTypes from "prop-types"
+import ReactTable from "react-table"
 
 // @material-ui/icons
 import withStyles from "@material-ui/core/styles/withStyles"
 
-import Table from '@material-ui/core/Table';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Button from "components/CustomButtons/Button.jsx";
-
 // @material-ui/core components
+import Button from "components/CustomButtons/Button.jsx";
 
 // core components
 import GridContainer from "components/Grid/GridContainer.jsx"
@@ -25,12 +21,6 @@ import { getProjectById, idStored } from '../../actions/projectDetails'
 import { getProjectCandidateReviewList } from '../../actions/candidateReview'
 
 //import publicHomePageStyle from "./PublicHomePageStyle";
-
-const CustomTableCell = withStyles(theme => ({
-  body: {
-    fontSize: 14,
-  },
-}))(TableCell);
 
 const styles = theme => ({
   root: {
@@ -75,68 +65,100 @@ class MyProjectsPage extends React.Component {
     if (i === 1) return '#dbebf6'
   }
 
-
   render() {
-
-    let i = 0;
-    let headings = {
-      fontSize: "15px",
-      color: "black"
+    let data = []
+    console.log(this.props)
+    {
+      this.props.response ?
+        this.props.response.map((element) => {
+          i = i === 2 ? 1 : i + 1
+          let startDate = new Date(element.start_date);
+          let endDate = new Date(element.end_date);
+          startDate = startDate.toDateString()
+          endDate = endDate.toDateString()
+          let sample = {
+            project_name: element.project_name,
+            status: element.status,
+            startDate: startDate,
+            endDate: endDate,
+            Close: "",
+            Complete: "",
+            Action: <span>
+              <Button color="info" onClick={() => {
+                this.props.getProjectById(element.project_id)
+                this.props.history.push(`../project-details/${element.project_id}`)
+                this.props.idStored(element.project_id)
+              }}>Details</Button>
+              <Button color="info" onClick={() => {
+                this.props.getProjectCandidateReviewList(element.project_id)
+                this.props.history.push(`../projectCandidateReview/${element.project_id}/`)
+                this.props.idStored(element.project_id)
+              }}>Review</Button>
+            </span>
+          }
+          data.push(sample)
+        }) : null
     }
+    console.log(data)
+    let i = 0;
     const { classes } = this.props;
 
     return (
       <GridContainer>
         <GridContainer justify="center">
-          <GridItem xs={12} sm={12} md={10} justify="center">
+          <GridItem xs={12} sm={12} md={10}>
             <Card className={classes.cardSignup}>
               <CardBody>
-                <Table className={classes.table} padding="checkbox">
-                  <TableHead>
-                    <TableRow>
-                      <CustomTableCell>Name</CustomTableCell>
-                      <CustomTableCell>Status</CustomTableCell>
-                      <CustomTableCell>Start</CustomTableCell>
-                      <CustomTableCell>Target End</CustomTableCell>
-                      <CustomTableCell>Close</CustomTableCell>
-                      <CustomTableCell>% Complete</CustomTableCell>
-                      <CustomTableCell>Actions</CustomTableCell>
-                    </TableRow>
-                  </TableHead>
-                  {
-                    this.props.response ?
-                      this.props.response.map((element) => {
-                        i = i === 2 ? 1 : i + 1
-                        let startDate = new Date(element.start_date);
-                        let endDate = new Date(element.end_date);
-                        startDate = startDate.toDateString()
-                        endDate = endDate.toDateString()
-                        return (
-                          <TableRow style={{ backgroundColor: this.color(i) }}>
-                            <CustomTableCell>{element.project_name}</CustomTableCell>
-                            <CustomTableCell>{element.status}</CustomTableCell>
-                            <CustomTableCell>{startDate}</CustomTableCell>
-                            <CustomTableCell>{endDate}</CustomTableCell>
-                            <CustomTableCell></CustomTableCell>
-                            <CustomTableCell></CustomTableCell>
-                            <CustomTableCell>
-                              <Button color="info" onClick={() => {
-                                this.props.getProjectById(element.project_id)
-                                this.props.history.push(`../project-details/${element.project_id}`)
-                                this.props.idStored(element.project_id)
-                              }}>Details</Button>
-                              <Button color="info" onClick={() => {
-                                this.props.getProjectCandidateReviewList(element.project_id)
-                                this.props.history.push(`../projectCandidateReview/${element.project_id}/`)
-                                this.props.idStored(element.project_id)
-                              }}>Review</Button>
-                            </CustomTableCell>
-                          </TableRow>
-                        )
-                      }) : null
-                  }
-                </Table>
-              </CardBody>
+                <ReactTable style={{ overflow: "none" }}
+                  data={data}
+                  columns={[
+                    {
+                      Header: "Name",
+                      accessor: "project_name",
+                      filterable: true,
+                          filterMethod: this.columnFilter
+                    },
+                    {
+                      Header: "Status",
+                      accessor: "status",
+                      filterable: true,
+                          filterMethod: this.columnFilter
+                    },
+                    {
+                      Header: "Start",
+                      accessor: "startDate",
+                      filterable: true,
+                          filterMethod: this.columnFilter
+                    },
+                    {
+                      Header: "Target End",
+                      accessor: "endDate",
+                      filterable: true,
+                          filterMethod: this.columnFilter
+                    },
+                    {
+                      Header: "Close",
+                      accessor: "Close",
+                      filterable: true,
+                          filterMethod: this.columnFilter
+                    },
+                    {
+                      Header: "% Complete",
+                      accessor: "Complete",
+                      filterable: true,
+                          filterMethod: this.columnFilter
+                    },
+                    {
+                      Header: "Action",
+                      accessor: "Action",
+                    }
+                  ]}
+                  defaultPageSize={5}
+                  showPaginationTop
+                  showPaginationBottom={false}
+                  className="-striped -highlight"
+                />
+               </CardBody>
             </Card>
           </GridItem>
         </GridContainer>
