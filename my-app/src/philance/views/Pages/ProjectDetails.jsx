@@ -154,10 +154,12 @@ class ProjectDetails extends React.Component {
                         color="info">
                         {this.state.isDisabled ? 'EDIT' : 'SAVE'}
                       </Button> : null}
-                    <Button color="info" onClick={() => {
+
+                    {this.state.isDisabled?<Button color="info" onClick={() => {
                       this.props.history.push('..')
                       this.props.history.replace(`application-page/${this.props.id}`)
-                    }}>Apply</Button>
+                    }}>Apply</Button>:null}
+
                   </GridItem>
                 </GridContainer>
                 <GridContainer>

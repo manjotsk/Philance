@@ -45,7 +45,8 @@ import {
   startProject,
   startProjectUnmount,
   uploadFiles,
-  countryChanged
+  countryChanged,
+  interestschanged
 } from '../../actions/startProject'
 import Toaster from "../../components/Toaster/Toaster";
 import store from '../../store/store'
@@ -275,7 +276,25 @@ class StartProject extends React.Component {
                 </GridContainer>
                 <GridContainer xs={12} sm={12} md={10}>
                   <GridItem xs={12} sm={12} md={10}><br />
-                    <InterestsDropdown interestOptions={this.props.interestOptions} action={this.state.validDropdown} defaultValue={this.props.interests ? this.props.interests.split(',') : null} />
+                    <InterestsDropdown
+                    onInterestsChange={
+                      async (e, {value})=>{
+                        await this.setState({value:value})
+                        if (this.state.value.toString() === "") {
+                          await this.setState({
+                              valid:true
+                          })
+                          store.dispatch(interestschanged(this.state.value.toString()))
+                        }
+                        else {
+                          await this.setState({ valid: false })
+                          store.dispatch(interestschanged(this.state.value.toString()))
+                          store.dispatch(textChanged())
+                        }
+                      }
+                    }
+                    interestOptions={this.props.interestOptions} action={this.state.validDropdown} defaultValue={this.props.interests ? this.props.interests.split(',') : null}
+                    />
                   </GridItem>
                 </GridContainer>
                 <GridContainer>
@@ -487,9 +506,6 @@ class StartProject extends React.Component {
                         </GridItem>
                       </GridContainer>
                     </Label>
-                    {this.props.uploadStatus == 'NOT_INITIATED' ? null :
-                      <Toaster display={true} message={this.props.uploadStatus} />}
-
                   </GridItem>
                 </GridContainer>
                 <br />
@@ -590,7 +606,7 @@ class StartProject extends React.Component {
           style={{ display: "block", marginTop: "-100px" }}
           title=""
           onConfirm={() => this.props.history.push('/login')}
-          onCancel={() => this.hideAlert()}
+          onCancel={() => this.props.history.push('/login')}
       
         >
           You need to be logged in to Start a Project!
@@ -611,7 +627,7 @@ const mapStateToProps = state => {
     endDate: state.start.endDate,
     budget: state.start.budget,
     text: state.start.text,
-    interests: state.user.interests,
+    interests: state.start.interests,
     interestOptions: state.common.interestOptions,
     isLoggedIn: state.auth.isLoggedIn,
     requestCompleted: state.start.requestCompleted,

@@ -13,16 +13,7 @@ class InterestsDropdown extends React.Component {
     }
    
      onInterestsChange = async(text)=> {
-        if (text === "") {
-            await this.setState({
-                valid:true
-            })
-          }
-          else {
-            await this.setState({ valid: false })
-        store.dispatch(interestschanged(text))
-        store.dispatch(textChanged())
-      }
+        
     }
     render () {
         // var value = this.props.defaultValue
@@ -38,10 +29,12 @@ class InterestsDropdown extends React.Component {
                     defaultValue={this.props.defaultValue}
                     options={this.props.interestOptions}
                     value={this.props.defaultValue}
-                    onChange={async (e, {value})=>{
-                        await this.setState({value:value})
-                        this.onInterestsChange(this.state.value.toString())
-                    }}
+                    // onChange={
+                    //     async (e, {value})=>{
+                    //     await this.setState({value:value})
+                    //     this.onInterestsChange(this.state.value.toString())
+                    // }}
+                    onChange={this.props.onInterestsChange}
                 />
     )
     }

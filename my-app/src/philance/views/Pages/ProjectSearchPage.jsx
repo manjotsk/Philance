@@ -332,7 +332,7 @@ const mapStateToProps = state => {
     country: state.findProject.country,
     textChanged: state.findProject.textChanged,
     interestOptions: state.common.interestOptions,
-    interests: state.user.interests,
+    interests: state.findProject.interests,
     resourceTypeOptions: state.findProject.resourceTypeOptions
   }
 }

@@ -4,6 +4,8 @@ import ReactTable from "react-table"
 
 // @material-ui/icons
 import withStyles from "@material-ui/core/styles/withStyles"
+import Person from "@material-ui/icons/Person";
+import ViewList from "@material-ui/icons/ViewList";
 
 // @material-ui/core components
 import Button from "components/CustomButtons/Button.jsx";
@@ -84,16 +86,28 @@ class MyProjectsPage extends React.Component {
             Close: "",
             Complete: "",
             Action: <span>
-              <Button color="info" onClick={() => {
+              <Button
+                round
+                justIcon
+                simple
+                onClick={() => {
                 this.props.getProjectById(element.project_id)
                 this.props.history.push(`../project-details/${element.project_id}`)
                 this.props.idStored(element.project_id)
-              }}>Details</Button>
-              <Button color="info" onClick={() => {
+              }}
+              color="info"
+              className="like"
+            ><ViewList/></Button>
+              <Button
+                justIcon
+                round
+                simple onClick={() => {
                 this.props.getProjectCandidateReviewList(element.project_id)
                 this.props.history.push(`../projectCandidateReview/${element.project_id}/`)
                 this.props.idStored(element.project_id)
-              }}>Review</Button>
+              }}  color="info"
+              className="like"
+            ><Person/></Button>
             </span>
           }
           data.push(sample)
@@ -143,15 +157,15 @@ class MyProjectsPage extends React.Component {
                           filterMethod: this.columnFilter
                     },
                     {
+                      Header: "Action",
+                      accessor: "Action",
+                    },
+                    {
                       Header: "% Complete",
                       accessor: "Complete",
                       filterable: true,
-                          filterMethod: this.columnFilter
+                      filterMethod: this.columnFilter
                     },
-                    {
-                      Header: "Action",
-                      accessor: "Action",
-                    }
                   ]}
                   defaultPageSize={5}
                   showPaginationTop

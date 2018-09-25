@@ -15,7 +15,8 @@ import {
     START_PROJECT_FILES_CHANGED,
     START_PROJECT_FILES_UPLOAD_SUCCESS,
     START_PROJECT_FILES_UPLOAD_FAILED,
-    START_PROJECT_COUNTRY_CHANGED
+    START_PROJECT_COUNTRY_CHANGED,
+    START_PROJECT_INTERESTS_CHANGED
 } from '../actions/types'
 
 const INITIAL_STATE = {
@@ -68,6 +69,8 @@ export default (state = INITIAL_STATE, action) => {
             return{...state, text: 'NETWORK ERROR'}
         case START_PROJECT_REQUEST_SUCCESS:
             return{...state, requestCompleted: true}
+        case START_PROJECT_INTERESTS_CHANGED:
+            return{...state, interests:action.payload}
         case START_PROJECT_UNMOUNT:
             return{
                 ...state,
