@@ -104,6 +104,8 @@ export const passwordChanged = text => {
 }
 
 export const interestschanged = text => {
+    console.log('interestschanged action',text);
+    
     return {
         type: USER_PROFILE_INTERESTS_CHANGED,
         payload: text

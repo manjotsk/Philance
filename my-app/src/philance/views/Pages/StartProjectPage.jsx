@@ -6,11 +6,13 @@ import Datetime from "react-datetime";
 import withStyles from "@material-ui/core/styles/withStyles";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-import Dialog from "@material-ui/core/Dialog";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogActions from "@material-ui/core/DialogActions";
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from "@material-ui/core/Slide";
+import Close from "@material-ui/icons/Close";
 
 // core components
 import GridContainer from "components/Grid/GridContainer.jsx";
@@ -21,10 +23,12 @@ import Card from "components/Card/Card.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
 import CardText from "components/Card/CardText.jsx";
 import CardBody from "components/Card/CardBody.jsx";
-import SweetAlert from "react-bootstrap-sweetalert";
+import noticeModal1 from "assets/img/card-1.jpeg";
+import Instruction from "components/Instruction/Instruction.jsx";
+import noticeModal2 from "assets/img/card-2.jpeg";
+
 
 // styles for buttons on sweetalert
-import sweetAlertStyle from "assets/jss/material-dashboard-pro-react/views/sweetAlertStyle.jsx";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 // import notificationsStyle from "../../../assets/jss/";
@@ -36,7 +40,6 @@ import startProjectPageStyle from "philance/views/PageStyles/StartProjectPageSty
 import { InterestsDropdown, CountryDropdown } from '../../components/DoubleDropdown'
 import { connect } from 'react-redux'
 import { Button as Buttons, Label, Icon } from 'semantic-ui-react';
-import Close from "@material-ui/icons/Close";
 
 import { getCommonInfo } from "../../actions/common";
 
@@ -54,7 +57,8 @@ import {
   startProject,
   startProjectUnmount,
   uploadFiles,
-  countryChanged
+  countryChanged,
+  interestschanged
 } from '../../actions/startProject'
 import Toaster from "../../components/Toaster/Toaster";
 import store from '../../store/store'
@@ -73,13 +77,12 @@ class StartProject extends React.Component {
       description: '',
       freelancers: '',
       interests: '',
+      noticeModal: false,
       volunteerStatus: true,
       freeLanceStatus: true,
       volunteers: null,
       freeLancers: null,
       startDate: null,
-      endDate: null,
-      budget: null,
       validName: false,
       validDescription: false,
       validDropdown: false,
@@ -89,11 +92,24 @@ class StartProject extends React.Component {
     this.myRef = React.createRef();
     this.fileInput = React.createRef();
   }
+
   componentWillMount() {
     if (!this.props.isLoggedIn) {
-      this.successAlert();
+      this.handleClickOpen("noticeModal")
     }
     this.props.getCommonInfo()
+  }
+
+  handleClickOpen(modal) {
+    var x = [];
+    x[modal] = true;
+    this.setState(x);
+  }
+
+  handleClose(modal) {
+    var x = [];
+    x[modal] = false;
+    this.setState(x);
   }
 
   componentWillUnmount() {
@@ -147,7 +163,6 @@ class StartProject extends React.Component {
 
   onFilesChange(e) {
     this.props.filesChanged(e.target.files[0])
-    // this.props.textChanged()
   }
 
   onEndDateChange(text) {
@@ -289,7 +304,25 @@ class StartProject extends React.Component {
                 </GridContainer>
                 <GridContainer xs={12} sm={12} md={10}>
                   <GridItem xs={12} sm={12} md={10}><br />
-                    <InterestsDropdown interestOptions={this.props.interestOptions} action={this.state.validDropdown} defaultValue={this.props.interests ? this.props.interests.split(',') : null} />
+                    <InterestsDropdown
+                      onInterestsChange={
+                        async (e, { value }) => {
+                          await this.setState({ value: value })
+                          if (this.state.value.toString() === "") {
+                            await this.setState({
+                              valid: true
+                            })
+                            store.dispatch(interestschanged(this.state.value.toString()))
+                          }
+                          else {
+                            await this.setState({ valid: false })
+                            store.dispatch(interestschanged(this.state.value.toString()))
+                            store.dispatch(textChanged())
+                          }
+                        }
+                      }
+                      interestOptions={this.props.interestOptions} action={this.state.validDropdown} defaultValue={this.props.interests ? this.props.interests.split(',') : null}
+                    />
                   </GridItem>
                 </GridContainer>
                 <GridContainer>
@@ -501,20 +534,76 @@ class StartProject extends React.Component {
                         </GridItem>
                       </GridContainer>
                     </Label>
-                    {this.props.uploadStatus == 'NOT_INITIATED' ? null :
-                      <Toaster display={true} message={this.props.uploadStatus} />}
-
                   </GridItem>
                 </GridContainer>
                 <br />
-                <GridContainer className={classes.justifyContentCenter}>
-                  <GridItem>
-                    {this.state.alert}
+                <GridContainer justify="center">
+                    <GridItem
+                      xs={12}
+                      sm={12}
+                      md={12}
+                      className={classes.center}
+                    >
+                      <Dialog
+                        classes={{
+                          root: classes.center + " " + classes.modalRoot,
+                          paper: classes.modal
+                        }}
+                        open={this.state.noticeModal}
+                        TransitionComponent={Transition}
+                        keepMounted
+                        onClose={() => this.handleClose("noticeModal")}
+                        aria-labelledby="notice-modal-slide-title"
+                        aria-describedby="notice-modal-slide-description"
+                      >
+                        <DialogTitle
+                          id="notice-modal-slide-title"
+                          disableTypography
+                          className={classes.modalHeader}
+                        >
+                          <Button
+                            justIcon
+                            className={classes.modalCloseButton}
+                            key="close"
+                            style={{float:"right"}}
+                            aria-label="Close"
+                            color="transparent"
+                            onClick={() => this.handleClose("noticeModal")}
+                          >
+                            <Close className={classes.modalClose}  />
+                          </Button>
+                          <h3 className={classes.modalTitle} style={{marginLeft:"35px", justify:"center"}}>Login Please!</h3>
+                        </DialogTitle>
+                        <DialogContent
+                          id="notice-modal-slide-description"
+                          className={classes.modalBody}
+                        >
+                          <p style={{fontSize:"16px"}}>
+                          You need to be logged in to Start a Project!
+                          </p>
+                        </DialogContent>
+                        <DialogActions
+                          className={
+                            classes.modalFooter +
+                            " " +
+                            classes.modalFooterCenter
+                          }
+                        >
+                          <Button
+                            onClick={() => this.props.history.push('/login')}
+                            color="info"
+                            style={{marginRight:"36%"}}
+                            round
+                          >
+                            Login
+                          </Button>
+                        </DialogActions>
+                      </Dialog>
+
                     <Button onClick={() => {
                       if (!this.props.isLoggedIn) {
-                        this.successAlert();
+                        this.handleClickOpen("noticeModal")
                       } else {
-
                         const {
                           name,
                           description,
@@ -588,82 +677,7 @@ class StartProject extends React.Component {
       </GridContainer>
     );
   }
-  hideAlert() {
-    this.setState({
-      alert: null
-    });
-  }
-  successAlert() {
-    const { classes } = this.props;
-console.log(this.props)
-    this.setState({
-      alert: (
-        <Dialog
-          classes={{
-            root: classes.center + " " + classes.modalRoot,
-            paper: classes.modal
-          }}
-          open={this.state.classicModal}
-          TransitionComponent={Transition}
-          keepMounted
-          onClose={() => this.handleClose("classicModal")}
-          aria-labelledby="classic-modal-slide-title"
-          aria-describedby="classic-modal-slide-description"
-        >
-          <DialogTitle
-            id="classic-modal-slide-title"
-            disableTypography
-            className={classes.modalHeader}
-          >
-            <Button
-              justIcon
-              className={classes.modalCloseButton}
-              key="close"
-              aria-label="Close"
-              color="transparent"
-              onClick={() => this.handleClose("classicModal")}
-            >
-              <Close className={classes.modalClose} />
-            </Button>
-            <h4 className={classes.modalTitle}>Modal title</h4>
-          </DialogTitle>
-          <DialogContent
-            id="classic-modal-slide-description"
-            className={classes.modalBody}
-          >
-            <p>
-              Far far away, behind the word mountains, far from
-              the countries Vokalia and Consonantia, there live
-              the blind texts. Separated they live in
-              Bookmarksgrove right at the coast of the Semant
-                          </p>
-          </DialogContent>
-          <DialogActions className={classes.modalFooter}>
-            <Button color="transparent">Nice Button</Button>
-            <Button
-              onClick={() => this.handleClose("classicModal")}
-              color="danger"
-              simple
-            >
-              Close
-                          </Button>
-          </DialogActions>
-        </Dialog>
-
-      )
-    });
-  }
 }
-// <SweetAlert
-//   success={false}
-//   style={{ display: "block", marginTop: "-100px" }}
-//   title=""
-//   onConfirm={() => this.props.history.push('/login')}
-//   onCancel={() => this.hideAlert()}
-
-// >
-//   You need to be logged in to Start a Project!
-// </SweetAlert>
 
 const mapStateToProps = state => {
   return {
@@ -676,7 +690,7 @@ const mapStateToProps = state => {
     endDate: state.start.endDate,
     budget: state.start.budget,
     text: state.start.text,
-    interests: state.user.interests,
+    interests: state.start.interests,
     interestOptions: state.common.interestOptions,
     isLoggedIn: state.auth.isLoggedIn,
     requestCompleted: state.start.requestCompleted,
@@ -707,4 +721,4 @@ export default connect(mapStateToProps, {
   startProjectUnmount,
   filesChanged,
   uploadFiles
-})(withStyles(startProjectPageStyle,notificationsStyle)(StartProject));
+})(withStyles(startProjectPageStyle, notificationsStyle)(StartProject));

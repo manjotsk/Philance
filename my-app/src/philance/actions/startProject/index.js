@@ -15,7 +15,8 @@ import {
   START_PROJECT_FILES_CHANGED,
   START_PROJECT_FILES_UPLOAD_FAILED,
   START_PROJECT_FILES_UPLOAD_SUCCESS,
-  START_PROJECT_COUNTRY_CHANGED
+  START_PROJECT_COUNTRY_CHANGED,
+  START_PROJECT_INTERESTS_CHANGED
 } from '../types'
 
 import axios from 'axios'
@@ -117,11 +118,8 @@ export const startProject=({
     name === '' ||
     description === '' ||
     interests === '' ||
-    zipCode === '' ||
     country === '' ||
-    startDate === '' ||
-    endDate === '' ||
-    budget === ''
+    startDate === ''
    ) {
     return {
       type: START_PROJECT_FIELDS_EMPTY
@@ -187,7 +185,12 @@ export const startProjectUnmount=()=>{
     })
   }
 }
-
+export const interestschanged = text => {
+  return {
+      type: START_PROJECT_INTERESTS_CHANGED,
+      payload: text
+  }
+}
 export const uploadFiles = (metadata, files) => {
   if(!files){
       return dispatch=>{

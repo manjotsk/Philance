@@ -54,8 +54,7 @@ const projects = sequelize.define('projects', {
     },
     estimatedBudget: {
         type: Sequelize.DOUBLE,
-        field: 'estimated_budget',
-        allowNull: false
+        field: 'estimated_budget'
     },
     creationDate: {
         type: Sequelize.DATE,
@@ -72,8 +71,7 @@ const projects = sequelize.define('projects', {
     },
     zipCode: {
         type: Sequelize.STRING,
-        field: 'zip_code',
-        allowNull: false
+        field: 'zip_code'
     },
     lastUpdatedDate: {
         type: Sequelize.DATE,

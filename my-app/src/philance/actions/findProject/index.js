@@ -85,7 +85,7 @@ export const findProjects = ({
   return dispatch => {
     dispatch({ type: 'START_PROJECT' })
     var interestsArray=null
-    if(interests!=''){
+    if(interests){
       interestsArray=interests.split(',')
     }
     axios.post(hostname() + '/philance/projects/search', {

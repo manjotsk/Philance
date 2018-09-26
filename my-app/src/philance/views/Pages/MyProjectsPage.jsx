@@ -4,9 +4,12 @@ import ReactTable from "react-table"
 
 // @material-ui/icons
 import withStyles from "@material-ui/core/styles/withStyles"
+import Person from "@material-ui/icons/Person";
+import ViewList from "@material-ui/icons/ViewList";
 
 // @material-ui/core components
 import Button from "components/CustomButtons/Button.jsx";
+import Tooltip from '@material-ui/core/Tooltip';
 
 // core components
 import GridContainer from "components/Grid/GridContainer.jsx"
@@ -84,16 +87,32 @@ class MyProjectsPage extends React.Component {
             Close: "",
             Complete: "",
             Action: <span>
-              <Button color="info" onClick={() => {
-                this.props.getProjectById(element.project_id)
-                this.props.history.push(`../project-details/${element.project_id}`)
-                this.props.idStored(element.project_id)
-              }}>Details</Button>
-              <Button color="info" onClick={() => {
-                this.props.getProjectCandidateReviewList(element.project_id)
-                this.props.history.push(`../projectCandidateReview/${element.project_id}/`)
-                this.props.idStored(element.project_id)
-              }}>Review</Button>
+              <Tooltip title="Details">
+                <Button
+                  round
+                  justIcon
+                  simple
+                  onClick={() => {
+                    this.props.getProjectById(element.project_id)
+                    this.props.history.push(`../project-details/${element.project_id}`)
+                    this.props.idStored(element.project_id)
+                  }}
+                  color="info"
+                  className="like"
+                ><ViewList /></Button>
+              </Tooltip>
+              <Tooltip title="Review">
+                <Button
+                  justIcon
+                  round
+                  simple onClick={() => {
+                    this.props.getProjectCandidateReviewList(element.project_id)
+                    this.props.history.push(`../projectCandidateReview/${element.project_id}/`)
+                    this.props.idStored(element.project_id)
+                  }} color="info"
+                  className="like"
+                ><Person /></Button>
+              </Tooltip>
             </span>
           }
           data.push(sample)
@@ -116,49 +135,50 @@ class MyProjectsPage extends React.Component {
                       Header: "Name",
                       accessor: "project_name",
                       filterable: true,
-                          filterMethod: this.columnFilter
+                      filterMethod: this.columnFilter
                     },
                     {
                       Header: "Status",
                       accessor: "status",
                       filterable: true,
-                          filterMethod: this.columnFilter
+                      filterMethod: this.columnFilter
                     },
                     {
                       Header: "Start",
                       accessor: "startDate",
                       filterable: true,
-                          filterMethod: this.columnFilter
+                      filterMethod: this.columnFilter
                     },
                     {
                       Header: "Target End",
                       accessor: "endDate",
                       filterable: true,
-                          filterMethod: this.columnFilter
+                      filterMethod: this.columnFilter
                     },
                     {
                       Header: "Close",
                       accessor: "Close",
                       filterable: true,
-                          filterMethod: this.columnFilter
+                      filterMethod: this.columnFilter
                     },
                     {
                       Header: "% Complete",
                       accessor: "Complete",
                       filterable: true,
-                          filterMethod: this.columnFilter
+                      filterMethod: this.columnFilter
                     },
                     {
                       Header: "Action",
                       accessor: "Action",
-                    }
+                    },
+                    
                   ]}
                   defaultPageSize={5}
                   showPaginationTop
                   showPaginationBottom={false}
                   className="-striped -highlight"
                 />
-               </CardBody>
+              </CardBody>
             </Card>
           </GridItem>
         </GridContainer>

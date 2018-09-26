@@ -48,7 +48,8 @@ import {
   profileImageChange,
   getUserProfileImage,
   uploadFiles,
-  countryChanged
+  countryChanged,
+  interestschanged
 } from '../../actions/userProfile'
 
 import Toaster from "../../components/Toaster/Toaster";
@@ -243,7 +244,28 @@ class UserProfile extends React.Component {
                     </GridItem>
                     <GridItem xs={12} sm={12} md={12}>
                     
-                    <InterestsDropdown interestOptions={this.props.interestOptions} defaultValue={this.props.interests?this.props.interests.split(','):null}/>
+                    {console.log(this.props.interests,'********0')}
+                    <InterestsDropdown 
+                    onInterestsChange={
+                      async (e, {value})=>{
+                        await this.setState({value:value})
+                        {console.log({value},'********0.5')}
+                        if (this.state.value.toString() === "") {
+                          await this.setState({
+                              valid:true
+                          })
+                          this.props.interestschanged(value.toString())
+                        }
+                        else {
+                          await this.setState({ valid: false })
+                          this.props.interestschanged(value.toString())
+                          store.dispatch(textChanged())
+                      }
+                    }
+                  }
+                  interestOptions={this.props.interestOptions} defaultValue={this.props.interests?this.props.interests.split(','):null}
+                  />
+                  {console.log(this.props.interests,'********1')}
                   </GridItem>
                   <GridItem xs={12} sm={12} md={12}>
                     <CustomInput
@@ -497,5 +519,6 @@ export default connect(mapStateToProps, {
   getUserInfo,
   profileImageChange,
   uploadFiles,
-  getUserProfileImage
+  getUserProfileImage,
+  interestschanged
 })(withStyles(userProfileStyles)(UserProfile));

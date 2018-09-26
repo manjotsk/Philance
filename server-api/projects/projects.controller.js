@@ -39,6 +39,7 @@ exports.createProjects = (req, res, next) => {
                 lastUpdatedDate:new Date(),
                 createdBy:req.body.userId,
                 lastUpdatedBy:req.body.userId,
+                status:'ACCEPTED'
             })
             if (req.body.projectDetails) {
                 sequelize.Promise.each(req.body.projectDetails, function (itemToUpdate) {
@@ -154,6 +155,8 @@ exports.getProjects = (req, res, next) => {
     var _resourceType = req.body.resourceType
     var _projectStatus = req.body.projectStatus
     var _impactCategories = req.body.impactCategories
+console.log('\n\n\n\n',_volunteers,
+    _freelancers);
 
     var _impactCategoriesSql='';
     if(_impactCategories){

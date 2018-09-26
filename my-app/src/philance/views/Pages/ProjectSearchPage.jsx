@@ -11,8 +11,11 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
+import Tooltip from '@material-ui/core/Tooltip';
 
 // @material-ui/icons
+import Person from "@material-ui/icons/Person";
+import ViewList from "@material-ui/icons/ViewList";
 import Assignment from "@material-ui/icons/Assignment";
 
 // core components
@@ -35,8 +38,9 @@ import {
   countryChanged,
   keywordChanged,
   findProjectUnmount,
-  findProjects
+  findProjects,
 } from "../../actions/findProject";
+import { getProjectById, idStored } from '../../actions/projectDetails'
 import store from "../../store/store";
 
 
@@ -106,6 +110,56 @@ class ProjectSearch extends React.Component {
   }
 
   render() {
+    let data = []
+    console.log(this.props,'proj**')
+    {
+      this.props.tableData ?
+        this.props.tableData.map((element) => {
+          i = i === 2 ? 1 : i + 1
+          let startDate = new Date(element.start_date);
+          let endDate = new Date(element.end_date);
+          startDate = startDate.toDateString()
+          endDate = endDate.toDateString()
+          let sample = {
+            project_name: element.project_name,
+            status: element.status,
+            startDate: startDate,
+            endDate: endDate,
+            Close: "",
+            Complete: "",
+            Action: <span>
+              <Tooltip title="Details">
+                <Button
+                  round
+                  justIcon
+                  simple
+                  onClick={() => {
+                    this.props.getProjectById(element.project_id)
+                    this.props.history.push(`../project-details/${element.project_id}`)
+                    this.props.idStored(element.project_id)
+                  }}
+                  color="info"
+                  className="like"
+                ><ViewList /></Button>
+              </Tooltip>
+              <Tooltip title="Review">
+                <Button
+                  justIcon
+                  round
+                  simple onClick={() => {
+                    this.props.getProjectCandidateReviewList(element.project_id)
+                    this.props.history.push(`../projectCandidateReview/${element.project_id}/`)
+                    this.props.idStored(element.project_id)
+                  }} color="info"
+                  className="like"
+                ><Person /></Button>
+              </Tooltip>
+            </span>
+          }
+          data.push(sample)
+        }) : null
+    }
+    console.log(data)
     let i = 0;
     
     const { classes } = this.props;
@@ -268,8 +322,57 @@ class ProjectSearch extends React.Component {
                 <GridContainer>
                   <GridItem xs={12} sm={12}> 
                   {console.log(this.props)}
-                  {console.log(this.props.tableData)}
-                <ReactTable
+                  <ReactTable style={{ overflow: "none" }}
+                  data={data}
+                  columns={[
+                    {
+                      Header: "Name",
+                      accessor: "project_name",
+                      filterable: true,
+                      filterMethod: this.columnFilter
+                    },
+                    {
+                      Header: "Status",
+                      accessor: "status",
+                      filterable: true,
+                      filterMethod: this.columnFilter
+                    },
+                    {
+                      Header: "Start",
+                      accessor: "startDate",
+                      filterable: true,
+                      filterMethod: this.columnFilter
+                    },
+                    {
+                      Header: "Target End",
+                      accessor: "endDate",
+                      filterable: true,
+                      filterMethod: this.columnFilter
+                    },
+                    {
+                      Header: "Close",
+                      accessor: "Close",
+                      filterable: true,
+                      filterMethod: this.columnFilter
+                    },
+                    {
+                      Header: "% Complete",
+                      accessor: "Complete",
+                      filterable: true,
+                      filterMethod: this.columnFilter
+                    },
+                    {
+                      Header: "Action",
+                      accessor: "Action",
+                    },
+                    
+                  ]}
+                  defaultPageSize={5}
+                  showPaginationTop
+                  showPaginationBottom={false}
+                  className="-striped -highlight"
+                />
+                {/* <ReactTable
                     pageSize={10}
                       data={this.props.tableData}
                       columns={[
@@ -302,7 +405,7 @@ class ProjectSearch extends React.Component {
                       showPaginationTop = {false}
                       showPaginationBottom={false}
                       className="-striped -highlight"
-                    />
+                    /> */}
                 </GridItem>
                 </GridContainer>
               </CardBody>
@@ -332,7 +435,7 @@ const mapStateToProps = state => {
     country: state.findProject.country,
     textChanged: state.findProject.textChanged,
     interestOptions: state.common.interestOptions,
-    interests: state.user.interests,
+    interests: state.findProject.interests,
     resourceTypeOptions: state.findProject.resourceTypeOptions
   }
 }
@@ -346,5 +449,7 @@ export default connect(mapStateToProps, {
   countryChanged,
   findProjectUnmount,
   keywordChanged,
-  findProjects
+  findProjects,
+  getProjectById,
+  idStored
 })(withStyles(projectSearchStyle)(ProjectSearch));
