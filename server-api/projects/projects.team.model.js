@@ -40,7 +40,7 @@ const projectTeam = sequelize.define('project_team', {
     },
     startDate: {
         type: Sequelize.DATE,
-        field: 'start_date',
+        field: 'start_date'
     },
     endDate: {
         type: Sequelize.DATE,

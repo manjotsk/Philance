@@ -142,18 +142,6 @@ class ProjectSearch extends React.Component {
                   className="like"
                 ><ViewList /></Button>
               </Tooltip>
-              <Tooltip title="Review">
-                <Button
-                  justIcon
-                  round
-                  simple onClick={() => {
-                    this.props.getProjectCandidateReviewList(element.project_id)
-                    this.props.history.push(`../projectCandidateReview/${element.project_id}/`)
-                    this.props.idStored(element.project_id)
-                  }} color="info"
-                  className="like"
-                ><Person /></Button>
-              </Tooltip>
             </span>
           }
           data.push(sample)
@@ -326,46 +314,40 @@ class ProjectSearch extends React.Component {
                   data={data}
                   columns={[
                     {
-                      Header: "Name",
+                      Header: <strong>Name</strong>,
                       accessor: "project_name",
                       filterable: true,
                       filterMethod: this.columnFilter
                     },
                     {
-                      Header: "Status",
+                      Header: <strong>Status</strong>,
                       accessor: "status",
                       filterable: true,
                       filterMethod: this.columnFilter
                     },
                     {
-                      Header: "Start",
+                      Header: <strong>Start</strong>,
                       accessor: "startDate",
                       filterable: true,
                       filterMethod: this.columnFilter
                     },
                     {
-                      Header: "Target End",
+                      Header: <strong>Target End</strong>,
                       accessor: "endDate",
                       filterable: true,
                       filterMethod: this.columnFilter
                     },
                     {
-                      Header: "Close",
+                      Header: <strong>Close</strong>,
                       accessor: "Close",
                       filterable: true,
                       filterMethod: this.columnFilter
                     },
                     {
-                      Header: "% Complete",
-                      accessor: "Complete",
-                      filterable: true,
-                      filterMethod: this.columnFilter
-                    },
-                    {
-                      Header: "Action",
+                      Header: <strong></strong>,
                       accessor: "Action",
-                    },
-                    
+                      sortable: false,
+                    }                    
                   ]}
                   defaultPageSize={5}
                   showPaginationTop

@@ -178,20 +178,20 @@ export const pvtSidebarRoutes = [
     component: StartProjectPage
   },
   {
-    path: "/find-project",
-    name: "Find Project",
-    short: "Find A project",
-    mini: "FPP",
-    icon: SearchIcon,
-    component: ProjectSearch
-  },
-  {
     path: "/my-projects",
     name: "My Projects",
     short: "My Projects",
     mini: "MPP",
     icon: FolderIcon,
     component: MyProjectsPage
+  },
+  {
+    path: "/find-project",
+    name: "Find Project",
+    short: "Find A project",
+    mini: "FPP",
+    icon: SearchIcon,
+    component: ProjectSearch
   },
   {
     path: "/notifications",

@@ -86,31 +86,31 @@ class CandidateReview extends React.Component {
                                             data={data}
                                             columns={[
                                                 {
-                                                    Header: "Project Name",
+                                                    Header: <strong>Project Name</strong>,
                                                     accessor: "projectName",
                                                     filterable: true,
                                                     filterMethod: this.columnFilter
                                                 },
                                                 {
-                                                    Header: "Candidate Name",
+                                                    Header: <strong>Candidate Name</strong>,
                                                     accessor: "firstName",
                                                     filterable: true,
                                                     filterMethod: this.columnFilter
                                                 },
                                                 {
-                                                    Header: "Date Applied",
+                                                    Header: <strong>Date Applied</strong>,
                                                     accessor: "appliedDate",
                                                     filterable: true,
                                                     filterMethod: this.columnFilter
                                                 },
                                                 {
-                                                    Header: "Candidate Status",
+                                                    Header: <strong>Candidate Status</strong>,
                                                     accessor: "status",
                                                     filterable: true,
                                                     filterMethod: this.columnFilter
                                                 },
                                                 {
-                                                    Header: "Action",
+                                                    Header: <strong></strong>,
                                                     accessor: "Action",
                                                     filterable: false,
                                                 }

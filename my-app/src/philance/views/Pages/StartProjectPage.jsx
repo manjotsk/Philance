@@ -109,6 +109,7 @@ class StartProject extends React.Component {
   handleClose(modal) {
     var x = [];
     x[modal] = false;
+    this.props.history.push('/login')
     this.setState(x);
   }
 
@@ -561,25 +562,13 @@ class StartProject extends React.Component {
                           disableTypography
                           className={classes.modalHeader}
                         >
-                          <Button
-                            justIcon
-                            className={classes.modalCloseButton}
-                            key="close"
-                            style={{float:"right"}}
-                            aria-label="Close"
-                            color="transparent"
-                            onClick={() => this.handleClose("noticeModal")}
-                          >
-                            <Close className={classes.modalClose}  />
-                          </Button>
-                          <h3 className={classes.modalTitle} style={{marginLeft:"35px", justify:"center"}}>Login Please!</h3>
                         </DialogTitle>
                         <DialogContent
                           id="notice-modal-slide-description"
                           className={classes.modalBody}
                         >
                           <p style={{fontSize:"16px"}}>
-                          You need to be logged in to Start a Project!
+                          You need to be logged in to Start a Project
                           </p>
                         </DialogContent>
                         <DialogActions
@@ -592,10 +581,9 @@ class StartProject extends React.Component {
                           <Button
                             onClick={() => this.props.history.push('/login')}
                             color="info"
-                            style={{marginRight:"36%"}}
                             round
                           >
-                            Login
+                            Go to Login
                           </Button>
                         </DialogActions>
                       </Dialog>

@@ -36,6 +36,7 @@ exports.createProjects = (req, res, next) => {
                 projectId:_projects.projectId,
                 userId:req.body.userId,
                 role:'OWNER',
+                startDate:new Date(),
                 creationDate:new Date(),
                 lastUpdatedDate:new Date(),
                 createdBy:req.body.userId,
