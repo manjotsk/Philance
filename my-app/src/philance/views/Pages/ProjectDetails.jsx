@@ -13,6 +13,8 @@ import Card from "components/Card/Card.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
 import CardText from "components/Card/CardText.jsx";
 import CardBody from "components/Card/CardBody.jsx";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
 
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -126,6 +128,8 @@ class ProjectDetails extends React.Component {
                         const {
                           name,
                           description,
+                          country,
+                          status,
                           volunteers,
                           freelancers,
                           budget,
@@ -141,6 +145,8 @@ class ProjectDetails extends React.Component {
                           this.setState({ isDisabled: true })
                           this.props.updateProject({
                             name,
+                            status,
+                            country,
                             description,
                             volunteers,
                             freelancers,
@@ -155,10 +161,13 @@ class ProjectDetails extends React.Component {
                         {this.state.isDisabled ? 'EDIT' : 'SAVE'}
                       </Button> : null}
 
-                    {this.state.isDisabled?<Button color="info" onClick={() => {
+                    { this.props.status.toUpperCase()!=='CLOSED'?
+                      this.state.isDisabled?<Button color="info" onClick={() => {
                       this.props.history.push('..')
                       this.props.history.replace(`application-page/${this.props.id}`)
-                    }}>Apply</Button>:null}
+                    }}>Apply</Button>:null
+                    :null
+                  }
 
                   </GridItem>
                 </GridContainer>
@@ -181,7 +190,7 @@ class ProjectDetails extends React.Component {
                     />
                   </GridItem>
                   <GridItem xs={12} sm={14} md={6}>
-                    <CustomInput
+                    {/* <CustomInput
                       labelText="Project Status"
                       id="projectStatus"
                       formControlProps={{
@@ -195,7 +204,53 @@ class ProjectDetails extends React.Component {
                         },
                         disabled: this.state.isDisabled
                       }}
-                    />
+                    /> */}
+                    <FormControl
+                        fullWidth
+                        className={classes.selectFormControl}
+                      >
+                        <InputLabel
+                          htmlFor="resource-type"
+                          className={classes.selectLabel}
+                        >
+                          Project Status
+                        </InputLabel>
+                        <Select
+                          value={this.props.status}
+                          onChange={(e)=>this.onStatusChange(e.target.value)}
+                          MenuProps={{ className: classes.selectMenu }}
+                          classes={{ select: classes.select }}
+                          inputProps={{
+                            name: "status-type",
+                            id: "status-type",
+                            disabled: this.state.isDisabled
+                          }}
+                        >
+                          <MenuItem
+                            disabled
+                            classes={{
+                              root: classes.selectMenuItem
+                            }}
+                          >
+                            Choose Project Status
+                          </MenuItem>
+                          {
+                            ['ACTIVE','CLOSED'].map((prop, key) => {
+                              return (
+                                <MenuItem
+                                  classes={{
+                                    root: classes.selectMenuItem,
+                                    selected: classes.selectMenuItemSelected
+                                  }}
+                                  value={prop}
+                                >
+                                  {prop}
+                                </MenuItem>
+                              );
+                            })
+                          }
+                        </Select>
+                      </FormControl>
                   </GridItem>
                 </GridContainer>
                 <GridContainer>

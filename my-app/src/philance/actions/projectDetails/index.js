@@ -101,7 +101,7 @@ export const budgetChanged = text => {
     }
   }
 
-export const updateProject =({name, description, volunteers, freelancers, budget, startDate, endDate, id})=> {
+export const updateProject =({name, status, country, description, volunteers, freelancers, budget, startDate, endDate, id})=> {
     return dispatch => {
         axios.put(hostname()+`/philance/projects/${id}`, {
             projectName : name,
