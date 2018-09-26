@@ -250,8 +250,8 @@ exports.getProjectById = (req, res, next) => {
 
 exports.resourceApplyForProject = (req, res, next) => {
     
-    // projectTeam.findAll({ where: { projectId: req.params.projectId, userId: req.body.userId } }).then(_projectTeam => {
-    //     if (_projectTeam === null || _projectTeam.length === 0) {
+    projectTeam.findAll({ where: { projectId: req.params.projectId, userId: req.body.userId } }).then(_projectTeam => {
+        if (_projectTeam === null || _projectTeam.length === 0) {
             projectTeam.create({
                 projectId: req.params.projectId,
                 userId: req.body.userId,
@@ -334,16 +334,16 @@ exports.resourceApplyForProject = (req, res, next) => {
                     error: err.message
                 });
             })
-        // } else {
-        //     console.log('User already applied for the Project');
-        //     return res.status(409).json({
-        //         message: "User already applied for the Project",
-        //         Application: _projectTeam
-        //     })
-        // }
+        } else {
+            console.log('User already applied for the Project');
+            return res.status(409).json({
+                message: "User already applied for the Project",
+                Application: _projectTeam
+            })
+        }
 
-    // }
-    // )
+    }
+    )
 }
 
 
