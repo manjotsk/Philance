@@ -170,6 +170,7 @@ class MyProjectsPage extends React.Component {
                     {
                       Header: "Action",
                       accessor: "Action",
+                      sortable: false,
                     },
                     
                   ]}
