@@ -6,6 +6,8 @@ var projectTeam = require("./projects.team.model");
 var users = require("../users/users.model");
 const Sequelize = require('sequelize');
 const sequelize = require('../util/dbconnection');
+var config = require('../config/config')
+var userHelper=require('../helpers/user')
 const Op = sequelize.Op;
 
 /**
@@ -34,7 +36,6 @@ exports.createProjects = (req, res, next) => {
                 projectId:_projects.projectId,
                 userId:req.body.userId,
                 role:'OWNER',
-                startDate:new Date(),
                 creationDate:new Date(),
                 lastUpdatedDate:new Date(),
                 createdBy:req.body.userId,
@@ -249,8 +250,8 @@ exports.getProjectById = (req, res, next) => {
 
 exports.resourceApplyForProject = (req, res, next) => {
     
-    projectTeam.findAll({ where: { projectId: req.params.projectId, userId: req.body.userId } }).then(_projectTeam => {
-        if (_projectTeam === null || _projectTeam.length === 0) {
+    // projectTeam.findAll({ where: { projectId: req.params.projectId, userId: req.body.userId } }).then(_projectTeam => {
+    //     if (_projectTeam === null || _projectTeam.length === 0) {
             projectTeam.create({
                 projectId: req.params.projectId,
                 userId: req.body.userId,
@@ -264,6 +265,65 @@ exports.resourceApplyForProject = (req, res, next) => {
                 // lastUpdatedDate: sequelize.literal('CURRENT_TIMESTAMP'),
                 lastUpdatedBy: req.body.userId
             }).then((_projectTeam) => {
+
+                users.findOne({
+                    where:{
+                        [Op.and]:{
+                            userId:req.body.userId
+                        }
+                    }
+                }).then((user)=>{
+                    projectTeam.findOne({
+                        where:{
+                            [Op.and]:{
+                                projectId: req.params.projectId,
+                                role:'OWNER'
+                            }
+                        }
+                    }).then((projectOwner)=>{
+                        console.log(projectOwner.dataValues,'projectOwner');
+                        console.log(user.dataValues,'user');
+                        var dev
+                        if (process.env.NODE_ENV === 'production'){
+                            dev = config.production.secure;
+            
+                        }else{
+                            dev = config.development.unsecure;
+            
+                        }
+                        users.findOne({
+                            where:{
+                                [Op.and]:{
+                                    userId:projectOwner.dataValues.userId
+                                }
+                            }
+                        }).then((Owner)=>{
+                            //email Owner
+                            userHelper.emailUsers({
+                                config:{
+                                    from:'noreply@philance.org',
+                                    to: Owner.dataValues.email,                      //email to be requested from the database
+                                },
+                                data:{
+                                    subject:'Philance Project Application',
+                                    text:'Someone has successfully applied'
+                                }})
+                        })
+
+                        //email  applicant
+                        userHelper.emailUsers({
+                            config:{
+                                from:'noreply@philance.org',
+                                to: user.dataValues.email,                      //email to be requested from the database
+                            },
+                            data:{
+                                subject:'Philance Project Application',
+                                text:'You have successfully applied'
+                            }})
+                    })    
+                })
+                //send email
+
                 res.status(200).json({
                     message: "User successfully applied for the Project",
                     Application: _projectTeam
@@ -274,16 +334,16 @@ exports.resourceApplyForProject = (req, res, next) => {
                     error: err.message
                 });
             })
-        } else {
-            console.log('User already applied for the Project');
-            return res.status(409).json({
-                message: "User already applied for the Project",
-                Application: _projectTeam
-            })
-        }
+        // } else {
+        //     console.log('User already applied for the Project');
+        //     return res.status(409).json({
+        //         message: "User already applied for the Project",
+        //         Application: _projectTeam
+        //     })
+        // }
 
-    }
-    )
+    // }
+    // )
 }
 
 
