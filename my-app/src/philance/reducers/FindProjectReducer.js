@@ -13,9 +13,9 @@ const INITIAL_STATE = {
     tableData: [],
     impactCategories: [],
     yourLocation: "",
-    resourceType: "0",
-    projectStatus: "0",
-    distanceFromYou: "0",
+    resourceType: "",
+    projectStatus: "",
+    distanceFromYou: "",
     keyword: '',
     country: '',
     textChanged: true

@@ -17,7 +17,7 @@ const INITIAL_STATE = {
     token: null,
     isLoggedIn: false,
     error: 'LET\'s GO',
-    userId: 1
+    userId: ''
 }
 
 export default (state = INITIAL_STATE, action) => {

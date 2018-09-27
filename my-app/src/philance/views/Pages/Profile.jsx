@@ -28,7 +28,7 @@ import store from '../../store/store'
 
 import userProfileStyles from "philance/views/PageStyles/UserProfileStyles.jsx";
 
-import avatar from "assets/img/faces/marc.jpg";
+import avatar from "assets/img/faces/UpdateProfileAvatarIcon.png";
 
 import {registerToast} from '../../actions/register'
 
