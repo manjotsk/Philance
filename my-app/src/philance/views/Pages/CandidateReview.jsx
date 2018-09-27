@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import ReactTable from "react-table";
-
+import {NavLink} from 'react-router-dom'
 // @material-ui/icons
 import withStyles from "@material-ui/core/styles/withStyles";
 
@@ -46,7 +46,7 @@ class CandidateReview extends React.Component {
                     i = i === 2 ? 1 : i + 1
                     let sample = {
                         projectName: element.project.projectName,
-                        firstName: element.user.firstName + " " + element.user.lastName,
+                        firstName: <NavLink to={`/profile/${element.user.userId}`}>{element.user.firstName + " " + element.user.lastName}</NavLink>,
                         appliedDate: element.appliedDate,
                         status: element.status,
                         Action: <ActionDropdown />

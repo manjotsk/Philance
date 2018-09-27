@@ -147,7 +147,6 @@ class ProjectSearch extends React.Component {
                   justIcon
                   round
                   simple onClick={() => {
-                    this.props.getProjectCandidateReviewList(element.project_id)
                     this.props.history.push(`../projectCandidateReview/${element.project_id}/`)
                     this.props.idStored(element.project_id)
                   }} color="info"

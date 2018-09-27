@@ -26,6 +26,7 @@ import MessageIcon from "@material-ui/icons/Message";
 import PersonIcon from "@material-ui/icons/Person";
 import FolderIcon from "@material-ui/icons/Folder";
 import ResetPasswordPublic from "../views/Pages/ResetPasswordPublic";
+import Profile from "../views/Pages/Profile";
 
 export const pagesRoutes = [
   {
@@ -274,14 +275,14 @@ export const pvtPagesRoutes = [
     icon: MessageIcon,
     component: CandidateReview
   },
-  // {
-  //   path: "/profile",
-  //   name: "User Profile",
-  //   short: "User Profile",
-  //   mini: "UP",
-  //   icon: PersonIcon,
-  //   component: UserProfile
-  // },
+  {
+    path: "/profile/:id",
+    name: "User Profile",
+    short: "User Profile",
+    mini: "UP",
+    icon: PersonIcon,
+    component: Profile
+  },
   {
     path: "/profile",
     name: "User Profile",
