@@ -13,7 +13,8 @@ import {
     PROJECT_DETAILS_STATUS_CHANGED,
     PROJECT_DETAILS_UPDATE_SUCESS,
     PROJECT_DETAILS_REMOVE_TOASTER,
-    PROJECT_DETAILS_ID_STORED
+    PROJECT_DETAILS_ID_STORED,
+    PROJECT_DETAILS_INTERESTS_CHANGED
 } from '../actions/types'
 
 const INITIAL_STATE = {
@@ -30,8 +31,7 @@ const INITIAL_STATE = {
     freelancers: '',
     toast: false,
     id: '2',
-    createdBy: '3',
-    interests:[]
+    createdBy: '3'
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -75,6 +75,9 @@ export default (state = INITIAL_STATE, action) => {
 
         case PROJECT_DETAILS_ID_STORED:
             return {...state, id: action.payload}
+
+        case PROJECT_DETAILS_INTERESTS_CHANGED:
+            return {...state, interests:action.payload}
         
         case PROJECT_DETAILS_GET_DETAILS:
         console.log(action.payload)

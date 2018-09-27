@@ -39,8 +39,10 @@ import {
   statusChanged,
   removeToaster,
   countryChanged,
-  updateProject
+  updateProject,
+  interestsChanged
 } from '../../actions/projectDetails'
+import {PROJECT_DETAILS_UPDATE_SUCESS} from '../../actions/types'
 
 import { myProject } from '../../actions/myProject'
 import store from '../../store/store'
@@ -105,6 +107,10 @@ class ProjectDetails extends React.Component {
     this.props.statusChanged(text)
   }
 
+  onInterestsChange(text) {
+    this.props.interestsChanged(text)
+  }
+
   render() {
     let interests=[];
     let interestValues = this.props.interests;
@@ -128,6 +134,7 @@ class ProjectDetails extends React.Component {
                         const {
                           name,
                           description,
+                          zipCode,
                           country,
                           status,
                           volunteers,
@@ -135,7 +142,9 @@ class ProjectDetails extends React.Component {
                           budget,
                           startDate,
                           endDate,
-                          id
+                          interests,
+                          id,
+                          userId
                         } = this.props
                         if (this.state.isDisabled) {
                           this.setState({ isDisabled: false })
@@ -143,18 +152,22 @@ class ProjectDetails extends React.Component {
                         }
                         else {
                           this.setState({ isDisabled: true })
-                          this.props.updateProject({
+                          await this.props.updateProject({
                             name,
                             status,
+                            zipCode,
                             country,
+                            interests,
                             description,
                             volunteers,
                             freelancers,
                             budget,
                             startDate,
                             endDate,
-                            id
+                            id,
+                            userId
                           })
+                          store.dispatch({type: PROJECT_DETAILS_UPDATE_SUCESS})
                         }
                       }}
                         color="info">
@@ -190,24 +203,13 @@ class ProjectDetails extends React.Component {
                     />
                   </GridItem>
                   <GridItem xs={12} sm={14} md={6}>
-                    {/* <CustomInput
-                      labelText="Project Status"
-                      id="projectStatus"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      inputProps={{
-                        value: this.props.status,
-                        placeholder: "Enter Project Status",
-                        onChange: e => {
-                          this.onStatusChange(e.target.value)
-                        },
-                        disabled: this.state.isDisabled
-                      }}
-                    /> */}
                     <FormControl
                         fullWidth
                         className={classes.selectFormControl}
+                        style={{marginTop: 15}}
+                        inputProps={{
+                          disabled: this.state.isDisabled
+                        }}
                       >
                         <InputLabel
                           htmlFor="resource-type"
@@ -395,18 +397,27 @@ class ProjectDetails extends React.Component {
                 </GridContainer>
                 <GridContainer xs={12} sm={12} md={10}>
                   <GridItem xs={12} sm={12} md={10}><br />
-                    {console.log(interestValues)}
-                    {  
-                      interestValues.forEach(element => {
-                      console.log(element);
-                      interests.push(element)
-                    })}
-                    {
-                      this.props.interests!=[]?
-                      <InterestsDropdown interestOptions={this.props.interestOptions} defaultValue={this.props.interests} disabled={this.state.isDisabled} />
-                      :
-                      <InterestsDropdown interestOptions={this.props.interestOptions} disabled={this.state.isDisabled} />
+                  {console.log(this.props)
+                  }
+                  <InterestsDropdown 
+                    disabled = {this.state.isDisabled}
+                    onInterestsChange={
+                      async (e, {value})=>{
+                        await this.setState({value:value})
+                        {console.log({value},'********0.5')}
+                        if (!this.state.value) {
+                          await this.setState({
+                              valid:true
+                          })
+                          this.props.interestsChanged(value)
+                        }
+                        else {
+                          await this.setState({ valid: false })
+                          this.props.interestsChanged(value)                      }
                     }
+                  }
+                  interestOptions={this.props.interestOptions} defaultValue={this.props.interests}
+                  />
                   </GridItem>
                 </GridContainer>
                 <GridContainer>
@@ -511,5 +522,6 @@ export default connect(mapStateToProps, {
   removeToaster,
   countryChanged,
   updateProject,
-  myProject
+  myProject,
+  interestsChanged
 })(withStyles(startProjectPageStyle)(ProjectDetails));

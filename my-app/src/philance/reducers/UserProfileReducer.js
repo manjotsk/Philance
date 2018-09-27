@@ -86,6 +86,7 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, displayImage: false }
         case USER_PROFILE_GET_USER_INFO:
             const a=hostname();
+            const inter=action.payload.interests?action.payload.interests.split(','):null
             return {
                 ...state,
                 email: action.payload.email,
@@ -93,7 +94,7 @@ export default (state = INITIAL_STATE, action) => {
                 title: action.payload.title,
                 organization: action.payload.organization,
                 description: action.payload.description,
-                interests: action.payload.interests,
+                interests:inter,
                 userId: action.payload.user_id,
                 userImageUrl:action.payload.user_profile_image_url?a+ action.payload.user_profile_image_url:null,
                 contact: action.payload.ph_number,

@@ -15,7 +15,8 @@ import {
     PROJECT_DETAILS_STATUS_CHANGED,
     PROJECT_DETAILS_UPDATE_SUCESS,
     PROJECT_DETAILS_REMOVE_TOASTER,
-    PROJECT_DETAILS_ID_STORED
+    PROJECT_DETAILS_ID_STORED,
+    PROJECT_DETAILS_INTERESTS_CHANGED
 } from '../types'
 
 export const removeToaster =()=> {
@@ -101,42 +102,45 @@ export const budgetChanged = text => {
     }
   }
 
-export const updateProject =({name, status, country, description, volunteers, freelancers, budget, startDate, endDate, id})=> {
+  export const interestsChanged  = text => {
+      return {
+        type: PROJECT_DETAILS_INTERESTS_CHANGED,
+        payload: text
+      }
+  }
+
+export const updateProject =({name, status, zipCode, interests, country, description, volunteers, freelancers, budget, startDate, endDate, id, userId})=> {
+    let impactCategories = []
+    interests.map((element, prop)=>{
+        impactCategories.push({  
+            detailType: "IMPACT_CATEGORY",
+            name: element,
+            certificationReq: "NO",
+            certificationLink: "",
+            attribute1 : "",
+            attribute2 : "",
+            attribute3 : "",
+            attribute4 : "",
+            attribute5 : ""
+        })
+    })
+
     return dispatch => {
+        console.log('a', impactCategories)
         axios.put(hostname()+`/philance/projects/${id}`, {
             projectName : name,
             description : description,
+            zipCode: zipCode,
             location : "Sample Location",
             volunteers : volunteers,
             freelancers : freelancers,
             estimatedBudget : budget,
-            userId : id,
+            lastUpdatedBy: userId, 
             startDate : startDate,
             endDate : endDate,
-            projectDetails:[  
-                {  
-                    detailType: "SKILLS",
-                    name: "NODE JS Development",
-                    certificationReq: "NO",
-                    certificationLink: "",
-                    attribute1 : "",
-                    attribute2 : "",
-                    attribute3 : "",
-                    attribute4 : "",
-                    attribute5 : ""
-                },
-                {  
-                detailType: "IMPACT_CATEGORY",
-                    name: "Other",
-                    certificationReq: "NO",
-                    certificationLink: "",
-                    attribute1 : "",
-                    attribute2 : "",
-                    attribute3 : "",
-                    attribute4 : "",
-                    attribute5 : ""
-                }
-            ]
+            country: country,
+            status: status,
+            projectDetails: impactCategories
         })
         .then(
             response=> {

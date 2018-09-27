@@ -250,20 +250,20 @@ class UserProfile extends React.Component {
                       async (e, {value})=>{
                         await this.setState({value:value})
                         {console.log({value},'********0.5')}
-                        if (this.state.value.toString() === "") {
+                        if (this.state.value === "") {
                           await this.setState({
                               valid:true
                           })
-                          this.props.interestschanged(value.toString())
+                          this.props.interestschanged(value)
                         }
                         else {
                           await this.setState({ valid: false })
-                          this.props.interestschanged(value.toString())
+                          this.props.interestschanged(value)
                           store.dispatch(textChanged())
                       }
                     }
                   }
-                  interestOptions={this.props.interestOptions} defaultValue={this.props.interests?this.props.interests.split(','):null}
+                  interestOptions={this.props.interestOptions} defaultValue={this.props.interests?this.props.interests:null}
                   />
                   {console.log(this.props.interests,'********1')}
                   </GridItem>

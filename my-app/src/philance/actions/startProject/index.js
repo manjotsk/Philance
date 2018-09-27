@@ -125,7 +125,7 @@ export const startProject=({
       type: START_PROJECT_FIELDS_EMPTY
     }
   }  var projectDetails=[]
-var interestsArray=interests.split(',')
+var interestsArray=interests
   for(var i=0;i<interestsArray.length;i++){
     projectDetails.push({  
       "detailType": "IMPACT_CATEGORY",

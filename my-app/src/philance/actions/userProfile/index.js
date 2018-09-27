@@ -136,14 +136,15 @@ export const getUserInfo =(email)=> {
 
 export const updateProfile = ({ name, email, password, contact, country, postalCode, description, organization, title, interests, currentEmail, userId }) => {
     if(email === ''
-        || name === '' 
-
-    ) {
-        return {
-            type: USER_PROFILE_FIELDS_EMPTY
-        }
+    || name === '' 
+    
+) {
+    return {
+        type: USER_PROFILE_FIELDS_EMPTY
     }
-    else {return dispatch => {
+}
+else {return dispatch => {
+    var intr=interests?interests.toString():null
         axios.put(hostname()+'/philance/users/1', {
             firstName: name.split(" ")[0],
             lastName: name.split(" ")[1],
@@ -155,7 +156,7 @@ export const updateProfile = ({ name, email, password, contact, country, postalC
             description: description,
             title: title,
             organization: organization,
-            interests: interests,
+            interests: intr,
             currentEmail: currentEmail,
             userId:userId
          })

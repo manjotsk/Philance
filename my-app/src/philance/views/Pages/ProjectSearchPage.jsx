@@ -97,14 +97,18 @@ class ProjectSearch extends React.Component {
       interests,
       yourLocation,
       country,
-      keyword
+      keyword,
+      projectStatus,
+      resourceType
     } = this.props
     this.props.findProjects(
       {
         interests,
         yourLocation,
         country,
-        keyword
+        keyword,
+        projectStatus,
+        resourceType
       }
     )
   }
@@ -252,7 +256,7 @@ class ProjectSearch extends React.Component {
                             Choose Project Status
                           </MenuItem>
                           {
-                            ['Active', 'Closed', 'Any'].map((prop, key) => {
+                            ['ACTIVE', 'CLOSED', 'ANY'].map((prop, key) => {
                               return (
                                 <MenuItem
                                   classes={{

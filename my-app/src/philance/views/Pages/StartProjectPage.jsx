@@ -9,10 +9,8 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from "@material-ui/core/Slide";
-import Close from "@material-ui/icons/Close";
 
 // core components
 import GridContainer from "components/Grid/GridContainer.jsx";
@@ -23,9 +21,6 @@ import Card from "components/Card/Card.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
 import CardText from "components/Card/CardText.jsx";
 import CardBody from "components/Card/CardBody.jsx";
-import noticeModal1 from "assets/img/card-1.jpeg";
-import Instruction from "components/Instruction/Instruction.jsx";
-import noticeModal2 from "assets/img/card-2.jpeg";
 
 
 // styles for buttons on sweetalert
@@ -39,7 +34,7 @@ import Check from "@material-ui/icons/Check";
 import startProjectPageStyle from "philance/views/PageStyles/StartProjectPageStyles";
 import { InterestsDropdown, CountryDropdown } from '../../components/DoubleDropdown'
 import { connect } from 'react-redux'
-import { Button as Buttons, Label, Icon } from 'semantic-ui-react';
+import { Label, Icon } from 'semantic-ui-react';
 
 import { getCommonInfo } from "../../actions/common";
 
@@ -309,20 +304,20 @@ class StartProject extends React.Component {
                       onInterestsChange={
                         async (e, { value }) => {
                           await this.setState({ value: value })
-                          if (this.state.value.toString() === "") {
+                          if (this.state.value === "") {
                             await this.setState({
                               valid: true
                             })
-                            store.dispatch(interestschanged(this.state.value.toString()))
+                            store.dispatch(interestschanged(value))
                           }
                           else {
                             await this.setState({ valid: false })
-                            store.dispatch(interestschanged(this.state.value.toString()))
+                            store.dispatch(interestschanged(value))
                             store.dispatch(textChanged())
                           }
                         }
                       }
-                      interestOptions={this.props.interestOptions} action={this.state.validDropdown} defaultValue={this.props.interests ? this.props.interests.split(',') : null}
+                      interestOptions={this.props.interestOptions} action={this.state.validDropdown} defaultValue={this.props.interests ? this.props.interests : null}
                     />
                   </GridItem>
                 </GridContainer>
