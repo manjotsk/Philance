@@ -30,8 +30,8 @@ const INITIAL_STATE = {
     volunteers: '',
     freelancers: '',
     toast: false,
-    id: '2',
-    createdBy: '3'
+    id: '',
+    createdBy: ''
 }
 
 export default (state = INITIAL_STATE, action) => {

@@ -95,7 +95,7 @@ class MyProjectsPage extends React.Component {
             Close: "",
             Complete: "",
             Action: <span>
-              <Tooltip title="Review" classes={{ tooltip: classes.lightTooltip }}>
+              <Tooltip title="Details" classes={{ tooltip: classes.lightTooltip }}>
                 <Button
                   round
                   justIcon

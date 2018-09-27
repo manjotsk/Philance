@@ -13,8 +13,8 @@ const INITIAL_STATE = {
     tableData: [],
     impactCategories: [],
     yourLocation: "",
-    resourceType: "",
-    projectStatus: "",
+    resourceType: "Any",
+    projectStatus: "ANY",
     distanceFromYou: "",
     keyword: '',
     country: '',
@@ -40,7 +40,7 @@ export default (state = INITIAL_STATE, action) => {
         case FIND_PROJECT_PROJECT_STATUS_CHANGED:
             return { ...state, projectStatus: action.payload }
         case FIND_PROJECT_UNMOUNT:
-            return { ...state, tableData: [], country: "", interests: '', resourceType: "0", projectStatus: "0", }
+            return { ...state, tableData: [], impactCategories: [], country: "", interests: '', resourceType: "0", projectStatus: "0", }
         default:
             return state
     }

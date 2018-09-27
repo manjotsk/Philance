@@ -79,7 +79,7 @@ class CandidateReview extends React.Component {
                         appliedDate: new Date(element.appliedDate).toDateString(),
                         status: element.status,
                         Action: <span>
-                        <Tooltip title="Approve" classes={{ tooltip: classes.lightTooltip }}>
+                        <Tooltip title="Accept" classes={{ tooltip: classes.lightTooltip }}>
                           <Button
                             round
                             justIcon

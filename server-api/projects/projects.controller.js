@@ -28,6 +28,7 @@ exports.createProjects = (req, res, next) => {
         endDate: req.body.endDate,
         estimatedBudget: req.body.estimatedBudget,
         lastUpdatedBy: req.body.userId,
+        lastUpdatedDate: new Date(),
         createdBy: req.body.userId,
         country: req.body.country
     }).then(_projects => {
@@ -393,6 +394,7 @@ exports.resourceApproveOrReject = (req, res, next) => {
                 role: itemToUpdate.role,
                 type: itemToUpdate.type,
                 status: itemToUpdate.status,
+                startDate:new Date(),
                 lastUpdatedBy: itemToUpdate.userId,
                 lastUpdatedDate: itemToUpdate.lastUpdatedDate
             }, { where: { projectId: req.params.projectId, userId: itemToUpdate.applicantId } })
