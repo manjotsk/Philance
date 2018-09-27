@@ -19,7 +19,8 @@ import {
     USER_PROFILE_USER_IMAGE_CHANGED_WAS_CHANGED,
     PROFILE_IMAGE_UPLOAD_SUCCESS,
     UNSELECT_FILES,
-    USER_PROFILE_IMAGE_UPLOAD_FAILED
+    USER_PROFILE_IMAGE_UPLOAD_FAILED,
+    ANY_PROFILE_GET_USER_INFO
 } from '../types'
 
 import axios from 'axios'
@@ -128,6 +129,23 @@ export const getUserInfo =(email)=> {
                 type: USER_PROFILE_GET_USER_INFO,
                 payload: response.data[0]
             })
+        })
+        .catch(error=>
+            console.log(error)
+        )
+}
+export const getUserById =(id)=> {
+    return dispatch =>
+        axios.get(hostname()+`/philance/users/${id}`, {
+            id: id
+        })
+        .then(response=>{
+            dispatch({
+                type: ANY_PROFILE_GET_USER_INFO,
+                payload: response.data.user[0]
+            })
+            console.log(response.data.user[0]);
+            
         })
         .catch(error=>
             console.log(error)
