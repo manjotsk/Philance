@@ -28,7 +28,7 @@ import { getProjectCandidateReviewList } from '../../actions/candidateReview'
 const styles = theme => ({
   root: {
     width: '100%',
-    marginTop: theme.spacing.unit * 3,
+    marginTop: theme.spacing.unit * 1,
     overflowX: 'auto',
   },
   table: {
@@ -42,6 +42,12 @@ const styles = theme => ({
   progress: {
     margin: theme.spacing.unit * 2,
   },
+  lightTooltip: {
+    background: theme.palette.common.white,
+    color: theme.palette.text.primary,
+    boxShadow: theme.shadows[1],
+    fontSize: 13,
+  }
 })
 
 class MyProjectsPage extends React.Component {
@@ -70,6 +76,8 @@ class MyProjectsPage extends React.Component {
 
   render() {
     let data = []
+    let i = 0;
+    const { classes } = this.props;
     console.log(this.props)
     {
       this.props.response ?
@@ -87,7 +95,7 @@ class MyProjectsPage extends React.Component {
             Close: "",
             Complete: "",
             Action: <span>
-              <Tooltip title="Details">
+              <Tooltip title="Review" classes={{ tooltip: classes.lightTooltip }}>
                 <Button
                   round
                   justIcon
@@ -101,7 +109,7 @@ class MyProjectsPage extends React.Component {
                   className="like"
                 ><ViewList /></Button>
               </Tooltip>
-              <Tooltip title="Review">
+              <Tooltip title="Review" classes={{ tooltip: classes.lightTooltip }}>
                 <Button
                   justIcon
                   round
@@ -118,9 +126,6 @@ class MyProjectsPage extends React.Component {
           data.push(sample)
         }) : null
     }
-    console.log(data)
-    let i = 0;
-    const { classes } = this.props;
 
     return (
       <GridContainer>
@@ -188,7 +193,7 @@ const mapStateToProps = state => {
     response: state.mypro.response,
     length: state.mypro.length,
     list: state.mypro.list,
-    id: state.auth.userId
+      id: state.auth.userId
   }
 }
 

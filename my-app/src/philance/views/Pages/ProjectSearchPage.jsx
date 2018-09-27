@@ -78,8 +78,8 @@ class ProjectSearch extends React.Component {
 
   };
 
-  handleImpactCategory = event => {
-    this.props.impactCategoriesChanged(event.target.value)
+  handleImpactCategory = value => {
+    this.props.impactCategoriesChanged(value)
   };
 
   onCountryChange = text => {
@@ -94,7 +94,7 @@ class ProjectSearch extends React.Component {
   }
   findProjects() {
     const {
-      interests,
+      impactCategories,
       yourLocation,
       country,
       keyword,
@@ -103,7 +103,7 @@ class ProjectSearch extends React.Component {
     } = this.props
     this.props.findProjects(
       {
-        interests,
+        impactCategories,
         yourLocation,
         country,
         keyword,
@@ -174,7 +174,23 @@ class ProjectSearch extends React.Component {
                       <CountryDropdown onCountryChanged={this.onCountryChanged} defaultValue={this.props.userCountry} />
                     </GridItem>
                     <GridItem xs={12} sm={12} md={6} style={{ marginTop: 30 }}>
-                      <InterestsDropdown interestOptions={this.props.interestOptions} />
+                      <InterestsDropdown
+                      onInterestsChange={
+                        async (e, {value})=>{
+                          await this.setState({value:value})
+                          {console.log({value},'********0.5')}
+                          if (!this.state.value) {
+                            await this.setState({
+                                valid:true
+                            })
+                            this.handleImpactCategory(value)
+                          }
+                          else {
+                            await this.setState({ valid: false })
+                            this.handleImpactCategory(value)                      }
+                      }
+                    }
+                      interestOptions={this.props.interestOptions} defaultValue={this.props.impactCategories} />
                     </GridItem>
                   </GridContainer>
                   <br />
@@ -393,6 +409,8 @@ class ProjectSearch extends React.Component {
                       className="-striped -highlight"
                     /> */}
                 </GridItem>
+                {console.log(this.props)
+                }
                 </GridContainer>
               </CardBody>
             </Card>
@@ -421,7 +439,6 @@ const mapStateToProps = state => {
     country: state.findProject.country,
     textChanged: state.findProject.textChanged,
     interestOptions: state.common.interestOptions,
-    interests: state.findProject.interests,
     resourceTypeOptions: state.findProject.resourceTypeOptions
   }
 }

@@ -97,7 +97,7 @@ exports.updateProjects = (req, res, next) => {
         }, {
                 where: { projectId: req.params.projectId }, omitNull: true
             }, { transaction: t }).then(_projects => {
-                projectDetails.destroy({ where: { projectId: req.params.projectId }, truncate: true, force: true },
+                projectDetails.destroy({ where: { projectId: req.params.projectId }, force: true },
                     { transaction: t }).then(
 
                         sequelize.Promise.each(req.body.projectDetails, function (itemToUpdate) {
@@ -150,34 +150,34 @@ exports.updateProjects = (req, res, next) => {
  */
 exports.getProjects = (req, res, next) => {
     var _country = req.body.country
-    var _zipCode = req.body.zipCode
     var _volunteers = req.body.volunteers
     var _freelancers = req.body.freelancers
     var _keywords = req.body.keywords
-    var _resourceType = req.body.resourceType
     var _projectStatus = req.body.projectStatus
-    var _impactCategories = req.body.impactCategories
-console.log('\n\n\n\n',_volunteers,
-    _freelancers);
+    var _impactCategories = req.body.interests
+
+    console.log(req.body,'88**88');
+    
 
     var _impactCategoriesSql='';
-    if(_impactCategories){
+    if(_impactCategories.length!=0){
         for(var i=0;i<_impactCategories.length;i++){
             _impactCategoriesSql=_impactCategoriesSql+`details.name= '${_impactCategories[i]}'  OR `
         }
     }
     var _sql2 = 'SELECT projects.*, details.name FROM philance.projects as projects INNER JOIN philance.project_details as details ON projects.project_id=details.project_id where projects.country=\'Afghanistan\' AND (details.name=\'Elderly\' OR details.name=\'Other\' )'
     var _sql = ''
-    _sql = _impactCategories ? _sql + 'SELECT projects.*, details.name FROM philance.projects as projects   ' : 'SELECT projects.* FROM philance.projects as projects   ';
-    _sql = _impactCategories ? _sql + ' INNER JOIN philance.project_details as details ON projects.project_id=details.project_id   ' : _sql;
+    _sql = _impactCategories.length!=0 ? _sql + 'SELECT projects.*, details.name FROM philance.projects as projects   ' : 'SELECT projects.* FROM philance.projects as projects   ';
+    _sql = _impactCategories.length!=0 ? _sql + ' INNER JOIN philance.project_details as details ON projects.project_id=details.project_id   ' : _sql;
     _sql=_sql+'where ';
     _sql = _country             ?   _sql + `projects.country = '${_country}'   AND ` : _sql;
+    _sql = _projectStatus       ?   _sql + `projects.status = '${_projectStatus}'   AND ` : _sql;
     _sql = _volunteers          ?   _sql + `projects.volunteers > 0   AND ` : _sql;
     _sql = _freelancers         ?   _sql + `projects.freelancers > 0   AND ` : _sql;
-    _sql = _keywords            ?   _sql + `projects.description LIKE '%${_keywords}%'   AND ` : _sql;
-    _sql = _impactCategories    ?   _sql + `(${_impactCategoriesSql}  )` : _sql;
+    _sql = _keywords            ?   _sql + `(projects.description LIKE '%${_keywords}%' OR projects.project_name LIKE '%${_keywords}%')   AND ` : _sql;
+    _sql = _impactCategories.length!=0    ?   _sql + `(${_impactCategoriesSql}  )` : _sql;
     _sql = _sql.slice(0, -6)
-    _sql = _impactCategories    ?   _sql + `)` : _sql;
+    _sql = _impactCategories.length!=0    ?   _sql + `)` : _sql;
 
     sequelize.query(_sql, { type: sequelize.QueryTypes.SELECT }).then((projects) => {
         var respProjects={}

@@ -61,12 +61,12 @@ export const keywordChanged = text => {
 }
 
 export const findProjects = ({
-  resourceType,
-  projectStatus,
-  interests,
+  impactCategories,
   zipCode,
   country,
-  keyword
+  keyword,
+  projectStatus,
+  resourceType,
 }) => {
   var volunteers=false;
   var freelancers=false;
@@ -86,17 +86,13 @@ export const findProjects = ({
   }
   return dispatch => {
     dispatch({ type: 'START_PROJECT' })
-    var interestsArray=null
-    if(interests){
-      interestsArray=interests
-    }
     axios.post(hostname() + '/philance/projects/search', {
       zipCode: zipCode,
       country: country,
       projectStatus: projectStatus==='ANY'?null:projectStatus,
-      volunteers: volunteers,
-      freelancers: freelancers,
-      interests:interestsArray,
+      volunteers: resourceType=='Needs Volunteers',
+      freelancers: resourceType=='Needs Freelancers',
+      interests:impactCategories,
       keywords:keyword
     })
       .then(response => {
