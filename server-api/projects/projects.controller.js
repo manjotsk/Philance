@@ -161,7 +161,8 @@ exports.getProjects = (req, res, next) => {
     var _impactCategories = req.body.interests
 
     console.log(req.body,'88**88');
-    var keywordsArray=_keywords.split(',')
+
+    var keywordsArray=_keywords.replace(', ',',').replace(' ,',',').split(',')
 
     var _impactCategoriesSql='';
     if(_impactCategories.length!=0){
