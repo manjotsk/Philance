@@ -395,16 +395,26 @@ exports.resourceApproveOrReject = (req, res, next) => {
 
     users.hasMany(projectTeam, { foreignKey: 'userId' });
     projectTeam.belongsTo(users, { foreignKey: 'userId' });
-
     sequelize.transaction(function (t) {
         sequelize.Promise.each(req.body.projectTeam, function (itemToUpdate) {
+            var startDate=null;
+            switch(itemToUpdate.status){
+                case 'REJECTED':
+                    startDate=null;
+                    break;
+                case 'ACCEPTED':
+                    startDate=new Date()
+                    break;
+                default:
+                startDate=null;
+            }
             projectTeam.update({
                 startDate: itemToUpdate.startDate,
                 endDate: itemToUpdate.endDate,
                 role: itemToUpdate.role,
                 type: itemToUpdate.type,
                 status: itemToUpdate.status,
-                startDate:new Date(),
+                startDate:startDate,
                 lastUpdatedBy: itemToUpdate.userId,
                 lastUpdatedDate: itemToUpdate.lastUpdatedDate
             }, { where: { projectId: req.params.projectId, userId: itemToUpdate.applicantId } })

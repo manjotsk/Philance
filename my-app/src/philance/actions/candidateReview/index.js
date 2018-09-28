@@ -9,12 +9,12 @@ export const getProjectCandidateReviewList =(id,callback)=> {
         .then(
             response=>{
                 console.log(response.data)
-                callback()
                 dispatch({
                     type: MY_CANDIDATE_GET_REVIEW,
                     payload: response.data.Candidates,
                     length: response.data.Candidates.length
                 })
+                callback()
             }
         ).catch(()=>{
             callback()

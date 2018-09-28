@@ -533,7 +533,7 @@ class StartProject extends React.Component {
                               </InputLabel>
                               :
                               <InputLabel className={classes.label}>
-                                Project Start Date
+                                Project End Date (Estimated)
                           </InputLabel>
                             }
 

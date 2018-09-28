@@ -118,7 +118,7 @@ class CandidateReview extends React.Component {
                   projectName: element.project.projectName,
                   firstName: <NavLink to={`/profile/${element.user.userId}`}>{element.user.firstName + " " + element.user.lastName}</NavLink>,
                   appliedDate: new Date(element.appliedDate).toDateString(),
-                  startDate: new Date(element.startDate).toDateString(),
+                  startDate: element.startDate?new Date(element.startDate).toDateString():null,
                   status: element.status,
                   Action: <span>
                       {
@@ -134,7 +134,7 @@ class CandidateReview extends React.Component {
                         this.warningWithConfirmMessage(
                             {
                                 title:'Accept Comfirmation',
-                                message:'An email notification will be sent to the Accepted user',
+                                message:'An email notification will be sent to the candidate',
                                 confirmText:'Send',
                                 cancelButtonText:'Cancel'
                             }
@@ -147,12 +147,15 @@ class CandidateReview extends React.Component {
                                     userId:this.props.userId
                                 },()=>{
                                     //change status
-                                    this.props.changeResponseStatus(this.props.response,key,'ACCEPTED')
+                                    // this.props.changeResponseStatus(this.props.response,key,'ACCEPTED')
                                     // console.log('keykeykey',key)
                                     this.setState({
                                         data:[]
-                                    },()=>this.renderData())                          
+                                    },()=>this.props.getProjectCandidateReviewList(element.projectId,()=>{
+                                        this.renderData();
+                                    })
                                     
+                                    )               
                                     // console.log('renderData callled');
                                 })
                                 
@@ -171,7 +174,7 @@ class CandidateReview extends React.Component {
                         this.warningWithConfirmMessage(
                             {
                                 title:'Reject Comfirmation',
-                                message:'An email notification will be sent to the Rejected user',
+                                message:'An email notification will be sent to the Candidate',
                                 confirmText:'Send',
                                 cancelButtonText:'Cancel'
                             },()=>{
@@ -182,12 +185,16 @@ class CandidateReview extends React.Component {
                                 status:'REJECTED',
                                 userId:this.props.userId
                             },()=>{
-                                // change status
-                                this.props.changeResponseStatus(this.props.response,key,'REJECTED')
+                                //change status
+                                // this.props.changeResponseStatus(this.props.response,key,'REJECTED')
                                 // console.log('keykeykey',key)
                                 this.setState({
                                     data:[]
-                                },()=>this.renderData())
+                                },()=>this.props.getProjectCandidateReviewList(element.projectId,()=>{
+                                    this.renderData();
+                                })   
+                                )
+                                // console.log('renderData callled');
                             })
                         })
                     }} color="info"
