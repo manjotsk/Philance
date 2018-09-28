@@ -90,9 +90,12 @@ exports.updateProjects = (req, res, next) => {
             status: req.body.status,
             volunteers: req.body.volunteers,
             freelancers: req.body.freelancers,
+            zipCode:req.body.zipCode,
+            country:req.body.country,
             location: req.body.location,
             startDate: req.body.startDate,
             endDate: req.body.endDate,
+            lastUpdatedDate: new Date(),
             estimatedBudget: req.body.estimatedBudget,
             lastUpdatedBy: req.body.userId,
         }, {
@@ -158,10 +161,15 @@ exports.getProjects = (req, res, next) => {
     var _impactCategories = req.body.interests
 
     console.log(req.body,'88**88');
-    
+    var keywordsArray=_keywords.split(',')
 
     var _impactCategoriesSql='';
     if(_impactCategories.length!=0){
+        for(var i=0;i<_impactCategories.length;i++){
+            _impactCategoriesSql=_impactCategoriesSql+`details.name= '${_impactCategories[i]}'  OR `
+        }
+    }
+    if(keywordsArray.length!=0){
         for(var i=0;i<_impactCategories.length;i++){
             _impactCategoriesSql=_impactCategoriesSql+`details.name= '${_impactCategories[i]}'  OR `
         }

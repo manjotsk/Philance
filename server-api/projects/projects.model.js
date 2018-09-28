@@ -76,7 +76,6 @@ const projects = sequelize.define('projects', {
     lastUpdatedDate: {
         type: Sequelize.DATE,
         field: 'last_updated_date',
-        defaultValue: Sequelize.NOW
     },
     lastUpdatedBy: {
         type: Sequelize.INTEGER,

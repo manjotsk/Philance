@@ -1,5 +1,5 @@
 import {
-    ANY_PROFILE_GET_USER_INFO
+    ANY_PROFILE_GET_USER_INFO, LOGOUT_USER
 } from '../actions/types'
 import { hostname } from '../../config';
 
@@ -40,6 +40,25 @@ export default (state = INITIAL_STATE, action) => {
             contact: action.payload.phoneNumber,
             postalCode: action.payload.zipCode,
             country: action.payload.country
+        }
+        case LOGOUT_USER:
+        return{
+            contact: '',
+            email: '',
+            name: '',
+            password: '',
+            title: '',
+            organization: '',
+            country: '',
+            postalCode: '',
+            description: '',
+            interests: '',
+            text: 'SAVE CHANGES',
+            update: false,
+            interestsArrived: true,
+            userId: '',
+            displayImage:true,
+            imageRefresh:false
         }
         default:
             return state

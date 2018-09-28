@@ -7,7 +7,8 @@ import {
     FIND_PROJECT_COUNTRY_CHANGED,
     FIND_PROJECT_KEYWORD_CHANGED,
     FIND_PROJECT_UNMOUNT,
-    FIND_PROJECTS_REQUEST_SUCCESS
+    FIND_PROJECTS_REQUEST_SUCCESS,
+    LOGOUT_USER
 } from '../actions/types'
 const INITIAL_STATE = {
     tableData: [],
@@ -41,6 +42,20 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, projectStatus: action.payload }
         case FIND_PROJECT_UNMOUNT:
             return { ...state, tableData: [], impactCategories: [], country: "", interests: '', resourceType: "0", projectStatus: "0", }
+        case LOGOUT_USER:
+            return {
+                tableData: [],
+                impactCategories: [],
+                yourLocation: "",
+                resourceType: "Any",
+                projectStatus: "ANY",
+                distanceFromYou: "",
+                keyword: '',
+                country: '',
+                textChanged: true
+            }
+        
+            
         default:
             return state
     }

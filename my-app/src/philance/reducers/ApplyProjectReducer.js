@@ -3,7 +3,8 @@ import {
     APPLY_FOR_PROJECT_ROLE_CHANGED,
     APPLY_FOR_PROJECT_REMOVE_TOASTER,
     APPLY_FOR_PROJECT_UPDATE_SUCCESS,
-    APPLY_FOR_PROJECT_ALREADY_APPLIED
+    APPLY_FOR_PROJECT_ALREADY_APPLIED,
+    LOGOUT_USER
 } from '../actions/types'
 
 const INITIAL_STATE = {
@@ -30,7 +31,13 @@ export default (state = INITIAL_STATE, action) => {
         
         case APPLY_FOR_PROJECT_ALREADY_APPLIED:
             return {...state, text: 'You have already applied for the project', toast: true}
-
+        case LOGOUT_USER:
+            return {...state,
+                message: '',
+                role: '',
+                toast: false,
+                text: ''
+            }
         default:
             return state
     }

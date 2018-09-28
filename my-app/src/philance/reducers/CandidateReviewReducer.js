@@ -2,7 +2,8 @@ import {
     MY_CANDIDATE_GET_REVIEW,
     MY_CANDIDATE_STORE_REVIEW,
     CANDIDATE_STATUS_RESPONSE,
-    MY_CANDIDATE_CHANGE_RESPONSE
+    MY_CANDIDATE_CHANGE_RESPONSE,
+    LOGOUT_USER
 } from '../actions/types'
 
 const INITIAL_STATE = {
@@ -22,6 +23,13 @@ export default (state = INITIAL_STATE, action) => {
             return {...state, candidateStatusResponse: action.payload}
         case MY_CANDIDATE_CHANGE_RESPONSE:
             return {...state, response:action.payload }
+        case LOGOUT_USER:
+            return {
+                response: null,
+                length: 0,
+                list: [],
+                candidateStatusResponse:''
+            }
         default:
             return state
     }

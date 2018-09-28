@@ -1,4 +1,4 @@
-import { INTERESTS_ARRIVED,UNSELECT_FILES, UPLOAD_FAILED, UPLOAD_SUCCESS, USER_PROFILE_USER_IMAGE_CHANGED_FOR_PREVIEW, START_PROJECT_FILES_UPLOAD_FAILED } from '../actions/types'
+import { INTERESTS_ARRIVED,UNSELECT_FILES, UPLOAD_FAILED, UPLOAD_SUCCESS, USER_PROFILE_USER_IMAGE_CHANGED_FOR_PREVIEW, START_PROJECT_FILES_UPLOAD_FAILED, LOGOUT_USER } from '../actions/types'
 
 const INITIAL_STATE = {
     interestOptions:[],
@@ -19,6 +19,11 @@ export default (state = INITIAL_STATE, action) => {
         case 'RESET_FILE_UPLOAD':
             return {
                 ...state,
+                uploadStatus:'NOT_INITIATED',
+                filesSelected:false
+            }
+        case LOGOUT_USER:
+            return{
                 uploadStatus:'NOT_INITIATED',
                 filesSelected:false
             }

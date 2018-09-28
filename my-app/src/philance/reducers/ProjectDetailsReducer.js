@@ -14,7 +14,8 @@ import {
     PROJECT_DETAILS_UPDATE_SUCESS,
     PROJECT_DETAILS_REMOVE_TOASTER,
     PROJECT_DETAILS_ID_STORED,
-    PROJECT_DETAILS_INTERESTS_CHANGED
+    PROJECT_DETAILS_INTERESTS_CHANGED,
+    LOGOUT_USER
 } from '../actions/types'
 
 const INITIAL_STATE = {
@@ -100,6 +101,23 @@ export default (state = INITIAL_STATE, action) => {
         case PROJECT_DETAILS_CHANGED:
             return {
                 ...state
+            }
+        case LOGOUT_USER:
+            return{
+                name: '',
+                status: '',
+                description: '',
+                zipCode: '',
+                country: '',
+                startDate: '',
+                endDate: '',
+                budget: '',
+                interests: '',
+                volunteers: '',
+                freelancers: '',
+                toast: false,
+                id: '',
+                createdBy: ''
             }
             
         default:
