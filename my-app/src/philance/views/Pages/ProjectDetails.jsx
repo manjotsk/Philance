@@ -44,7 +44,7 @@ import {
 
 import { myProject } from '../../actions/myProject'
 import store from '../../store/store'
-
+import Loader from "../../components/Loader/Loader"
 import Toaster from "../../components/Toaster/Toaster";
 
 class ProjectDetails extends React.Component {
@@ -52,7 +52,8 @@ class ProjectDetails extends React.Component {
     super(props);
     this.state = {
       isDisabled: true,
-      interests: []
+      interests: [],
+      loader: false
     };
   }
 
@@ -105,13 +106,20 @@ class ProjectDetails extends React.Component {
     this.props.statusChanged(text)
   }
 
+  toggleLoader = (flag) => {
+    this.setState({
+      loader: flag
+    });
+  }
+
   render() {
-    let interests=[];
+    let interests = []; 
     let interestValues = this.props.interests;
     const { classes } = this.props;
     return (
       <GridContainer className={classes.justifyContentCenter}>
         <Toaster display={this.props.toast} message={'Project has been updated'} />
+        <Loader loader={this.state.loader} />
         <GridItem xs={12} sm={12} md={10}>
           <Card>
             <CardHeader color="info" text>
@@ -142,6 +150,7 @@ class ProjectDetails extends React.Component {
                           this.props.removeToaster()
                         }
                         else {
+                          // this.toggleLoader(true);
                           this.setState({ isDisabled: true })
                           this.props.updateProject({
                             name,
@@ -154,13 +163,14 @@ class ProjectDetails extends React.Component {
                             startDate,
                             endDate,
                             id
-                          })
+                          }, (flag) => {
+                              // this.toggleLoader(flag);
+                            })
                         }
                       }}
                         color="info">
                         {this.state.isDisabled ? 'EDIT' : 'SAVE'}
                       </Button> : null}
-
                     { this.props.status.toUpperCase()!=='CLOSED'?
                       this.state.isDisabled?<Button color="info" onClick={() => {
                       this.props.history.push('..')
@@ -168,7 +178,6 @@ class ProjectDetails extends React.Component {
                     }}>Apply</Button>:null
                     :null
                   }
-
                   </GridItem>
                 </GridContainer>
                 <GridContainer>
@@ -294,11 +303,11 @@ class ProjectDetails extends React.Component {
                     <InputLabel className={classes.label} style={{ marginBottom: 5, marginTop: 10 }}>
                       Project Country
                       </InputLabel>
-                    {this.props.country?
+                    {this.props.country ?
                       <CountryDropdown onCountryChanged={this.onCountryChanged} defaultValue={this.props.country} disabled={this.state.isDisabled} />
                       :
                       <CountryDropdown onCountryChanged={this.onCountryChanged} disabled={this.state.isDisabled} />
-                     }
+                    }
                   </GridItem>
                 </GridContainer>
                 <GridContainer>
@@ -396,16 +405,16 @@ class ProjectDetails extends React.Component {
                 <GridContainer xs={12} sm={12} md={10}>
                   <GridItem xs={12} sm={12} md={10}><br />
                     {console.log(interestValues)}
-                    {  
-                      interestValues.forEach(element => {
-                      console.log(element);
-                      interests.push(element)
-                    })}
                     {
-                      this.props.interests!=[]?
-                      <InterestsDropdown interestOptions={this.props.interestOptions} defaultValue={this.props.interests} disabled={this.state.isDisabled} />
-                      :
-                      <InterestsDropdown interestOptions={this.props.interestOptions} disabled={this.state.isDisabled} />
+                      interestValues.forEach(element => {
+                        console.log(element);
+                        interests.push(element)
+                      })}
+                    {
+                      this.props.interests != [] ?
+                        <InterestsDropdown interestOptions={this.props.interestOptions} defaultValue={this.props.interests} disabled={this.state.isDisabled} />
+                        :
+                        <InterestsDropdown interestOptions={this.props.interestOptions} disabled={this.state.isDisabled} />
                     }
                   </GridItem>
                 </GridContainer>

@@ -23,6 +23,7 @@ import { myProject, storeList } from '../../actions/myProject'
 import { getProjectById, idStored } from '../../actions/projectDetails'
 import { getProjectCandidateReviewList } from '../../actions/candidateReview'
 
+import Loader from "../../components/Loader/Loader"
 //import publicHomePageStyle from "./PublicHomePageStyle";
 
 const styles = theme => ({
@@ -42,6 +43,12 @@ const styles = theme => ({
   progress: {
     margin: theme.spacing.unit * 2,
   },
+  lightTooltip: {
+    background: theme.palette.common.white,
+    color: theme.palette.text.primary,
+    boxShadow: theme.shadows[1],
+    fontSize: 13,
+  }
 })
 
 class MyProjectsPage extends React.Component {
@@ -50,7 +57,8 @@ class MyProjectsPage extends React.Component {
     super(props);
     this.state = {
       activePage: 1,
-      loading: false
+      loading: false,
+      loader: false
     }
   }
 
@@ -68,8 +76,16 @@ class MyProjectsPage extends React.Component {
     if (i === 1) return '#dbebf6'
   }
 
+  toggleLoader = (flag) => {
+    this.setState({
+      loader: flag
+    });
+  }
+
   render() {
     let data = []
+    let i = 0;
+    const { classes } = this.props;
     console.log(this.props)
     {
       this.props.response ?
@@ -87,28 +103,34 @@ class MyProjectsPage extends React.Component {
             Close: "",
             Complete: "",
             Action: <span>
-              <Tooltip title="Details">
+              <Tooltip title="Details" classes={{ tooltip: classes.lightTooltip }}>
                 <Button
                   round
                   justIcon
                   simple
                   onClick={() => {
-                    this.props.getProjectById(element.project_id)
-                    this.props.history.push(`../project-details/${element.project_id}`)
-                    this.props.idStored(element.project_id)
+                    // this.toggleLoader(true)
+                    this.props.getProjectById(element.project_id,(flag)=>{
+                      // this.toggleLoader(flag)
+                      this.props.history.push(`../project-details/${element.project_id}`)
+                      this.props.idStored(element.project_id)
+                    })
                   }}
                   color="info"
                   className="like"
                 ><ViewList /></Button>
               </Tooltip>
-              <Tooltip title="Review">
+              <Tooltip title="Review" classes={{ tooltip: classes.lightTooltip }}>
                 <Button
                   justIcon
                   round
                   simple onClick={() => {
-                    this.props.getProjectCandidateReviewList(element.project_id)
-                    this.props.history.push(`../projectCandidateReview/${element.project_id}/`)
-                    this.props.idStored(element.project_id)
+                    // this.toggleLoader(true)
+                    this.props.getProjectCandidateReviewList(element.project_id, (flag)=>{
+                      // this.toggleLoader(flag)
+                      this.props.idStored(element.project_id)
+                      this.props.history.push(`../projectCandidateReview/${element.project_id}/`)
+                    })
                   }} color="info"
                   className="like"
                 ><Person /></Button>
@@ -118,12 +140,10 @@ class MyProjectsPage extends React.Component {
           data.push(sample)
         }) : null
     }
-    console.log(data)
-    let i = 0;
-    const { classes } = this.props;
 
     return (
       <GridContainer>
+        <Loader loader={this.state.loader} />
         <GridContainer justify="center">
           <GridItem xs={12} sm={12} md={10}>
             <Card className={classes.cardSignup}>

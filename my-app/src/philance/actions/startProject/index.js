@@ -112,7 +112,7 @@ export const startProject=({
   budget,
   userId,
   files
-},uploadCallback)=>{
+},uploadCallback , loaderCallback)=>{
 
   if(
     name === '' ||
@@ -121,11 +121,12 @@ export const startProject=({
     country === '' ||
     startDate === ''
    ) {
+     loaderCallback(false)
     return {
       type: START_PROJECT_FIELDS_EMPTY
     }
   }  var projectDetails=[]
-var interestsArray=interests.split(',')
+  var interestsArray=interests.split(',')
   for(var i=0;i<interestsArray.length;i++){
     projectDetails.push({  
       "detailType": "IMPACT_CATEGORY",
@@ -140,6 +141,7 @@ var interestsArray=interests.split(',')
     })
   }
   return dispatch => {
+    loaderCallback(false)
       dispatch({type: START_PROJECT})
       axios.post(hostname()+'/philance/projects/', {  
         projectName : name,
@@ -158,12 +160,13 @@ var interestsArray=interests.split(',')
         }
 )
       .then(response=>{
-        console.log(response)
         if(response.status !== 200) {
+          loaderCallback(false)
           return {
             type: START_PROJECT_NETWORK_ERROR
           }
         }else{
+          loaderCallback(false)
           dispatch({
             type: START_PROJECT_REQUEST_SUCCESS
           })
@@ -171,6 +174,7 @@ var interestsArray=interests.split(',')
         }
       })
       .catch(error=>{
+        loaderCallback(false)
       console.log(error);
       return {
         type: START_PROJECT_NETWORK_ERROR

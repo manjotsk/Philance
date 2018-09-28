@@ -29,7 +29,7 @@ class CandidateReview extends React.Component {
     }
 
     componentDidMount() {
-        this.props.getProjectCandidateReviewList(this.props.projectId);
+        this.props.getProjectCandidateReviewList(this.props.projectId, (flag) => { });
     }
 
     color(i) {
@@ -44,10 +44,15 @@ class CandidateReview extends React.Component {
             this.props.response ?
                 this.props.response.map((element) => {
                     i = i === 2 ? 1 : i + 1
+                    let startDate = new Date(element.startDate);
+                    let appliedDate = new Date(element.appliedDate);
+                    startDate = startDate.toDateString()
+                    appliedDate = appliedDate.toDateString()
                     let sample = {
                         projectName: element.project.projectName,
                         firstName: element.user.firstName + " " + element.user.lastName,
-                        appliedDate: element.appliedDate,
+                        appliedDate: appliedDate,
+                        startDate: startDate,
                         status: element.status,
                         Action: <ActionDropdown />
                     }
@@ -100,6 +105,12 @@ class CandidateReview extends React.Component {
                                                 {
                                                     Header: <strong>Date Applied</strong>,
                                                     accessor: "appliedDate",
+                                                    filterable: true,
+                                                    filterMethod: this.columnFilter
+                                                },
+                                                {
+                                                    Header: <strong>Start Date</strong>,
+                                                    accessor: "startDate",
                                                     filterable: true,
                                                     filterMethod: this.columnFilter
                                                 },

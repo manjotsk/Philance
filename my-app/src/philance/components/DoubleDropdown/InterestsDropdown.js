@@ -7,24 +7,24 @@ import store from '../../store/store'
 class InterestsDropdown extends React.Component {
     constructor(props){
         super(props);
-        this.state = {
-            valid: props.action
-        }
+        // this.state = {
+        //     valid: props.action
+        // }
     }
    
      onInterestsChange = async(text)=> {
         
     }
     render () {
-        // var value = this.props.defaultValue
-        // value.toString()
+        let check = this.props.action
+        console.log(check)
         return (
                 <Dropdown
                     placeholder='Select Interests'
                     fluid
                     selection
                     multiple
-                    error={this.state.valid}
+                    error={check}
                     disabled={this.props.disabled}
                     defaultValue={this.props.defaultValue}
                     options={this.props.interestOptions}

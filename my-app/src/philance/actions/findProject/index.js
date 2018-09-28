@@ -67,7 +67,7 @@ export const findProjects = ({
   zipCode,
   country,
   keyword
-}) => {
+},loaderCallback) => {
   var volunteers=false;
   var freelancers=false;
   switch(resourceType){
@@ -97,6 +97,7 @@ export const findProjects = ({
       keywords:keyword
     })
       .then(response => {
+        // loaderCallback(false)
         if (response.status !== 200) {
           return {
             type: 'FIND_PROJECTS_NETWORK_ERROR'
@@ -109,6 +110,7 @@ export const findProjects = ({
         }
       })
       .catch(error => {
+        // loaderCallback(false)
         console.log(error);
         return {
           type: 'FIND_PROJECTS_NETWORK_ERROR'

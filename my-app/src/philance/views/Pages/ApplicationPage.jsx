@@ -27,11 +27,13 @@ import { connect } from 'react-redux'
 import { removeToaster, roleChanged, messageChanged, applyForProject } from '../../actions/applyForProject'
 
 import Toaster from "../../components/Toaster/Toaster";
+import Loader from "../../components/Loader/Loader"
 
 class ApplicationPage extends React.Component {
 
   state = {
     value: '',
+    loader: false
   }
 
   componentWillUnmount() {
@@ -47,10 +49,17 @@ class ApplicationPage extends React.Component {
     this.props.messageChanged(text)
   }
 
+  toggleLoader = (flag) => {
+    this.setState({
+      loader: flag
+    });
+  }
+
   render() {
     const { classes } = this.props;
     return (
       <GridContainer className={classes.justifyContentCenter}>
+        <Loader loader={this.state.loader} />
         <Toaster display={this.props.toast} message={this.props.text} />
         <GridItem xs={12} sm={12} md={10}>
           <Card>
@@ -133,8 +142,11 @@ class ApplicationPage extends React.Component {
                     <Button
                       color="info"
                       onClick={() => {
+                        // this.toggleLoader(true)
                         const { projectId, userId, message, role } = this.props
-                        this.props.applyForProject({ userId, projectId, message, role })
+                        this.props.applyForProject({ userId, projectId, message, role },(flag)=>{
+                          // this.toggleLoader(flag)                      
+                        })
                       }}
                     >
                       Submit Application to Project Owner
