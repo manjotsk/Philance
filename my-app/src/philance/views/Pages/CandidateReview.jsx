@@ -121,6 +121,9 @@ class CandidateReview extends React.Component {
                   startDate: new Date(element.startDate).toDateString(),
                   status: element.status,
                   Action: <span>
+                      {
+                          element.project.createdBy==this.props.userId?
+                          <span>
                 <Tooltip title="Accept" classes={{ tooltip: classes.lightTooltip }}>
                   <Button
                     round
@@ -191,6 +194,8 @@ class CandidateReview extends React.Component {
                     className="like"
                   ><Cancel /></Button>
                 </Tooltip>
+                      </span>:null
+                      }
               </span>
             }
             this.setState((prev)=>({

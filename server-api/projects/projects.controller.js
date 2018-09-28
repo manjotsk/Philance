@@ -375,7 +375,7 @@ exports.resourceListForReview = (req, res, next) => {
     projectTeam.findAll({
         // raw: true,
         where: { projectId: req.params.projectId },
-        include: [{ model: users, nested: false, duplicating: false, attributes: ['userId', 'firstName', 'lastName', 'email'] },{ model: projects, nested: false, duplicating: false, attributes: ['projectName'] }]
+        include: [{ model: users, nested: false, duplicating: false, attributes: ['userId', 'firstName', 'lastName', 'email'] },{ model: projects, nested: false, duplicating: false, attributes: ['projectName','createdBy'] }]
     }).then((_projectTeam) => {
         res.status(200).json({
             Candidates: _projectTeam

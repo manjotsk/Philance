@@ -152,29 +152,14 @@ class ProjectSearch extends React.Component {
                   onClick={() => {
                     // this.toggleLoader(true)
                     this.props.getProjectById(element.project_id, (flag) => {
-                      // this.toggleLoader(flag)
-                      this.props.history.push(`../project-details/${element.project_id}`)
-                      this.props.idStored(element.project_id)
+                    // this.toggleLoader(flag)
+                    this.props.history.push(`../project-details/${element.project_id}`)
+                    this.props.idStored(element.project_id)
                     })
                   }}
                   color="info"
                   className="like"
                 ><ViewList /></Button>
-              </Tooltip>
-              <Tooltip title="Review">
-                <Button
-                  justIcon
-                  round
-                  simple onClick={() => {
-                    // this.toggleLoader(true)
-                    this.props.getProjectCandidateReviewList(element.project_id, (flag) => {
-                      // this.toggleLoader(flag)
-                      this.props.history.push(`../projectCandidateReview/${element.project_id}/`)
-                      this.props.idStored(element.project_id)
-                    })
-                  }} color="info"
-                  className="like"
-                ><Person /></Button>
               </Tooltip>
             </span>
           }
