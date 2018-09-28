@@ -11,7 +11,7 @@ var userHelper=require('../helpers/user')
 const Op = sequelize.Op;
 
 /**
- * This function is used to get
+ * This function is used to create project
  * @param {*} req 
  * @param {*} res 
  * @param {*} next 
@@ -169,9 +169,10 @@ exports.getProjects = (req, res, next) => {
             _impactCategoriesSql=_impactCategoriesSql+`details.name= '${_impactCategories[i]}'  OR `
         }
     }
+    var _keywordsSql='';
     if(keywordsArray.length!=0){
-        for(var i=0;i<_impactCategories.length;i++){
-            _impactCategoriesSql=_impactCategoriesSql+`details.name= '${_impactCategories[i]}'  OR `
+        for(var i=0;i<keywordsArray.length;i++){
+            _keywordsSql=_keywordsSql+`(projects.description LIKE '%${keywordsArray[i]}%' OR projects.project_name LIKE '%${keywordsArray[i]}%') OR `
         }
     }
     var _sql2 = 'SELECT projects.*, details.name FROM philance.projects as projects INNER JOIN philance.project_details as details ON projects.project_id=details.project_id where projects.country=\'Afghanistan\' AND (details.name=\'Elderly\' OR details.name=\'Other\' )'
@@ -183,7 +184,7 @@ exports.getProjects = (req, res, next) => {
     _sql = _projectStatus       ?   _sql + `projects.status = '${_projectStatus}'   AND ` : _sql;
     _sql = _volunteers          ?   _sql + `projects.volunteers > 0   AND ` : _sql;
     _sql = _freelancers         ?   _sql + `projects.freelancers > 0   AND ` : _sql;
-    _sql = _keywords            ?   _sql + `(projects.description LIKE '%${_keywords}%' OR projects.project_name LIKE '%${_keywords}%')   AND ` : _sql;
+    _sql = _keywords            ?   _sql + `${_keywordsSql.slice(0,-3)}   AND ` : _sql;
     _sql = _impactCategories.length!=0    ?   _sql + `(${_impactCategoriesSql}  )` : _sql;
     _sql = _sql.slice(0, -6)
     _sql = _impactCategories.length!=0    ?   _sql + `)` : _sql;
