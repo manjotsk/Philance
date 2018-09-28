@@ -220,8 +220,9 @@ CREATE TABLE philance.project_team (
     created_by INT,
     last_updated_date DATETIME,
     last_updated_by INT,
+    PRIMARY KEY(project_id,user_id),
     FOREIGN KEY (project_id)
         REFERENCES philance.projects (project_id),
     FOREIGN KEY (user_id)
-        REFERENCES philance.users (user_id)
+        REFERENCES philance.users (user_id),
 );
