@@ -374,7 +374,7 @@ class StartProject extends React.Component {
                           onInterestsChange={
                             async (e, { value }) => {
                               await this.setState({ value: value })
-                              if (this.state.value.toString() === "") {
+                              if (this.state.value == []) {
                                 await this.setState({
                                   validInterests: true
                                 })
