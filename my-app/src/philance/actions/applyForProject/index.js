@@ -39,7 +39,7 @@ export const applyForProject = ({ userId, projectId, message, role }, loaderCall
         })
             .then(
                 response => {
-                    // loaderCallback(false)
+                    loaderCallback(false)
                     console.log(response, userId, projectId)
                     dispatch({
                         type: APPLY_FOR_PROJECT_UPDATE_SUCCESS
@@ -48,7 +48,7 @@ export const applyForProject = ({ userId, projectId, message, role }, loaderCall
             )
             .catch(
                 error => {
-                    // loaderCallback(false)
+                    loaderCallback(false)
                     const status = error.response.status
                     if (status === 409) {
                         dispatch({
