@@ -41,18 +41,18 @@ export const updateCandidateStatusForProjectApplication =({
         .then(
             response=>{
                 console.log(response.data)
+                callback(false)
                 dispatch({
                     type: CANDIDATE_STATUS_RESPONSE,
                     payload: response.data,
                 })
-                callback()
             }
         )
     }
 }
 
-export const storeCandidateReview =(list)=> {
-    return dispatch=> {
+export const storeCandidateReview = (list) => {
+    return dispatch => {
         console.log(list)
         dispatch({
             type: MY_CANDIDATE_STORE_REVIEW,

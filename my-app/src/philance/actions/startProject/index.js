@@ -112,7 +112,7 @@ export const startProject=({
   budget,
   userId,
   files
-},uploadCallback)=>{
+},uploadCallback , loaderCallback)=>{
 
   if(
     name === '' ||
@@ -121,6 +121,7 @@ export const startProject=({
     country === '' ||
     startDate === ''
    ) {
+     loaderCallback(false)
     return {
       type: START_PROJECT_FIELDS_EMPTY
     }
@@ -140,6 +141,7 @@ var interestsArray=interests
     })
   }
   return dispatch => {
+    loaderCallback(false)
       dispatch({type: START_PROJECT})
       axios.post(hostname()+'/philance/projects/', {  
         projectName : name,
@@ -158,12 +160,13 @@ var interestsArray=interests
         }
 )
       .then(response=>{
-        console.log(response)
         if(response.status !== 200) {
+          loaderCallback(false)
           return {
             type: START_PROJECT_NETWORK_ERROR
           }
         }else{
+          loaderCallback(false)
           dispatch({
             type: START_PROJECT_REQUEST_SUCCESS
           })
@@ -171,6 +174,7 @@ var interestsArray=interests
         }
       })
       .catch(error=>{
+        loaderCallback(false)
       console.log(error);
       return {
         type: START_PROJECT_NETWORK_ERROR

@@ -23,6 +23,7 @@ import { myProject, storeList } from '../../actions/myProject'
 import { getProjectById, idStored } from '../../actions/projectDetails'
 import { getProjectCandidateReviewList } from '../../actions/candidateReview'
 
+import Loader from "../../components/Loader/Loader"
 //import publicHomePageStyle from "./PublicHomePageStyle";
 
 const styles = theme => ({
@@ -56,7 +57,8 @@ class MyProjectsPage extends React.Component {
     super(props);
     this.state = {
       activePage: 1,
-      loading: false
+      loading: false,
+      loader: false
     }
   }
 
@@ -72,6 +74,12 @@ class MyProjectsPage extends React.Component {
 
   color(i) {
     if (i === 1) return '#dbebf6'
+  }
+
+  toggleLoader = (flag) => {
+    this.setState({
+      loader: flag
+    });
   }
 
   render() {
@@ -101,9 +109,12 @@ class MyProjectsPage extends React.Component {
                   justIcon
                   simple
                   onClick={() => {
-                    this.props.getProjectById(element.project_id)
-                    this.props.history.push(`../project-details/${element.project_id}`)
-                    this.props.idStored(element.project_id)
+                    // this.toggleLoader(true)
+                    this.props.getProjectById(element.project_id,(flag)=>{
+                      // this.toggleLoader(flag)
+                      this.props.history.push(`../project-details/${element.project_id}`)
+                      this.props.idStored(element.project_id)
+                    })
                   }}
                   color="info"
                   className="like"
@@ -114,9 +125,12 @@ class MyProjectsPage extends React.Component {
                   justIcon
                   round
                   simple onClick={() => {
-                    this.props.getProjectCandidateReviewList(element.project_id,()=>{})
-                    this.props.history.push(`../projectCandidateReview/${element.project_id}/`)
-                    this.props.idStored(element.project_id)
+                    // this.toggleLoader(true)
+                    this.props.getProjectCandidateReviewList(element.project_id, (flag)=>{
+                      // this.toggleLoader(flag)
+                      this.props.idStored(element.project_id)
+                      this.props.history.push(`../projectCandidateReview/${element.project_id}/`)
+                    })
                   }} color="info"
                   className="like"
                 ><Person /></Button>
@@ -129,6 +143,7 @@ class MyProjectsPage extends React.Component {
 
     return (
       <GridContainer>
+        <Loader loader={this.state.loader} />
         <GridContainer justify="center">
           <GridItem xs={12} sm={12} md={10}>
             <Card className={classes.cardSignup}>

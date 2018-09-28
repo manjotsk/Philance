@@ -6,7 +6,6 @@ import ReactTable from "react-table";
 
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
-
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -40,9 +39,11 @@ import {
   findProjectUnmount,
   findProjects,
 } from "../../actions/findProject";
+import Loader from "../../components/Loader/Loader"
 import { getProjectById, idStored } from '../../actions/projectDetails'
-import store from "../../store/store";
+import { getProjectCandidateReviewList } from '../../actions/candidateReview'
 
+import store from "../../store/store";
 
 class ProjectSearch extends React.Component {
   constructor(props) {
@@ -53,7 +54,8 @@ class ProjectSearch extends React.Component {
       yourLocation: "",
       resourceType: "0",
       projectStatus: "0",
-      distanceFromYou: "0"
+      distanceFromYou: "0",
+      loader: false
     };
   }
 
@@ -75,7 +77,6 @@ class ProjectSearch extends React.Component {
 
   handleProjectStatus = event => {
     this.props.projectStatusChanged(event.target.value)
-
   };
 
   handleImpactCategory = value => {
@@ -89,10 +90,19 @@ class ProjectSearch extends React.Component {
   onKeywordChange = text => {
     this.props.keywordChanged(text)
   }
+
   color(i) {
     if (i === 1) return '#dbebf6'
   }
+
+  toggleLoader = async (flag) => {
+    await this.setState({
+      loader: flag
+    });
+  }
+
   findProjects() {
+    // this.toggleLoader(true);
     const {
       impactCategories,
       yourLocation,
@@ -109,13 +119,15 @@ class ProjectSearch extends React.Component {
         keyword,
         projectStatus,
         resourceType
+      },(flag)=>{
+        // this.toggleLoader(flag)
       }
     )
   }
 
   render() {
     let data = []
-    console.log(this.props,'proj**')
+    console.log(this.props, 'proj**')
     {
       this.props.tableData ?
         this.props.tableData.map((element) => {
@@ -138,13 +150,31 @@ class ProjectSearch extends React.Component {
                   justIcon
                   simple
                   onClick={() => {
-                    this.props.getProjectById(element.project_id)
-                    this.props.history.push(`../project-details/${element.project_id}`)
-                    this.props.idStored(element.project_id)
+                    // this.toggleLoader(true)
+                    this.props.getProjectById(element.project_id, (flag) => {
+                      // this.toggleLoader(flag)
+                      this.props.history.push(`../project-details/${element.project_id}`)
+                      this.props.idStored(element.project_id)
+                    })
                   }}
                   color="info"
                   className="like"
                 ><ViewList /></Button>
+              </Tooltip>
+              <Tooltip title="Review">
+                <Button
+                  justIcon
+                  round
+                  simple onClick={() => {
+                    // this.toggleLoader(true)
+                    this.props.getProjectCandidateReviewList(element.project_id, (flag) => {
+                      // this.toggleLoader(flag)
+                      this.props.history.push(`../projectCandidateReview/${element.project_id}/`)
+                      this.props.idStored(element.project_id)
+                    })
+                  }} color="info"
+                  className="like"
+                ><Person /></Button>
               </Tooltip>
             </span>
           }
@@ -153,11 +183,12 @@ class ProjectSearch extends React.Component {
     }
     console.log(data)
     let i = 0;
-    
+
     const { classes } = this.props;
 
     return (
       <GridContainer className={this.props.isLoggedIn ? null : classes.container}>
+        <Loader loader={this.state.loader} />
         <GridContainer justify="center">
           <GridItem xs={12} sm={12} md={10}>
             <Card>
@@ -328,89 +359,52 @@ class ProjectSearch extends React.Component {
             <Card>
               <CardBody >
                 <GridContainer>
-                  <GridItem xs={12} sm={12}> 
-                  {console.log(this.props)}
-                  <ReactTable style={{ overflow: "none" }}
-                  data={data}
-                  columns={[
-                    {
-                      Header: <strong>Name</strong>,
-                      accessor: "project_name",
-                      filterable: true,
-                      filterMethod: this.columnFilter
-                    },
-                    {
-                      Header: <strong>Status</strong>,
-                      accessor: "status",
-                      filterable: true,
-                      filterMethod: this.columnFilter
-                    },
-                    {
-                      Header: <strong>Start</strong>,
-                      accessor: "startDate",
-                      filterable: true,
-                      filterMethod: this.columnFilter
-                    },
-                    {
-                      Header: <strong>Target End</strong>,
-                      accessor: "endDate",
-                      filterable: true,
-                      filterMethod: this.columnFilter
-                    },
-                    {
-                      Header: <strong>Close</strong>,
-                      accessor: "Close",
-                      filterable: true,
-                      filterMethod: this.columnFilter
-                    },
-                    {
-                      Header: <strong></strong>,
-                      accessor: "Action",
-                      sortable: false,
-                    }                    
-                  ]}
-                  defaultPageSize={5}
-                  showPaginationTop
-                  showPaginationBottom={false}
-                  className="-striped -highlight"
-                />
-                {/* <ReactTable
-                    pageSize={10}
-                      data={this.props.tableData}
+                  <GridItem xs={12} sm={12}>
+                    <ReactTable style={{ overflow: "none" }}
+                      data={data}
                       columns={[
                         {
-                          Header: "Name",
+                          Header: <strong>Name</strong>,
                           accessor: "project_name",
                           filterable: true,
                           filterMethod: this.columnFilter
                         },
                         {
-                          Header: "Status",
+                          Header: <strong>Status</strong>,
                           accessor: "status",
                           filterable: true,
                           filterMethod: this.columnFilter
                         },
                         {
-                          Header: "Start",
-                          accessor: "start_date",
+                          Header: <strong>Start</strong>,
+                          accessor: "startDate",
                           filterable: true,
                           filterMethod: this.columnFilter
                         },
                         {
-                          Header: "Location",
-                          accessor: "country",
+                          Header: <strong>Target End</strong>,
+                          accessor: "endDate",
                           filterable: true,
                           filterMethod: this.columnFilter
+                        },
+                        {
+                          Header: <strong>Close</strong>,
+                          accessor: "Close",
+                          filterable: true,
+                          filterMethod: this.columnFilter
+                        },
+                        {
+                          Header: <strong></strong>,
+                          accessor: "Action",
+                          sortable: false,
                         }
                       ]}
                       defaultPageSize={5}
-                      showPaginationTop = {false}
+                      showPaginationTop
                       showPaginationBottom={false}
                       className="-striped -highlight"
-                    /> */}
-                </GridItem>
-                {console.log(this.props)
-                }
+                    />
+                  </GridItem>
                 </GridContainer>
               </CardBody>
             </Card>
@@ -445,6 +439,7 @@ const mapStateToProps = state => {
 
 
 export default connect(mapStateToProps, {
+  getProjectCandidateReviewList,
   locationChanged,
   resourceChanged,
   projectStatusChanged,

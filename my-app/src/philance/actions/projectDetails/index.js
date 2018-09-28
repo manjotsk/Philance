@@ -109,7 +109,7 @@ export const budgetChanged = text => {
       }
   }
 
-export const updateProject =({name, status, zipCode, interests, country, description, volunteers, freelancers, budget, startDate, endDate, id, userId})=> {
+export const updateProject =({name, status, zipCode, interests, country, description, volunteers, freelancers, budget, startDate, endDate, id, userId},loaderCallback)=> {
     let impactCategories = []
     interests.map((element, prop)=>{
         impactCategories.push({  
@@ -144,19 +144,21 @@ export const updateProject =({name, status, zipCode, interests, country, descrip
         })
         .then(
             response=> {
+                loaderCallback(false)
                 console.log(response)
                 dispatch({type: PROJECT_DETAILS_UPDATE_SUCESS})
             }
         )
         .catch(
             error=> {
+                loaderCallback(false)
                 console.log(error)
             }
         )
     }
 }
 
-export const getProjectById =(id)=> {
+export const getProjectById =(id, loaderCallback)=> {
     return dispatch=> {
         let arr = [], interests = [];
         axios.get(hostname()+`/philance/projects/${id}`)
@@ -167,12 +169,16 @@ export const getProjectById =(id)=> {
                 const element = arr[index];
                 interests.push(element.name)
             }
+        loaderCallback(false)
             dispatch({
                 type: PROJECT_DETAILS_GET_DETAILS,
                 payload: response.data.project[0],
                 interests:interests
             })
         })
-        .catch(err=>console.log(err))
+        .catch(err=>{
+        loaderCallback(false)
+        console.log(err)
+        })
     }
 }

@@ -46,7 +46,7 @@ import {PROJECT_DETAILS_UPDATE_SUCESS} from '../../actions/types'
 
 import { myProject } from '../../actions/myProject'
 import store from '../../store/store'
-
+import Loader from "../../components/Loader/Loader"
 import Toaster from "../../components/Toaster/Toaster";
 
 class ProjectDetails extends React.Component {
@@ -54,7 +54,8 @@ class ProjectDetails extends React.Component {
     super(props);
     this.state = {
       isDisabled: true,
-      interests: []
+      interests: [],
+      loader: false
     };
   }
 
@@ -110,14 +111,20 @@ class ProjectDetails extends React.Component {
   onInterestsChange(text) {
     this.props.interestsChanged(text)
   }
-
+  
+  toggleLoader = (flag) => {
+    this.setState({
+      loader: flag
+    });
+  }
   render() {
-    let interests=[];
+    let interests = []; 
     let interestValues = this.props.interests;
     const { classes } = this.props;
     return (
       <GridContainer className={classes.justifyContentCenter}>
         <Toaster display={this.props.toast} message={'Project has been updated'} />
+        <Loader loader={this.state.loader} />
         <GridItem xs={12} sm={12} md={10}>
           <Card>
             <CardHeader color="info" text>
@@ -151,6 +158,7 @@ class ProjectDetails extends React.Component {
                           this.props.removeToaster()
                         }
                         else {
+                          // this.toggleLoader(true);
                           this.setState({ isDisabled: true })
                           await this.props.updateProject({
                             name,
@@ -166,6 +174,8 @@ class ProjectDetails extends React.Component {
                             endDate,
                             id,
                             userId
+                          }, (flag) => {
+                            // this.toggleLoader(flag);
                           })
                           store.dispatch({type: PROJECT_DETAILS_UPDATE_SUCESS})
                         }
@@ -173,7 +183,6 @@ class ProjectDetails extends React.Component {
                         color="info">
                         {this.state.isDisabled ? 'EDIT' : 'SAVE'}
                       </Button> : null}
-
                     { this.props.status.toUpperCase()!=='CLOSED'?
                       this.state.isDisabled?<Button color="info" onClick={() => {
                       this.props.history.push('..')
@@ -181,7 +190,6 @@ class ProjectDetails extends React.Component {
                     }}>Apply</Button>:null
                     :null
                   }
-
                   </GridItem>
                 </GridContainer>
                 <GridContainer>
@@ -296,11 +304,11 @@ class ProjectDetails extends React.Component {
                     <InputLabel className={classes.label} style={{ marginBottom: 5, marginTop: 10 }}>
                       Project Country
                       </InputLabel>
-                    {this.props.country?
+                    {this.props.country ?
                       <CountryDropdown onCountryChanged={this.onCountryChanged} defaultValue={this.props.country} disabled={this.state.isDisabled} />
                       :
                       <CountryDropdown onCountryChanged={this.onCountryChanged} disabled={this.state.isDisabled} />
-                     }
+                    }
                   </GridItem>
                 </GridContainer>
                 <GridContainer>
@@ -474,6 +482,7 @@ class ProjectDetails extends React.Component {
                       }}
                     />
                   </GridItem>
+                  {console.log(this.props)}
                 </GridContainer>
                 <br />
               </form>

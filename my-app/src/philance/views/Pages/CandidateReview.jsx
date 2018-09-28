@@ -65,7 +65,7 @@ class CandidateReview extends React.Component {
     }
 
     componentDidMount() {
-        this.props.getProjectCandidateReviewList(this.props.projectId,()=>{
+        this.props.getProjectCandidateReviewList(this.props.projectId,(flag)=>{
             this.props.response ?
             this.renderData() : null
         });
@@ -118,6 +118,7 @@ class CandidateReview extends React.Component {
                   projectName: element.project.projectName,
                   firstName: <NavLink to={`/profile/${element.user.userId}`}>{element.user.firstName + " " + element.user.lastName}</NavLink>,
                   appliedDate: new Date(element.appliedDate).toDateString(),
+                  startDate: new Date(element.startDate).toDateString(),
                   status: element.status,
                   Action: <span>
                 <Tooltip title="Accept" classes={{ tooltip: classes.lightTooltip }}>
@@ -199,7 +200,6 @@ class CandidateReview extends React.Component {
       }
     render() {
         const { classes } = this.props;
-
         return (
             <GridContainer justify="center">
             {console.log(this.state)}
@@ -244,6 +244,12 @@ class CandidateReview extends React.Component {
                                                 {
                                                     Header: <strong>Date Applied</strong>,
                                                     accessor: "appliedDate",
+                                                    filterable: true,
+                                                    filterMethod: this.columnFilter
+                                                },
+                                                {
+                                                    Header: <strong>Start Date</strong>,
+                                                    accessor: "startDate",
                                                     filterable: true,
                                                     filterMethod: this.columnFilter
                                                 },
