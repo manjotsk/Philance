@@ -443,7 +443,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{  \n\t\"impactCategories\":[\n\t\t\"Elderly\",\n\t\t\"Youth Welfare\",\n\t\t\"Womens Welfare\",\n\t\t\"Violence Prevention\"\n\t]\n}"
+					"raw": "{  \n\t\"interests\":[\n\t\t\"other\"\n\t]\n}"
 				},
 				"url": {
 					"raw": "http://localhost:3001/philance/projects/search",
