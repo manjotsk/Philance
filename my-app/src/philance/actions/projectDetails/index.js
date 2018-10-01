@@ -158,7 +158,7 @@ export const updateProject =({name, status, zipCode, interests, country, descrip
     }
 }
 
-export const getProjectById =(id, loaderCallback)=> {
+export const getProjectById =({id}, loaderCallback)=> {
     return dispatch=> {
         let arr = [], interests = [];
         axios.get(hostname()+`/philance/projects/${id}`)

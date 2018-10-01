@@ -142,10 +142,10 @@ class ApplicationPage extends React.Component {
                     <Button
                       color="info"
                       onClick={() => {
-                        // this.toggleLoader(true)
+                        this.toggleLoader(true)
                         const { projectId, userId, message, role } = this.props
                         this.props.applyForProject({ userId, projectId, message, role },(flag)=>{
-                          // this.toggleLoader(flag)                      
+                          this.toggleLoader(flag)                      
                         })
                       }}
                     >
