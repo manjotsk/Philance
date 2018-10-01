@@ -21,6 +21,8 @@ import CtButton from "components/CustomButtons/Button.jsx";
 
 import pvtHomePageStyle from "assets/jss/material-dashboard-pro-react/views/registerPageStyle";
 
+import {connect} from 'react-redux';
+
 class PvtHomePage extends React.Component {
   constructor(props) {
     super(props);
@@ -30,8 +32,7 @@ class PvtHomePage extends React.Component {
     const { classes } = this.props;
 
     return (
-      <div className={classes.container}>
-        <GridContainer justify="center">
+        <GridContainer direction="row" justify="center">
           <GridItem xs={12} sm={12} md={10} lg={10}>
             <Card className={classes.cardSignup}>
               <h2 className={classes.cardTitle}>Private Home Page</h2>
@@ -88,7 +89,6 @@ class PvtHomePage extends React.Component {
             </Card>
           </GridItem>
         </GridContainer>
-      </div>
     );
   }
 }
@@ -97,4 +97,4 @@ PvtHomePage.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(pvtHomePageStyle)(PvtHomePage);
+export default connect()(withStyles(pvtHomePageStyle)(PvtHomePage));

@@ -22,7 +22,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 // core components
 import Button from "components/CustomButtons/Button";
 
-import { pagesRoutes } from "philance/routes/pages.jsx";
+import { pagesRoutes,headerRoutes } from "../../routes/pages.jsx";
 
 import publicPagesHeaderStyle from "assets/jss/material-dashboard-pro-react/components/pagesHeaderStyle.jsx";
 
@@ -55,7 +55,7 @@ class PublicPagesHeader extends React.Component {
 
     var list = (
       <List className={classes.list}>
-        {pagesRoutes.map((prop, key) => {
+        {headerRoutes.map((prop, key) => {
           if (prop.redirect) {
             return null;
           }
@@ -86,27 +86,26 @@ class PublicPagesHeader extends React.Component {
       <AppBar position="static" className={classes.appBar + appBarClasses}>
         <Toolbar>
           <Hidden smDown implementation="css">
-            <div className={classes.flex}>
-              <Typography variant="title" color="inherit">
-                {
-                  <img
-                    src={require("philance/assets/img/philance_color_logo_with_background.png")}
-                    alt="Philance"
-                  />
-                }
-              </Typography>
+          <div style={{ display:'flex',flexDirection: 'row',justifyContent:'center' }}>
+            <div>
+              <img src={require('philance/assets/logos/philancelogo.png')} alt="logo" style={{width: "45px",verticalAlign: "middle",border: "0"}} />
             </div>
+            <div>
+              <img src={require('philance/assets/logos/Philance-logo-text.png')} alt="logo" className={classes.txtimg} />
+            </div>
+          </div>
+
           </Hidden>
           <Hidden mdUp>
             <div className={classes.flex}>
-              <Typography variant="title" color="inherit">
+              {/* <Typography variant="title" color="inherit"> */}
                 {
                   <img
-                    src={require("philance/assets/img/philance_color_logo_with_background.png")}
+                    src={require("philance/assets/logos/Philance-logo-text.png")}
                     alt="Philance"
                   />
                 }
-              </Typography>
+              {/* </Typography> */}
             </div>
           </Hidden>
           <Hidden smDown implementation="css">

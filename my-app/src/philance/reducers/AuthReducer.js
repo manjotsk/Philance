@@ -7,7 +7,8 @@ import {
     EMAIL_EMPTY,
     FIELDS_EMPTY,
     INVALID_CREDENTIALS,
-    LOGIN_NETWORK_ERROR
+    LOGIN_NETWORK_ERROR,
+    LOGOUT_USER
 } from '../actions/types'
 
 const INITIAL_STATE = {
@@ -15,7 +16,8 @@ const INITIAL_STATE = {
     password: '',
     token: null,
     isLoggedIn: false,
-    error: 'LET\'s GO'
+    error: 'LET\'s GO',
+    userId: ''
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -27,7 +29,7 @@ export default (state = INITIAL_STATE, action) => {
         case LOGIN_USER:
             return{...state, error: 'LET\'s GO'}
         case LOGIN_USER_SUCCESS:
-            return {...state, ...INITIAL_STATE, user: action.payload, error: 'Success', isLoggedIn: true}
+            return {...state, token: action.payload, isLoggedIn: true, userId: action.userId}
         case  FIELDS_EMPTY:
             return {...state, error: 'Both fields must filled'}
         case PASSWORD_EMPTY:
@@ -38,6 +40,14 @@ export default (state = INITIAL_STATE, action) => {
             return {...state, error: 'Invalid Credentials'}
         case LOGIN_NETWORK_ERROR:
             return {...state, error: 'Invalid Credentials'}
+        case LOGOUT_USER:
+            return {...state,
+                email: '',
+                password: '',
+                token: null,
+                isLoggedIn: false,
+                error: 'LET\'s GO'
+            }
         default:
         return state
     }

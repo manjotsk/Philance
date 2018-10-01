@@ -56,6 +56,11 @@ CREATE TABLE philance.users (
     last_updated_by INT,
     interests VARCHAR(3072),
     location VARCHAR(3072),
+    zip_code varchar(30),
+    country VARCHAR(3072),
+    description VARCHAR(3072),
+    user_profile_image_path VARCHAR(3072),
+    user_profile_image_url VARCHAR(3072),
     INDEX usr_fname_ix (fname),
     INDEX usr_lname_ix (lname),
     INDEX usr_interests_ix (interests)
@@ -109,6 +114,8 @@ CREATE TABLE philance.projects (
     location VARCHAR(3072),
     start_date DATETIME,
     end_date DATETIME,
+    zip_code varchar(30),
+    country VARCHAR(3072),
     estimated_budget DECIMAL(10 , 2 ),
     status varchar(30),
     creation_date DATETIME,
@@ -145,7 +152,7 @@ CREATE TABLE philance.project_details (
 CREATE TABLE philance.project_attachments (
     project_id INT,
     name VARCHAR(500),
-    attachment BLOB,
+    attachment VARCHAR(3072),
     creation_date DATETIME,
     created_by INT,
     last_updated_date DATETIME,
@@ -213,6 +220,7 @@ CREATE TABLE philance.project_team (
     created_by INT,
     last_updated_date DATETIME,
     last_updated_by INT,
+    PRIMARY KEY(project_id,user_id),
     FOREIGN KEY (project_id)
         REFERENCES philance.projects (project_id),
     FOREIGN KEY (user_id)
