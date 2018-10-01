@@ -137,6 +137,7 @@ exports.updateProjects = (req, res, next) => {
                             }
                             ).catch(function (err) {
                                 console.log(err);
+                                throw err
                             });
                         }
                         )
@@ -162,16 +163,16 @@ exports.getProjects = (req, res, next) => {
 
     console.log(req.body,'88**88');
 
-    var keywordsArray=_keywords.replace(', ',',').replace(' ,',',').split(',')
+    var keywordsArray=_keywords?_keywords.replace(', ',',').replace(' ,',',').split(','):null;
 
     var _impactCategoriesSql='';
-    if(_impactCategories.length!=0){
+    if(_impactCategories){
         for(var i=0;i<_impactCategories.length;i++){
             _impactCategoriesSql=_impactCategoriesSql+`details.name= '${_impactCategories[i]}'  OR `
         }
     }
     var _keywordsSql='';
-    if(keywordsArray.length!=0){
+    if(_keywords){
         for(var i=0;i<keywordsArray.length;i++){
             _keywordsSql=_keywordsSql+`(projects.description LIKE '%${keywordsArray[i]}%' OR projects.project_name LIKE '%${keywordsArray[i]}%') OR `
         }

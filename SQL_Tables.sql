@@ -224,5 +224,5 @@ CREATE TABLE philance.project_team (
     FOREIGN KEY (project_id)
         REFERENCES philance.projects (project_id),
     FOREIGN KEY (user_id)
-        REFERENCES philance.users (user_id),
+        REFERENCES philance.users (user_id)
 );
