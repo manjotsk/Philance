@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "93d46b19-4e17-4b92-af1c-d57454d6b646",
+		"_postman_id": "3ff25b35-6235-4eed-ad35-6bd74a8cccc1",
 		"name": "Philance",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -570,7 +570,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\"userId\" : \"1\",\r\n\"applicantMessage\" : \"Applying for the Project for Test\",\r\n\"role\" : \"APPLICANT\",\r\n\"type\" : \"\"\r\n}"
+					"raw": "{\r\n\"userId\" : \"2\",\r\n\"applicantMessage\" : \"Applying for the Project for Test\",\r\n\"role\" : \"APPLICANT\",\r\n\"type\" : \"\"\r\n}"
 				},
 				"url": {
 					"raw": "http://localhost:3001/philance/projects/1/users",
@@ -649,7 +649,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{  \r\n   \"projectTeam\":[  \r\n      {  \r\n         \"applicantId\":\"1\",\r\n         \"startDate\":\"\",\r\n         \"endDate\":\"\",\r\n         \"role\":\"APPLICANT\",\r\n         \"type\":\"\",\r\n         \"status\":\"ACCEPT\",\r\n         \"userId\":\"2\"\r\n      }\r\n   ]\r\n}"
+					"raw": "{  \r\n   \"projectTeam\":[  \r\n      {  \r\n         \"applicantId\":\"2\",\r\n         \"startDate\":\"\",\r\n         \"endDate\":\"\",\r\n         \"role\":\"APPLICANT\",\r\n         \"type\":\"\",\r\n         \"status\":\"ACCEPT\",\r\n         \"userId\":\"1\"\r\n      }\r\n   ]\r\n}"
 				},
 				"url": {
 					"raw": "http://localhost:3001/philance/projects/1/users",
