@@ -4,6 +4,7 @@ var projects = require("./projects.model");
 var projectDetails = require("./project.details.model");
 var projectTeam = require("./projects.team.model");
 var users = require("../users/users.model");
+var userNotifications = require("../users/user.notifications.model");
 const Sequelize = require('sequelize');
 const sequelize = require('../util/dbconnection');
 var config = require('../config/config')
@@ -311,6 +312,18 @@ exports.resourceApplyForProject = (req, res, next) => {
                                 }
                             }
                         }).then((Owner)=>{
+                            //send notifications
+                            userNotifications.create({
+                                userId:projectOwner.dataValues.userId,
+                                notificationTrigger:'USERAPPLY',
+                                email:Owner.dataValues.email,
+                                text:req.body.userId+' has successfully applied',
+                                push:req.body.userId+' has successfully applied',
+                                creationDate:new Date(),
+                                createdBy:req.body.userId,
+                                lastUpdatedDate:new Date(),
+                                lastUpdatedBy:req.body.userId
+                            })
                             //email Owner
                             userHelper.emailUsers({
                                 config:{
@@ -319,7 +332,7 @@ exports.resourceApplyForProject = (req, res, next) => {
                                 },
                                 data:{
                                     subject:'Philance Project Application',
-                                    text:'Someone has successfully applied'
+                                    text:req.body.userId+' has successfully applied'
                                 }})
                         })
 
@@ -419,6 +432,19 @@ exports.resourceApproveOrReject = (req, res, next) => {
                 lastUpdatedBy: itemToUpdate.userId,
                 lastUpdatedDate: itemToUpdate.lastUpdatedDate
             }, { where: { projectId: req.params.projectId, userId: itemToUpdate.applicantId } })
+            .then(()=>{
+                userNotifications.create({
+                    userId:projectOwner.dataValues.userId,
+                    notificationTrigger:'USERREVIEW',
+                    email:Owner.dataValues.email,
+                    text:itemToUpdate.status,
+                    push:itemToUpdate.status,
+                    creationDate:new Date(),
+                    createdBy:req.body.userId,
+                    lastUpdatedDate:new Date(),
+                    lastUpdatedBy:req.body.userId
+                })
+            })
         })
     }).then(_updatedRows => {
         projectTeam.findAll({

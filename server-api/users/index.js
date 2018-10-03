@@ -5,6 +5,7 @@ const UserController = require('./users.controller');
 //const checkAuth = require('../util/check-auth');
 
 router.post("/", UserController.createProfile);
+router.get("/notifications/:userId", UserController.getUserNotifications);
 router.put("/1", UserController.updateProfile);
 // This is called for getting the user details
 router.get("/:userId", UserController.getProfile);

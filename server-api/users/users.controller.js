@@ -482,3 +482,19 @@ exports.getUserImage = (req, res, next) => {
         res.status(404).send(err)
     })
 }
+exports.getUserNotifications = (req, res, next) => {
+    userNotifications.findAll({
+        where:{
+            userId:req.params.userId,
+        },
+        order:[
+            ['creationDate', 'DESC']
+        ],
+        limit:2,
+        logging:false
+    }).then((instance)=>{
+        res.status(200).send(instance)
+    }).catch((err)=>{
+        res.status(404).send(err)
+    })
+}
