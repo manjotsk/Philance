@@ -24,7 +24,7 @@ import image from "assets/img/sidebar-2.jpg";
 import logo from "../assets/logos/philancelogo.png";
 import logoText from "../assets/logos/Philance-logo-text.png";
 import { getCommonInfo } from "../actions/common";
-import { getUserInfo } from "../actions/userProfile";
+import { getUserInfo,getNotifications } from "../actions/userProfile";
 import { logout } from "../actions/login";
 import { hostname } from "../../config";
 
@@ -88,8 +88,14 @@ class Dashboard extends React.Component {
     }
     this.props.getCommonInfo()
     this.props.getUserInfo(this.props.currentEmail)
+    //call notification api
+    var a=setInterval(() => {
+      this.props.getNotifications(this.props.userId)
+    }, 5000);
+    this.setState({interval:a})
   }
   componentWillUnmount() {
+    clearInterval(this.state.interval)
     if (navigator.platform.indexOf("Win") > -1) {
       ps.destroy();
     }
@@ -163,6 +169,7 @@ const mapStateToProps =state=> {
     userProfileAvatar: state.user.userImageUrl,
     displayImage:state.user.displayImage,
     displayName:state.user.name,
+    userId:state.user.userId,
   }
 }
 
@@ -170,4 +177,4 @@ Dashboard.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default connect(mapStateToProps,{getCommonInfo,getUserInfo,logout})(withStyles(appStyle)(Dashboard));
+export default connect(mapStateToProps,{getCommonInfo,getNotifications,getUserInfo,logout})(withStyles(appStyle)(Dashboard));

@@ -21,7 +21,8 @@ import {
     USER_PROFILE_USER_IMAGE_CHANGED_AFTER_UPLOAD,
     USER_PROFILE_USER_IMAGE_CHANGED_WAS_CHANGED,
     UPLOAD_STARTED,
-    PROFILE_IMAGE_UPLOAD_SUCCESS
+    PROFILE_IMAGE_UPLOAD_SUCCESS,
+    USER_PROFILE_NOTIFICATIONS_CALLED
 } from '../actions/types'
 import { hostname } from '../../config';
 
@@ -44,6 +45,7 @@ const INITIAL_STATE = {
     imageRefresh:false,
     toggleEmail: false,
     togglePhone: false,
+    notifications:[]
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -80,6 +82,8 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, organization: action.payload }
         case USER_PROFILE_UPDATE_SUCCESS:
             return { ...state, update: true }
+        case USER_PROFILE_NOTIFICATIONS_CALLED:
+            return { ...state, notifications: action.payload }
         case USER_PROFILE_UPDATE_TOGGLE_EMAIL:
             return { ...state, toggleEmail: !action.payload }
         case USER_PROFILE_UPDATE_TOGGLE_PHONE:

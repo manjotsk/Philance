@@ -18,6 +18,7 @@ import InfoArea from "components/InfoArea/InfoArea.jsx";
 import Card from "components/Card/Card.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import CtButton from "components/CustomButtons/Button.jsx";
+import { connect } from 'react-redux'
 
 //import publicHomePageStyle from "./PublicHomePageStyle";
 import notificationsPageStyle from "assets/jss/material-dashboard-pro-react/views/registerPageStyle";
@@ -42,26 +43,29 @@ class NotificationsPage extends React.Component {
             <Card className={classes.cardSignup}>
               <CardBody>
                 <ReactTable style={{ overflow: "none" }}
-                  data={data}
+                  data={this.props.data}
                   columns={[
                     {
                       Header: <strong>Message</strong>,
-                      accessor: "Message",
+                      accessor: "test",
                       filterable: true,
                       filterMethod: this.columnFilter
                     },
                     {
                       Header: <strong>Sender</strong>,
-                      accessor: "Sender",
+                      accessor: "createdBy",
                       filterable: true,
                       filterMethod: this.columnFilter
                     },
                     {
                       Header: <strong>Date and Time</strong>,
-                      accessor: "Time",
+                      accessor: "creationDate",
                       filterable: true,
                       filterMethod: this.columnFilter
                     },
+                    {
+                      
+                    }
                   ]}
                   defaultPageSize={5}
                   showPaginationTop
@@ -83,4 +87,10 @@ NotificationsPage.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(notificationsPageStyle)(NotificationsPage);
+const mapStateToProps =state=> {
+  return {
+    data:state.user.notifications,
+  }
+}
+
+export default connect(mapStateToProps)(withStyles(notificationsPageStyle)(NotificationsPage));

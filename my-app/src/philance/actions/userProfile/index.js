@@ -22,7 +22,8 @@ import {
     PROFILE_IMAGE_UPLOAD_SUCCESS,
     UNSELECT_FILES,
     USER_PROFILE_IMAGE_UPLOAD_FAILED,
-    ANY_PROFILE_GET_USER_INFO
+    ANY_PROFILE_GET_USER_INFO,
+    USER_PROFILE_NOTIFICATIONS_CALLED
 } from '../types'
 
 import axios from 'axios'
@@ -265,6 +266,18 @@ export const getUserProfileImage=(userId)=>{
             dispatch({
                 type: 'USER_PROFILE_IMAGE_REFRESH_NOT_REQUIRED',
                 
+            })
+        })
+    }
+
+}
+
+export const getNotifications=(userId)=>{
+    return dispatch =>{
+        axios.get(`${hostname()}/philance/users/notifications/${userId}`).then((response)=>{
+            dispatch( {
+                type: USER_PROFILE_NOTIFICATIONS_CALLED,
+                payload: response.data
             })
         })
     }
