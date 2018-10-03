@@ -717,7 +717,7 @@ class StartProject extends React.Component {
                                     projectId: projectId
                                   }
                                 },
-                                this.props.files
+                                this.props.files,
                               )
                             }, (flag) => {
                               this.toggleLoader(flag)
