@@ -158,7 +158,7 @@ class ProjectDetails extends React.Component {
                           this.props.removeToaster()
                         }
                         else {
-                          // this.toggleLoader(true);
+                          this.toggleLoader(true);
                           this.setState({ isDisabled: true })
                           await this.props.updateProject({
                             name,
@@ -175,7 +175,7 @@ class ProjectDetails extends React.Component {
                             id,
                             userId
                           }, (flag) => {
-                            // this.toggleLoader(flag);
+                            this.toggleLoader(flag);
                           })
                           store.dispatch({type: PROJECT_DETAILS_UPDATE_SUCESS})
                         }

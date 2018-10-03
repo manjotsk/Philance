@@ -13,6 +13,8 @@ import {
     USER_PROFILE_CONTACT_CHANGED,
     USER_PROFILE_UPDATE_SUCCESS,
     USER_PROFILE_UPDATE_UNMOUNT,
+    USER_PROFILE_UPDATE_TOGGLE_PHONE,
+    USER_PROFILE_UPDATE_TOGGLE_EMAIL,
     USER_PROFILE_GET_USER_INFO,
     USER_PROFILE_USER_IMAGE_CHANGED_FOR_PREVIEW,
     USER_PROFILE_USER_IMAGE_CHANGED_AFTER_UPLOAD,
@@ -112,6 +114,20 @@ export const interestschanged = text => {
         payload: text
     }
 }
+
+export const emailToggle = text => {
+    return{
+        type: USER_PROFILE_UPDATE_TOGGLE_EMAIL,
+        payload: text
+    }
+};
+
+export const phoneToggle = text => {
+    return{
+        type: USER_PROFILE_UPDATE_TOGGLE_PHONE,
+        payload: text
+    }
+};
 
 export const updateUnmount = text => {
     return {

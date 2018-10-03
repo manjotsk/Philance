@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import ReactTable from "react-table"
 
 // @material-ui/icons
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -28,24 +29,52 @@ class NotificationsPage extends React.Component {
 
   render() {
     const { classes } = this.props;
-
+    let data = [{
+      Message: "Reminder for Today",
+      Sender: "Any Name",
+      Date_Time: "5/2/2017 at 13:07"
+    }]
+    console.log(this.props)
     return (
-        <GridContainer justify="center">
-          <GridItem xs={12} sm={12} md={10} lg={10}>
+        <GridContainer>
+          <GridContainer justify="center">
+          <GridItem xs={12} sm={12} md={10}>
             <Card className={classes.cardSignup}>
-              <h2 className={classes.cardTitle}>Notifications Page</h2>
               <CardBody>
-                <InfoArea
-                  classes={classes}
-                  title="Notifications"
-                  description="Notifications"
-                  icon={Accessibility}
-                  iconColor="rose"
+                <ReactTable style={{ overflow: "none" }}
+                  data={data}
+                  columns={[
+                    {
+                      Header: <strong>Message</strong>,
+                      accessor: "Message",
+                      filterable: true,
+                      filterMethod: this.columnFilter
+                    },
+                    {
+                      Header: <strong>Sender</strong>,
+                      accessor: "Sender",
+                      filterable: true,
+                      filterMethod: this.columnFilter
+                    },
+                    {
+                      Header: <strong>Date and Time</strong>,
+                      accessor: "Time",
+                      filterable: true,
+                      filterMethod: this.columnFilter
+                    },
+                  ]}
+                  defaultPageSize={5}
+                  showPaginationTop
+                  showPaginationBottom={false}
+                  className="-striped -highlight"
                 />
               </CardBody>
             </Card>
           </GridItem>
         </GridContainer>
+        <GridContainer justify="center">
+        </GridContainer>
+      </GridContainer>
     );
   }
 }

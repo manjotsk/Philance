@@ -121,6 +121,7 @@ class StartProject extends React.Component {
   }
 
   toggleLoader = async (flag) => {
+    console.log("working")
     await this.setState({
       loader: flag
     });
@@ -679,7 +680,7 @@ class StartProject extends React.Component {
                           if (!this.props.isLoggedIn) {
                             this.handleClickOpen("noticeModal")
                           } else {
-                            // this.toggleLoader(true)
+                            this.toggleLoader(true)
                             const {
                               name,
                               description,
@@ -716,10 +717,10 @@ class StartProject extends React.Component {
                                     projectId: projectId
                                   }
                                 },
-                                this.props.files
+                                this.props.files,
                               )
                             }, (flag) => {
-                              // this.toggleLoader(flag)
+                              this.toggleLoader(flag)
                             })
                             if (this.props.name === "") {
                               this.setState({ validName: true })

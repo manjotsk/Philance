@@ -158,7 +158,7 @@ export const updateProject =({name, status, zipCode, interests, country, descrip
     }
 }
 
-export const getProjectById =(id, loaderCallback)=> {
+export const getProjectById =({id}, loaderCallback)=> {
     return dispatch=> {
         let arr = [], interests = [];
         axios.get(hostname()+`/philance/projects/${id}`)
@@ -169,12 +169,12 @@ export const getProjectById =(id, loaderCallback)=> {
                 const element = arr[index];
                 interests.push(element.name)
             }
-        loaderCallback(false)
             dispatch({
                 type: PROJECT_DETAILS_GET_DETAILS,
                 payload: response.data.project[0],
                 interests:interests
             })
+            loaderCallback(false)
         })
         .catch(err=>{
         loaderCallback(false)

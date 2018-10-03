@@ -102,7 +102,7 @@ class ProjectSearch extends React.Component {
   }
 
   findProjects() {
-    // this.toggleLoader(true);
+    this.toggleLoader(true);
     const {
       impactCategories,
       yourLocation,
@@ -120,7 +120,7 @@ class ProjectSearch extends React.Component {
         projectStatus,
         resourceType
       },(flag)=>{
-        // this.toggleLoader(flag)
+        this.toggleLoader(flag)
       }
     )
   }
@@ -150,11 +150,12 @@ class ProjectSearch extends React.Component {
                   justIcon
                   simple
                   onClick={() => {
-                    // this.toggleLoader(true)
-                    this.props.getProjectById(element.project_id, (flag) => {
-                    // this.toggleLoader(flag)
-                    this.props.history.push(`../project-details/${element.project_id}`)
-                    this.props.idStored(element.project_id)
+                    let id = element.project_id
+                    this.toggleLoader(true)
+                    this.props.getProjectById({id}, (flag)=>{
+                      this.toggleLoader(flag)
+                      this.props.history.push(`../project-details/${element.project_id}`)
+                      this.props.idStored(element.project_id)
                     })
                   }}
                   color="info"

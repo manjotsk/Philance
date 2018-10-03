@@ -91,6 +91,7 @@ class MyProjectsPage extends React.Component {
       this.props.response ?
         this.props.response.map((element) => {
           i = i === 2 ? 1 : i + 1
+          console.log(element)
           let startDate = new Date(element.start_date);
           let endDate = new Date(element.end_date);
           startDate = startDate.toDateString()
@@ -109,9 +110,10 @@ class MyProjectsPage extends React.Component {
                   justIcon
                   simple
                   onClick={() => {
-                    // this.toggleLoader(true)
-                    this.props.getProjectById(element.project_id,(flag)=>{
-                      // this.toggleLoader(flag)
+                  console.log(element)
+                  this.toggleLoader(true)
+                    this.props.getProjectById({id:element.project_id},(flag)=>{
+                      this.toggleLoader(flag)
                       this.props.history.push(`../project-details/${element.project_id}`)
                       this.props.idStored(element.project_id)
                     })
@@ -125,9 +127,9 @@ class MyProjectsPage extends React.Component {
                   justIcon
                   round
                   simple onClick={() => {
-                    // this.toggleLoader(true)
+                    this.toggleLoader(true)
                     this.props.getProjectCandidateReviewList(element.project_id, (flag)=>{
-                      // this.toggleLoader(flag)
+                      this.toggleLoader(flag)
                       this.props.idStored(element.project_id)
                       this.props.history.push(`../projectCandidateReview/${element.project_id}/`)
                     })

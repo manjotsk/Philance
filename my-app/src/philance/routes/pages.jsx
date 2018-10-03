@@ -27,6 +27,7 @@ import PersonIcon from "@material-ui/icons/Person";
 import FolderIcon from "@material-ui/icons/Folder";
 import ResetPasswordPublic from "../views/Pages/ResetPasswordPublic";
 import Profile from "../views/Pages/Profile";
+import ProfileSettings from "../views/Pages/ProfileSettings";
 
 export const pagesRoutes = [
   {
@@ -202,6 +203,14 @@ export const pvtSidebarRoutes = [
     icon: NotificationsIcon,
     component: NotificationsPage
   },
+  // {
+  //   path: "/settings",
+  //   name: "Settings",
+  //   short: "Settings",
+  //   mini: "S",
+  //   icon: NotificationsIcon,
+  //   component: ProfileSettings
+  // },
   {
     path: "/messages",
     name: "Messages",
@@ -258,6 +267,14 @@ export const pvtPagesRoutes = [
     mini: "NP",
     icon: NotificationsIcon,
     component: NotificationsPage
+  },
+  {
+    path: "/settings",
+    name: "Settings",
+    short: "Settings",
+    mini: "S",
+    icon: NotificationsIcon,
+    component: ProfileSettings
   },
   {
     path: "/messages",
