@@ -141,7 +141,6 @@ var interestsArray=interests
     })
   }
   return dispatch => {
-    loaderCallback(false)
       dispatch({type: START_PROJECT})
       axios.post(hostname()+'/philance/projects/', {  
         projectName : name,

@@ -203,14 +203,14 @@ export const pvtSidebarRoutes = [
     icon: NotificationsIcon,
     component: NotificationsPage
   },
-  {
-    path: "/settings",
-    name: "Settings",
-    short: "Settings",
-    mini: "S",
-    icon: NotificationsIcon,
-    component: ProfileSettings
-  },
+  // {
+  //   path: "/settings",
+  //   name: "Settings",
+  //   short: "Settings",
+  //   mini: "S",
+  //   icon: NotificationsIcon,
+  //   component: ProfileSettings
+  // },
   {
     path: "/messages",
     name: "Messages",
